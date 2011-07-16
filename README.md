@@ -6,7 +6,8 @@ Hidra.js is a module manager oriented system.
 Hydra is used to create a scalable, maintainable and module oriented system.
 Hydra is framework agnosthic.
 Hydra has been designed to create your application in a modular design system.
-Some benefits:
+
+### Some benefits:
 
 * No known module to other modules
  * If something is wrong in one module, the others modules will continue working.
@@ -22,104 +23,95 @@ Some benefits:
 ## Usage
 
 ### Before using it:
-	Insert in your code:
-	    <script type="text/javascript" src="/path/to/your/js/libs/Hydra.js"></script>
+Insert in your code:
+	<script type="text/javascript" src="/path/to/your/js/libs/Hydra.js"></script>
+	
+### Create a module
+	Hydra.module.register('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
 
-	### Create a module
+### Extend a module
+To extend a module you will need to register the base module before extend it.
+	Hydra.module.extend('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
 
-		Hydra.module.register('moduleId', function(action)
-		{
-			return {
-				init: function (oData) {},
-				handleAction: function (oNotifier){
-				},
-				destroy: function () {}
-			};
-		});
+### Listening actions
+To use the action manager you have accessible using "action".
+*Tip: Use it on your init to start listening actions when the module starts.*
 
-	### Extend a module
+#### One action
+	Hydra.module.register('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {
+				action.listen(['action1'], this.handleAction, this);
+			},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
 
-		To extend a module you will need to register the base module before extend it.
-
-		Hydra.module.extend('moduleId', function(action)
-		{
-			return {
-				init: function (oData) {},
-				handleAction: function (oNotifier){
-				},
-				destroy: function () {}
-			};
-		});
-
-    ### Listening actions
-
-		To use the action manager you have accessible using "action".
-
-		Tip: Use it on your init to start listening actions when the module starts.
-
-		#### One action
-
-			Hydra.module.register('moduleId', function(action)
-			{
-				return {
-					init: function (oData) {
-						action.listen(['action1'], this.handleAction, this);
-					},
-					handleAction: function (oNotifier){
-					},
-					destroy: function () {}
-				};
-			});
-
-		#### More actions
-
-			Hydra.module.register('moduleId', function(action)
-			{
-				return {
-					init: function (oData) {
-						action.listen(['action1', 'action2'], this.handleAction, this);
-					},
-					handleAction: function (oNotifier){
-						switch(oNofitier.type)
-						{
-							case 'action1':
-								/* your code */
-								break;
-							case 'action2':
-								/* your code */
-								break;
-							default: break;
-						}
-					},
-					destroy: function () {}
-				};
-			});
-
-			Tip: If you have several actions to listen I recommend to make use of an object where the keys must be the names of the actions.
-
-			Hydra.module.register('moduleId', function(action)
-			{
-				return {
-					init: function (oData) {
-						action.listen(['action1', 'action2', 'actionN'], this.handleAction, this);
-					},
-					actionHandlers: {
-						action1: function (oData) {},
-						action2: function (oData) {},
-						actionN: function (oData) {}
-					},
-					handleAction: function (oNotifier){
-						var oHandler = this.actionHandlers[oNotifier.type]
-						if(typeof oHandler === "undefined")
-						{
-							return;
-						}
-						oHandler.call(this, oData);
-						oHandler = null;
-					},
-					destroy: function () {}
-				};
-			});
+#### More actions
+	Hydra.module.register('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {
+				action.listen(['action1', 'action2'], this.handleAction, this);
+			},
+			handleAction: function (oNotifier){
+				switch(oNofitier.type)
+				{
+					case 'action1':
+						/* your code */
+						break;
+					case 'action2':
+						/* your code */
+						break;
+					default: break;
+				}
+			},
+			destroy: function () {}
+		};
+	});
+*Tip: If you have several actions to listen I recommend to make use of an object where the keys must be the names of the actions.*
+	Hydra.module.register('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {
+				action.listen(['action1', 'action2', 'actionN'], this.handleAction, this);
+			},
+			actionHandlers: {
+				action1: function (oData) {},
+				action2: function (oData) {},
+				actionN: function (oData) {}
+			},
+			handleAction: function (oNotifier){
+				var oHandler = this.actionHandlers[oNotifier.type]
+				if(typeof oHandler === "undefined")
+				{
+					return;
+				}
+				oHandler.call(this, oData);
+				oHandler = null;
+			},
+			destroy: function () {}
+		};
+	});
 
 	### Notifying actions
 
