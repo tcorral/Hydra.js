@@ -21,9 +21,9 @@ Some benefits:
 
 ## Usage
 
-	### Before using it:
+### Before using it:
 	Insert in your code:
-	<script type="text/javascript" src="/path/to/your/js/libs/Hydra.js"></script>
+	    <script type="text/javascript" src="/path/to/your/js/libs/Hydra.js"></script>
 
 	### Create a module
 
