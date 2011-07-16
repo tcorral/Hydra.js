@@ -18,8 +18,9 @@ Hydra has been designed to create your application in a modular design system.
 * You can test your modules with any Unit Testing Framework.
 * Only 1.1kb when Gzipped.
 
-* [API documentation](https://github.com/tcorral/Hydra.js/examples_and_documents/jsdoc/index.html)
-* [Examples](https://github.com/tcorral/Hydra.js/examples_and_documents/index.html) to see for yourself!
+[API documentation](https://github.com/tcorral/Hydra.js/examples_and_documents/jsdoc/index.html)
+
+[Examples](https://github.com/tcorral/Hydra.js/examples_and_documents/index.html) to see for yourself!
 
 ## Usage
 
@@ -170,8 +171,9 @@ The notify method needs a Notifier object:
 
 ## Documentation
 
-* [API documentation](https://github.com/tcorral/Hydra.js/examples_and_documents/jsdoc/index.html)
-* [Examples](https://github.com/tcorral/Hydra.js/examples_and_documents/index.html) to see for yourself!
+[API documentation](https://github.com/tcorral/Hydra.js/examples_and_documents/jsdoc/index.html)
+
+[Examples](https://github.com/tcorral/Hydra.js/examples_and_documents/index.html) to see for yourself!
 
 ## License
 
