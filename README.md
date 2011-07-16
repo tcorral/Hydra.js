@@ -117,53 +117,54 @@ To use the action manager you have accessible using "action".
 		};
 	});
 
-	### Notifying actions
+### Notifying actions
+To use the action manager you have accessible using "action".
 
-		To use the action manager you have accessible using "action".
-		The notify method needs a Notifier object:
-			var oNotifier = {
-				type: 'listenedAction',
-				data: 'data'
-			};
+The notify method needs a Notifier object:
 
-		Tip: You can notify an action where ever you want inside the module using 'action'
+	var oNotifier = {
+		type: 'listenedAction',
+		data: 'data'
+	};
 
-		Hydra.module.register('moduleId', function(action)
-		{
-			return {
-				init: function (oData) {
-					action.listen(['action1', 'action2', 'actionN'], this.handleAction, this);
-					$("#button").click(function(){
-						action.notify({
-							type: 'listenedAction',
-							data: 'data'
-						});
+*Tip: You can notify an action where ever you want inside the module using 'action'*
+
+	Hydra.module.register('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {
+				action.listen(['action1', 'action2', 'actionN'], this.handleAction, this);
+				$("#button").click(function(){
+					action.notify({
+						type: 'listenedAction',
+						data: 'data'
 					});
-				},
-				actionHandlers: {
-					action1: function (oData) {},
-					action2: function (oData) {},
-					actionN: function (oData) {}
-				},
-				handleAction: function (oNotifier){
-					var oHandler = this.actionHandlers[oNotifier.type]
-					if(typeof oHandler === "undefined")
-					{
-						return;
-					}
-					oHandler.call(this, oData);
-					oHandler = null;
-				},
-				destroy: function () {}
-			};
-		});
+				});
+			},
+			actionHandlers: {
+				action1: function (oData) {},
+				action2: function (oData) {},
+				actionN: function (oData) {}
+			},
+			handleAction: function (oNotifier){
+				var oHandler = this.actionHandlers[oNotifier.type]
+				if(typeof oHandler === "undefined")
+				{
+					return;
+				}
+				oHandler.call(this, oData);
+				oHandler = null;
+			},
+			destroy: function () {}
+		};
+	});
+*Tip: You can create an Action on your code to notify some module creating a new instance of it in this way:*
 
-		Tip: You can create an Action on your code to notify some module creating a new instance of it in this way:
-			var oAction = new (Hydra.action());
-			oAction.notify({
-				type: 'listenedAction',
-				data: 'data'
-			});
+	var oAction = new (Hydra.action());
+		oAction.notify({
+			type: 'listenedAction',
+			data: 'data'
+		});
 
 ## Documentation
 
@@ -176,4 +177,5 @@ Hydra.js is licensed under the MIT license.
 ## Agreements
 
 Hydra was inspired by Nicholas Zakas presentation.
-	* [Scalable Javascript Application](http://www.slideshare.net/nzakas/scalable-javascript-application-architecture)
+
+* [Scalable Javascript Application](http://www.slideshare.net/nzakas/scalable-javascript-application-architecture)
