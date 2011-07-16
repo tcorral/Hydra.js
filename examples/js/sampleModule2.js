@@ -1,28 +1,11 @@
-Hydra.module.register("sample2", function(oAction)
+Hydra.module.register("single2", function(oAction)
 {
 	return {
-		sModule: 'sample2',
-		init: function(oData)
-		{
-			alert(oData);
-			
-			oAction.listen(["alert"], this.handleAction, this);
-			
-			oAction.notify({
-				type: 'alert',
-				data: ++nIndex
-			});
+		sModule: 'BaseSample2',
+		init: function (oData) {
+			alert("Single Module 2 started");
 		},
-		handleAction: function(oAction)
-		{
-			switch(oAction.type)
-			{
-				case "alert": 
-					alert(oAction.data);
-					break;
-				default: break;
-			}
-		},
-		destroy: function(){}
+		handleAction: function (oNotifier) {},
+		destroy: function () {}
 	};
 });
