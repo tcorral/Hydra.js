@@ -52,7 +52,7 @@ To extend a module you will need to register the base module before extend it.
 
 ### Listening actions
 To use the action manager you have accessible using "action".
-*Tip: Use it on your init to start listening actions when the module starts.*
+> *Tip: Use it on your init to start listening actions when the module starts.*
 
 #### One action
 	Hydra.module.register('moduleId', function(action)
