@@ -20,11 +20,11 @@ Some benefits:
 
 ## Usage
 
-	# Before using it:
+	### Before using it:
 	Insert in your code:
 	<script type="text/javascript" src="/path/to/your/js/libs/Hydra.js"></script>
 
-	# Create a module
+	### Create a module
 
 		Hydra.module.register('moduleId', function(action)
 		{
@@ -36,7 +36,7 @@ Some benefits:
 			};
 		});
 
-	# Extend a module
+	### Extend a module
 
 		To extend a module you will need to register the base module before extend it.
 
@@ -50,13 +50,13 @@ Some benefits:
 			};
 		});
 
-    # Listening actions
+    ### Listening actions
 
 		To use the action manager you have accessible using "action".
 
 		Tip: Use it on your init to start listening actions when the module starts.
 
-		## One action
+		#### One action
 
 			Hydra.module.register('moduleId', function(action)
 			{
@@ -70,7 +70,7 @@ Some benefits:
 				};
 			});
 
-		## More actions
+		#### More actions
 
 			Hydra.module.register('moduleId', function(action)
 			{
@@ -120,7 +120,7 @@ Some benefits:
 				};
 			});
 
-	# Notifying actions
+	### Notifying actions
 
 		To use the action manager you have accessible using "action".
 		The notify method needs a Notifier object:
