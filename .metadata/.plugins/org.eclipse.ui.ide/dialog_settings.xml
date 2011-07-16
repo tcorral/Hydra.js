@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="installedFeatures">
+		<item value="AnyEditTools:2.4.0.201101292156"/>
+		<item value="com.aptana.feature.rcp:3.0.2.201106082310-7k7aDSFFtFz01NdM66a-N0FIXbhT"/>
+		<item value="com.aptana.feature.studio:3.0.2.201106082253-7E137HFCPGfKLHU7RUIsH_4F1jOz"/>
+		<item value="com.aptana.feature:3.0.2.1307597048-BD7D6BPz-UZ2FiFPM1DC34EUkMC7"/>
+		<item value="com.aptana.php.feature:3.0.0.1306264003-7D--7CE5NBNH55E"/>
+		<item value="org.eclipse.help:1.2.1.r362_v20101111-7e7jEVFDr6xg-LSlC_z0w1D"/>
+		<item value="org.eclipse.platform:3.6.2.r362_v20110210-9gF78Gs1FrIGnHDHWkEcopoN8AmxeZflGDGKQi"/>
+		<item value="org.eclipse.rcp:3.6.2.r362_v20101104-9SAxFMKFkSAqi8axkv1ZjegmiBLY"/>
+		<item value="org.python.pydev.django_templates.feature:2.1.1.2011060214"/>
+		<item value="org.python.pydev.feature:2.1.1.2011060214"/>
+		<item value="org.radrails.rails:3.0.0.201106082244-7b-7O7c-Qbf6DWUz"/>
+	</list>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item value="243" key="DIALOG_Y_ORIGIN"/>
+		<item value="290" key="DIALOG_X_ORIGIN"/>
+	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
+	</section>
+</section>
