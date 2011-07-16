@@ -39,6 +39,7 @@ Insert in your code:
 
 ### Extend a module
 To extend a module you will need to register the base module before extend it.
+
 	Hydra.module.extend('moduleId', function(action)
 	{
 		return {
