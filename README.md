@@ -24,6 +24,7 @@ Hydra has been designed to create your application in a modular design system.
 
 ### Before using it:
 Insert in your code:
+
 	<script type="text/javascript" src="/path/to/your/js/libs/Hydra.js"></script>
 	
 ### Create a module
