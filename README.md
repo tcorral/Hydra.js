@@ -5,16 +5,16 @@ Hidra.js is a module manager oriented system.
 
 Hydra is used to create a scalable, maintainable and module oriented system.
 Hydra is framework agnosthic.
-Hydra has been designed to create your application in a modular design system
+Hydra has been designed to create your application in a modular design system.
 Some benefits:
-*   No known module to other modules
-*   If something is wrong in one module, the others modules will continue working.
-*   Notifying an action will be called on all the modules that will be listening this action.
-*   A module can be extended
-*   If you have a module that is working well you can extend it to change his behavior without losing is original behavior.
-*   Can be used in url threaded application as in a ajax threaded application.
-*   You can test your modules with any Unit Testing Framework.
-*   Only 1.1kb when Gzipped.
++   No known module to other modules
++   If something is wrong in one module, the others modules will continue working.
++   Notifying an action will be called on all the modules that will be listening this action.
++   A module can be extended
++   If you have a module that is working well you can extend it to change his behavior without losing is original behavior.
++   Can be used in url threaded application as in a ajax threaded application.
++   You can test your modules with any Unit Testing Framework.
++   Only 1.1kb when Gzipped.
 
 [Documentation and examples](https://github.com/tcorral/Hydra.js/examples.html) to see for yourself!
 
