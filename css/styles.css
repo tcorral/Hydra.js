@@ -190,7 +190,7 @@ header {
 hgroup:first-child {
 	float: left;
 }
-hgroup:nth-child(2) {
+hgroup.downloads {
 	float: right;
 	padding: 0.5em 0 0;
 	padding-top: 50px;
@@ -307,11 +307,12 @@ ul.mLeft80 {
 }
 code {
 	font-family: Courier;
-	font-size: 12px;
+	font-size: 10px;
 }
 pre {
 	border: #888 2px solid;
 	background-color: #ccc;
 	color: #000;
 	text-shadow: none;
+	font-size: 10px;
 }
