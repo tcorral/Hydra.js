@@ -1,105 +1,491 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- The new doctype -->
 <html>
-<head>
-  <meta charset='utf-8'>
+    <head>
 
-  <title>tcorral/Hydra.js @ GitHub</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #9c9ae9;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #636516; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #636516; }
-    h3 { text-align: center; color: #636516; }
-    a { color: #636516; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
+        <title>Hydra.js  Modular Application Javascript Architecture </title>
 
-<body>
-  <a href="http://github.com/tcorral/Hydra.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+        <link rel="stylesheet" type="text/css" href="css/styles.css" />
 
-  <div id="container">
+        <!-- Internet Explorer HTML5 enabling code: -->
+        <!--[if IE]>
+        	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+			<link href="css/ie.css" rel="stylesheet" type="text/css"/>
+        <![endif]-->
+    </head>
 
-    <div class="download">
-      <a href="http://github.com/tcorral/Hydra.js/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/tcorral/Hydra.js/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
+    <body>
 
-    <h1><a href="http://github.com/tcorral/Hydra.js">Hydra.js</a>
-      <span class="small">by <a href="http://github.com/tcorral">tcorral</a></span></h1>
+    	<section id="page"> <!-- Defining the #page section with the section tag -->
 
-    <div class="description">
-      Hidra.js is a module manager oriented system.
-    </div>
+            <header> <!-- Defining the header section of the page with the appropriate tag -->
 
-    <p>Hydra is used to create a scalable, maintainable and module oriented system.
-Hydra is framework agnosthic.
-Hydra has been designed to create your application in a modular design system
-Some benefits:
-	* No known module to other modules
-		* If something is wrong in one module, the others modules will continue working.
-	* Notifying an action will be called on all the modules that will be listening this action.
-	* A module can be extended
-		* If you have a module that is working well you can extend it to change his behavior without losing is original behavior.
-	* Can be used in url threaded application as in a ajax threaded application.
-	* You can test your modules with any Unit Testing Framework.
-	* Only 1.1kb when Gzipped.
+                <hgroup>
+                    <h1>
+                    	<img src="img/logo.png" width="98" height="87"/>
+                    	Hydra.js
+                    </h1>
+                    <h2>Be modular</h2>
+                </hgroup>
+                <hgroup>
+                	<a href="http://github.com/tcorral/Hydra.js/zipball/master">
+	        			<img border="0" width="90" src="img/zip.png">
+	        		</a>
+	      			<a href="http://github.com/tcorral/Hydra.js/tarball/master">
+	        			<img border="0" width="90" src="img/tar.png">
+	        		</a>
+                </hgroup>
+                <hgroup>
+                	<nav class="clear"> <!-- The nav link semantically marks your main site navigation -->
+	                    <ul>
+	                        <li><a href="#info">Info</a></li>
+	                        <li><a href="#api">API</a></li>
+	                        <li><a href="#examples">Examples</a></li>
+	                        <li><a href="#license">License</a></li>
+	                    </ul>
+	                </nav>
+                </hgroup>
+            </header>
 
-Hydra was inspired by Nicholas Zakas presentation.
-	* [Scalable Javascript Application](http://www.slideshare.net/nzakas/scalable-javascript-application-architecture)</p><h2>Dependencies</h2>
-<p>No dependencies</p>
-<h2>Install</h2>
-<p>Insert in your code:
-	<script type="text/javascript" src="/path/to/your/js/libs/Hydra.js"></script></p>
-<h2>License</h2>
-<p>MIT LICENSE
-Copyright (c) 2011 Devon Govett
+            <section id="articles"> <!-- A new section with the articles -->
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+				<!-- Article 1 start -->
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+                <div class="line"></div>  <!-- Dividing line -->
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-<h2>Authors</h2>
-<p>Tomás Corral Casas (amischol@gmail.com)</p>
-<h2>Contact</h2>
-<p>Tomás Corral Casas (amischol@gmail.com)<br/>      </p>
+                <article id="info"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
+                    <h3>Hydra.js is the definitive modular architecture for your app.</h3>
+
+                    <div class="line"></div>
+
+                    <div class="articleBody clear">
+
+                    	<figure>
+	                    	<a href="img/HydraArch.jpg">
+	                    		<img src="img/modules.jpg" width="620" height="301" />
+	                    	</a>
+                        </figure>
+
+                    	<h4>History:</h4>
+                        <p>
+                        	Hydra was a mithological creature (Multi-headed water serpent/dragon).<br/>
+                        	When one of their heads was cutted off two grew back.
+                        </p>
+                        <h4>Description</h4>
+                        <p>
+                        	A website without a modular system is prone to failure.<br/>
+                        	Hydra.js has come to solve this problem!<br/>
+                        </p>
+                        <h4>Designed to:</h4>
+                    	<ul id='benefitsList'>
+                    		<li>
+                    			Avoid failing your full application for some little error.
+                    		</li>
+                    		<li>
+                    			Be extended.
+                    		</li>
+                    		<li>
+                    			Be framework agnostic.
+                    		</li>
+                    		<li>
+                    			Create a scalable, maintainable and module oriented system.
+                    		</li>
+                    	</ul>
+                    	<h4>Install:</h4>
+                        <p>
+                        	&lt;script type="text/javascript" src="/path/to/Hydra.js"&gt;&lt;/script&gt;<br/>
+                        </p>
+                    </div>
+                    <a href="#" class="up">Go UP</a>
+                </article>
+
+				<!-- Article 1 end -->
 
 
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/tcorral/Hydra.js/zipball/master">zip</a> or
-      <a href="http://github.com/tcorral/Hydra.js/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/tcorral/Hydra.js</pre>
-    </p>
+				<!-- Article 2 start -->
 
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/tcorral/Hydra.js">tcorral/Hydra.js</a>
-    </div>
+                <div class="line"></div>
 
-  </div>
+                <article id="api">
+                    <h3>Hydra.js API</h3>
 
-  
-</body>
+                    <div class="line"></div>
+
+                    <div class="articleBody clear">
+                   		<h4>Hydra.<em>action()</em></h4>
+                   		<p>Returns the Action class.</p>
+                   			<h5 class="mLeft20">Hydra.action().<em>listen( aNotificationsToListen, fpHandler, oModule )</em></h5>
+								<div class="mLeft30">Listen adds new/s action/s to be listened by the module.</div>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										aNotificationsToListen : Array of id's of actions to listen.
+									</li>
+									<li>
+										fpHandler : Handler/Callback to manage the actions.
+									</li>
+									<li>
+										oModule : Module reference.
+									</li>
+								</ul>
+							<h5 class="mLeft20">Hydra.action().<em>notify( oNotifier )</em></h5>
+								<div class="mLeft30">Notify triggers the actions that are being listened by the module.</div>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										oNotifier : Notifier object.
+										<ul class="mLeft20">
+											<li>
+												oNotifier.<strong>type</strong> : Action id to be triggered.
+											</li>
+											<li>
+												oNotifier.<strong>data</strong> : Data that will be used when triggering the action.
+											</li>
+										</ul>
+									</li>
+								</ul>
+							<h5 class="mLeft20">Hydra.action().<em>stopListen( aNotificationsToStopListen, oModule )</em></h5>
+								<div class="mLeft30">StopListen removes the indicated listeners for the module</div>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										aNotificationsToStopListen : Array of id's of actions to listen.
+									</li>
+									<li>
+										oModule : Module reference.
+									</li>
+								</ul>
+                   		<h4>Hydra.<em>errorHandler()</em></h4>
+                   		<p>Returns the ErrorHandler class.</p>
+                        	<h5 class="mLeft20">Hydra.errorHandler().<em>log( )</em></h5>
+                        	<div class="mLeft30 mBottom25">Logs the error on the console if available. If console is not available the logs will be appended on a hidden layer.</div>
+                   		<h4>Hydra.<em>setErrorHandler( oErrorHandler )</em></h4>
+                   			<div class="mLeft30">SetErrorHandler can be used to change the ErrorHandler object to add more logging logic.</div>
+                   			<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										oErrorHandler : ErrorHandler to change the original. This object must have a "log" method at least.
+									</li>
+								</ul>
+                   		<h4>Hydra.<em>module</em></h4>
+                   			<p>Module is the class that will manage the module system.</p>
+                   			<h5 class="mLeft20">Hydra.module.<em>register( sModuleId, fpCreator )</em></h5>
+                        		<div class="mLeft30">Register will add a new module to the module manager.</div>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										sModuleId : Id of the module to register.
+									</li>
+									<li>
+										fpCreator : Function that will return the object module when initialized.
+									</li>
+								</ul>
+							<h5 class="mLeft20">Hydra.module.<em>extend( sModuleId, fpCreator )</em></h5>
+                        		<div class="mLeft30">Extend is the method that must be used to extend a valid module.</div>
+                        		<em class="mLeft30">Remember: The module to be extended must be registered before extend it.</em>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										sModuleId : Id of the module to be extended.
+									</li>
+									<li>
+										fpCreator : Function that will extend the base object module when initialized.
+									</li>
+								</ul>
+							<h5 class="mLeft20">Hydra.module.<em>start( sModuleId, oData )</em></h5>
+                        		<div class="mLeft30">Start is the method that will initialize the module.</div>
+                        		<em class="mLeft30">Remember: When a module is started the "init" method is executed.</em>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										sModuleId : Id of the module to initialize.
+									</li>
+									<li>
+										oData : (Optional) This must be an object that will be supplied to the "init" method as first argument.
+									</li>
+								</ul>
+							<h5 class="mLeft20">Hydra.module.<em>startAll()</em></h5>
+                        		<div class="mLeft30 mBottom25">StartAll will initialize all the registered modules.</div>
+							<h5 class="mLeft20">Hydra.module.<em>stop( sModuleId )</em></h5>
+                        		<div class="mLeft30">Stop will stop/destroy the module.</div>
+                        		<em class="mLeft30">Remember: No more actions listened by this module will be triggered again.</em>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										sModuleId : Id of the module to be stopped/destroyed.
+									</li>
+								</ul>
+							<h5 class="mLeft20">Hydra.module.<em>stopAll()</em></h5>
+                        		<div class="mLeft30 mBottom25">StopAll will stop/destroy all the registered modules.</div>
+							<h5 class="mLeft20">Hydra.module.<em>register( sModuleId, fpCreator )</em></h5>
+                        		<div class="mLeft30">Register will add a new module to the module manager.</div>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										sModuleId : Id of the module to register.
+									</li>
+									<li>
+										fpCreator : Function that will return the object module when initialized.
+									</li>
+								</ul>
+							<h5 class="mLeft20">Hydra.module.<em>test( sModuleId, fpCallback )</em></h5>
+                        		<div class="mLeft30">Test executes the callback with the instanced module as first parameter.</div>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										sModuleId : Id of the module to be returned.
+									</li>
+									<li>
+										fpCallback : Function that will be executed when the module is instanced.
+									</li>
+								</ul>
+                   		<h4>Hydra.<em>setDebug( bDebug )</em></h4>
+                        	<div class="mLeft30 mBottom25">SetDebug changes the debug flag.</div>
+                        	<div>
+                        		<em class="mLeft30">Remember: True will activate the debug mode. This allows the modules to fail.</em>
+                        	</div>
+                        	<div>
+                        		<em class="mLeft30">Remember: False will deactivate the debug mode. This avoid the modules to fail.</em>
+                        	</div>
+                        	<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										bDebug : Boolean value to activate/deactive debug mode.
+									</li>
+								</ul>
+                    </div>
+                    <a href="#" class="up">Go UP</a>
+                </article>
+
+				<!-- Article 2 end -->
+
+				<!-- Article 3 start -->
+
+                <div class="line"></div>
+
+                <article id="examples">
+                    <h3>Examples</h3>
+
+                    <div class="line"></div>
+
+                    <div class="articleBody clear">
+                    	<h4>Module:</h4>
+                    	<h5>Create a module:</h4>
+                    	<pre>
+                    	<code>
+	Hydra.module.<strong>register</strong>('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
+                    	</code>
+                    	</pre>
+                    	<h5>Extend a module:</h4>
+                    	<pre>
+                    	<code>
+	Hydra.module.<strong>extend</strong>('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
+                    	</code>
+                    	</pre>
+						<h4>Actions Listening:</h4>
+						<p>To use the action manager you have it accessible inside the module as "action".</p>
+						<p>
+							<em>Tip: Use it on your init to start listening actions when the module starts.</em>
+						</p>
+                    	<h5>Listen one action:</h4>
+                    	<pre>
+                    	<code>
+	Hydra.module.register('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {
+				<strong>action.listen(['action1'], this.handleAction, this);</strong>
+			},
+			handleAction: function (oNotifier){
+				<strong>if(oNotifier.type === 'action1')
+				{
+					/*your code*/
+				}</strong>
+			},
+			destroy: function () {}
+		};
+	});
+                    	</code>
+                    	</pre>
+                    	<h5>Listen two actions:</h4>
+                    	<pre>
+                    	<code>
+	Hydra.module.register('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {
+				<strong>action.listen(['action1', 'action2'], this.handleAction, this);</strong>
+			},
+			handleAction: function (oNotifier){
+				<strong>switch(oNofitier.type)
+				{
+					case 'action1':
+						/* your code */
+						break;
+					case 'action2':
+						/* your code */
+						break;
+					default: break;
+				}</strong>
+			},
+			destroy: function () {}
+		};
+	});
+                    	</code>
+                    	</pre>
+                    	<h5>Listen more actions:</h4>
+                    	<p>
+                    		<em>
+                    			Tip: If you have several actions to listen I recommend you to make use of an object where the keys are the names of the actions.
+                    		</em>
+                    	</p>
+                    	<pre>
+                    	<code>
+	Hydra.module.register('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {
+				<strong>action.listen(['action1', 'action2', 'actionN'], this.handleAction, this);</strong>
+			},
+			<strong>actionHandlers: {
+				action1: function (oData) {},
+				action2: function (oData) {},
+				actionN: function (oData) {}
+			},</strong>
+			handleAction: function (oNotifier){
+				<strong>var oHandler = this.actionHandlers[oNotifier.type]
+				if(typeof oHandler === "undefined")
+				{
+					return;
+				}
+				oHandler.call(this, oData);
+				oHandler = null;</strong>
+			},
+			destroy: function () {}
+		};
+	});
+                    	</code>
+                    	</pre>
+						<h4>Actions Notifying:</h4>
+						<p>To use the action manager you have it accessible inside the module as "action".</p>
+						<p>
+							<em>Tip: You can notify an action where ever you want inside the module using 'action'.</em>
+						</p>
+						<p>
+							When notifying an action you will need to use a Notifier JSON object:
+							<pre>
+								<code>
+	var oNotifier = {
+		type: 'listenedAction',
+		data: 'data'
+	};
+								</code>
+							</pre>
+						</p>
+                    	<h5>Notifying inside of a module:</h4>
+                    	<pre>
+                    	<code>
+	Hydra.module.register('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {
+				$("#button").click(function(){
+					<strong>action.notify({
+						type: 'listenedAction',
+						data: 'data'
+					});</strong>
+				});
+			},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
+                    	</code>
+                    	</pre>
+                    	<h5>Notifying from outside of a module:</h4>
+                    	<pre>
+                    	<code>
+	var oAction = new (Hydra.action());
+	oAction.notify({
+		type: 'listenedAction',
+		data: 'data'
+	});
+                    	</code>
+                    	</pre>
+                    </div>
+                    <a href="#" class="up">Go UP</a>
+                </article>
+
+				<!-- Article 3 end -->
+
+				<div class="line"></div>
+
+                <article id="license">
+                    <h3>Hydra.js License:</h3>
+
+                    <div class="line"></div>
+
+                    <div class="articleBody clear">
+                   		<h4>Hydra.js is licensed under the MIT license.</h4>
+                   		<pre>
+
+	Copyright (c) 2011 Tomás Corral Casas
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+	documentation files	(the "Software"), to deal in the Software without restriction, including without limitation
+	the rights to use, copy, modify, merge,	publish, distribute, sublicense, and/or sell copies of the Software,
+	and to permit persons to whom the Software is furnished	to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all copies or substantial portions
+	of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+	TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+	THE AUTHORS OR COPYRIGHT HOLDERS BE	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN	CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+	IN THE SOFTWARE.
+
+                   		</pre>
+                    </div>
+                    <a href="#" class="up">Go UP</a>
+                </article>
+
+            </section>
+
+        <footer> <!-- Marking the footer section -->
+
+           <div class="line"></div>
+
+           <p>Copyright 2011 - Hydra.js</p> <!-- Change the copyright notice -->
+
+
+
+        </footer>
+
+		</section> <!-- Closing the #page section -->
+
+        <!-- JavaScript Includes -->
+
+        <script src="js/jquery.js"></script>
+        <script src="js/jquery.scrollTo-min.js"></script>
+        <script src="js/script.js"></script>
+    </body>
 </html>
