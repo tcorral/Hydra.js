@@ -16,13 +16,13 @@ Hydra has been designed to create your application in a modular design system.
  * If you have a module that is working well you can extend it to change his behavior without losing is original behavior.
 * Can be used in url threaded application as in a ajax threaded application.
 * You can test your modules with any Unit Testing Framework.
-* Only 1.1kb when Gzipped.
+* Only 3.4kb when [Gzipped](versions/hydra.min.gzipped.js).
 
-(Links will only work if you clone the repo)
+(Links will only work if you clone the repo.)
 
-[API documentation](https://github.com/tcorral/Hydra.js/examples_and_documents/jsdoc/index.html)
+[API documentation](examples_and_documents/jsdoc/index.html)
 
-[Examples](https://github.com/tcorral/Hydra.js/examples_and_documents/index.html) to see for yourself!
+[Examples](examples_and_documents/index.html) to see for yourself!
 
 ## Usage
 
@@ -30,7 +30,7 @@ Hydra has been designed to create your application in a modular design system.
 Insert in your code:
 
 	<script type="text/javascript" src="/path/to/your/js/libs/Hydra.js"></script>
-	
+
 ### Create a module
 	Hydra.module.register('moduleId', function(action)
 	{
@@ -95,7 +95,7 @@ To use the action manager you have accessible using "action".
 			destroy: function () {}
 		};
 	});
-	
+
 *Tip: If you have several actions to listen I recommend to make use of an object where the keys must be the names of the actions.*
 
 	Hydra.module.register('moduleId', function(action)
@@ -173,11 +173,11 @@ The notify method needs a Notifier object:
 
 ## Documentation
 
-(Links will only work if you clone the repo)
+(Links will only work if you clone the repo.)
 
-[API documentation](https://github.com/tcorral/Hydra.js/examples_and_documents/jsdoc/index.html)
+[API documentation](examples_and_documents/jsdoc/index.html)
 
-[Examples](https://github.com/tcorral/Hydra.js/examples_and_documents/index.html) to see for yourself!
+[Examples](examples_and_documents/index.html) to see for yourself!
 
 ## License
 
