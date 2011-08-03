@@ -19,6 +19,7 @@ Hydra has been designed to create your application in a modular design system.
 * Only 1.1kb when Gzipped.
 
 (Links will only work if you clone the repo)
+
 [API documentation](https://github.com/tcorral/Hydra.js/examples_and_documents/jsdoc/index.html)
 
 [Examples](https://github.com/tcorral/Hydra.js/examples_and_documents/index.html) to see for yourself!
@@ -173,6 +174,7 @@ The notify method needs a Notifier object:
 ## Documentation
 
 (Links will only work if you clone the repo)
+
 [API documentation](https://github.com/tcorral/Hydra.js/examples_and_documents/jsdoc/index.html)
 
 [Examples](https://github.com/tcorral/Hydra.js/examples_and_documents/index.html) to see for yourself!
