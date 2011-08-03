@@ -4,7 +4,7 @@
 	 * oModules is an object where the modules will be saved.
 	 * Empty object declared by default.
 	 * @private
-	 * @author Tom·s Corral Casas
+	 * @author Tom√°s Corral Casas
 	 * @version 1.0
 	 * @type Object
 	 */
@@ -13,8 +13,6 @@
 		 * Hydra is the private declaration of the Hydra object.
 		 * Hydra is declared null by default.
 		 * @private
-		 * @author Tom·s Corral Casas
-		 * @version 1.0
 		 * @type Hydra
 		 */
 		Hydra = null,
@@ -23,8 +21,6 @@
 		 * true: The code will fail.
 		 * false: The code will log errors.
 		 * @private
-		 * @author Tom·s Corral Casas
-		 * @version 1.0
 		 * @type Boolean
 		 */
 		bDebug = false,
@@ -36,8 +32,6 @@
 		 * @private
 		 * @class ErrorHandler
 		 * @constructor
-		 * @author Tom·s Corral Casas
-		 * @version 1.0
 		 */
 		ErrorHandler = function () {},
 		/**
@@ -45,8 +39,6 @@
 		 * @private
 		 * @class Module
 		 * @constructor
-		 * @author Tom·s Corral Casas
-		 * @version 1.0
 		 */
 		Module = function () {},
 		/**
@@ -54,16 +46,12 @@
 		 * @private
 		 * @class Action
 		 * @constructor
-		 * @author Tom·s Corral Casas
-		 * @version 1.0
 		 */
 		Action = function () {};
 
 	/**
 	 * isFunction is a method to know if the object passed as parameter is a Function object.
 	 * @private
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {Object} fpCallback
 	 * @return Boolean
 	 */
@@ -73,8 +61,6 @@
 	/**
 	 * getAction is a method to gain access to the private Action constructor.
 	 * @private
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @return Action class
 	 */
 	function getAction() {
@@ -83,8 +69,6 @@
 	/**
 	 * getErrorHandler is a method to gain access to the private ErrorHandler constructor.
 	 * @private
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @return ErrorHandler class
 	 */
 	function getErrorHandler() {
@@ -93,8 +77,6 @@
 	/**
 	 * setErrorHandler is a method to set the ErrorHandler to a new object to add more logging logic.
 	 * @private
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {Object} oErrorHandler
 	 */
 	function setErrorHandler(oErrorHandler) {
@@ -103,8 +85,6 @@
 	/**
 	 * setDebug is a method to set the bDebug flag.
 	 * @private
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {Boolean} _bDebug
 	 */
 	function setDebug(_bDebug){
@@ -114,8 +94,6 @@
 	 * wrapMethod is a method to wrap the original method to avoid failing code.
 	 * This will be only called if bDebug flag is setted to false.
 	 * @private
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {Object} oInstance
 	 * @param {String} sName
 	 * @param {String} sModuleId
@@ -138,8 +116,6 @@
 	/**
 	 * createInstance is the method that will create the module instance and wrap the method if needed.
 	 * @private
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {String} sModuleId
 	 * @return {Object} Module instance
 	 */
@@ -168,8 +144,6 @@
 	 * type is a property to be able to know the class type.
 	 * @member ErrorHandler
 	 * @static
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @type String
 	 */
 	ErrorHandler.type = 'ErrorHandler';
@@ -178,8 +152,6 @@
 	 * Null by default.
 	 * @member ErrorHandler
 	 * @static
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @type DOM
 	 */
 	ErrorHandler.list = null;
@@ -188,8 +160,6 @@
 	 * on system without console.
 	 * @member ErrorHandler
 	 * @static
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 */
 	ErrorHandler.create_dom = function () {
 		var oLayer = doc.createElement("div"),
@@ -210,8 +180,6 @@
 	 * on system without console.
 	 * @member ErrorHandler
 	 * @static
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {String} sModuleId
 	 * @param {String} sMethod
 	 * @param {Error} erError
@@ -229,8 +197,6 @@
 	 * Lazy pattern will be used to avoid extra work on next calls.
 	 * Arguments are sent to the methods that will be applied.
 	 * @static
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 */
 	ErrorHandler.log = function () {
 		var aArgs = Array.prototype.slice.call(arguments, 0);
@@ -260,8 +226,6 @@
 	/**
 	 * type is a property to be able to know the class type.
 	 * @member Module.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @type String
 	 */
 	Module.prototype.type = "Module";
@@ -269,8 +233,6 @@
 	 * register is the method that will add the new module to the oModules object.
 	 * sModuleId will be the key where it will be stored.
 	 * @member Module.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {String} sModuleId
 	 * @param {Function} fpCreator
 	 */
@@ -285,8 +247,6 @@
 	 * This must be called only from the extend public method.
 	 * @member Module.prototype
 	 * @private
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {Object} oModuleBase
 	 * @param {Object} oModuleExtended
 	 * @return {Object} the merged module
@@ -312,8 +272,6 @@
 	 * extend is the method that will be used to extend a module with new features.
 	 * can be used to remove some features too, withou touching the original code.
 	 * @member Module.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {String} sModuleId
 	 * @param {Function} fpCreator
 	 */
@@ -345,8 +303,6 @@
 	 * test is a method that will return the module without wrapping their methods.
 	 * It's called test because it was created to be able to test the modules with unit testing.
 	 * @member Module.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {String} sModuleId
 	 * @param {Function} fpCallback
 	 */
@@ -359,8 +315,6 @@
 	 * start is the method that will initialize the module.
 	 * When start is called the module instance will be created and the init method is called.
 	 * @member Module.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {String} sModuleId
 	 * @param {Object} oData
 	 */
@@ -376,8 +330,6 @@
 	/**
 	 * startAll is the method that will initialize all the registered modules.
 	 * @member Module.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 */
 	Module.prototype.startAll = function () {
 		var sModuleId = '';
@@ -392,8 +344,6 @@
 	 * stop is the method that will finish the module if it was registered and started.
 	 * When stop is called the module will call the destroy method and will nullify the instance.
 	 * @member Module.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {String} sModuleId
 	 */
 	Module.prototype.stop = function (sModuleId) {
@@ -406,8 +356,6 @@
 	/**
 	 * stopAll is the method that will finish all the registered and started modules.
 	 * @member Module.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 */
 	Module.prototype.stopAll = function () {
 		var sModuleId = '';
@@ -422,8 +370,6 @@
 	 * _delete is a wrapper method that will call the native delete javascript function
 	 * It's important to test the full code.
 	 * @member Module.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {String} sModuleId
 	 */
 	Module.prototype._delete = function (sModuleId) {
@@ -432,8 +378,6 @@
 	/**
 	 * remove is the method that will remove the full module from the oModules object
 	 * @member Module.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {String} sModuleId
 	 */
 	Module.prototype.remove  = function (sModuleId) {
@@ -446,16 +390,12 @@
 	/**
 	 * type is a property to be able to know the class type.
 	 * @member Action.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @type String
 	 */
 	Action.type = "Action";
 	/**
 	 * oActions is the property that will save the actions to be listened
 	 * @member Action.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @type Object
 	 */
 	Action.oActions = {};
@@ -463,8 +403,6 @@
 	 * listen is the method that will add a new action to the oActions object
 	 * and that will activate the listener.
 	 * @member Action.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {Array} aNotificationsToListen
 	 * @param {Function} fpHandler
 	 * @param {Object} oModule
@@ -488,8 +426,6 @@
 	/**
 	 * notify is the method that will launch the actions that are listening the notified action
 	 * @member Action.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param oNotifier - Notifier.type and Notifier.data are needed
 	 */
 	Action.prototype.notify = function (oNotifier) {
@@ -513,8 +449,6 @@
 	/**
 	 * stopListen removes the actions that are listening the aNotificationsToStopListen in the oModule
 	 * @member Action.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 * @param {Array} aNotificationsToStopListen
 	 * @param {Object} oModule
 	 */
@@ -546,8 +480,6 @@
 	 * __restore__ is a private method to reset the oActions object to an empty object.
 	 * @private
 	 * @member Action.prototype
-	 * @author Tom·s Corral Casas
-	 * @version 1.0
 	 */
 	Action.prototype.__restore__ = function()
 	{
