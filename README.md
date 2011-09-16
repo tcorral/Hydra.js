@@ -16,7 +16,7 @@ Hydra has been designed to create your application in a modular design system.
  * If you have a module that is working well you can extend it to change his behavior without losing is original behavior.
 * Can be used in url threaded application as in a ajax threaded application.
 * You can test your modules with any Unit Testing Framework.
-* Only 1.4kb when [Gzipped](http://tcorral.github.com/Hydra.js/versions/hydra.js.gz).
+* Only 1.5kb when [Gzipped](http://tcorral.github.com/Hydra.js/versions/hydra.js.gz).
 
 (Links will only work if you clone the repo.)
 
@@ -42,13 +42,62 @@ Insert in your code:
 		};
 	});
 
-### Extend a module
+### Extend a module overwritting the base module
 To extend a module you will need to register the base module before extend it.
 
 	Hydra.module.extend('moduleId', function(action)
 	{
 		return {
 			init: function (oData) {},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
+
+### Extend a module creating a new module
+To extend a module you will need to register the base module before extend it.
+
+	Hydra.module.extend('moduleId', 'newModuleId', function(action)
+	{
+		return {
+			init: function (oData) {},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
+
+This extension allows access the parent methods as classical inheritance.
+
+### Access parent methods
+
+Register base module:
+
+	Hydra.module.register('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {},
+			changeTitle: function(sTitle){
+				document.title = sTitle;
+			},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
+
+Create the new module using "extend":
+
+	Hydra.module.extend('moduleId', 'newModuleId', function(action)
+	{
+		return {
+			init: function (oData) {},
+			changeTitle: function(sTitle){
+				sTitle += " " + new Date().getTime();
+				// This is the way of access parent methods.
+				*this.__super__.call("changeTitle", [sTitle])*
+			},
 			handleAction: function (oNotifier){
 			},
 			destroy: function () {}

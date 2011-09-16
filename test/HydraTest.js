@@ -298,7 +298,7 @@ TestCase("HydraModuleStopAllTest", sinon.testCase({
 	}
 }));
 
-TestCase("HydraModuleExtendTest", sinon.testCase({
+TestCase("HydraModuleSimpleExtendTest", sinon.testCase({
 	setUp: function () {
 		var self = this;
 		this.sModuleId = 'test';
@@ -331,12 +331,12 @@ TestCase("HydraModuleExtendTest", sinon.testCase({
 			}
 		};
 		Hydra.module.register(this.sModuleId, this.fpModuleCreator);
-		sinon.spy(Hydra.module, "merge");
+		sinon.spy(Hydra.module, "_merge");
 	},
 	"test should call the merge method one time": function () {
 		Hydra.module.extend(this.sModuleId, this.fpModuleExtendedCreator);
 
-		assertTrue(Hydra.module.merge.calledOnce);
+		assertTrue(Hydra.module._merge.calledOnce);
 	},
 	"test should call the init method of the final extended module": function () {
 		Hydra.module.extend(this.sModuleId, this.fpModuleExtendedCreator);
@@ -354,7 +354,69 @@ TestCase("HydraModuleExtendTest", sinon.testCase({
 	},
 	tearDown: function () {
 		Hydra.module.remove(this.sModuleId);
-		Hydra.module.merge.restore();
+		Hydra.module._merge.restore();
+	}
+}));
+
+TestCase("HydraModuleComplexExtendTest", sinon.testCase({
+	setUp: function () {
+		var self = this;
+		this.sModuleId = 'test';
+		this.sExtendedModuleId = 'test2';
+		this.fpInitStub = sinon.stub();
+		this.fpDestroyStub = sinon.stub();
+		this.fpModuleCreator = function (oAction) {
+			return {
+				init: function () {
+
+				},
+				handleAction: function () {
+
+				},
+				destroy: function () {
+					self.fpDestroyStub();
+				}
+			}
+		};
+		this.fpModuleExtendedCreator = function (oAction) {
+			return {
+				init: function () {
+					self.fpInitStub();
+				},
+				handleAction: function () {
+
+				},
+				destroy: function () {
+
+				}
+			}
+		};
+		Hydra.module.register(this.sModuleId, this.fpModuleCreator);
+		sinon.spy(Hydra.module, "_merge");
+	},
+	"test should call the merge method one time": function () {
+		Hydra.module.extend(this.sModuleId, this.sExtendedModuleId, this.fpModuleExtendedCreator);
+
+		assertTrue(Hydra.module._merge.calledOnce);
+	},
+	"test should call the init method of the final extended module": function () {
+		Hydra.module.extend(this.sModuleId, this.sExtendedModuleId, this.fpModuleExtendedCreator);
+
+		Hydra.module.start(this.sExtendedModuleId);
+
+		assertTrue(this.fpInitStub.calledOnce);
+	},
+	"test should call the destroy method of the final extended module": function () {
+		Hydra.module.extend(this.sModuleId, this.sExtendedModuleId, this.fpModuleExtendedCreator);
+
+		Hydra.module.start(this.sExtendedModuleId);
+
+		assertEquals(0, this.fpDestroyStub.callCount);
+	},
+	tearDown: function () {
+		Hydra.module.remove(this.sModuleId);
+		Hydra.module.remove(this.sExtendedModuleId);
+		Hydra.module._merge.restore();
 	}
 }));
 
