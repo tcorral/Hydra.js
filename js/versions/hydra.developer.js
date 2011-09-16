@@ -9,45 +9,45 @@
 	 * @type Object
 	 */
 	var oModules = {},
-		/**
-		 * Hydra is the private declaration of the Hydra object.
-		 * Hydra is declared null by default.
-		 * @private
-		 * @type Hydra
-		 */
-		Hydra = null,
-		/**
-		 * bDebug is a flag to wrap the module methods to avoid cascade failing.
-		 * true: The code will fail.
-		 * false: The code will log errors.
-		 * @private
-		 * @type Boolean
-		 */
-		bDebug = false,
-		/**
-		 * ErrorHandler is the class that will handle the errors on your code.
-		 * Can be changed using setErrorHandler method.
-		 * Default ErrorHandler will log messages in console if exist.
-		 * If console doesn't exist the error will be logged in a hidden layer.
-		 * @private
-		 * @class ErrorHandler
-		 * @constructor
-		 */
-		ErrorHandler = function () {},
-		/**
-		 * Module is the class that will manage the module system.
-		 * @private
-		 * @class Module
-		 * @constructor
-		 */
-		Module = function () {},
-		/**
-		 * Action is the class that will manage the action listeners and notifications.
-		 * @private
-		 * @class Action
-		 * @constructor
-		 */
-		Action = function () {};
+	/**
+	 * Hydra is the private declaration of the Hydra object.
+	 * Hydra is declared null by default.
+	 * @private
+	 * @type Hydra
+	 */
+	Hydra = null,
+	/**
+	 * bDebug is a flag to wrap the module methods to avoid cascade failing.
+	 * true: The code will fail.
+	 * false: The code will log errors.
+	 * @private
+	 * @type Boolean
+	 */
+	bDebug = false,
+	/**
+	 * ErrorHandler is the class that will handle the errors on your code.
+	 * Can be changed using setErrorHandler method.
+	 * Default ErrorHandler will log messages in console if exist.
+	 * If console doesn't exist the error will be logged in a hidden layer.
+	 * @private
+	 * @class ErrorHandler
+	 * @constructor
+	 */
+	ErrorHandler = function () {},
+	/**
+	 * Module is the class that will manage the module system.
+	 * @private
+	 * @class Module
+	 * @constructor
+	 */
+	Module = function () {},
+	/**
+	 * Action is the class that will manage the action listeners and notifications.
+	 * @private
+	 * @class Action
+	 * @constructor
+	 */
+	Action = function () {};
 
 	/**
 	 * isFunction is a method to know if the object passed as parameter is a Function object.
@@ -123,9 +123,12 @@
 		if(typeof oModules[sModuleId] === "undefined"){
 			throw new Error("The module is not registered!");
 		}
-		var oInstance = oModules[sModuleId].creator(new Action()),
+		var oAction = new Action(),
+			oInstance = oModules[sModuleId].creator(oAction),
 			sName = '',
 			fpMethod = function () {};
+
+		oInstance.__action__ = oAction;
 
 		if (!bDebug) {
 			for (sName in oInstance) {
@@ -201,7 +204,7 @@
 	ErrorHandler.log = function () {
 		var aArgs = Array.prototype.slice.call(arguments, 0);
 
-		if (typeof window.console === "undefined" || (typeof aArgs[aArgs.length  - 1] == 'boolean' && !aArgs[aArgs.length - 1])) {
+		if (typeof win.console === "undefined" || (typeof aArgs[aArgs.length  - 1] == 'boolean' && !aArgs[aArgs.length - 1])) {
 			if (this.list === null) {
 				this.create_dom();
 			}
@@ -243,27 +246,62 @@
 		};
 	};
 	/**
-	 * merge is a method to merge two modules in a new one.
-	 * This must be called only from the extend public method.
-	 * @member Module.prototype
+	 * _merge is the method that gets the base module and the extended and returns the merge of them
 	 * @private
 	 * @param {Object} oModuleBase
 	 * @param {Object} oModuleExtended
-	 * @return {Object} the merged module
+	 * @param {Boolean} bKeepParent If we keep parent calls to be callable via __super__.
+	 * @return Object
 	 */
-	Module.prototype.merge = function (oModuleBase, oModuleExtended) {
-		var oFinalModule = {},
-			sKey = '';
-
-		for (sKey in oModuleBase) {
-			if (oModuleBase.hasOwnProperty(sKey)) {
+	Module.prototype._merge = function (oModuleBase, oModuleExtended, bKeepParent) {
+		var oFinalModule = {};
+		if ( bKeepParent )
+		{
+			oFinalModule.__super__ = {};
+			oFinalModule.__super__.__instance__ = oModuleBase;
+			oFinalModule.__super__.__call__ = function(sKey, aArgs)
+			{
+				var oObject = this;
+				while(!(sKey in oObject))
+				{
+					oObject = oObject.__instance__.__super__;
+				}
+				oObject[sKey].apply(oFinalModule, aArgs);
+			};
+		}
+		var sKey = '';
+		for(sKey in oModuleBase)
+		{
+			if(oModuleBase.hasOwnProperty(sKey))
+			{
+				if(sKey === "__super__")
+				{
+					continue;
+				}
 				oFinalModule[sKey] = oModuleBase[sKey];
 			}
 		}
+		function callInSupper(fpCallback)
+		{
+			return function()
+			{
+				var aArgs = Array.prototype.slice.call(arguments, 0);
+				fpCallback.apply(this, aArgs);
+			};
+		}
+		for(sKey in oModuleExtended)
+		{
+			if(oModuleExtended.hasOwnProperty(sKey))
+			{
+				if(typeof oFinalModule.__super__ !== "undefined" && Object.prototype.toString.call(oFinalModule[sKey]) === "[object Function]" )
+				{
+					oFinalModule.__super__[sKey] = (callInSupper(oFinalModule[sKey]));
 
-		for (sKey in oModuleExtended) {
-			if (oModuleExtended.hasOwnProperty(sKey)) {
-				oFinalModule[sKey] = oModuleExtended[sKey];
+					oFinalModule[sKey] = oModuleExtended[sKey];
+				}else
+				{
+					oFinalModule[sKey] = oModuleExtended[sKey];
+				}
 			}
 		}
 		return oFinalModule;
@@ -271,33 +309,58 @@
 	/**
 	 * extend is the method that will be used to extend a module with new features.
 	 * can be used to remove some features too, withou touching the original code.
+	 * You can extend a module and create a extended module with a different name.
 	 * @member Module.prototype
 	 * @param {String} sModuleId
-	 * @param {Function} fpCreator
+	 * @param {Function/String} oSecondParameter can be the name of the new module that extends the baseModule or a function if we want to extend an existant module.
+	 * @param {Function} oThirdParameter [optional] this must exist only if we need to create a new module that extends the baseModule.
 	 */
-	Module.prototype.extend = function (sModuleId, fpCreator) {
-		var oModule = oModules[sModuleId],
-			self = this,
-			oBaseModule = null,
-			oExtendedModule = null,
-			oFinalModule = null;
+	Module.prototype.extend = function(sModuleId, oSecondParameter, oThirdParameter) {
+		var oModule = oModules[sModuleId];
+		var sFinalModuleId = sModuleId;
+		var fpCreator = function(){};
+		var oBaseModule = null;
+		var oExtendedModule = null;
+		var oFinalModule = null;
+		var oAction = null;
 
-		if (typeof oModule === "undefined") {
+		// Function "overloading".
+		// If the 2nd paraemter is a string,
+		if ("string" == typeof oSecondParameter)
+		{
+			sFinalModuleId = oSecondParameter;
+			fpCreator = oThirdParameter;
+		}
+		else
+		{
+			fpCreator = oSecondParameter;
+		}
+
+		if (typeof oModule === "undefined")
+		{
 			return;
 		}
 
-		oExtendedModule = fpCreator(new Action());
-		oBaseModule = oModule.creator(new Action());
-		oFinalModule = this.merge(oBaseModule, oExtendedModule),
+		oAction = new Action();
 
-		oModules[sModuleId] = {
-			creator: function (oAction) {
+		oExtendedModule = fpCreator(oAction);
+		oBaseModule = oModule.creator(oAction);
+
+		// If we extend the module with the different name, we
+		// create proxy class for the original methods.
+		oFinalModule = this._merge(oBaseModule, oExtendedModule, (sFinalModuleId !== sModuleId));
+
+		// This gives access to the Action instance used to listen and notify.
+		oFinalModule.__action__ = oAction;
+
+		oModules[sFinalModuleId] =
+		{
+			creator: function(oAction)
+			{
 				return oFinalModule;
 			},
 			instance: null
 		};
-
-		oModule = oBaseModule = oExtendedModule = null;
 	};
 	/**
 	 * test is a method that will return the module without wrapping their methods.
@@ -348,7 +411,7 @@
 	 */
 	Module.prototype.stop = function (sModuleId) {
 		var oModule = oModules[sModuleId];
-		if (typeof oModule !== "undefined" && !(oModule.instance == null)) {
+		if (typeof oModule !== "undefined" && oModule.instance !== null) {
 			oModule.instance.destroy();
 			oModule.instance = null;
 		}

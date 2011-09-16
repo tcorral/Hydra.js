@@ -196,7 +196,7 @@
 									</li>
 								</ul>
 							<h5 class="mLeft20">Hydra.module.<em>extend( sModuleId, fpCreator )</em></h5>
-                        		<div class="mLeft30">Extend is the method that must be used to extend a valid module.</div>
+                        		<div class="mLeft30">Extend is the method that must be used to extend a valid module overwritting it.</div>
                         		<em class="mLeft30">Remember: The module to be extended must be registered before extend it.</em>
 								<h6 class="mLeft40">Params:</h6>
 								<ul class="mLeft80">
@@ -207,6 +207,23 @@
 										fpCreator : Function that will extend the base object module when initialized.
 									</li>
 								</ul>
+							<h5 class="mLeft20">Hydra.module.<em>extend( sModuleId, sNewModule, fpCreator )</em></h5>
+                        		<div class="mLeft30">Extend is the method that must be used to extend a valid module creating a new module.</div>
+                        		<em class="mLeft30">Remember: The module to be extended must be registered before extend it.</em>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										sModuleId : Id of the module to be extended.
+									</li>
+									<li>
+										sNewModule : Id of the module to be created.
+									</li>
+									<li>
+										fpCreator : Function that will extend the base object module when initialized.
+									</li>
+								</ul>
+                        		<div class="mLeft30">With this type of extension you can access parent methods:</div>
+                        		<h6 class="mLeft40"><em>oModule.__super__.call('sMethodName', [data])</em></h6>
 							<h5 class="mLeft20">Hydra.module.<em>start( sModuleId, oData )</em></h5>
                         		<div class="mLeft30">Start is the method that will initialize the module.</div>
                         		<em class="mLeft30">Remember: When a module is started the "init" method is executed.</em>
@@ -299,13 +316,57 @@
 	});
                     	</code>
                     	</pre>
-                    	<h5>Extend a module:</h4>
+                    	<h5>Extend a module overwritting the base method:</h4>
                     	<pre>
                     	<code>
 	Hydra.module.<strong>extend</strong>('moduleId', function(action)
 	{
 		return {
 			init: function (oData) {},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
+                    	</code>
+                    	</pre>
+                    	<h5>Extend a module creating a new module:</h4>
+                    	<pre>
+                    	<code>
+	Hydra.module.<strong>extend</strong>('moduleId', 'newModuleId', function(action)
+	{
+		return {
+			init: function (oData) {},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
+                    	</code>
+                    	</pre>
+                    	<h5>Access parent methods (only if you extended the method creating a new module):</h4>
+                    	<pre>
+                    	<code>
+	Hydra.module.<strong>register</strong>('moduleId', function(action)
+	{
+		return {
+			init: function (oData) {},
+			changeTitle: function(sTitle){
+				document.title = sTitle;
+			},
+			handleAction: function (oNotifier){
+			},
+			destroy: function () {}
+		};
+	});
+	Hydra.module.<strong>extend</strong>('moduleId', 'newModuleId', function(action)
+	{
+		return {
+			init: function (oData) {},
+			changeTitle: function(sTitle){
+				sTitle += " " + new Date().getTime();
+				<strong>this.__super__.call("changeTitle", [sTitle])</strong>
+			},
 			handleAction: function (oNotifier){
 			},
 			destroy: function () {}
@@ -464,13 +525,13 @@
 
                     	<ul id='downloadList' class="mLeft20">
                     		<li>
-                    			<a href="js/versions/hydra.developer.js">Developer version - 14kb.</a>
+                    			<a href="js/versions/hydra.developer.js">Developer version - 16kb.</a>
                     		</li>
                     		<li>
-                    			<a href="js/versions/hydra.min.js">Minimized version - 6kb</a>
+                    			<a href="js/versions/hydra.min.js">Minimized version - 4kb</a>
                     		</li>
                     		<li>
-                    			<a href="js/versions/hydra.js.gz">Minimized-Gzipped version - 1.4kb</a>
+                    			<a href="js/versions/hydra.js.gz">Minimized-Gzipped version - 1.5kb</a>
                     		</li>
                     	</ul>
                     </div>
