@@ -23,11 +23,11 @@ Hydra has been designed to create your application in a modular design system.
 
 [API documentation from cloned repo](examples_and_documents/jsdoc/index.html)
 
-[API documentation](tree/master/examples_and_documents/jsdoc/index.html)
+[API documentation](/tcorral/Hydra.js/tree/master/examples_and_documents/jsdoc/index.html)
 
 [Examples from cloned repo](examples_and_documents/index.html) to see for yourself!
 
-[Examples](tree/master/examples_and_documents/index.html) to see for yourself!
+[Examples](/tcorral/Hydra.js/tree/master/examples_and_documents/index.html) to see for yourself!
 
 ## Usage
 
@@ -231,11 +231,11 @@ The notify method needs a Notifier object:
 
 [API documentation from cloned repo](examples_and_documents/jsdoc/index.html)
 
-[API documentation](tree/master/examples_and_documents/jsdoc/index.html)
+[API documentation](/tcorral/Hydra.js/tree/master/examples_and_documents/jsdoc/index.html)
 
 [Examples from cloned repo](examples_and_documents/index.html) to see for yourself!
 
-[Examples](tree/master/examples_and_documents/index.html) to see for yourself!
+[Examples](/tcorral/Hydra.js/tree/master/examples_and_documents/index.html) to see for yourself!
 
 ## License
 
