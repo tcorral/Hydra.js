@@ -27,18 +27,9 @@ TestCase("HydraActionTest", sinon.testCase({
 	setUp: function () {},
 	"test should return the Action Class": function () {
 		var oResult = null;
-
 		oResult = Hydra.action();
 
 		assertEquals("Action", oResult.type);
-	},
-	"test should return an instance of Action": function () {
-		var oInstance = null;
-
-		var oClass = Hydra.action();
-		oInstance = new (oClass);
-
-		assertInstanceOf(oClass, oInstance);
 	},
 	tearDown: function () {}
 }));
@@ -625,27 +616,26 @@ TestCase("HydraActionListenTest", sinon.testCase({
 	setUp: function () {
 		var self = this;
 		this.sListener = 'test';
-		this.fpHandler = function (oAction) {};
+		this.fpHandler = sinon.stub();
 		this.oModule = {
 			init: function () {},
 			handleAction: this.fpHandler,
 			destroy: function () {}
 		};
-		this.fpAction = Hydra.action();
-		this.oAction = new this.fpAction();
+		this.oAction = new Hydra.action();
 		this.oAction.__restore__();
 	},
-	"test should return undefined for Action.oActions.test if listen is not called": function () {
-		assertUndefined(this.fpAction.oActions.test);
+	"test should not call fpHandler if notify is launched before set the listeners": function () {
+		this.oAction.notify([this.sListener], {type: this.sListener});
+
+		assertEquals(0, this.fpHandler.callCount);
 	},
-	"test should return an object with module and handler for Action.oActions.test if listen is called": function () {
+	"test should call fpHandler if notify is launched after set the listeners": function () {
 		this.oAction.listen([this.sListener], this.fpHandler, this.oModule);
 
-		var oTestAction = this.fpAction.oActions.test[0];
+		this.oAction.notify({type: this.sListener});
 
-		assertObject(oTestAction);
-		assertSame(this.fpHandler, oTestAction.handler);
-		assertSame(this.oModule, oTestAction.module);
+		assertEquals(1, this.fpHandler.callCount);
 	},
 	tearDown: function () {
 		this.oAction.__restore__();
@@ -678,8 +668,7 @@ TestCase("HydraActionNotifyTest", sinon.testCase({
 			handleAction: this.fpHandler,
 			destroy: function () {}
 		};
-		this.fpAction = Hydra.action();
-		this.oAction = new this.fpAction();
+		this.oAction = Hydra.action();
 		this.oAction.__restore__();
 		this.oAction.listen([this.sListener], this.fpHandler, this.oModule);
 	},
@@ -722,8 +711,7 @@ TestCase("HydraActionStopListenTest", sinon.testCase({
 			},
 			destroy: function () {}
 		};
-		this.fpAction = Hydra.action();
-		this.oAction = new this.fpAction();
+		this.oAction = Hydra.action();
 		this.oAction.__restore__();
 		this.oAction.listen([this.sListener], this.fpHandler, this.oModule);
 	},

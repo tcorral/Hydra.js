@@ -5,7 +5,7 @@
 	 * Empty object declared by default.
 	 * @private
 	 * @author Tomás Corral Casas
-	 * @version 1.1
+	 * @version 1.1.1
 	 * @type Object
 	 */
 	var oModules = {},
@@ -57,14 +57,6 @@
 	 */
 	function isFunction(fpCallback) {
 		return Object.prototype.toString.call(fpCallback) === "[object Function]";
-	}
-	/**
-	 * setDebug is a method to set the bDebug flag.
-	 * @private
-	 * @param {Boolean} _bDebug
-	 */
-	function setDebug(_bDebug){
-		bDebug = _bDebug;
 	}
 	/**
 	 * wrapMethod is a method to wrap the original method to avoid failing code.
@@ -357,14 +349,29 @@
 	 * @param {String} sModuleId
 	 * @param {Object} oData
 	 */
-	Module.prototype.start = function (sModuleId, oData) {
+	Module.prototype.start = function (sModuleId, oData, bSingle) {
 		var oModule = oModules[sModuleId];
+		if(bSingle && this.isModuleStarted(sModuleId))
+		{
+			this.stop(sModuleId);
+		}
 		if (typeof oModule !== "undefined")
 		{
 			oModule.instance = createInstance(sModuleId);
 			oModule.instance.init(oData);
 		}
 		oModule = null;
+	};
+	/**
+	 * Checks if module was already successfully started
+	 *
+	 * @member Module.prototype
+	 * @param {String}sModuleId Name of the module
+	 * @return boolean
+	 */
+	Module.prototype.isModuleStarted = function(sModuleId)
+	{
+		return ("undefined" !== typeof oModules[sModuleId] && null !== oModules[sModuleId].instance);
 	};
 	/**
 	 * startAll is the method that will initialize all the registered modules.
@@ -431,13 +438,13 @@
 	 * @member Action.prototype
 	 * @type String
 	 */
-	Action.type = "Action";
+	Action.prototype.type = "Action";
 	/**
 	 * oActions is the property that will save the actions to be listened
 	 * @member Action.prototype
 	 * @type Object
 	 */
-	Action.oActions = {};
+	var oActions = {};
 	/**
 	 * listen is the method that will add a new action to the oActions object
 	 * and that will activate the listener.
@@ -453,10 +460,10 @@
 
 		for (; nNotification < nLenNotificationsToListen; nNotification++) {
 			sNotification = aNotificationsToListen[nNotification];
-			if (typeof Action.oActions[sNotification] === "undefined") {
-				Action.oActions[sNotification] = [];
+			if (typeof oActions[sNotification] === "undefined") {
+				oActions[sNotification] = [];
 			}
-			Action.oActions[sNotification].push({
+			oActions[sNotification].push({
 				module: oModule,
 				handler: fpHandler
 			});
@@ -471,8 +478,7 @@
 		var sType = oNotifier.type,
 			oAction = null,
 			nAction = 0,
-			nLenActions = 0,
-			oActions = Action.oActions;
+			nLenActions = 0;
 
 		if (typeof oActions[sType] === "undefined") {
 			return;
@@ -497,14 +503,14 @@
 			nNotification = 0,
 			nLenNotificationsToListen = aNotificationsToStopListen.length,
 			nAction = 0,
-			nLenActions = 0,
-			oActions = Action.oActions;
+			nLenActions = 0;
 
 		for (; nNotification < nLenNotificationsToListen; nNotification++) {
+			aAuxActions = [];
 			sNotification = aNotificationsToStopListen[nNotification];
 			nLenActions = oActions[sNotification].length;
 
-			for (; nAction < nLenActions; nAction++) {
+			for (nAction = 0; nAction < nLenActions; nAction++) {
 				if (oModule !== oActions[sNotification][nAction].module) {
 					aAuxActions.push(oActions[sNotification][nAction]);
 				}
@@ -522,16 +528,8 @@
 	 */
 	Action.prototype.__restore__ = function()
 	{
-		Action.oActions = {};
+		oActions = {};
 	};
-	/**
-	 * getAction is a method to gain access to the private Action constructor.
-	 * @private
-	 * @return Action class
-	 */
-	function getAction() {
-		return Action;
-	}
 	/**
 	 * getErrorHandler is a method to gain access to the private ErrorHandler constructor.
 	 * @private
@@ -548,11 +546,22 @@
 	function setErrorHandler(oErrorHandler) {
 		ErrorHandler = oErrorHandler;
 	}
+	/**
+	 * setDebug is a method to set the bDebug flag.
+	 * @private
+	 * @param {Boolean} _bDebug
+	 */
+	function setDebug(_bDebug){
+		bDebug = _bDebug;
+	}
 	/*
 	 * Hydra is the api that will be available to use by developers
 	 */
 	Hydra = {
-		action: getAction,
+		action: function()
+		{
+			return new Action();
+		},
 		errorHandler: getErrorHandler,
 		setErrorHandler: setErrorHandler,
 		module: new Module(),
