@@ -1,7 +1,7 @@
 # Hydra.js
 Hidra.js is a module manager oriented system.
 
-## Updated to version 1.1
+## Updated to version 1.1.1
 
 ## Description
 
