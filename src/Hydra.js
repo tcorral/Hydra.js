@@ -59,30 +59,6 @@
 		return Object.prototype.toString.call(fpCallback) === "[object Function]";
 	}
 	/**
-	 * getAction is a method to gain access to the private Action constructor.
-	 * @private
-	 * @return Action class
-	 */
-	function getAction() {
-		return Action;
-	}
-	/**
-	 * getErrorHandler is a method to gain access to the private ErrorHandler constructor.
-	 * @private
-	 * @return ErrorHandler class
-	 */
-	function getErrorHandler() {
-		return ErrorHandler;
-	}
-	/**
-	 * setErrorHandler is a method to set the ErrorHandler to a new object to add more logging logic.
-	 * @private
-	 * @param {Object} oErrorHandler
-	 */
-	function setErrorHandler(oErrorHandler) {
-		ErrorHandler = oErrorHandler;
-	}
-	/**
 	 * setDebug is a method to set the bDebug flag.
 	 * @private
 	 * @param {Boolean} _bDebug
@@ -548,6 +524,30 @@
 	{
 		Action.oActions = {};
 	};
+	/**
+	 * getAction is a method to gain access to the private Action constructor.
+	 * @private
+	 * @return Action class
+	 */
+	function getAction() {
+		return Action;
+	}
+	/**
+	 * getErrorHandler is a method to gain access to the private ErrorHandler constructor.
+	 * @private
+	 * @return ErrorHandler class
+	 */
+	function getErrorHandler() {
+		return ErrorHandler;
+	}
+	/**
+	 * setErrorHandler is a method to set the ErrorHandler to a new object to add more logging logic.
+	 * @private
+	 * @param {Object} oErrorHandler
+	 */
+	function setErrorHandler(oErrorHandler) {
+		ErrorHandler = oErrorHandler;
+	}
 	/*
 	 * Hydra is the api that will be available to use by developers
 	 */
