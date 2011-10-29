@@ -1,6 +1,7 @@
 (function (win, doc) {
     'use strict';
-    var oModules,Hydra,bDebug,ErrorHandler,Module,Action;
+    var oModules, Hydra, bDebug, ErrorHandler, Module, Action, oActions;
+
     oModules = {};
     Hydra = null;
     bDebug = false;
@@ -10,7 +11,12 @@
     };
     Action = function () {
     };
-
+    /**
+     * oActions is the property that will save the actions to be listened
+     * @member Action.prototype
+     * @type Object
+     */
+    oActions = {};
     /**
      * isFunction is a method to know if the object passed as parameter is a Function object.
      * @private
@@ -55,7 +61,7 @@
         if (typeof oModules[sModuleId] === "undefined") {
             throw new Error("The module is not registered!");
         }
-        var oAction,oInstance,sName,fpMethod;
+        var oAction, oInstance, sName, fpMethod;
         oAction = new Action();
         oInstance = oModules[sModuleId].creator(oAction);
         sName = '';
@@ -140,7 +146,7 @@
     ErrorHandler.log = function () {
         var aArgs = [].slice.call(arguments, 0).concat();
 
-        if (typeof win.console === "undefined" || (typeof aArgs[aArgs.length - 1] == 'boolean' && !aArgs[aArgs.length - 1])) {
+        if (typeof win.console === "undefined" || (typeof aArgs[aArgs.length - 1] === 'boolean' && !aArgs[aArgs.length - 1])) {
             if (this.list === null) {
                 this.create_dom();
             }
@@ -190,19 +196,20 @@
      * @return Object
      */
     Module.prototype._merge = function (oModuleBase, oModuleExtended, bKeepParent) {
-        var oFinalModule = {};
+        var oFinalModule = {},
+            sKey = '';
         if (bKeepParent) {
             oFinalModule.__super__ = {};
             oFinalModule.__super__.__instance__ = oModuleBase;
-            oFinalModule.__super__.__call__ = function(sKey, aArgs) {
+            oFinalModule.__super__.__call__ = function (sKey, aArgs) {
                 var oObject = this;
-                while (!(sKey in oObject)) {
+                while (oObject.hasOwnProperty(sKey) === false) {
                     oObject = oObject.__instance__.__super__;
                 }
                 oObject[sKey].apply(oFinalModule, aArgs);
             };
         }
-        var sKey = '';
+
         for (sKey in oModuleBase) {
             if (oModuleBase.hasOwnProperty(sKey)) {
                 if (sKey === "__super__") {
@@ -212,7 +219,7 @@
             }
         }
         function callInSupper(fpCallback) {
-            return function() {
+            return function () {
                 var aArgs = [].slice.call(arguments, 0);
                 fpCallback.apply(this, aArgs);
             };
@@ -240,22 +247,21 @@
      * @param {Function/String} oSecondParameter can be the name of the new module that extends the baseModule or a function if we want to extend an existent module.
      * @param {Function} oThirdParameter [optional] this must exist only if we need to create a new module that extends the baseModule.
      */
-    Module.prototype.extend = function(sModuleId, oSecondParameter, oThirdParameter) {
-        var oModule = oModules[sModuleId];
-        var sFinalModuleId = sModuleId;
-        var fpCreator = function(oAction) { return oAction};
-        var oBaseModule = null;
-        var oExtendedModule = null;
-        var oFinalModule = null;
-        var oAction = null;
+    Module.prototype.extend = function (sModuleId, oSecondParameter, oThirdParameter) {
+        var oModule = oModules[sModuleId],
+            sFinalModuleId = sModuleId,
+            fpCreator = function (oAction) { return oAction; },
+            oBaseModule = null,
+            oExtendedModule = null,
+            oFinalModule = null,
+            oAction = null;
 
         // Function "overloading".
         // If the 2nd parameter is a string,
-        if ("string" == typeof oSecondParameter) {
+        if (typeof oSecondParameter === "string") {
             sFinalModuleId = oSecondParameter;
             fpCreator = oThirdParameter;
-        }
-        else {
+        } else {
             fpCreator = oSecondParameter;
         }
 
@@ -275,9 +281,8 @@
         // This gives access to the Action instance used to listen and notify.
         oFinalModule.__action__ = oAction;
 
-        oModules[sFinalModuleId] =
-        {
-            creator: function() {
+        oModules[sFinalModuleId] = {
+            creator: function () {
                 return oFinalModule;
             },
             instance: null
@@ -320,7 +325,7 @@
      * @param {String}sModuleId Name of the module
      * @return boolean
      */
-    Module.prototype.isModuleStarted = function(sModuleId) {
+    Module.prototype.isModuleStarted = function (sModuleId) {
         return ("undefined" !== typeof oModules[sModuleId] && null !== oModules[sModuleId].instance);
     };
     /**
@@ -390,12 +395,6 @@
      */
     Action.prototype.type = "Action";
     /**
-     * oActions is the property that will save the actions to be listened
-     * @member Action.prototype
-     * @type Object
-     */
-    var oActions = {};
-    /**
      * listen is the method that will add a new action to the oActions object
      * and that will activate the listener.
      * @member Action.prototype
@@ -408,7 +407,7 @@
             nNotification = 0,
             nLenNotificationsToListen = aNotificationsToListen.length;
 
-        for (; nNotification < nLenNotificationsToListen; nNotification++) {
+        for (nNotification = 0; nNotification < nLenNotificationsToListen; nNotification = nNotification + 1) {
             sNotification = aNotificationsToListen[nNotification];
             if (typeof oActions[sNotification] === "undefined") {
                 oActions[sNotification] = [];
@@ -435,7 +434,7 @@
         }
 
         nLenActions = oActions[sType].length;
-        for (; nAction < nLenActions; nAction++) {
+        for (nAction = 0; nAction < nLenActions; nAction = nAction + 1) {
             oAction = oActions[sType][nAction];
             oAction.handler.call(oAction.module, oNotifier);
         }
@@ -456,12 +455,12 @@
             nAction = 0,
             nLenActions = 0;
 
-        for (; nNotification < nLenNotificationsToListen; nNotification++) {
+        for (nNotification = 0; nNotification < nLenNotificationsToListen; nNotification = nNotification + 1) {
             aAuxActions = [];
             sNotification = aNotificationsToStopListen[nNotification];
             nLenActions = oActions[sNotification].length;
 
-            for (nAction = 0; nAction < nLenActions; nAction++) {
+            for (nAction = 0; nAction < nLenActions; nAction = nAction + 1) {
                 if (oModule !== oActions[sNotification][nAction].module) {
                     aAuxActions.push(oActions[sNotification][nAction]);
                 }
@@ -477,7 +476,7 @@
      * @private
      * @member Action.prototype
      */
-    Action.prototype.__restore__ = function() {
+    Action.prototype.__restore__ = function () {
         oActions = {};
     };
     /**
@@ -511,7 +510,7 @@
      * Hydra is the api that will be available to use by developers
      */
     Hydra = {
-        action: function() {
+        action: function () {
             return new Action();
         },
         errorHandler: getErrorHandler,
