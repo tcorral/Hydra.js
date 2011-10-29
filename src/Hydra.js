@@ -4,7 +4,7 @@
 	 * oModules is an object where the modules will be saved.
 	 * Empty object declared by default.
 	 * @private
-	 * @author Tomás Corral Casas
+	 * @author Tomas Corral Casas
 	 * @version 1.1.1
 	 * @type Object
 	 */
@@ -60,7 +60,7 @@
 	}
 	/**
 	 * wrapMethod is a method to wrap the original method to avoid failing code.
-	 * This will be only called if bDebug flag is setted to false.
+	 * This will be only called if bDebug flag is set to false.
 	 * @private
 	 * @param {Object} oInstance
 	 * @param {String} sName
@@ -162,7 +162,7 @@
 		oItem = null;
 	};
 	/**
-	 * log is the method that will differenciate the system if they had console or not.
+	 * log is the method that will differentiate the system if they had console or not.
 	 * if window.console exist console.log will be called
 	 * if window.console not exist then the log on layer will be activated.
 	 * Lazy pattern will be used to avoid extra work on next calls.
@@ -276,11 +276,11 @@
 	};
 	/**
 	 * extend is the method that will be used to extend a module with new features.
-	 * can be used to remove some features too, withou touching the original code.
+	 * can be used to remove some features too, without touching the original code.
 	 * You can extend a module and create a extended module with a different name.
 	 * @member Module.prototype
 	 * @param {String} sModuleId
-	 * @param {Function/String} oSecondParameter can be the name of the new module that extends the baseModule or a function if we want to extend an existant module.
+	 * @param {Function/String} oSecondParameter can be the name of the new module that extends the baseModule or a function if we want to extend an existent module.
 	 * @param {Function} oThirdParameter [optional] this must exist only if we need to create a new module that extends the baseModule.
 	 */
 	Module.prototype.extend = function(sModuleId, oSecondParameter, oThirdParameter) {
@@ -293,7 +293,7 @@
 		var oAction = null;
 
 		// Function "overloading".
-		// If the 2nd paraemter is a string,
+		// If the 2nd parameter is a string,
 		if ("string" == typeof oSecondParameter)
 		{
 			sFinalModuleId = oSecondParameter;
