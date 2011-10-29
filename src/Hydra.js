@@ -88,29 +88,31 @@
 	 * @return {Object} Module instance
 	 */
 	function createInstance(sModuleId) {
-		if(typeof oModules[sModuleId] === "undefined"){
-			throw new Error("The module is not registered!");
-		}
-		var oAction = new Action(),
-			oInstance = oModules[sModuleId].creator(oAction),
-			sName = '',
-			fpMethod = function () {};
+        if (typeof oModules[sModuleId] === "undefined") {
+            throw new Error("The module is not registered!");
+        }
+        var oAction,oInstance,sName,fpMethod;
+        oAction = new Action();
+        oInstance = oModules[sModuleId].creator(oAction);
+        sName = '';
+        fpMethod = function () {
+        };
 
-		oInstance.__action__ = oAction;
+        oInstance.__action__ = oAction;
 
-		if (!bDebug) {
-			for (sName in oInstance) {
-				if (oInstance.hasOwnProperty(sName)) {
-					fpMethod = oInstance[sName];
-					if (!isFunction(fpMethod)) {
-						continue;
-					}
-					wrapMethod(oInstance, sName, sModuleId, fpMethod);
-				}
-			}
-		}
-		return oInstance;
-	}
+        if (!bDebug) {
+            for (sName in oInstance) {
+                if (oInstance.hasOwnProperty(sName)) {
+                    fpMethod = oInstance[sName];
+                    if (!isFunction(fpMethod)) {
+                        continue;
+                    }
+                    wrapMethod(oInstance, sName, sModuleId, fpMethod);
+                }
+            }
+        }
+        return oInstance;
+    }
 	/**
 	 * type is a property to be able to know the class type.
 	 * @member ErrorHandler
