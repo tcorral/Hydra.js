@@ -2,6 +2,7 @@
 Hidra.js is a module manager oriented system.
 
 ## Updated to version 1.2.0
+Added Promise and Deferred objects.
 
 ## Description
 
@@ -224,6 +225,44 @@ The notify method needs a Notifier object:
 			type: 'listenedAction',
 			data: 'data'
 		});
+
+## Promise - Deferred object usage
+Promise and Deferred objects are used to defer the execution of depending asynchronous callbacks to the execution of all the callbacks, to be sure that all goes well.
+
+### How to create a new Promise object:
+
+	var oPromise = new Hydra.promise();
+Promise object has one method :
+
+**"then"** is a method to add success and error callbacks to the Promise object.
+
+	oPromise.then(fpSuccessCallback, fpErrorCallback);
+	//You can chain more than one "then" method
+	oPromise.then(fpSuccessCallback, fpErrorCallback).then(fpSuccessCallback2, fpErrorCallback2);
+
+Promise object can only have two different states:
+* Resolved
+* Rejected
+If the status is "resolved" all the success callbacks assigned to Promise object will be executed.
+If the status is "rejected" all the error callbacks assigned to Promise object will be executed.
+
+### How to create a Deferred object:
+Deferred is the object that manages all the promises assigned to it.
+
+	var oDeferred = new Hydra.deferred();
+
+Deferred object has two methods "add" and "then".
+
+**"add"** method must be used to add Promise objects to be managed by the Deferred object.
+
+	oDeferred.add(oPromise)
+	//You can chain more than one "add" method
+	oDeferred.add(oPromise).add(oPromise2);
+**"then"** method must be used to add success and error callbacks to the Deferred object.
+
+	oPromise.then(fpSuccessCallback, fpErrorCallback);
+	//You can chain more than one "then" method
+	oDeferred.then(fpSuccessCallback, fpErrorCallback).then(fpSuccessCallback2, fpErrorCallback2);
 
 ## Documentation
 
