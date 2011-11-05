@@ -110,6 +110,19 @@
                         <p>
                         	&lt;script type="text/javascript" src="/path/to/Hydra.js"&gt;&lt;/script&gt;<br/>
                         </p>
+                        <p>
+                            <h4>Update 1.2.0:</h4>
+                            <h5>ChangeLog 1.2.0:</h5>
+                            <ul class="changelogsList">
+                                <li>Added Promise and Deferred objects</li>
+                            </ul>
+                            <h5>ChangeLog 1.1.1:</h5>
+                            <ul class="changelogsList">
+                                <li>Added clasical inheritance to objects.</li>
+                                <li>Added __action__ to access Action object from modules</li>
+                                <li>Added __super__ to access parent object from methods using __call__ method.</li>
+                            </ul>
+                        </p>
                     </div>
                     <a href="#" class="up">Go UP</a>
                 </article>
@@ -285,6 +298,28 @@
 										bDebug : Boolean value to activate/deactive debug mode.
 									</li>
 								</ul>
+                        <h4>Hydra.<em>promise()</em></h4>
+                            <div>
+                        		<em class="mLeft30">Promise object is an object that manages the status of execution of an asynchronous execution. You can manage several Promise objects from a Deferred object</em>
+                        	</div>
+                            <div class="mLeft30 mBottom25">Promise creates a new instance of a Promise object.</div>
+                        <h5>Hydra.promise()<em>then</em></h5>
+                            <div class="mLeft30 mBottom25">"Then" method sets the success and error callbacks to execute when the Promise object is rejected or resolved.</div>
+
+                        <h4>Hydra.<em>deferred()</em></h4>
+                            <div>
+                        		<em class="mLeft30">Deferred object is a manager of Promise objects that will execute the success or error callbacks only when all the asynchronous executions are completed</em>
+                        	</div>
+                            <div class="mLeft30 mBottom25">Deferred creates a new instance of a Deferred object.</div>
+                        <h5>Hydra.deferred()<em>add</em></h5>
+                            <div class="mLeft30 mBottom25">"Add" method add a Promise object to the Deferred object to be managed.</div>
+                        <h5>Hydra.deferred()<em>then</em></h5>
+                            <div class="mLeft30 mBottom25">"Then" method sets the success and error callbacks to execute when all the Promise objects are completed.</div>
+                        <h4>Hydra.<em>when()</em></h4>
+                            <div>
+                        		<em class="mLeft30">"When" is a helper method to create a Deferred object.</em>
+                        	</div>
+                            <div class="mLeft30 mBottom25">When returns a deferred object this means that you can use the same methods that you can in Deferred object.</div>
                     </div>
                     <a href="#" class="up">Go UP</a>
                 </article>
@@ -505,6 +540,38 @@
 	});
                     	</code>
                     	</pre>
+                        <h4>Promise:</h4>
+                    	<h5>Create a Promise object:</h4>
+                    	<pre>
+                    	<code>
+	var oPromise = Hydra.promise();
+                    	</code>
+                    	</pre>
+                    	<h5>Add success and error callbacks:</h4>
+                    	<pre>
+                    	<code>
+	oPromise.then(fpSuccessCallback, fpErrorCallback);
+                    	</code>
+                    	</pre>
+                        <h4>Deferred:</h4>
+                    	<h5>Create a Deferred object:</h4>
+                    	<pre>
+                    	<code>
+	var oDeferred = Hydra.deferred();
+                    	</code>
+                    	</pre>
+                    	<h5>Add Promise objects to be managed:</h4>
+                    	<pre>
+                    	<code>
+	oDeferred.add(oPromiseObject);
+                    	</code>
+                    	</pre>
+                    	<h5>Add success and error callbacks:</h4>
+                    	<pre>
+                    	<code>
+	oDeferred.then(fpSuccessCallback, fpErrorCallback);
+                    	</code>
+                    	</pre>
                     </div>
                     <a href="#" class="up">Go UP</a>
                 </article>
@@ -525,13 +592,13 @@
 
                     	<ul id='downloadList' class="mLeft20">
                     		<li>
-                    			<a href="js/versions/hydra.developer.js">Developer version - 16kb.</a>
+                    			<a href="js/versions/hydra.developer.js">Developer version - 23kb.</a>
                     		</li>
                     		<li>
-                    			<a href="js/versions/hydra.min.js">Minimized version - 4kb</a>
+                    			<a href="js/versions/hydra.min.js">Minimized version - 6kb</a>
                     		</li>
                     		<li>
-                    			<a href="js/versions/hydra.js.gz">Minimized-Gzipped version - 1.5kb</a>
+                    			<a href="js/versions/hydra.min.gz">Minimized-Gzipped version - 2kb</a>
                     		</li>
                     	</ul>
                     </div>
