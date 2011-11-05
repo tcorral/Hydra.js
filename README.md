@@ -27,7 +27,7 @@ Hydra has been designed to create your application in a modular design system.
  * If you have a module that is working well you can extend it to change his behavior without losing is original behavior.
 * Can be used in url threaded application as in a ajax threaded application.
 * You can test your modules with any Unit Testing Framework.
-* Only 1.5kb when [Gzipped](http://tcorral.github.com/Hydra.js/versions/hydra.js.gz).
+* Only 2kb when [Gzipped](http://tcorral.github.com/Hydra.js/versions/hydra.js.gz).
 
 [API documentation](/tcorral/Hydra.js/tree/master/examples_and_documents/jsdoc/index.html)
 
