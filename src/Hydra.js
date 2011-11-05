@@ -1,6 +1,6 @@
 (function (win, doc) {
     'use strict';
-    var oModules, Hydra, bDebug, ErrorHandler, Module, Action, oActions;
+    var oModules, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
 
     oModules = {};
     Hydra = null;
@@ -439,7 +439,8 @@
             oAction.handler.call(oAction.module, oNotifier);
         }
         sType = null;
-        oAction = oActions = null;
+        nAction = nLenActions = null;
+        oAction =  null;
     };
     /**
      * stopListen removes the actions that are listening the aNotificationsToStopListen in the oModule
@@ -479,6 +480,127 @@
     Action.prototype.__restore__ = function () {
         oActions = {};
     };
+    Promise = function()
+    {
+        var self = this;
+        // Pending callbacks
+        this.aPending = [];
+        this.bCompleted = false;
+        this.sType = '';
+        this.oResult = null;
+        this.oAction = Hydra.action();
+        // Called when something finished successfully
+        this.resolve = function(oResult) {
+            self.bCompleted = true;
+            self.sType = 'resolve';
+            self.oResult = oResult;
+            self.oAction.notify({type: 'complete'});
+        };
+        // Called when something broke
+        this.reject = function(oResult) {
+            self.bCompleted = true;
+            self.sType = 'reject';
+            self.oResult = oResult;
+            self.oAction.notify({type: 'complete'});
+        };
+    };
+    Promise.prototype.then = function(fpSuccess, fpFailure) {
+        this.aPending.push({ resolve: fpSuccess, reject: fpFailure});
+        return this;
+    };
+    Deferred = function () {
+        this.aPromises = [];
+        this.aPending = [];
+        this.sType = '';
+        this.oAction = Hydra.action();
+        this.oAction.listen(['complete'], this.checkCompleted, this);
+    };
+    Deferred.prototype.add = function(oPromise) {
+        this.aPromises.push(oPromise);
+        return this;
+    };
+    Deferred.prototype.checkCompleted = function()
+    {
+        var nPromise = 0;
+        var nLenPromise = this.aPromises.length;
+        var oPromise = null;
+        for(; nPromise < nLenPromise; nPromise++)
+        {
+            oPromise = this.aPromises[nPromise];
+            if(!oPromise.bCompleted)
+            {
+                return false;
+            }
+        }
+        this.complete(this.getType());
+    };
+    Deferred.prototype.getType = function()
+    {
+        var nPromise = 0;
+        var nLenPromises = this.aPromises.length;
+        var oPromise = null;
+        var aTypes = [];
+        var sTypes = '';
+        for(; nPromise < nLenPromises; nPromise++)
+        {
+            oPromise = this.aPromises[nPromise];
+            if(oPromise.bCompleted)
+            {
+                aTypes.push(oPromise.sType);
+            }
+        }
+        if(aTypes.length === 0)
+        {
+            return "";
+        }
+        return aTypes.join("").replace(/resolve/g, "").length > 0? 'reject' : 'resolve';
+    };
+    Deferred.prototype.complete = function(sType)
+    {
+        if(sType.length === 0)
+        {
+            return false;
+        }
+        var nPromise = 0;
+        var nLenPromises = this.aPromises.length;
+        var oPromise = null;
+        for(nPromise = 0; nPromise < nLenPromises; nPromise++)
+        {
+            oPromise = this.aPromises[nPromise];
+            while (oPromise.aPending[0]) {
+                oPromise.aPending.shift()[sType](oPromise.oResult);
+            }
+        }
+        while(this.aPending[0])
+        {
+            this.aPending.shift()[sType]();
+        }
+    };
+    Deferred.prototype.then = function(fpSuccess, fpFailure) {
+        this.aPending.push({ resolve: fpSuccess, reject: fpFailure});
+        return this;
+    };
+    When = function()
+    {
+        this.oDeferred = new Deferred();
+        var aArgs = [].slice.call(arguments);
+        var nArg = 0;
+        var nLenArgs = aArgs.length;
+        var oArg = null;
+        for(; nArg < nLenArgs; nArg++)
+        {
+            oArg = aArgs[nArg];
+            if(oArg instanceof Promise)
+            {
+                this.oDeferred.add(oArg);
+            }else
+            {
+                this.oDeferred.complete('resolved');
+                return;
+            }
+        }
+        return this.oDeferred;
+    };
     /**
      * getErrorHandler is a method to gain access to the private ErrorHandler constructor.
      * @private
@@ -516,7 +638,10 @@
         errorHandler: getErrorHandler,
         setErrorHandler: setErrorHandler,
         module: new Module(),
-        setDebug: setDebug
+        setDebug: setDebug,
+        deferred: Deferred,
+        promise: Promise,
+        when: When
     };
     /*
      * This line exposes the private object to be accessible from outside of this code.
