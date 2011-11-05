@@ -2,7 +2,15 @@
 Hidra.js is a module manager oriented system.
 
 ## Updated to version 1.2.0
-Added Promise and Deferred objects.
+
+#### ChangeLog 1.2.0 :
+    Added Promise and Deferred objects.
+#### ChangeLog 1.1.1:
+    Added clasical inheritance to objects.
+    Added __action__ to access Action object from modules
+    Added __super__ to access parent object from methods using __call__ method.
+#### ChangeLog 1.0:
+    First commit
 
 ## Description
 
@@ -21,12 +29,7 @@ Hydra has been designed to create your application in a modular design system.
 * You can test your modules with any Unit Testing Framework.
 * Only 1.5kb when [Gzipped](http://tcorral.github.com/Hydra.js/versions/hydra.js.gz).
 
-
-[API documentation from cloned repo](examples_and_documents/jsdoc/index.html)
-
 [API documentation](/tcorral/Hydra.js/tree/master/examples_and_documents/jsdoc/index.html)
-
-[Examples from cloned repo](examples_and_documents/index.html) to see for yourself!
 
 [Examples](/tcorral/Hydra.js/tree/master/examples_and_documents/index.html) to see for yourself!
 
@@ -268,11 +271,7 @@ Deferred object has two methods "add" and "then".
 
 (Links will only work if you clone the repo.)
 
-[API documentation from cloned repo](examples_and_documents/jsdoc/index.html)
-
 [API documentation](/tcorral/Hydra.js/tree/master/examples_and_documents/jsdoc/index.html)
-
-[Examples from cloned repo](examples_and_documents/index.html) to see for yourself!
 
 [Examples](/tcorral/Hydra.js/tree/master/examples_and_documents/index.html) to see for yourself!
 
