@@ -1,9 +1,11 @@
 (function (win, doc) {
     'use strict';
-    var oModules, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
+
+    var oModules, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
 
     oModules = {};
     Hydra = null;
+    sVersion = "1.2.0";
     bDebug = false;
     ErrorHandler = function () {
     };
