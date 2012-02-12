@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - Hydra</title>
+		<title>JsDoc Reference - Deferred</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -212,7 +212,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class Hydra
+				Class Deferred
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -220,7 +220,7 @@ ul.inheritsList
 				
 				
 			
-				Hydra
+				Deferred
 				
 				
 					<br /><i>Defined in: </i> <a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">Hydra.js</a>.
@@ -229,7 +229,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Hydra.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Deferred.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -242,9 +242,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/Hydra.html#constructor">Hydra</a></b>()
+								<b><a href="../symbols/Deferred.html#constructor">Deferred</a></b>()
 							</div>
-							<div class="description">Hydra is the api that will be available to use by developers</div>
+							<div class="description">Deferred is a manager of Promise objects.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -253,110 +253,12 @@ ul.inheritsList
 
 <!-- ============================== properties summary ===================== -->
 			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class Hydra.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.deferred">deferred</a></b>
-								</div>
-								<div class="description">Returns the constructor of Deferred object</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.errorHandler">errorHandler</a></b>
-								</div>
-								<div class="description">Returns the actual ErrorHandler</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.module">module</a></b>
-								</div>
-								<div class="description">Return a singleton of Module</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.promise">promise</a></b>
-								</div>
-								<div class="description">Returns the constructor of Promise object</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.setDebug">setDebug</a></b>
-								</div>
-								<div class="description">Change the debug mode to on/off</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.setErrorHandler">setErrorHandler</a></b>
-								</div>
-								<div class="description">Sets and overwrites the ErrorHandler object to log errors and messages</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.version">version</a></b>
-								</div>
-								<div class="description">Version number of Hydra.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.when">when</a></b>
-								</div>
-								<div class="description">Sugar method to generate Deferred objects in a simple way</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
-			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Hydra.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Deferred.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -367,11 +269,48 @@ ul.inheritsList
 					<tbody>
 					
 						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">Hydra.<b><a href="../symbols/Hydra.html#.action">action</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/Deferred.html#add">add</a></b>(oPromise)
 								</div>
-								<div class="description">action is a method to get a new instance of Action</div>
+								<div class="description">Adds a new Promise object to the array of Promise object that are needed to be completed.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Deferred.html#checkCompleted">checkCompleted</a></b>()
+								</div>
+								<div class="description">This method is called when any Promise object notify 'complete'
+Checks the completion of all the Promise objects.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Deferred.html#complete">complete</a></b>(sType)
+								</div>
+								<div class="description">Executes the correct method/s depending of completion type [success, fail]</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Deferred.html#getType">getType</a></b>()
+								</div>
+								<div class="description">Return the type of completion [reject, resolve]</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Deferred.html#then">then</a></b>(fpSuccess, fpFailure)
+								</div>
+								<div class="description">Adds new callbacks to execute when the promise has been completed</div>
 							</td>
 						</tr>
 					
@@ -392,11 +331,12 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>Hydra</b>()
+						<b>Deferred</b>()
 				</div>
 				
 				<div class="description">
-					Hydra is the api that will be available to use by developers
+					Deferred is a manager of Promise objects.
+Deferred object has some Promise objects added and execute the correct callbacks when all the added Promise object are completed.
 					
 				</div>
 				
@@ -416,187 +356,6 @@ ul.inheritsList
 
 <!-- ============================== field details ========================== -->		
 			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name=".deferred"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>deferred</b>
-					
-					</div>
-					<div class="description">
-						Returns the constructor of Deferred object
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".errorHandler"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{<a href="../symbols/ErrorHandler.html">ErrorHandler</a>}</span>
-					<span class="light">Hydra.</span><b>errorHandler</b>
-					
-					</div>
-					<div class="description">
-						Returns the actual ErrorHandler
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".module"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>module</b>
-					
-					</div>
-					<div class="description">
-						Return a singleton of Module
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".promise"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>promise</b>
-					
-					</div>
-					<div class="description">
-						Returns the constructor of Promise object
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".setDebug"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>setDebug</b>
-					
-					</div>
-					<div class="description">
-						Change the debug mode to on/off
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".setErrorHandler"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>setErrorHandler</b>
-					
-					</div>
-					<div class="description">
-						Sets and overwrites the ErrorHandler object to log errors and messages
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".version"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{String}</span>
-					<span class="light">Hydra.</span><b>version</b>
-					
-					</div>
-					<div class="description">
-						Version number of Hydra.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".when"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>when</b>
-					
-					</div>
-					<div class="description">
-						Sugar method to generate Deferred objects in a simple way
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					
-				
-			
 
 <!-- ============================== method details ========================= -->		
 			
@@ -604,21 +363,32 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name=".action"> </a>
-					<div class="fixedFont">&lt;static&gt; 
+					<a name="add"> </a>
+					<div class="fixedFont">
 					
-					<span class="light">{<a href="../symbols/Action.html">Action</a>}</span>
-					<span class="light">Hydra.</span><b>action</b>()
+					<span class="light">{Object}</span>
+					<b>add</b>(oPromise)
 					
 					</div>
 					<div class="description">
-						action is a method to get a new instance of Action
+						Adds a new Promise object to the array of Promise object that are needed to be completed.
 						
 						
 					</div>
 					
 					
 					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>oPromise</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
 						
 						
 						
@@ -627,9 +397,140 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{<a href="../symbols/Action.html">Action</a>}</span> Action instance</dd>
+								<dd><span class="light fixedFont">{Object}</span> Deferred instance</dd>
 							
 							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="checkCompleted"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>checkCompleted</b>()
+					
+					</div>
+					<div class="description">
+						This method is called when any Promise object notify 'complete'
+Checks the completion of all the Promise objects.
+If any of the Promises is not complete continue waiting.
+If all the Promises are complete then complete method is executed.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="complete"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>complete</b>(sType)
+					
+					</div>
+					<div class="description">
+						Executes the correct method/s depending of completion type [success, fail]
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>sType</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getType"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getType</b>()
+					
+					</div>
+					<div class="description">
+						Return the type of completion [reject, resolve]
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="then"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>then</b>(fpSuccess, fpFailure)
+					
+					</div>
+					<div class="description">
+						Adds new callbacks to execute when the promise has been completed
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>fpSuccess</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>fpFailure</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
 						
 						
 						

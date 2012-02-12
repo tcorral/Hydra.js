@@ -193,11 +193,15 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Action.html">Action</a></li>
 	
+	<li><a href="../symbols/Deferred.html">Deferred</a></li>
+	
 	<li><a href="../symbols/ErrorHandler.html">ErrorHandler</a></li>
 	
 	<li><a href="../symbols/Hydra.html">Hydra</a></li>
 	
 	<li><a href="../symbols/Module.html">Module</a></li>
+	
+	<li><a href="../symbols/Promise.html">Promise</a></li>
 	
 </ul>
 <hr />
@@ -213,15 +217,13 @@ ul.inheritsList
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
-				<br />Version
-					1.0.<br />
 				
 				
 			
 				ErrorHandler
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">Hydra.js</a>.
 				
 			</p>
 
@@ -242,7 +244,7 @@ ul.inheritsList
 							<div class="fixedFont">
 								<b><a href="../symbols/ErrorHandler.html#constructor">ErrorHandler</a></b>()
 							</div>
-							<div class="description">ErrorHandler is the class that will handle the errors on your code.</div>
+							<div class="description">Class to manage the errors in modules</div>
 						</td>
 					</tr>
 				</tbody>
@@ -309,7 +311,8 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont">ErrorHandler.<b><a href="../symbols/ErrorHandler.html#.addItem">addItem</a></b>(sModuleId, sMethod, erError)
 								</div>
-								<div class="description">addItem is the method that will add a new item to the list to log the errorson system without console.</div>
+								<div class="description">addItem is the method that will add a new item to the list to log the errors
+on system without console.</div>
 							</td>
 						</tr>
 					
@@ -318,7 +321,8 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont">ErrorHandler.<b><a href="../symbols/ErrorHandler.html#.create_dom">create_dom</a></b>()
 								</div>
-								<div class="description">create_dom is the method that will create the hidden layer to log the errorson system without console.</div>
+								<div class="description">create_dom is the method that will create the hidden layer to log the errors
+on system without console.</div>
 							</td>
 						</tr>
 					
@@ -327,7 +331,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont">ErrorHandler.<b><a href="../symbols/ErrorHandler.html#.log">log</a></b>()
 								</div>
-								<div class="description">log is the method that will differenciate the system if they had console or not.</div>
+								<div class="description">log is the method that will differentiate the system if they had console or not.</div>
 							</td>
 						</tr>
 					
@@ -361,8 +365,8 @@ ul.inheritsList
 				</div>
 				
 				<div class="description">
-					ErrorHandler is the class that will handle the errors on your code.Can be changed using setErrorHandler method.Default ErrorHandler will log messages in console if exist.If console doesn't exist the error will be logged in a hidden layer.
-					<br /><i>Author: </i>Tomas Corral Casas.
+					Class to manage the errors in modules
+					
 				</div>
 				
 				
@@ -388,14 +392,15 @@ ul.inheritsList
 					<a name=".list"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{DOM}</span>
+					<span class="light">{Object}</span>
 					<span class="light">ErrorHandler.</span><b>list</b>
 					
 					</div>
 					<div class="description">
-						list is a property that will store the DOM object list reference.Null by default.
+						list is a property that will store the DOM object list reference.
+Null by default.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -417,7 +422,7 @@ ul.inheritsList
 					<div class="description">
 						type is a property to be able to know the class type.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -445,9 +450,10 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						addItem is the method that will add a new item to the list to log the errorson system without console.
+						addItem is the method that will add a new item to the list to log the errors
+on system without console.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -493,9 +499,10 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						create_dom is the method that will create the hidden layer to log the errorson system without console.
+						create_dom is the method that will create the hidden layer to log the errors
+on system without console.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -518,9 +525,13 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						log is the method that will differenciate the system if they had console or not.if windowdow.console exist console.log will be calledif windowdow.console not exist then the log on layer will be activated.Lazy pattern will be used to avoid extra work on next calls.Arguments are sent to the methods that will be applied.
+						log is the method that will differentiate the system if they had console or not.
+if window.console exist console.log will be called
+if window.console not exist then the log on layer will be activated.
+Lazy pattern will be used to avoid extra work on next calls.
+Arguments are sent to the methods that will be applied.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -571,8 +582,8 @@ ul.inheritsList
 		
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
-			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Jul 16 2011 19:06:22 GMT+0200 (CEST)
+			&copy;2012<br />
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Feb 12 2012 00:43:35 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

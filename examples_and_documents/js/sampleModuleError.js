@@ -2,28 +2,22 @@ Hydra.module.register("sampleError", function(oAction)
 {
 	return {
 		sModule: 'NeverArrivesHere',
-		init: function(oData)
+		aListeningEvents:['alert'],
+		oEventsCallbacks:{
+			'alert':function (oNotify) {
+				alert(oNotify.data);
+			}
+		},
+		init: function()
 		{
 			alert("ModuleWithError");
-			oAction.listen(["alert"], this.handleAction, this);
-			
+
 			throw new Error("Ha habido un error");
-			
+
 			oAction.notify({
 				type: 'alert',
 				data: ++nIndex
 			});
-		},
-		handleAction: function(oAction)
-		{
-			switch(oAction.type)
-			{
-				case "alert": 
-					alert(oAction.data);
-					break;
-				default: break;
-			}
-		},
-		destroy: function(){}
+		}
 	};
 });

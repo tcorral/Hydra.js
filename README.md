@@ -1,8 +1,30 @@
 # Hydra.js
 Hidra.js is a module manager oriented system.
 
-## Updated to version 1.2.0
+## Updated to version 1.3.0
 
+#### ChangeLog 1.3.0 :
+    Delegate some repetitive jobs to the module instance creator, maintaining the size of Hydra.
+
+    Make easier the work of developers reducing duplicated code and decrease the final size of
+    projects where Hydra.js is used.
+
+    Some modules have been moved from modules to the instance object when creating it:
+         - These methods are not needed anymore to be added to your modules:
+            - handleAction
+            - destroy
+
+    Added new properties to the module:
+        - aListeningEvents
+             - Array of events that the module will start listening
+        - oEventsCallbacks
+             - Object of callbacks that must match the events
+        - onDestroy
+            - New destroy method, only, will stop all listeners.
+            - This method will be executed before stop listeners.
+
+    When the module is started the listeners will be activated before the code in init method.
+         - Is not needed anymore to start listeners.
 #### ChangeLog 1.2.0 :
     Added Promise and Deferred objects.
 #### ChangeLog 1.1.1:
@@ -44,10 +66,7 @@ Insert in your code:
 	Hydra.module.register('moduleId', function(action)
 	{
 		return {
-			init: function (oData) {},
-			handleAction: function (oNotifier){
-			},
-			destroy: function () {}
+			init: function (oData) {}
 		};
 	});
 
@@ -57,10 +76,7 @@ To extend a module you will need to register the base module before extend it.
 	Hydra.module.extend('moduleId', function(action)
 	{
 		return {
-			init: function (oData) {},
-			handleAction: function (oNotifier){
-			},
-			destroy: function () {}
+			init: function (oData) {}
 		};
 	});
 
@@ -70,10 +86,7 @@ To extend a module you will need to register the base module before extend it.
 	Hydra.module.extend('moduleId', 'newModuleId', function(action)
 	{
 		return {
-			init: function (oData) {},
-			handleAction: function (oNotifier){
-			},
-			destroy: function () {}
+			init: function (oData) {}
 		};
 	});
 
@@ -88,11 +101,8 @@ Register base module:
 		return {
 			init: function (oData) {},
 			changeTitle: function(sTitle){
-				document.title = sTitle;
-			},
-			handleAction: function (oNotifier){
-			},
-			destroy: function () {}
+					document.title = sTitle;
+			}
 		};
 	});
 
@@ -103,80 +113,31 @@ Create the new module using "extend":
 		return {
 			init: function (oData) {},
 			changeTitle: function(sTitle){
-				sTitle += " " + new Date().getTime();
-				// This is the way of access parent methods.
-				*this.__super__.call("changeTitle", [sTitle])*
-			},
-			handleAction: function (oNotifier){
-			},
-			destroy: function () {}
+					sTitle += " " + new Date().getTime();
+					// This is the way of access parent methods.
+					*this.__super__.call("changeTitle", [sTitle])*
+			}
 		};
 	});
 
-### Listening actions
-To use the action manager you have accessible using "action".
 
-*Tip: Use it on your init to start listening actions when the module starts.*
-
-#### One action
+#### When listening events
 	Hydra.module.register('moduleId', function(action)
 	{
 		return {
-			init: function (oData) {
-				action.listen(['action1'], this.handleAction, this);
-			},
-			handleAction: function (oNotifier){
-			},
-			destroy: function () {}
-		};
-	});
-
-#### More actions
-	Hydra.module.register('moduleId', function(action)
-	{
-		return {
-			init: function (oData) {
-				action.listen(['action1', 'action2'], this.handleAction, this);
-			},
-			handleAction: function (oNotifier){
-				switch(oNofitier.type)
+			aListeningEvents: ['action1', 'action2'],
+			oEventsCallbacks: {
+				'action1': function(oNotify)
 				{
-					case 'action1':
 						/* your code */
-						break;
-					case 'action2':
+				},
+				'action2': function(oNotify)
+				{
 						/* your code */
-						break;
-					default: break;
 				}
 			},
-			destroy: function () {}
-		};
-	});
-
-*Tip: If you have several actions to listen I recommend to make use of an object where the keys must be the names of the actions.*
-
-	Hydra.module.register('moduleId', function(action)
-	{
-		return {
 			init: function (oData) {
-				action.listen(['action1', 'action2', 'actionN'], this.handleAction, this);
-			},
-			actionHandlers: {
-				action1: function (oData) {},
-				action2: function (oData) {},
-				actionN: function (oData) {}
-			},
-			handleAction: function (oNotifier){
-				var oHandler = this.actionHandlers[oNotifier.type]
-				if(typeof oHandler === "undefined")
-				{
-					return;
-				}
-				oHandler.call(this, oData);
-				oHandler = null;
-			},
-			destroy: function () {}
+			}
 		};
 	});
 
@@ -195,30 +156,20 @@ The notify method needs a Notifier object:
 	Hydra.module.register('moduleId', function(action)
 	{
 		return {
+			aListeningEvents : ['action1', 'action2', 'action3'],
+			oEventsCallbacks : {
+				'action1': function (oData) {},
+				'action2': function (oData) {},
+				'action3': function (oData) {}
+			},
 			init: function (oData) {
-				action.listen(['action1', 'action2', 'actionN'], this.handleAction, this);
-				$("#button").click(function(){
-					action.notify({
-						type: 'listenedAction',
-						data: 'data'
+					$("#button").click(function(){
+						action.notify({
+							type: 'listenedAction',
+							data: 'data'
+						});
 					});
-				});
-			},
-			actionHandlers: {
-				action1: function (oData) {},
-				action2: function (oData) {},
-				actionN: function (oData) {}
-			},
-			handleAction: function (oNotifier){
-				var oHandler = this.actionHandlers[oNotifier.type]
-				if(typeof oHandler === "undefined")
-				{
-					return;
-				}
-				oHandler.call(this, oData);
-				oHandler = null;
-			},
-			destroy: function () {}
+			}
 		};
 	});
 *Tip: You can create an Action on your code to notify some module creating a new instance of it in this way:*

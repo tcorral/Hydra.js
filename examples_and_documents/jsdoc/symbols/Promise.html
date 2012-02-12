@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - Action</title>
+		<title>JsDoc Reference - Promise</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -212,7 +212,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class Action
+				Class Promise
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -220,7 +220,7 @@ ul.inheritsList
 				
 				
 			
-				Action
+				Promise
 				
 				
 					<br /><i>Defined in: </i> <a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">Hydra.js</a>.
@@ -229,7 +229,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Action.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Promise.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -242,9 +242,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/Action.html#constructor">Action</a></b>()
+								<b><a href="../symbols/Promise.html#constructor">Promise</a></b>()
 							</div>
-							<div class="description">Mediator/Bus class that manages the listeners and notifications</div>
+							<div class="description">Promise is a class that must/can be used to defer execution of one or some callbacks when one condition (normally some asynchronous callbacks that are depending one of other)</div>
 						</td>
 					</tr>
 				</tbody>
@@ -253,40 +253,12 @@ ul.inheritsList
 
 <!-- ============================== properties summary ===================== -->
 			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class Action.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/Action.html#type">type</a></b>
-								</div>
-								<div class="description">type is a property to be able to know the class type.</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
-			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Action.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Promise.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -297,39 +269,11 @@ ul.inheritsList
 					<tbody>
 					
 						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Action.html#__restore__">__restore__</a></b>()
-								</div>
-								<div class="description">__restore__ is a private method to reset the oActions object to an empty object.</div>
-							</td>
-						</tr>
-					
-						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Action.html#listen">listen</a></b>(aNotificationsToListen, fpHandler, oModule)
+								<div class="fixedFont"><b><a href="../symbols/Promise.html#then">then</a></b>(fpSuccess, fpFailure)
 								</div>
-								<div class="description">listen is the method that will add a new action to the oActions object
-and that will activate the listener.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Action.html#notify">notify</a></b>(oNotifier)
-								</div>
-								<div class="description">notify is the method that will launch the actions that are listening the notified action</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Action.html#stopListen">stopListen</a></b>(aNotificationsToStopListen, oModule)
-								</div>
-								<div class="description">stopListen removes the actions that are listening the aNotificationsToStopListen in the oModule</div>
+								<div class="description">Adds new callbacks to execute when the promise has been completed</div>
 							</td>
 						</tr>
 					
@@ -350,11 +294,11 @@ and that will activate the listener.</div>
 				</div>
 				
 				<div class="fixedFont">
-						<b>Action</b>()
+						<b>Promise</b>()
 				</div>
 				
 				<div class="description">
-					Mediator/Bus class that manages the listeners and notifications
+					Promise is a class that must/can be used to defer execution of one or some callbacks when one condition (normally some asynchronous callbacks that are depending one of other)
 					
 				</div>
 				
@@ -374,33 +318,6 @@ and that will activate the listener.</div>
 
 <!-- ============================== field details ========================== -->		
 			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name="type"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{String}</span>
-					<b>type</b>
-					
-					</div>
-					<div class="description">
-						type is a property to be able to know the class type.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					
-				
-			
 
 <!-- ============================== method details ========================= -->		
 			
@@ -408,41 +325,15 @@ and that will activate the listener.</div>
 					Method Detail
 				</div>
 				
-					<a name="__restore__"> </a>
-					<div class="fixedFont">&lt;private&gt; 
-					
-					
-					<b>__restore__</b>()
-					
-					</div>
-					<div class="description">
-						__restore__ is a private method to reset the oActions object to an empty object.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="listen"> </a>
+					<a name="then"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>listen</b>(aNotificationsToListen, fpHandler, oModule)
+					<span class="light">{Object}</span>
+					<b>then</b>(fpSuccess, fpFailure)
 					
 					</div>
 					<div class="description">
-						listen is the method that will add a new action to the oActions object
-and that will activate the listener.
+						Adds new callbacks to execute when the promise has been completed
 						
 						
 					</div>
@@ -454,19 +345,13 @@ and that will activate the listener.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Array}</span> <b>aNotificationsToListen</b>
+									<span class="light fixedFont">{Function}</span> <b>fpSuccess</b>
 									
 								</dt>
 								<dd></dd>
 							
 								<dt>
-									<span class="light fixedFont">{Function}</span> <b>fpHandler</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>oModule</b>
+									<span class="light fixedFont">{Function}</span> <b>fpFailure</b>
 									
 								</dt>
 								<dd></dd>
@@ -476,84 +361,13 @@ and that will activate the listener.
 						
 						
 						
-						
-						
-						
-
-					<hr />
-				
-					<a name="notify"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>notify</b>(oNotifier)
-					
-					</div>
-					<div class="description">
-						notify is the method that will launch the actions that are listening the notified action
-						
-						
-					</div>
-					
-					
-					
 						
 							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
+							<dt class="heading">Returns:</dt>
 							
-								<dt>
-									<b>oNotifier</b>
-									
-								</dt>
-								<dd>- Notifier.type and Notifier.data are needed</dd>
+								<dd><span class="light fixedFont">{Object}</span> Promise instance</dd>
 							
 							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="stopListen"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>stopListen</b>(aNotificationsToStopListen, oModule)
-					
-					</div>
-					<div class="description">
-						stopListen removes the actions that are listening the aNotificationsToStopListen in the oModule
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Array}</span> <b>aNotificationsToStopListen</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>oModule</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
 						
 						
 						

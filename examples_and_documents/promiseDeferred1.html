@@ -13,19 +13,19 @@
             var oPromise2 = new Hydra.promise();
             oPromise.then(function(oResult)
             {
-                alert("bien!" + oResult);
+                alert("Good!" + oResult);
             },
             function(oResult)
             {
-               alert("menos bien2!" + oResult);
+               alert("Not Good!" + oResult);
             });
             oPromise2.then(function(oResult)
             {
-                alert("222_bien!" + oResult);
+                alert("Really Good!" + oResult);
             },
             function(oResult)
             {
-               alert("222_ menos bien!" + oResult);
+               alert("Worst!" + oResult);
             });
 
             var oDeferred = new Hydra.deferred();

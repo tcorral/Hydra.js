@@ -193,11 +193,15 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Action.html">Action</a></li>
 	
+	<li><a href="../symbols/Deferred.html">Deferred</a></li>
+	
 	<li><a href="../symbols/ErrorHandler.html">ErrorHandler</a></li>
 	
 	<li><a href="../symbols/Hydra.html">Hydra</a></li>
 	
 	<li><a href="../symbols/Module.html">Module</a></li>
+	
+	<li><a href="../symbols/Promise.html">Promise</a></li>
 	
 </ul>
 <hr />
@@ -213,15 +217,13 @@ ul.inheritsList
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
-				<br />Version
-					1.0.<br />
 				
 				
 			
 				Module
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">Hydra.js</a>.
 				
 			</p>
 
@@ -242,7 +244,7 @@ ul.inheritsList
 							<div class="fixedFont">
 								<b><a href="../symbols/Module.html#constructor">Module</a></b>()
 							</div>
-							<div class="description">Module is the class that will manage the module system.</div>
+							<div class="description">Class to manage the modules.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -299,25 +301,45 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/Module.html#_delete">_delete</a></b>(sModuleId)
 								</div>
-								<div class="description">_delete is a wrapper method that will call the native delete javascript functionIt's important to test the full code.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Module.html#extend">extend</a></b>(sModuleId, fpCreator)
-								</div>
-								<div class="description">extend is the method that will be used to extend a module with new features.</div>
+								<div class="description">_delete is a wrapper method that will call the native delete javascript function
+It's important to test the full code.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;private&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Module.html#merge">merge</a></b>(oModuleBase, oModuleExtended)
+								<div class="fixedFont"><b><a href="../symbols/Module.html#_merge">_merge</a></b>(oModuleBase, oModuleExtended, bKeepParent)
 								</div>
-								<div class="description">merge is a method to merge two modules in a new one.</div>
+								<div class="description">_merge is the method that gets the base module and the extended and returns the merge of them</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Module.html#extend">extend</a></b>(sModuleId, oSecondParameter, oThirdParameter)
+								</div>
+								<div class="description">extend is the method that will be used to extend a module with new features.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Module.html#getModule">getModule</a></b>(sModuleId, bAsStart)
+								</div>
+								<div class="description">getModule returns the module with the id
+It must work only when it's executed in jstestdriver environment</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Module.html#isModuleStarted">isModuleStarted</a></b>(sModuleId)
+								</div>
+								<div class="description">Checks if module was already successfully started</div>
 							</td>
 						</tr>
 					
@@ -342,7 +364,7 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Module.html#start">start</a></b>(sModuleId, oData)
+								<div class="fixedFont"><b><a href="../symbols/Module.html#start">start</a></b>(sModuleId, oData, bSingle)
 								</div>
 								<div class="description">start is the method that will initialize the module.</div>
 							</td>
@@ -405,8 +427,8 @@ ul.inheritsList
 				</div>
 				
 				<div class="description">
-					Module is the class that will manage the module system.
-					<br /><i>Author: </i>Tomas Corral Casas.
+					Class to manage the modules.
+					
 				</div>
 				
 				
@@ -439,7 +461,7 @@ ul.inheritsList
 					<div class="description">
 						type is a property to be able to know the class type.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -467,9 +489,10 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						_delete is a wrapper method that will call the native delete javascript functionIt's important to test the full code.
+						_delete is a wrapper method that will call the native delete javascript function
+It's important to test the full code.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -495,59 +518,17 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="extend"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>extend</b>(sModuleId, fpCreator)
-					
-					</div>
-					<div class="description">
-						extend is the method that will be used to extend a module with new features.can be used to remove some features too, withou touching the original code.
-						
-						<br /><i>Author: </i>Tomas Corral Casas.
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>sModuleId</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Function}</span> <b>fpCreator</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="merge"> </a>
+					<a name="_merge"> </a>
 					<div class="fixedFont">&lt;private&gt; 
 					
-					<span class="light">{Object}</span>
-					<b>merge</b>(oModuleBase, oModuleExtended)
+					
+					<b>_merge</b>(oModuleBase, oModuleExtended, bKeepParent)
 					
 					</div>
 					<div class="description">
-						merge is a method to merge two modules in a new one.This must be called only from the extend public method.
+						_merge is the method that gets the base module and the extended and returns the merge of them
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -568,6 +549,12 @@ ul.inheritsList
 								</dt>
 								<dd></dd>
 							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>bKeepParent</b>
+									
+								</dt>
+								<dd>If we keep parent calls to be callable via __super__.</dd>
+							
 							</dl>
 						
 						
@@ -577,7 +564,143 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{Object}</span> the merged module</dd>
+								<dd>Object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="extend"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>extend</b>(sModuleId, oSecondParameter, oThirdParameter)
+					
+					</div>
+					<div class="description">
+						extend is the method that will be used to extend a module with new features.
+can be used to remove some features too, without touching the original code.
+You can extend a module and create a extended module with a different name.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>sModuleId</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function/String}</span> <b>oSecondParameter</b>
+									
+								</dt>
+								<dd>can be the name of the new module that extends the baseModule or a function if we want to extend an existent module.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>oThirdParameter</b>
+									
+								</dt>
+								<dd>[optional] this must exist only if we need to create a new module that extends the baseModule.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getModule"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getModule</b>(sModuleId, bAsStart)
+					
+					</div>
+					<div class="description">
+						getModule returns the module with the id
+It must work only when it's executed in jstestdriver environment
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>sModuleId</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>bAsStart</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isModuleStarted"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isModuleStarted</b>(sModuleId)
+					
+					</div>
+					<div class="description">
+						Checks if module was already successfully started
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>sModuleId</b>
+									
+								</dt>
+								<dd>Name of the module</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>boolean</dd>
 							
 							</dl>
 						
@@ -594,9 +717,10 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						register is the method that will add the new module to the oModules object.sModuleId will be the key where it will be stored.
+						register is the method that will add the new module to the oModules object.
+sModuleId will be the key where it will be stored.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -638,7 +762,7 @@ ul.inheritsList
 					<div class="description">
 						remove is the method that will remove the full module from the oModules object
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -668,13 +792,16 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>start</b>(sModuleId, oData)
+					<b>start</b>(sModuleId, oData, bSingle)
 					
 					</div>
 					<div class="description">
-						start is the method that will initialize the module.When start is called the module instance will be created and the init method is called.
+						start is the method that will initialize the module.
+When start is called the module instance will be created and the init method is called.
+If bSingle is true and the module is started the module will be stopped before instance it again.
+  This avoid execute the same listeners more than one time.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -691,6 +818,12 @@ ul.inheritsList
 							
 								<dt>
 									<span class="light fixedFont">{Object}</span> <b>oData</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>bSingle</b>
 									
 								</dt>
 								<dd></dd>
@@ -716,7 +849,7 @@ ul.inheritsList
 					<div class="description">
 						startAll is the method that will initialize all the registered modules.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -739,9 +872,10 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						stop is the method that will finish the module if it was registered and started.When stop is called the module will call the destroy method and will nullify the instance.
+						stop is the method that will finish the module if it was registered and started.
+When stop is called the module will call the destroy method and will nullify the instance.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -777,7 +911,7 @@ ul.inheritsList
 					<div class="description">
 						stopAll is the method that will finish all the registered and started modules.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -800,9 +934,11 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						test is a method that will return the module without wrapping their methods.It's called test because it was created to be able to test the modules with unit testing.
+						test is a method that will return the module without wrapping their methods.
+It's called test because it was created to be able to test the modules with unit testing.
+It must work only when it's executed in jstestdriver environment
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -845,8 +981,8 @@ ul.inheritsList
 		
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
-			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Jul 16 2011 19:06:22 GMT+0200 (CEST)
+			&copy;2012<br />
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Feb 12 2012 00:43:35 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

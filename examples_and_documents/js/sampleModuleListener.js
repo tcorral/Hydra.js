@@ -1,12 +1,16 @@
-Hydra.module.register("sampleModuleListener", function (action) {
+Hydra.module.register("sampleModuleListener", function () {
 	return {
 		sModule: 'BaseSample',
-		init: function (oData) {
+		aListeningEvents:['linkClicked'],
+		oEventsCallbacks:{
+			'linkClicked':function () {
+				alert('Link clicked');
+			}
+		},
+		init: function () {
 			alert("Listener Module started");
-			
+
 			this.createLinkAndAddEvent();
-			
-			action.listen(['linkClicked'], this.handleAction, this);
 		},
 		createLinkAndAddEvent: function()
 		{
@@ -17,14 +21,6 @@ Hydra.module.register("sampleModuleListener", function (action) {
 				Hydra.module.start('sampleModuleNotifier');
 			});
 			document.body.appendChild(oLink);
-		},
-		handleAction: function (oNotifier) {
-			if(oNotifier.type !== 'linkClicked')
-			{
-				return;
-			}
-			alert('Link clicked Listener');
-		},
-		destroy: function () {}
+		}
 	};
 });

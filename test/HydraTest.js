@@ -1,11 +1,9 @@
 TestCase("HydraInitializationTest", sinon.testCase({
 	setUp: function () {},
+    tearDown: function () {},
 	"test should return an object for window.Hydra or Hydra": function () {
-		assertObject(window.Hydra);
-		assertObject(Hydra);
-	},
-	"test should return a function for action property of Hydra": function () {
-		assertFunction(Hydra.action);
+		assertFunction(window.Hydra);
+		assertFunction(Hydra);
 	},
 	"test should return a function for action property of Hydra": function () {
 		assertFunction(Hydra.action);
@@ -19,25 +17,25 @@ TestCase("HydraInitializationTest", sinon.testCase({
 	"test should return a Module object for module property of Hydra": function () {
 		assertObject(Hydra.module);
 		assertEquals("Module", Hydra.module.type);
-	},
-	tearDown: function () {}
+	}
 }));
 
 TestCase("HydraActionTest", sinon.testCase({
 	setUp: function () {},
+    tearDown: function () {},
 	"test should return the Action Class": function () {
-		var oResult = null;
+		var oResult;
 		oResult = Hydra.action();
 
 		assertEquals("Action", oResult.type);
-	},
-	tearDown: function () {}
+	}
 }));
 
 TestCase("HydraErrorHandlerTest", sinon.testCase({
 	setUp: function () {},
+    tearDown: function () {},
 	"test should return the ErrorHandler Class": function () {
-		var oResult = null;
+		var oResult;
 
 		oResult = Hydra.errorHandler();
 
@@ -50,8 +48,7 @@ TestCase("HydraErrorHandlerTest", sinon.testCase({
 		oInstance = new (oClass);
 
 		assertInstanceOf(oClass, oInstance);
-	},
-	tearDown: function () {}
+	}
 }));
 
 TestCase("HydraSetErrorHandlerTest", sinon.testCase({
@@ -62,6 +59,9 @@ TestCase("HydraSetErrorHandlerTest", sinon.testCase({
 
 		Hydra.setErrorHandler(FakeClass);
 	},
+    tearDown: function () {
+        Hydra.setErrorHandler(this.ErrorHandler);
+    },
 	"test should change the ErrorHandler Class to a Fake Class": function () {
 		var oResult = null;
 
@@ -77,9 +77,6 @@ TestCase("HydraSetErrorHandlerTest", sinon.testCase({
 		oInstance = new (oClass);
 
 		assertInstanceOf(oClass, oInstance);
-	},
-	tearDown: function () {
-		Hydra.setErrorHandler(this.ErrorHandler);
 	}
 }));
 
@@ -100,6 +97,9 @@ TestCase("HydraModuleRegisterTest", sinon.testCase({
 			}
 		};
 	},
+    tearDown: function () {
+        Hydra.module.remove(this.sModuleId);
+    },
 	"test should throw an error if we try to create a module without register if the ErrorHandler Class": function () {
 		var self = this;
 		assertException(function()
@@ -114,9 +114,6 @@ TestCase("HydraModuleRegisterTest", sinon.testCase({
 		Hydra.module.test(this.sModuleId, function (oModule) {
 			assertObject(oModule);
 		});
-	},
-	tearDown: function () {
-		Hydra.module.remove(this.sModuleId);
 	}
 }));
 
@@ -139,6 +136,9 @@ TestCase("HydraModuleRemoveTest", sinon.testCase({
 
 		sinon.spy(Hydra.module, "_delete");
 	},
+    tearDown: function () {
+        Hydra.module._delete.restore();
+    },
 	"test should not call the delete native if the module is not registered before remove it": function () {
 		Hydra.module.remove(this.sModuleId);
 
@@ -150,9 +150,6 @@ TestCase("HydraModuleRemoveTest", sinon.testCase({
 		Hydra.module.remove(this.sModuleId);
 
 		assertTrue(Hydra.module._delete.calledOnce);
-	},
-	tearDown: function () {
-		Hydra.module._delete.restore();
 	}
 }));
 
@@ -176,13 +173,13 @@ TestCase("HydraModuleStartTest", sinon.testCase({
 		};
 		Hydra.module.register(this.sModuleId, this.fpModuleCreator);
 	},
+    tearDown: function () {
+        Hydra.module.remove(this.sModuleId);
+    },
 	"test should call the init method of the module if the module is registered before start": function () {
 		Hydra.module.start(this.sModuleId);
 
 		assertTrue(this.fpInitStub.calledOnce);
-	},
-	tearDown: function () {
-		Hydra.module.remove(this.sModuleId);
 	}
 }));
 
@@ -208,51 +205,45 @@ TestCase("HydraModuleStartAllTest", sinon.testCase({
 		Hydra.module.register(this.sModuleId, this.fpModuleCreator);
 		Hydra.module.register(this.sModuleId2, this.fpModuleCreator);
 	},
+    tearDown: function () {
+        Hydra.module.remove(this.sModuleId);
+    },
 	"test should call the init method of the two registered modules": function () {
 		Hydra.module.startAll();
 
 		assertTrue(this.fpInitStub.calledTwice);
-	},
-	tearDown: function () {
-		Hydra.module.remove(this.sModuleId);
 	}
 }));
 
 TestCase("HydraModuleStopTest", sinon.testCase({
 	setUp: function () {
-		var self = this;
 		this.sModuleId = 'test';
 		this.oModule = null;
-		this.fpDestroyStub = sinon.stub();
-		this.fpModuleCreator = function (oAction) {
-			return {
-				init: function () {
-
-				},
-				handleAction: function () {
-
-				},
-				destroy: function () {
-					self.fpDestroyStub();
-				}
-			}
-		};
-		Hydra.module.register(this.sModuleId, this.fpModuleCreator);
+		Hydra.module.register(this.sModuleId, function()
+        {
+            return {
+                init: function () {}
+            }
+        });
+        this.oModule = Hydra.module.getModule(this.sModuleId);
+        this.fpDestroyStub = sinon.stub(this.oModule.instance, 'destroy');
 	},
+    tearDown: function () {
+        Hydra.module.remove(this.sModuleId);
+    },
 	"test should not call the destroy method if the module is registered but not started": function () {
+        //Simulate no started
+        Hydra.module.remove(this.sModuleId);
+
 		Hydra.module.stop(this.sModuleId);
 
 		assertEquals(0, this.fpDestroyStub.callCount);
 	},
 	"test should call the destroy method one time if the module is registered and started": function () {
-		Hydra.module.start(this.sModuleId);
 
 		Hydra.module.stop(this.sModuleId);
 
 		assertTrue(this.fpDestroyStub.calledOnce);
-	},
-	tearDown: function () {
-		Hydra.module.remove(this.sModuleId);
 	}
 }));
 
@@ -261,31 +252,33 @@ TestCase("HydraModuleStopAllTest", sinon.testCase({
 		var self = this;
 		this.sModuleId = 'test';
 		this.sModuleId2 = 'test2';
-		this.fpDestroyStub = sinon.stub();
-		this.fpModuleCreator = function (oAction) {
-			return {
-				init: function () {
+		Hydra.module.register(this.sModuleId, function()
+        {
+            return {
+                init: function () {}
+            }
+        });
+		Hydra.module.register(this.sModuleId2, function()
+        {
+            return {
+                init: function () {}
+            }
+        });
 
-				},
-				handleAction: function () {
+        this.oModule1 = Hydra.module.getModule(this.sModuleId);
+        this.fpDestroyStub1 = sinon.stub(this.oModule1.instance, 'destroy');
 
-				},
-				destroy: function () {
-					self.fpDestroyStub();
-				}
-			}
-		};
-		Hydra.module.register(this.sModuleId, this.fpModuleCreator);
-		Hydra.module.register(this.sModuleId2, this.fpModuleCreator);
-		Hydra.module.startAll();
+        this.oModule2 = Hydra.module.getModule(this.sModuleId2);
+        this.fpDestroyStub2 = sinon.stub(this.oModule2.instance, 'destroy');
 	},
+    tearDown: function () {
+        Hydra.module.remove(this.sModuleId);
+    },
 	"test should call the destroy method of the two registered modules": function () {
 		Hydra.module.stopAll();
 
-		assertTrue(this.fpDestroyStub.calledTwice);
-	},
-	tearDown: function () {
-		Hydra.module.remove(this.sModuleId);
+        assertTrue(this.fpDestroyStub1.calledOnce);
+        assertTrue(this.fpDestroyStub2.calledOnce);
 	}
 }));
 
@@ -324,6 +317,10 @@ TestCase("HydraModuleSimpleExtendTest", sinon.testCase({
 		Hydra.module.register(this.sModuleId, this.fpModuleCreator);
 		sinon.spy(Hydra.module, "_merge");
 	},
+    tearDown: function () {
+        Hydra.module.remove(this.sModuleId);
+        Hydra.module._merge.restore();
+    },
 	"test should call the merge method one time": function () {
 		Hydra.module.extend(this.sModuleId, this.fpModuleExtendedCreator);
 
@@ -342,10 +339,6 @@ TestCase("HydraModuleSimpleExtendTest", sinon.testCase({
 		Hydra.module.start(this.sModuleId);
 
 		assertEquals(0, this.fpDestroyStub.callCount);
-	},
-	tearDown: function () {
-		Hydra.module.remove(this.sModuleId);
-		Hydra.module._merge.restore();
 	}
 }));
 
@@ -385,6 +378,11 @@ TestCase("HydraModuleComplexExtendTest", sinon.testCase({
 		Hydra.module.register(this.sModuleId, this.fpModuleCreator);
 		sinon.spy(Hydra.module, "_merge");
 	},
+    tearDown: function () {
+        Hydra.module.remove(this.sModuleId);
+        Hydra.module.remove(this.sExtendedModuleId);
+        Hydra.module._merge.restore();
+    },
 	"test should call the merge method one time": function () {
 		Hydra.module.extend(this.sModuleId, this.sExtendedModuleId, this.fpModuleExtendedCreator);
 
@@ -403,11 +401,6 @@ TestCase("HydraModuleComplexExtendTest", sinon.testCase({
 		Hydra.module.start(this.sExtendedModuleId);
 
 		assertEquals(0, this.fpDestroyStub.callCount);
-	},
-	tearDown: function () {
-		Hydra.module.remove(this.sModuleId);
-		Hydra.module.remove(this.sExtendedModuleId);
-		Hydra.module._merge.restore();
 	}
 }));
 
@@ -432,13 +425,13 @@ TestCase("HydraModuleTestTest", sinon.testCase({
 		};
 		Hydra.module.register(this.sModuleId, this.fpModuleCreator);
 	},
+    tearDown: function () {
+        Hydra.module.remove(this.sModuleId);
+    },
 	"test should call the callback": function () {
 		Hydra.module.test(this.sModuleId, this.fpCallback);
 
 		assertTrue(this.fpCallback.calledOnce);
-	},
-	tearDown: function () {
-		Hydra.module.remove(this.sModuleId);
 	}
 }));
 
@@ -450,6 +443,7 @@ TestCase("HydraErrorHandlerCreateDomTest", sinon.testCase({
 		this.nDivs = document.body.getElementsByTagName("div").length;
 		this.nLists = document.body.getElementsByTagName("ul").length;
 	},
+    tearDown: function () {},
 	"test should return null for list before create_dom": function () {
 		assertNull(Hydra.errorHandler().list);
 	},
@@ -504,8 +498,6 @@ TestCase("HydraErrorHandlerCreateDomTest", sinon.testCase({
 		oDiv = aDivs[aDivs.length-1];
 
 		assertEquals("100%", oDiv.style.width);
-	},
-	tearDown: function () {
 	}
 }));
 
@@ -518,6 +510,7 @@ TestCase("HydraErrorHandlerAddItemTest", sinon.testCase({
 		this.nLists = document.body.getElementsByTagName("ul").length;
 		Hydra.errorHandler().create_dom();
 	},
+    tearDown: function () {},
 	"test should return 0 for li items in the list if addItem is not called": function () {
 		var oList = Hydra.errorHandler().list;
 		var aLiItems = [];
@@ -556,8 +549,6 @@ TestCase("HydraErrorHandlerAddItemTest", sinon.testCase({
 		aLiItems = Hydra.errorHandler().list.getElementsByTagName("li");
 
 		assertEquals(2, aLiItems.length);
-	},
-	tearDown: function () {
 	}
 }));
 
@@ -583,6 +574,19 @@ TestCase("HydraErrorHandlerLogTest", sinon.testCase({
 			message: 'testmessage'
 		};
 	},
+    tearDown: function () {
+        Hydra.module.remove(this.sModuleId);
+        window.console = this.oConsole;
+        Hydra.errorHandler().log = Hydra.errorHandler().__old_log__;
+        if(typeof Hydra.errorHandler().create_dom.restore !== "undefined")
+        {
+            Hydra.errorHandler().create_dom.restore();
+        }
+        if(typeof Hydra.errorHandler().addItem.restore !== "undefined")
+        {
+            Hydra.errorHandler().addItem.restore();
+        }
+    },
 	"test should call the create_dom one time if window.console is undefined": function () {
 		Hydra.errorHandler().list = null;
 
@@ -596,19 +600,6 @@ TestCase("HydraErrorHandlerLogTest", sinon.testCase({
 		Hydra.errorHandler().log(this.sModuleId, this.sMethod, this.erError, false);
 
 		assertTrue(Hydra.errorHandler().addItem.calledOnce);
-	},
-	tearDown: function () {
-		Hydra.module.remove(this.sModuleId);
-		window.console = this.oConsole;
-		Hydra.errorHandler().log = Hydra.errorHandler().__old_log__;
-		if(typeof Hydra.errorHandler().create_dom.restore !== "undefined")
-		{
-			Hydra.errorHandler().create_dom.restore();
-		}
-		if(typeof Hydra.errorHandler().addItem.restore !== "undefined")
-		{
-			Hydra.errorHandler().addItem.restore();
-		}
 	}
 }));
 
@@ -625,6 +616,9 @@ TestCase("HydraActionListenTest", sinon.testCase({
 		this.oAction = new Hydra.action();
 		this.oAction.__restore__();
 	},
+    tearDown: function () {
+        this.oAction.__restore__();
+    },
 	"test should not call fpHandler if notify is launched before set the listeners": function () {
 		this.oAction.notify([this.sListener], {type: this.sListener});
 
@@ -636,9 +630,6 @@ TestCase("HydraActionListenTest", sinon.testCase({
 		this.oAction.notify({type: this.sListener});
 
 		assertEquals(1, this.fpHandler.callCount);
-	},
-	tearDown: function () {
-		this.oAction.__restore__();
 	}
 }));
 
@@ -672,6 +663,9 @@ TestCase("HydraActionNotifyTest", sinon.testCase({
 		this.oAction.__restore__();
 		this.oAction.listen([this.sListener], this.fpHandler, this.oModule);
 	},
+    tearDown: function () {
+        this.oAction.__restore__();
+    },
 	"test should not call the fpListen callback if the action called is test2": function () {
 		this.oAction.notify(this.oOtherNotifier);
 
@@ -681,9 +675,6 @@ TestCase("HydraActionNotifyTest", sinon.testCase({
 		this.oAction.notify(this.oNotifier);
 
 		assertTrue(this.fpListen.calledOnce);
-	},
-	tearDown: function () {
-		this.oAction.__restore__();
 	}
 }));
 
@@ -715,6 +706,9 @@ TestCase("HydraActionStopListenTest", sinon.testCase({
 		this.oAction.__restore__();
 		this.oAction.listen([this.sListener], this.fpHandler, this.oModule);
 	},
+    tearDown: function () {
+        this.oAction.__restore__();
+    },
 	"test should call the fpListen callback if the action called is test if not stopListen": function () {
 		this.oAction.notify(this.oNotifier);
 
@@ -726,9 +720,6 @@ TestCase("HydraActionStopListenTest", sinon.testCase({
 		this.oAction.notify(this.oNotifier);
 
 		assertEquals(0, this.fpListen.callCount);
-	},
-	tearDown: function () {
-		this.oAction.__restore__();
 	}
 }));
 
@@ -736,6 +727,7 @@ TestCase("HydraPromiseConstructorTest", sinon.testCase({
 	setUp: function () {
         this.oPromise = new Hydra.promise();
 	},
+    tearDown: function () {},
 	"test should return an empty array for aPending property by default": function ()
     {
         assertArray(this.oPromise.aPending);
@@ -762,10 +754,7 @@ TestCase("HydraPromiseConstructorTest", sinon.testCase({
     "test should return function for reject property by default": function()
     {
         assertFunction(this.oPromise.resolve);
-    },
-	tearDown: function () {
-
-	}
+    }
 }));
 
 TestCase("HydraPromiseResolveTest", sinon.testCase({
@@ -774,6 +763,10 @@ TestCase("HydraPromiseResolveTest", sinon.testCase({
         sinon.stub(this.oPromise.oAction, "notify");
         this.oResult = 'test';
 	},
+    tearDown: function ()
+    {
+        this.oPromise.oAction.notify.restore();
+    },
 	"test should change bCompleted to true": function ()
     {
         this.oPromise.resolve(this.oResult);
@@ -797,11 +790,7 @@ TestCase("HydraPromiseResolveTest", sinon.testCase({
         this.oPromise.resolve(this.oResult);
 
         assertEquals(1, this.oPromise.oAction.notify.callCount);
-    },
-	tearDown: function ()
-    {
-        this.oPromise.oAction.notify.restore();
-	}
+    }
 }));
 
 TestCase("HydraPromiseRejectTest", sinon.testCase({
@@ -810,6 +799,9 @@ TestCase("HydraPromiseRejectTest", sinon.testCase({
         sinon.stub(this.oPromise.oAction, "notify");
         this.oResult = 'test';
 	},
+    tearDown: function () {
+        this.oPromise.oAction.notify.restore();
+    },
 	"test should change bCompleted to true": function ()
     {
         this.oPromise.reject(this.oResult);
@@ -833,10 +825,7 @@ TestCase("HydraPromiseRejectTest", sinon.testCase({
         this.oPromise.reject(this.oResult);
 
         assertEquals(1, this.oPromise.oAction.notify.callCount);
-    },
-	tearDown: function () {
-        this.oPromise.oAction.notify.restore();
-	}
+    }
 }));
 
 TestCase("HydraPromiseThenTest", sinon.testCase({
@@ -846,6 +835,9 @@ TestCase("HydraPromiseThenTest", sinon.testCase({
         this.fpOnSuccess = function(){};
         this.fpOnError = function(){};
 	},
+    tearDown: function () {
+        this.oPromise.aPending.push.restore();
+    },
 	"test should call push method of aPending one time": function () {
         this.oPromise.then(this.fpOnSuccess, this.fpOnError);
         assertEquals(1, this.oPromise.aPending.push.callCount);
@@ -863,10 +855,7 @@ TestCase("HydraPromiseThenTest", sinon.testCase({
     {
         this.oPromise.then(this.fpOnSuccess, this.fpOnError);
         assertSame(this.fpOnError, this.oPromise.aPending[0].reject);
-    },
-	tearDown: function () {
-        this.oPromise.aPending.push.restore();
-	}
+    }
 }));
 
 TestCase("HydraDeferredConstructorTest", sinon.testCase({
@@ -876,6 +865,10 @@ TestCase("HydraDeferredConstructorTest", sinon.testCase({
         sinon.stub(Hydra, "action").returns(this.oAction);
         this.oDeferred = new Hydra.deferred();
 	},
+    tearDown: function () {
+        this.oAction.listen.restore();
+        Hydra.action.restore();
+    },
 	"test should return empty array for aPromises by default": function () {
         assertArray(this.oDeferred.aPromises);
         assertEquals(0, this.oDeferred.aPromises.length);
@@ -909,11 +902,7 @@ TestCase("HydraDeferredConstructorTest", sinon.testCase({
     "test should call the listen with the third argument is the same Deferred object": function()
     {
         assertSame(this.oDeferred, this.oAction.listen.getCall(0).args[2]);
-    },
-	tearDown: function () {
-        this.oAction.listen.restore();
-        Hydra.action.restore();
-	}
+    }
 }));
 
 TestCase("HydraDeferredAddTest", sinon.testCase({
@@ -924,6 +913,10 @@ TestCase("HydraDeferredAddTest", sinon.testCase({
         this.oDeferred = new Hydra.deferred();
         this.oPromise = new Hydra.promise();
 	},
+    tearDown: function () {
+        this.oAction.listen.restore();
+        Hydra.action.restore();
+    },
 	"test should add a new Promise element to aPromises": function () {
         this.oDeferred.add(this.oPromise);
 
@@ -933,10 +926,6 @@ TestCase("HydraDeferredAddTest", sinon.testCase({
         var oDeferred = this.oDeferred.add(this.oPromise);
 
         assertSame(this.oDeferred, oDeferred);
-	},
-	tearDown: function () {
-        this.oAction.listen.restore();
-        Hydra.action.restore();
 	}
 }));
 
@@ -950,6 +939,12 @@ TestCase("HydraDeferredCheckCompletedTest", sinon.testCase({
         sinon.stub(this.oDeferred, "complete");
         sinon.stub(this.oDeferred, "getType");
 	},
+    tearDown: function () {
+        this.oAction.listen.restore();
+        Hydra.action.restore();
+        this.oDeferred.complete.restore();
+        this.oDeferred.getType.restore();
+    },
 	"test should return false if oPromise is not completed": function () {
         this.oDeferred.add(this.oPromise);
         var bResult = this.oDeferred.checkCompleted();
@@ -970,13 +965,7 @@ TestCase("HydraDeferredCheckCompletedTest", sinon.testCase({
         this.oDeferred.checkCompleted();
 
         assertEquals(1, this.oDeferred.complete.callCount);
-    },
-	tearDown: function () {
-        this.oAction.listen.restore();
-        Hydra.action.restore();
-        this.oDeferred.complete.restore();
-        this.oDeferred.getType.restore();
-	}
+    }
 }));
 
 TestCase("HydraDeferredGetTypeTest", sinon.testCase({
@@ -991,6 +980,13 @@ TestCase("HydraDeferredGetTypeTest", sinon.testCase({
         sinon.spy(Array.prototype, "join");
         sinon.spy(String.prototype, "replace");
 	},
+    tearDown: function () {
+        Array.prototype.push.restore();
+        Array.prototype.join.restore();
+        String.prototype.replace.restore();
+        this.oAction.listen.restore();
+        Hydra.action.restore();
+    },
 	"test should not call push if oPromise is not completed": function () {
         this.oDeferred.getType();
 
@@ -1001,7 +997,7 @@ TestCase("HydraDeferredGetTypeTest", sinon.testCase({
         this.oPromise.bCompleted = true;
 
         this.oDeferred.getType();
-        
+
         assertEquals(1, Array.prototype.push.callCount);
     },
     "test should return an empty string if nothing exist or is not completed": function()
@@ -1017,14 +1013,7 @@ TestCase("HydraDeferredGetTypeTest", sinon.testCase({
 
         assertEquals(1, Array.prototype.join.callCount);
         assertEquals(1, String.prototype.replace.callCount);
-    },
-	tearDown: function () {
-        Array.prototype.push.restore();
-        Array.prototype.join.restore();
-        String.prototype.replace.restore();
-        this.oAction.listen.restore();
-        Hydra.action.restore();
-	}
+    }
 }));
 
 TestCase("HydraDeferredCompleteTest", sinon.testCase({
@@ -1036,6 +1025,11 @@ TestCase("HydraDeferredCompleteTest", sinon.testCase({
         this.oPromise = new Hydra.promise();
         sinon.spy(Array.prototype, "shift");
 	},
+    tearDown: function () {
+        Array.prototype.shift.restore();
+        this.oAction.listen.restore();
+        Hydra.action.restore();
+    },
     "test should return false if sType is an empty string": function()
     {
         var bResult = this.oDeferred.complete("");
@@ -1064,7 +1058,6 @@ TestCase("HydraDeferredCompleteTest", sinon.testCase({
 
         assertEquals(1, Array.prototype.shift.callCount);
     },
-
     "test should call shift two times if oPromise has aPending actions and also Deferred object": function()
     {
         this.oPromise.aPending[0] = {resolve: function(){}, reject: function(){}};
@@ -1074,12 +1067,7 @@ TestCase("HydraDeferredCompleteTest", sinon.testCase({
         this.oDeferred.complete('resolve');
 
         assertEquals(2, Array.prototype.shift.callCount);
-    },
-	tearDown: function () {
-        Array.prototype.shift.restore();
-        this.oAction.listen.restore();
-        Hydra.action.restore();
-	}
+    }
 }));
 
 TestCase("HydraDeferredThenTest", sinon.testCase({
@@ -1093,6 +1081,11 @@ TestCase("HydraDeferredThenTest", sinon.testCase({
         this.fpOnSuccess = function(){};
         this.fpOnError = function(){};
 	},
+    tearDown: function () {
+        this.oAction.listen.restore();
+        Hydra.action.restore();
+        this.oDeferred.aPending.push.restore();
+    },
 	"test should call push method of aPending one time": function () {
         this.oDeferred.then(this.fpOnSuccess, this.fpOnError);
         assertEquals(1, this.oDeferred.aPending.push.callCount);
@@ -1104,17 +1097,12 @@ TestCase("HydraDeferredThenTest", sinon.testCase({
     "test should return fpOnSuccess on first item in aPending with key resolve": function()
     {
         this.oDeferred.then(this.fpOnSuccess, this.fpOnError);
-        
+
         assertSame(this.fpOnSuccess, this.oDeferred.aPending[0].resolve);
     },
     "test should return fpOnError on first item in aPending with key reject": function()
     {
         this.oDeferred.then(this.fpOnSuccess, this.fpOnError);
         assertSame(this.fpOnError, this.oDeferred.aPending[0].reject);
-    },
-	tearDown: function () {
-        this.oAction.listen.restore();
-        Hydra.action.restore();
-        this.oDeferred.aPending.push.restore();
-	}
+    }
 }));

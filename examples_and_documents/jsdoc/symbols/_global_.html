@@ -193,11 +193,15 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Action.html">Action</a></li>
 	
+	<li><a href="../symbols/Deferred.html">Deferred</a></li>
+	
 	<li><a href="../symbols/ErrorHandler.html">ErrorHandler</a></li>
 	
 	<li><a href="../symbols/Hydra.html">Hydra</a></li>
 	
 	<li><a href="../symbols/Module.html">Module</a></li>
+	
+	<li><a href="../symbols/Promise.html">Promise</a></li>
 	
 </ul>
 <hr />
@@ -239,22 +243,12 @@ ul.inheritsList
 					<tbody>
 					
 						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
+							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/_global_.html#bDebug">bDebug</a></b>
+								<b><a href="../symbols/_global_.html#oActions">oActions</a></b>
 								</div>
-								<div class="description">bDebug is a flag to wrap the module methods to avoid cascade failing.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/_global_.html#oModules">oModules</a></b>
-								</div>
-								<div class="description">oModules is an object where the modules will be saved.</div>
+								<div class="description">oActions is the property that will save the actions to be listened</div>
 							</td>
 						</tr>
 					
@@ -282,63 +276,9 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;private&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/_global_.html#createInstance">createInstance</a></b>(sModuleId)
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#When">When</a></b>()
 								</div>
-								<div class="description">createInstance is the method that will create the module instance and wrap the method if needed.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/_global_.html#getAction">getAction</a></b>()
-								</div>
-								<div class="description">getAction is a method to gain access to the private Action constructor.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/_global_.html#getErrorHandler">getErrorHandler</a></b>()
-								</div>
-								<div class="description">getErrorHandler is a method to gain access to the private ErrorHandler constructor.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/_global_.html#isFunction">isFunction</a></b>(fpCallback)
-								</div>
-								<div class="description">isFunction is a method to know if the object passed as parameter is a Function object.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/_global_.html#setDebug">setDebug</a></b>(_bDebug)
-								</div>
-								<div class="description">setDebug is a method to set the bDebug flag.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/_global_.html#setErrorHandler">setErrorHandler</a></b>(oErrorHandler)
-								</div>
-								<div class="description">setErrorHandler is a method to set the ErrorHandler to a new object to add more logging logic.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/_global_.html#wrapMethod">wrapMethod</a></b>(oInstance, sName, sModuleId, fpMethod)
-								</div>
-								<div class="description">wrapMethod is a method to wrap the original method to avoid failing code.</div>
+								<div class="description">Sugar function to create a new Deferred object.</div>
 							</td>
 						</tr>
 					
@@ -360,45 +300,20 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
-					<a name="bDebug"> </a>
-					<div class="fixedFont">&lt;private&gt; 
-					
-					<span class="light">{Boolean}</span>
-					<b>bDebug</b>
-					
-					</div>
-					<div class="description">
-						bDebug is a flag to wrap the module methods to avoid cascade failing.true: The code will fail.false: The code will log errors.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
-						
-						<br /><i>Author: </i>Tomas Corral Casas.
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="oModules"> </a>
-					<div class="fixedFont">&lt;private&gt; 
+					<a name="oActions"> </a>
+					<div class="fixedFont">
 					
 					<span class="light">{Object}</span>
-					<b>oModules</b>
+					<b>oActions</b>
 					
 					</div>
 					<div class="description">
-						oModules is an object where the modules will be saved.Empty object declared by default.
+						oActions is the property that will save the actions to be listened
 						
 							<br />
-							<i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
+							<i>Defined in: </i> <a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">Hydra.js</a>.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
@@ -418,293 +333,26 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="createInstance"> </a>
-					<div class="fixedFont">&lt;private&gt; 
-					
-					<span class="light">{Object}</span>
-					<b>createInstance</b>(sModuleId)
-					
-					</div>
-					<div class="description">
-						createInstance is the method that will create the module instance and wrap the method if needed.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
-						
-						<br /><i>Author: </i>Tomas Corral Casas.
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>sModuleId</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Object}</span> Module instance</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getAction"> </a>
+					<a name="When"> </a>
 					<div class="fixedFont">&lt;private&gt; 
 					
 					
-					<b>getAction</b>()
+					<b>When</b>()
 					
 					</div>
 					<div class="description">
-						getAction is a method to gain access to the private Action constructor.
+						Sugar function to create a new Deferred object.
+When expects Promise objects to be added to the Deferred object [Promise1, Promise2,...PromiseN]
+If one of the arguments is not a Promise When assume that we want to complete the Deferred object
 						
 							<br />
-							<i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
+							<i>Defined in: </i> <a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">Hydra.js</a>.
 						
-						<br /><i>Author: </i>Tomas Corral Casas.
+						
 					</div>
 					
 					
 					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>Action class</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getErrorHandler"> </a>
-					<div class="fixedFont">&lt;private&gt; 
-					
-					
-					<b>getErrorHandler</b>()
-					
-					</div>
-					<div class="description">
-						getErrorHandler is a method to gain access to the private ErrorHandler constructor.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
-						
-						<br /><i>Author: </i>Tomas Corral Casas.
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>ErrorHandler class</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="isFunction"> </a>
-					<div class="fixedFont">&lt;private&gt; 
-					
-					
-					<b>isFunction</b>(fpCallback)
-					
-					</div>
-					<div class="description">
-						isFunction is a method to know if the object passed as parameter is a Function object.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
-						
-						<br /><i>Author: </i>Tomas Corral Casas.
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>fpCallback</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>Boolean</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="setDebug"> </a>
-					<div class="fixedFont">&lt;private&gt; 
-					
-					
-					<b>setDebug</b>(_bDebug)
-					
-					</div>
-					<div class="description">
-						setDebug is a method to set the bDebug flag.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
-						
-						<br /><i>Author: </i>Tomas Corral Casas.
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Boolean}</span> <b>_bDebug</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="setErrorHandler"> </a>
-					<div class="fixedFont">&lt;private&gt; 
-					
-					
-					<b>setErrorHandler</b>(oErrorHandler)
-					
-					</div>
-					<div class="description">
-						setErrorHandler is a method to set the ErrorHandler to a new object to add more logging logic.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
-						
-						<br /><i>Author: </i>Tomas Corral Casas.
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>oErrorHandler</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="wrapMethod"> </a>
-					<div class="fixedFont">&lt;private&gt; 
-					
-					
-					<b>wrapMethod</b>(oInstance, sName, sModuleId, fpMethod)
-					
-					</div>
-					<div class="description">
-						wrapMethod is a method to wrap the original method to avoid failing code.This will be only called if bDebug flag is setted to false.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/app_Hydra_Hydra.js.html">Hydra.js</a>.
-						
-						<br /><i>Author: </i>Tomas Corral Casas.
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>oInstance</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>sName</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>sModuleId</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<span class="light fixedFont">{Function}</span> <b>fpMethod</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
 						
 						
 						
@@ -726,8 +374,8 @@ ul.inheritsList
 		
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
-			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Jul 16 2011 19:06:22 GMT+0200 (CEST)
+			&copy;2012<br />
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Feb 12 2012 00:43:35 GMT+0100 (CET)
 		</div>
 	</body>
 </html>

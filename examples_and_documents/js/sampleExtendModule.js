@@ -1,27 +1,18 @@
-Hydra.module.extend("sample", function(oAction)
-{
+Hydra.module.extend("single", function (action) {
 	return {
-		sModule: 'ExtendedPepe',
-		init: function(oData)
-		{
-			alert("SampleExtended");
-			oAction.listen(["alert"], this.handleAction, this);
-			
-			oAction.notify({
-				type: 'alert',
-				data: ++nIndex
-			});
-		},
-		handleAction: function(oAction)
-		{
-			switch(oAction.type)
-			{
-				case "alert": 
-					alert(oAction.data);
-					break;
-				default: break;
+		sModule:'ExtendedModule',
+		aListeningEvents:['alert'],
+		oEventsCallbacks:{
+			'alert':function () {
+				alert("Single extended module started");
 			}
 		},
-		destroy: function(){}
+		init:function () {
+			alert("Sample Module Extended");
+			action.notify({
+				type:'alert',
+				data: null
+			});
+		}
 	};
 });

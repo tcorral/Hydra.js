@@ -1,0 +1,955 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">win</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">doc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ns</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="WHIT">	</span><span class="STRN">'use strict'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oConsole</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">reResolve</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">_false_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">_true_</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sVersion</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Hydra</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bDebug</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ErrorHandler</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Module</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Action</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oActions</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Deferred</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">When</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  4</span> 
+<span class='line'>  5</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ns</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">		</span><span class="NAME">ns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">win</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="WHIT">	</span><span class="COMM">/*
+<span class='line'> 10</span> 	 * Variables to reduce size
+<span class='line'> 11</span> 	 */</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">	</span><span class="NAME">_null_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">	</span><span class="NAME">_false_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="WHIT">	</span><span class="NAME">_true_</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">	</span><span class="COMM">/*
+<span class='line'> 16</span> 	 * End Variables to reduce size
+<span class='line'> 17</span> 	 */</span><span class="WHIT">
+<span class='line'> 18</span> 
+<span class='line'> 19</span> </span><span class="WHIT">	</span><span class="NAME">oModules</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">	</span><span class="NAME">oConsole</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">win.console</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">	</span><span class="NAME">reResolve</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="REGX">/resolve/g</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">	</span><span class="NAME">sVersion</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"1.3.0"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="NAME">bDebug</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_false_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 26</span> 	 * oActions is the property that will save the actions to be listened
+<span class='line'> 27</span> 	 * @type Object
+<span class='line'> 28</span> 	 */</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">	</span><span class="NAME">oActions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> 
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 32</span> 	 * isFunction is a function to know if the object passed as parameter is a Function object.
+<span class='line'> 33</span> 	 * @private
+<span class='line'> 34</span> 	 * @param {Object} fpCallback
+<span class='line'> 35</span> 	 * @return Boolean
+<span class='line'> 36</span> 	 */</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">isFunction</span><span class="PUNC">(</span><span class="NAME">fpCallback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">toString.call</span><span class="PUNC">(</span><span class="NAME">fpCallback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"[object Function]"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 42</span> 	 * setDebug is a method to set the bDebug flag.
+<span class='line'> 43</span> 	 * @private
+<span class='line'> 44</span> 	 * @param {Boolean} _bDebug
+<span class='line'> 45</span> 	 */</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">setDebug</span><span class="PUNC">(</span><span class="NAME">_bDebug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">		</span><span class="NAME">bDebug</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_bDebug</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 51</span> 	 * slice is a function to convert objects like array to real arrays.
+<span class='line'> 52</span> 	 * @param {Object} oLikeArray
+<span class='line'> 53</span> 	 * @param {Number} nElements
+<span class='line'> 54</span> 	 * @return Array
+<span class='line'> 55</span> 	 */</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">slice</span><span class="PUNC">(</span><span class="NAME">oLikeArray</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nElements</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">slice.call</span><span class="PUNC">(</span><span class="NAME">oLikeArray</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nElements</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 59</span> 
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">ownProp</span><span class="PUNC">(</span><span class="NAME">oObj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sKey</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">oObj.hasOwnProperty</span><span class="PUNC">(</span><span class="NAME">sKey</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 65</span> 	 * wrapMethod is a method to wrap the original method to avoid failing code.
+<span class='line'> 66</span> 	 * This will be only called if bDebug flag is set to false.
+<span class='line'> 67</span> 	 * @private
+<span class='line'> 68</span> 	 * @param {Object} oInstance
+<span class='line'> 69</span> 	 * @param {String} sName
+<span class='line'> 70</span> 	 * @param {String} sModuleId
+<span class='line'> 71</span> 	 * @param {Function} fpMethod
+<span class='line'> 72</span> 	 */</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">wrapMethod</span><span class="PUNC">(</span><span class="NAME">oInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpMethod</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">		</span><span class="NAME">oInstance</span><span class="PUNC">[</span><span class="NAME">sName</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpMethod</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">slice</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">				</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">fpMethod.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">erError</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">					</span><span class="NAME">ErrorHandler.log</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">erError</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">finally</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">					</span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="NAME">sName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpMethod</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 89</span> 	 * Add common properties and methods to avoid repeating code in modules
+<span class='line'> 90</span> 	 * @param {Object} oModule
+<span class='line'> 91</span> 	 * @param {Action} oAction
+<span class='line'> 92</span> 	 */</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">addPropertiesAndMethodsToModule</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oAction</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">			</span><span class="NAME">fpInitProxy</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">		</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">creator</span><span class="PUNC">(</span><span class="NAME">oAction</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">		</span><span class="NAME">fpInitProxy</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModule.init</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">		</span><span class="NAME">oModule.__action__</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oAction</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">		</span><span class="NAME">oModule.init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">			</span><span class="NAME">oAction.listen</span><span class="PUNC">(</span><span class="NAME">this.aListeningEvents</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.handleAction</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">			</span><span class="NAME">fpInitProxy.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">		</span><span class="NAME">oModule.aListeningEvents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModule.aListeningEvents</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">		</span><span class="NAME">oModule.oEventsCallbacks</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModule.oEventsCallbacks</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">		</span><span class="NAME">oModule.handleAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oNotifier</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fpCallback</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.oEventsCallbacks</span><span class="PUNC">[</span><span class="NAME">oNotifier.type</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fpCallback</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">			</span><span class="NAME">fpCallback.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oNotifier</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">		</span><span class="NAME">oModule.onDestroy</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">		</span><span class="NAME">oModule.destroy</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">			</span><span class="NAME">this.onDestroy</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">			</span><span class="NAME">oAction.stopListen</span><span class="PUNC">(</span><span class="NAME">this.aListeningEvents</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>121</span> 	 * createInstance is the method that will create the module instance and wrap the method if needed.
+<span class='line'>122</span> 	 * @private
+<span class='line'>123</span> 	 * @param {String} sModuleId
+<span class='line'>124</span> 	 * @return {Object} Module instance
+<span class='line'>125</span> 	 */</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">createInstance</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oAction</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpMethod</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">			</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">"The module is not registered!"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">		</span><span class="NAME">oAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Action</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">		</span><span class="NAME">sName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">		</span><span class="NAME">fpMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> 
+<span class='line'>135</span> </span><span class="WHIT">		</span><span class="NAME">oInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">addPropertiesAndMethodsToModule</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oAction</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">bDebug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sName</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">oInstance</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ownProp</span><span class="PUNC">(</span><span class="NAME">oInstance</span><span class="PUNC">,</span><span class="NAME">sName</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">					</span><span class="NAME">fpMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oInstance</span><span class="PUNC">[</span><span class="NAME">sName</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">isFunction</span><span class="PUNC">(</span><span class="NAME">fpMethod</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">						</span><span class="KEYW">continue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">					</span><span class="NAME">wrapMethod</span><span class="PUNC">(</span><span class="NAME">oInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpMethod</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">		</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">oInstance</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">finally</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">			</span><span class="NAME">oAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">			</span><span class="NAME">oInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">			</span><span class="NAME">sName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">			</span><span class="NAME">fpMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>157</span> 
+<span class='line'>158</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>159</span> 	 * Class to manage the errors in modules
+<span class='line'>160</span> 	 * @constructor
+<span class='line'>161</span> 	 * @class ErrorHandler
+<span class='line'>162</span> 	 * @name ErrorHandler
+<span class='line'>163</span> 	 */</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">	</span><span class="NAME">ErrorHandler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span> 
+<span class='line'>166</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>167</span> 	 * type is a property to be able to know the class type.
+<span class='line'>168</span> 	 * @member ErrorHandler
+<span class='line'>169</span> 	 * @static
+<span class='line'>170</span> 	 * @type String
+<span class='line'>171</span> 	 */</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">	</span><span class="NAME">ErrorHandler.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'ErrorHandler'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> 
+<span class='line'>174</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>175</span> 	 * list is a property that will store the DOM object list reference.
+<span class='line'>176</span> 	 * Null by default.
+<span class='line'>177</span> 	 * @member ErrorHandler
+<span class='line'>178</span> 	 * @static
+<span class='line'>179</span> 	 * @type Object
+<span class='line'>180</span> 	 */</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">	</span><span class="NAME">ErrorHandler.list</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span> 
+<span class='line'>183</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>184</span> 	 * create_dom is the method that will create the hidden layer to log the errors
+<span class='line'>185</span> 	 * on system without console.
+<span class='line'>186</span> 	 * @member ErrorHandler
+<span class='line'>187</span> 	 * @static
+<span class='line'>188</span> 	 */</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">	</span><span class="NAME">ErrorHandler.create_dom</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oLayer</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oList</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oLayerStyle</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">		</span><span class="NAME">oLayer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">doc.createElement</span><span class="PUNC">(</span><span class="STRN">"div"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">		</span><span class="NAME">oList</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">doc.createElement</span><span class="PUNC">(</span><span class="STRN">"ul"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">		</span><span class="NAME">oLayerStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oLayer.style</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">		</span><span class="NAME">this.list</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oList</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> 
+<span class='line'>196</span> </span><span class="WHIT">		</span><span class="NAME">oLayerStyle.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'none'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">		</span><span class="NAME">oLayerStyle.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"fixed"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">		</span><span class="NAME">oLayerStyle.height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"100px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">		</span><span class="NAME">oLayerStyle.width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"100%"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">		</span><span class="NAME">oLayerStyle.bottom</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"0px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">		</span><span class="NAME">oLayer.appendChild</span><span class="PUNC">(</span><span class="NAME">oList</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">		</span><span class="NAME">doc.body.appendChild</span><span class="PUNC">(</span><span class="NAME">oLayer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>203</span> 
+<span class='line'>204</span> </span><span class="WHIT">		</span><span class="NAME">oLayer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">		</span><span class="NAME">oList</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">		</span><span class="NAME">oLayerStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> 
+<span class='line'>209</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>210</span> 	 * addItem is the method that will add a new item to the list to log the errors
+<span class='line'>211</span> 	 * on system without console.
+<span class='line'>212</span> 	 * @member ErrorHandler
+<span class='line'>213</span> 	 * @static
+<span class='line'>214</span> 	 * @param {String} sModuleId
+<span class='line'>215</span> 	 * @param {String} sMethod
+<span class='line'>216</span> 	 * @param {Error} erError
+<span class='line'>217</span> 	 */</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">	</span><span class="NAME">ErrorHandler.addItem</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sMethod</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">erError</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oItem</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">		</span><span class="NAME">oItem</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">doc.createElement</span><span class="PUNC">(</span><span class="STRN">"li"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> 
+<span class='line'>222</span> </span><span class="WHIT">		</span><span class="NAME">oItem.appendChild</span><span class="PUNC">(</span><span class="NAME">doc.createTextNode</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">sMethod</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">": "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">erError.message</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">		</span><span class="NAME">this.list.appendChild</span><span class="PUNC">(</span><span class="NAME">oItem</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span> 
+<span class='line'>225</span> </span><span class="WHIT">		</span><span class="NAME">oItem</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span> 
+<span class='line'>228</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>229</span> 	 * log is the method that will differentiate the system if they had console or not.
+<span class='line'>230</span> 	 * if window.console exist console.log will be called
+<span class='line'>231</span> 	 * if window.console not exist then the log on layer will be activated.
+<span class='line'>232</span> 	 * Lazy pattern will be used to avoid extra work on next calls.
+<span class='line'>233</span> 	 * Arguments are sent to the methods that will be applied.
+<span class='line'>234</span> 	 * @member ErrorHandler
+<span class='line'>235</span> 	 * @static
+<span class='line'>236</span> 	 */</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">	</span><span class="NAME">ErrorHandler.log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">		</span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">slice</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">concat</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> 
+<span class='line'>241</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oConsole</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">[</span><span class="NAME">aArgs.length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'boolean'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">aArgs</span><span class="PUNC">[</span><span class="NAME">aArgs.length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.list</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">				</span><span class="NAME">this.create_dom</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">			</span><span class="NAME">this.addItem.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">			</span><span class="NAME">ErrorHandler.__old_log__</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ErrorHandler.log</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">			</span><span class="NAME">this.log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">slice</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">concat</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">				</span><span class="NAME">this.addItem.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">				</span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">			</span><span class="NAME">oConsole.log.apply</span><span class="PUNC">(</span><span class="NAME">oConsole</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">			</span><span class="NAME">ErrorHandler.__old_log__</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ErrorHandler.log</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">			</span><span class="NAME">this.log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">slice</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">concat</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">				</span><span class="NAME">oConsole.log.apply</span><span class="PUNC">(</span><span class="NAME">oConsole</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">				</span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>261</span> 
+<span class='line'>262</span> </span><span class="WHIT">		</span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> 
+<span class='line'>265</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>266</span> 	 * Class to manage the modules.
+<span class='line'>267</span> 	 * @constructor
+<span class='line'>268</span> 	 * @class Module
+<span class='line'>269</span> 	 * @name Module
+<span class='line'>270</span> 	 */</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">	</span><span class="NAME">Module</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span> 
+<span class='line'>273</span> </span><span class="WHIT">	</span><span class="NAME">Module.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>275</span> 		 * type is a property to be able to know the class type.
+<span class='line'>276</span> 		 * @member Module.prototype
+<span class='line'>277</span> 		 * @type String
+<span class='line'>278</span> 		 */</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">		</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'Module'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>281</span> 		 * register is the method that will add the new module to the oModules object.
+<span class='line'>282</span> 		 * sModuleId will be the key where it will be stored.
+<span class='line'>283</span> 		 * @member Module.prototype
+<span class='line'>284</span> 		 * @param {String} sModuleId
+<span class='line'>285</span> 		 * @param {Function} fpCreator
+<span class='line'>286</span> 		 */</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">		</span><span class="NAME">register</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpCreator</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">			</span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">				</span><span class="NAME">creator</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fpCreator</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">				</span><span class="NAME">instance</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>295</span> 		 * _merge is the method that gets the base module and the extended and returns the merge of them
+<span class='line'>296</span> 		 * @private
+<span class='line'>297</span> 		 * @param {Object} oModuleBase
+<span class='line'>298</span> 		 * @param {Object} oModuleExtended
+<span class='line'>299</span> 		 * @param {Boolean} bKeepParent If we keep parent calls to be callable via __super__.
+<span class='line'>300</span> 		 * @return Object
+<span class='line'>301</span> 		 */</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">		</span><span class="NAME">_merge</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oModuleBase</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oModuleExtended</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bKeepParent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oFinalModule</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sKey</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callInSupper</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">			</span><span class="NAME">oFinalModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="WHIT">			</span><span class="NAME">callInSupper</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fpCallback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">slice</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">					</span><span class="NAME">fpCallback.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>311</span> 
+<span class='line'>312</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">bKeepParent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">				</span><span class="NAME">oFinalModule.__super__</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">				</span><span class="NAME">oFinalModule.__super__.__instance__</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModuleBase</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">				</span><span class="NAME">oFinalModule.__super__.__call__</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sKey</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">					</span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ownProp</span><span class="PUNC">(</span><span class="NAME">oObject</span><span class="PUNC">,</span><span class="NAME">sKey</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">_false_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="WHIT">						</span><span class="NAME">oObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oObject.__instance__.__super__</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">					</span><span class="NAME">oObject</span><span class="PUNC">[</span><span class="NAME">sKey</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">apply</span><span class="PUNC">(</span><span class="NAME">oFinalModule</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sKey</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">oModuleBase</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ownProp</span><span class="PUNC">(</span><span class="NAME">oModuleBase</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sKey</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sKey</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"__super__"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">						</span><span class="KEYW">continue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">					</span><span class="NAME">oFinalModule</span><span class="PUNC">[</span><span class="NAME">sKey</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModuleBase</span><span class="PUNC">[</span><span class="NAME">sKey</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>329</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>331</span> 
+<span class='line'>332</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sKey</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">oModuleExtended</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ownProp</span><span class="PUNC">(</span><span class="NAME">oModuleExtended</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sKey</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oFinalModule.__super__</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">isFunction</span><span class="PUNC">(</span><span class="NAME">oFinalModule</span><span class="PUNC">[</span><span class="NAME">sKey</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">						</span><span class="NAME">oFinalModule.__super__</span><span class="PUNC">[</span><span class="NAME">sKey</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callInSupper</span><span class="PUNC">(</span><span class="NAME">oFinalModule</span><span class="PUNC">[</span><span class="NAME">sKey</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>336</span> 
+<span class='line'>337</span> </span><span class="WHIT">						</span><span class="NAME">oFinalModule</span><span class="PUNC">[</span><span class="NAME">sKey</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModuleExtended</span><span class="PUNC">[</span><span class="NAME">sKey</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>338</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">						</span><span class="NAME">oFinalModule</span><span class="PUNC">[</span><span class="NAME">sKey</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModuleExtended</span><span class="PUNC">[</span><span class="NAME">sKey</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">			</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">oFinalModule</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">finally</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">				</span><span class="NAME">oFinalModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>347</span> </span><span class="WHIT">				</span><span class="NAME">sKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>351</span> 		 * extend is the method that will be used to extend a module with new features.
+<span class='line'>352</span> 		 * can be used to remove some features too, without touching the original code.
+<span class='line'>353</span> 		 * You can extend a module and create a extended module with a different name.
+<span class='line'>354</span> 		 * @member Module.prototype
+<span class='line'>355</span> 		 * @param {String} sModuleId
+<span class='line'>356</span> 		 * @param {Function/String} oSecondParameter can be the name of the new module that extends the baseModule or a function if we want to extend an existent module.
+<span class='line'>357</span> 		 * @param {Function} oThirdParameter [optional] this must exist only if we need to create a new module that extends the baseModule.
+<span class='line'>358</span> 		 */</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="WHIT">		</span><span class="NAME">extend</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oSecondParameter</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oThirdParameter</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sFinalModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpCreator</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oBaseModule</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oExtendedModule</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oFinalModule</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oAction</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>361</span> </span><span class="WHIT">			</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>362</span> </span><span class="WHIT">			</span><span class="NAME">sFinalModuleId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sModuleId</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>363</span> </span><span class="WHIT">			</span><span class="NAME">fpCreator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oAction</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>364</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">oAction</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>365</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>366</span> 
+<span class='line'>367</span> </span><span class="WHIT">			</span><span class="COMM">// Function "overloading".</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">			</span><span class="COMM">// If the 2nd parameter is a string,</span><span class="WHIT">
+<span class='line'>369</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">oSecondParameter</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>370</span> </span><span class="WHIT">				</span><span class="NAME">sFinalModuleId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oSecondParameter</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>371</span> </span><span class="WHIT">				</span><span class="NAME">fpCreator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oThirdParameter</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>373</span> </span><span class="WHIT">				</span><span class="NAME">fpCreator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oSecondParameter</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>374</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>378</span> </span><span class="WHIT">			</span><span class="NAME">oAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Action</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>379</span> </span><span class="WHIT">			</span><span class="NAME">oExtendedModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fpCreator</span><span class="PUNC">(</span><span class="NAME">oAction</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>380</span> </span><span class="WHIT">			</span><span class="NAME">oBaseModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModule.creator</span><span class="PUNC">(</span><span class="NAME">oAction</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">			</span><span class="COMM">// If we extend the module with the different name, we</span><span class="WHIT">
+<span class='line'>382</span> </span><span class="WHIT">			</span><span class="COMM">// create proxy class for the original methods.</span><span class="WHIT">
+<span class='line'>383</span> </span><span class="WHIT">			</span><span class="NAME">oFinalModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._merge</span><span class="PUNC">(</span><span class="NAME">oBaseModule</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oExtendedModule</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sFinalModuleId</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">			</span><span class="COMM">// This gives access to the Action instance used to listen and notify.</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">			</span><span class="NAME">oFinalModule.__action__</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oAction</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>386</span> 
+<span class='line'>387</span> </span><span class="WHIT">			</span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sFinalModuleId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="WHIT">				</span><span class="NAME">creator</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oModule</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">						</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>391</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>392</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="NAME">oFinalModule</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">				</span><span class="NAME">instance</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="WHIT">
+<span class='line'>394</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>395</span> 
+<span class='line'>396</span> </span><span class="WHIT">			</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">			</span><span class="NAME">sFinalModuleId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">			</span><span class="NAME">fpCreator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">			</span><span class="NAME">oBaseModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">			</span><span class="NAME">oExtendedModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">			</span><span class="NAME">oFinalModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">			</span><span class="NAME">oAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>405</span> 		 * test is a method that will return the module without wrapping their methods.
+<span class='line'>406</span> 		 * It's called test because it was created to be able to test the modules with unit testing.
+<span class='line'>407</span> 		 * It must work only when it's executed in jstestdriver environment
+<span class='line'>408</span> 		 * @member Module.prototype
+<span class='line'>409</span> 		 * @param {String} sModuleId
+<span class='line'>410</span> 		 * @param {Function} fpCallback
+<span class='line'>411</span> 		 */</span><span class="WHIT">
+<span class='line'>412</span> </span><span class="WHIT">		</span><span class="NAME">test</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpCallback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">jstestdriver</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">				</span><span class="NAME">setDebug</span><span class="PUNC">(</span><span class="NAME">_true_</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>416</span> </span><span class="WHIT">				</span><span class="NAME">fpCallback</span><span class="PUNC">(</span><span class="NAME">createInstance</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">				</span><span class="NAME">setDebug</span><span class="PUNC">(</span><span class="NAME">_false_</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>419</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>420</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>421</span> 		 * getModule returns the module with the id
+<span class='line'>422</span> 		 * It must work only when it's executed in jstestdriver environment
+<span class='line'>423</span> 		 * @param sModuleId
+<span class='line'>424</span> 		 */</span><span class="WHIT">
+<span class='line'>425</span> </span><span class="WHIT">		</span><span class="NAME">getModule</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bAsStart</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>426</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">jstestdriver</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>429</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>430</span> </span><span class="WHIT">				</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>431</span> </span><span class="WHIT">				</span><span class="NAME">oModule.instance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createInstance</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>432</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>433</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>434</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>435</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>437</span> 		 * start is the method that will initialize the module.
+<span class='line'>438</span> 		 * When start is called the module instance will be created and the init method is called.
+<span class='line'>439</span> 		 * If bSingle is true and the module is started the module will be stopped before instance it again.
+<span class='line'>440</span> 		 *   This avoid execute the same listeners more than one time.
+<span class='line'>441</span> 		 * @member Module.prototype
+<span class='line'>442</span> 		 * @param {String} sModuleId
+<span class='line'>443</span> 		 * @param {Object} oData
+<span class='line'>444</span> 		 * @param {Boolean} bSingle
+<span class='line'>445</span> 		 */</span><span class="WHIT">
+<span class='line'>446</span> </span><span class="WHIT">		</span><span class="NAME">start</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bSingle</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>447</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">			</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>449</span> 
+<span class='line'>450</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">bSingle</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.isModuleStarted</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">				</span><span class="NAME">this.stop</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>453</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">				</span><span class="NAME">oModule.instance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createInstance</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="WHIT">				</span><span class="NAME">oModule.instance.init</span><span class="PUNC">(</span><span class="NAME">oData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>456</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>457</span> 
+<span class='line'>458</span> </span><span class="WHIT">			</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>460</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>461</span> 		 * Checks if module was already successfully started
+<span class='line'>462</span> 		 * @member Module.prototype
+<span class='line'>463</span> 		 * @param {String}sModuleId Name of the module
+<span class='line'>464</span> 		 * @return boolean
+<span class='line'>465</span> 		 */</span><span class="WHIT">
+<span class='line'>466</span> </span><span class="WHIT">		</span><span class="NAME">isModuleStarted</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">instance</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>470</span> 		 * startAll is the method that will initialize all the registered modules.
+<span class='line'>471</span> 		 * @member Module.prototype
+<span class='line'>472</span> 		 */</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">		</span><span class="NAME">startAll</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sModuleId</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>475</span> 
+<span class='line'>476</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>477</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ownProp</span><span class="PUNC">(</span><span class="NAME">oModules</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>478</span> </span><span class="WHIT">					</span><span class="NAME">this.start</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>479</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>480</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>481</span> 
+<span class='line'>482</span> </span><span class="WHIT">			</span><span class="NAME">sModuleId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>485</span> 		 * stop is the method that will finish the module if it was registered and started.
+<span class='line'>486</span> 		 * When stop is called the module will call the destroy method and will nullify the instance.
+<span class='line'>487</span> 		 * @member Module.prototype
+<span class='line'>488</span> 		 * @param {String} sModuleId
+<span class='line'>489</span> 		 */</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="WHIT">		</span><span class="NAME">stop</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>492</span> </span><span class="WHIT">			</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>493</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">oModule.instance</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>494</span> </span><span class="WHIT">				</span><span class="NAME">oModule.instance.destroy</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">				</span><span class="NAME">oModule.instance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>496</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>497</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>498</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>499</span> 		 * stopAll is the method that will finish all the registered and started modules.
+<span class='line'>500</span> 		 * @member Module.prototype
+<span class='line'>501</span> 		 */</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">		</span><span class="NAME">stopAll</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>503</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sModuleId</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>504</span> 
+<span class='line'>505</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ownProp</span><span class="PUNC">(</span><span class="NAME">oModules</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="WHIT">					</span><span class="NAME">this.stop</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>509</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>510</span> 
+<span class='line'>511</span> </span><span class="WHIT">			</span><span class="NAME">sModuleId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>513</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>514</span> 		 * _delete is a wrapper method that will call the native delete javascript function
+<span class='line'>515</span> 		 * It's important to test the full code.
+<span class='line'>516</span> 		 * @member Module.prototype
+<span class='line'>517</span> 		 * @param {String} sModuleId
+<span class='line'>518</span> 		 */</span><span class="WHIT">
+<span class='line'>519</span> </span><span class="WHIT">		</span><span class="NAME">_delete</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>520</span> </span><span class="WHIT">			</span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>521</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>522</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>523</span> 		 * remove is the method that will remove the full module from the oModules object
+<span class='line'>524</span> 		 * @member Module.prototype
+<span class='line'>525</span> 		 * @param {String} sModuleId
+<span class='line'>526</span> 		 */</span><span class="WHIT">
+<span class='line'>527</span> </span><span class="WHIT">		</span><span class="NAME">remove</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="WHIT">			</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>530</span> 
+<span class='line'>531</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="WHIT">				</span><span class="KEYW">try</span><span class="WHIT">
+<span class='line'>533</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>534</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>535</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="KEYW">finally</span><span class="WHIT">
+<span class='line'>536</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>537</span> </span><span class="WHIT">					</span><span class="NAME">oModules</span><span class="PUNC">[</span><span class="NAME">sModuleId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>538</span> </span><span class="WHIT">					</span><span class="NAME">this._delete</span><span class="PUNC">(</span><span class="NAME">sModuleId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>539</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>540</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>541</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>542</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>543</span> 
+<span class='line'>544</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>545</span> 	 * Mediator/Bus class that manages the listeners and notifications
+<span class='line'>546</span> 	 * @constructor
+<span class='line'>547</span> 	 * @class Action
+<span class='line'>548</span> 	 * @name Action
+<span class='line'>549</span> 	 */</span><span class="WHIT">
+<span class='line'>550</span> </span><span class="WHIT">	</span><span class="NAME">Action</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>551</span> 
+<span class='line'>552</span> </span><span class="WHIT">	</span><span class="NAME">Action.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>553</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>554</span> 		 * type is a property to be able to know the class type.
+<span class='line'>555</span> 		 * @member Action.prototype
+<span class='line'>556</span> 		 * @type String
+<span class='line'>557</span> 		 */</span><span class="WHIT">
+<span class='line'>558</span> </span><span class="WHIT">		</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"Action"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>559</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>560</span> 		 * listen is the method that will add a new action to the oActions object
+<span class='line'>561</span> 		 * and that will activate the listener.
+<span class='line'>562</span> 		 * @member Action.prototype
+<span class='line'>563</span> 		 * @param {Array} aNotificationsToListen
+<span class='line'>564</span> 		 * @param {Function} fpHandler
+<span class='line'>565</span> 		 * @param {Object} oModule
+<span class='line'>566</span> 		 */</span><span class="WHIT">
+<span class='line'>567</span> </span><span class="WHIT">		</span><span class="NAME">listen</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">aNotificationsToListen</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpHandler</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>568</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sNotification</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nNotification</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nLenNotificationsToListen</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>569</span> </span><span class="WHIT">			</span><span class="NAME">sNotification</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>570</span> </span><span class="WHIT">			</span><span class="NAME">nLenNotificationsToListen</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">aNotificationsToListen.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>571</span> 
+<span class='line'>572</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">nNotification</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nNotification</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">nLenNotificationsToListen</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nNotification</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nNotification</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>573</span> </span><span class="WHIT">				</span><span class="NAME">sNotification</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">aNotificationsToListen</span><span class="PUNC">[</span><span class="NAME">nNotification</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>574</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sNotification</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>575</span> </span><span class="WHIT">					</span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sNotification</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>576</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>577</span> </span><span class="WHIT">				</span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sNotification</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>578</span> </span><span class="WHIT">					</span><span class="NAME">module</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>579</span> </span><span class="WHIT">					</span><span class="NAME">handler</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fpHandler</span><span class="WHIT">
+<span class='line'>580</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>581</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>582</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>583</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>584</span> 		 * notify is the method that will launch the actions that are listening the notified action
+<span class='line'>585</span> 		 * @member Action.prototype
+<span class='line'>586</span> 		 * @param oNotifier - Notifier.type and Notifier.data are needed
+<span class='line'>587</span> 		 */</span><span class="WHIT">
+<span class='line'>588</span> </span><span class="WHIT">		</span><span class="NAME">notify</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oNotifier</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oAction</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nAction</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nLenActions</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">			</span><span class="NAME">sType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oNotifier.type</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="WHIT">			</span><span class="NAME">oAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>592</span> 
+<span class='line'>593</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sType</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">_undefined_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>594</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>595</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>596</span> </span><span class="WHIT">			</span><span class="NAME">nLenActions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sType</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>597</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">nLenActions</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>598</span> </span><span class="WHIT">				</span><span class="NAME">oAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sType</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">nAction</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>599</span> </span><span class="WHIT">				</span><span class="NAME">oAction.handler.call</span><span class="PUNC">(</span><span class="NAME">oAction.module</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oNotifier</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>600</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>601</span> 
+<span class='line'>602</span> </span><span class="WHIT">			</span><span class="NAME">sType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>603</span> </span><span class="WHIT">			</span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>604</span> </span><span class="WHIT">			</span><span class="NAME">nLenActions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>605</span> </span><span class="WHIT">			</span><span class="NAME">oAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>606</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>607</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>608</span> 		 * stopListen removes the actions that are listening the aNotificationsToStopListen in the oModule
+<span class='line'>609</span> 		 * @member Action.prototype
+<span class='line'>610</span> 		 * @param {Array} aNotificationsToStopListen
+<span class='line'>611</span> 		 * @param {Object} oModule
+<span class='line'>612</span> 		 */</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">		</span><span class="NAME">stopListen</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">aNotificationsToStopListen</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oModule</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>614</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sNotification</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">aAuxActions</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nNotification</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nLenNotificationsToListen</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nAction</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nLenActions</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>615</span> </span><span class="WHIT">			</span><span class="NAME">sNotification</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>616</span> </span><span class="WHIT">			</span><span class="NAME">aAuxActions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>617</span> </span><span class="WHIT">			</span><span class="NAME">nLenNotificationsToListen</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">aNotificationsToStopListen.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>618</span> </span><span class="WHIT">			</span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>619</span> </span><span class="WHIT">			</span><span class="NAME">nLenActions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>620</span> 
+<span class='line'>621</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">nNotification</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nNotification</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">nLenNotificationsToListen</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nNotification</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nNotification</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>622</span> </span><span class="WHIT">				</span><span class="NAME">aAuxActions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>623</span> </span><span class="WHIT">				</span><span class="NAME">sNotification</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">aNotificationsToStopListen</span><span class="PUNC">[</span><span class="NAME">nNotification</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>624</span> </span><span class="WHIT">				</span><span class="NAME">nLenActions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sNotification</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>625</span> </span><span class="WHIT">				</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">nLenActions</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>626</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oModule</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sNotification</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">nAction</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">module</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>627</span> </span><span class="WHIT">						</span><span class="NAME">aAuxActions.push</span><span class="PUNC">(</span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sNotification</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">nAction</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>628</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>629</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>630</span> </span><span class="WHIT">				</span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sNotification</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">aAuxActions</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>631</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sNotification</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>632</span> </span><span class="WHIT">					</span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">oActions</span><span class="PUNC">[</span><span class="NAME">sNotification</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>633</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>634</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>635</span> 
+<span class='line'>636</span> </span><span class="WHIT">			</span><span class="NAME">sNotification</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>637</span> </span><span class="WHIT">			</span><span class="NAME">aAuxActions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>638</span> </span><span class="WHIT">			</span><span class="NAME">nNotification</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>639</span> </span><span class="WHIT">			</span><span class="NAME">nLenNotificationsToListen</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>640</span> </span><span class="WHIT">			</span><span class="NAME">nAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>641</span> </span><span class="WHIT">			</span><span class="NAME">nLenActions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>642</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>643</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>644</span> 		 * __restore__ is a private method to reset the oActions object to an empty object.
+<span class='line'>645</span> 		 * @private
+<span class='line'>646</span> 		 * @member Action.prototype
+<span class='line'>647</span> 		 */</span><span class="WHIT">
+<span class='line'>648</span> </span><span class="WHIT">		</span><span class="NAME">__restore__</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>649</span> </span><span class="WHIT">			</span><span class="NAME">oActions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>650</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>651</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>652</span> 
+<span class='line'>653</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>654</span> 	 * Promise is a class that must/can be used to defer execution of one or some callbacks when one condition (normally some asynchronous callbacks that are depending one of other)
+<span class='line'>655</span> 	 * @class Promise
+<span class='line'>656</span> 	 * @constructor
+<span class='line'>657</span> 	 * @name Promise
+<span class='line'>658</span> 	 */</span><span class="WHIT">
+<span class='line'>659</span> </span><span class="WHIT">	</span><span class="NAME">Promise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>660</span> </span><span class="WHIT">		</span><span class="COMM">// Pending callbacks</span><span class="WHIT">
+<span class='line'>661</span> </span><span class="WHIT">		</span><span class="NAME">this.aPending</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>662</span> </span><span class="WHIT">		</span><span class="NAME">this.bCompleted</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_false_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>663</span> </span><span class="WHIT">		</span><span class="NAME">this.sType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>664</span> </span><span class="WHIT">		</span><span class="NAME">this.oResult</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>665</span> </span><span class="WHIT">		</span><span class="NAME">this.oAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Hydra.action</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>666</span> 
+<span class='line'>667</span> </span><span class="WHIT">		</span><span class="COMM">// Must be called when something finished successfully</span><span class="WHIT">
+<span class='line'>668</span> </span><span class="WHIT">		</span><span class="NAME">this.resolve</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oContext</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>669</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oResult</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>670</span> </span><span class="WHIT">				</span><span class="NAME">oContext.bCompleted</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_true_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>671</span> </span><span class="WHIT">				</span><span class="NAME">oContext.sType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'resolve'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>672</span> </span><span class="WHIT">				</span><span class="NAME">oContext.oResult</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oResult</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>673</span> </span><span class="WHIT">				</span><span class="NAME">oContext.oAction.notify</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'complete'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>674</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>675</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>676</span> </span><span class="WHIT">		</span><span class="COMM">// Must be called when something fails</span><span class="WHIT">
+<span class='line'>677</span> </span><span class="WHIT">		</span><span class="NAME">this.reject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oContext</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>678</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oResult</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>679</span> </span><span class="WHIT">				</span><span class="NAME">oContext.bCompleted</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_true_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>680</span> </span><span class="WHIT">				</span><span class="NAME">oContext.sType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'reject'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>681</span> </span><span class="WHIT">				</span><span class="NAME">oContext.oResult</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oResult</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>682</span> </span><span class="WHIT">				</span><span class="NAME">oContext.oAction.notify</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'complete'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>683</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>684</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>685</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>686</span> 
+<span class='line'>687</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>688</span> 	 * Adds new callbacks to execute when the promise has been completed
+<span class='line'>689</span> 	 * @member Promise.prototype
+<span class='line'>690</span> 	 * @param {Function} fpSuccess
+<span class='line'>691</span> 	 * @param {Function} fpFailure
+<span class='line'>692</span> 	 * @return {Object} Promise instance
+<span class='line'>693</span> 	 */</span><span class="WHIT">
+<span class='line'>694</span> </span><span class="WHIT">	</span><span class="NAME">Promise.prototype.then</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fpSuccess</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpFailure</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>695</span> </span><span class="WHIT">		</span><span class="NAME">this.aPending.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">resolve</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fpSuccess</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">reject</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fpFailure</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>696</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>697</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>698</span> 
+<span class='line'>699</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>700</span> 	 * Deferred is a manager of Promise objects.
+<span class='line'>701</span> 	 * Deferred object has some Promise objects added and execute the correct callbacks when all the added Promise object are completed.
+<span class='line'>702</span> 	 * @class Deferred
+<span class='line'>703</span> 	 * @constructor
+<span class='line'>704</span> 	 * @name Deferred
+<span class='line'>705</span> 	 */</span><span class="WHIT">
+<span class='line'>706</span> </span><span class="WHIT">	</span><span class="NAME">Deferred</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>707</span> </span><span class="WHIT">		</span><span class="NAME">this.aPromises</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>708</span> </span><span class="WHIT">		</span><span class="NAME">this.aPending</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>709</span> </span><span class="WHIT">		</span><span class="NAME">this.sType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>710</span> </span><span class="WHIT">		</span><span class="NAME">this.oAction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Hydra.action</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>711</span> </span><span class="WHIT">		</span><span class="NAME">this.oAction.listen</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="STRN">'complete'</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.checkCompleted</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>712</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>713</span> 
+<span class='line'>714</span> </span><span class="WHIT">	</span><span class="NAME">Deferred.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>715</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>716</span> 		 * Adds a new Promise object to the array of Promise object that are needed to be completed.
+<span class='line'>717</span> 		 * @member Deferred.prototype
+<span class='line'>718</span> 		 * @param oPromise
+<span class='line'>719</span> 		 * @return {Object} Deferred instance
+<span class='line'>720</span> 		 */</span><span class="WHIT">
+<span class='line'>721</span> </span><span class="WHIT">		</span><span class="NAME">add</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oPromise</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>722</span> </span><span class="WHIT">			</span><span class="NAME">this.aPromises.push</span><span class="PUNC">(</span><span class="NAME">oPromise</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>723</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>724</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>725</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>726</span> 		 * This method is called when any Promise object notify 'complete'
+<span class='line'>727</span> 		 * Checks the completion of all the Promise objects.
+<span class='line'>728</span> 		 * If any of the Promises is not complete continue waiting.
+<span class='line'>729</span> 		 * If all the Promises are complete then complete method is executed.
+<span class='line'>730</span> 		 * @member Deferred.prototype
+<span class='line'>731</span> 		 */</span><span class="WHIT">
+<span class='line'>732</span> </span><span class="WHIT">		</span><span class="NAME">checkCompleted</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>733</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nPromise</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nLenPromise</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oPromise</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>734</span> </span><span class="WHIT">			</span><span class="NAME">nLenPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.aPromises.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>735</span> </span><span class="WHIT">			</span><span class="NAME">oPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>736</span> 
+<span class='line'>737</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">nPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nPromise</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">nLenPromise</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nPromise</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>738</span> </span><span class="WHIT">				</span><span class="NAME">oPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.aPromises</span><span class="PUNC">[</span><span class="NAME">nPromise</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>739</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">oPromise.bCompleted</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>740</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">_false_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>741</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>742</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>743</span> </span><span class="WHIT">			</span><span class="NAME">this.complete</span><span class="PUNC">(</span><span class="NAME">this.getType</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>744</span> 
+<span class='line'>745</span> </span><span class="WHIT">			</span><span class="NAME">nPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>746</span> </span><span class="WHIT">			</span><span class="NAME">nLenPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>747</span> </span><span class="WHIT">			</span><span class="NAME">oPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>748</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>749</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>750</span> 		 * Return the type of completion [reject, resolve]
+<span class='line'>751</span> 		 * @member Deferred.prototype
+<span class='line'>752</span> 		 */</span><span class="WHIT">
+<span class='line'>753</span> </span><span class="WHIT">		</span><span class="NAME">getType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>754</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nPromise</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nLenPromises</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oPromise</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">aTypes</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sType</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>755</span> </span><span class="WHIT">			</span><span class="NAME">nLenPromises</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.aPromises.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>756</span> </span><span class="WHIT">			</span><span class="NAME">oPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>757</span> </span><span class="WHIT">			</span><span class="NAME">aTypes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>758</span> 
+<span class='line'>759</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">nPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nPromise</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">nLenPromises</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nPromise</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>760</span> </span><span class="WHIT">				</span><span class="NAME">oPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.aPromises</span><span class="PUNC">[</span><span class="NAME">nPromise</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>761</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oPromise.bCompleted</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>762</span> </span><span class="WHIT">					</span><span class="NAME">aTypes.push</span><span class="PUNC">(</span><span class="NAME">oPromise.sType</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>763</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>764</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>765</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">aTypes.length</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>766</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>767</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>768</span> </span><span class="WHIT">			</span><span class="NAME">sType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">aTypes.join</span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">replace</span><span class="PUNC">(</span><span class="NAME">reResolve</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">'reject'</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'resolve'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>769</span> 
+<span class='line'>770</span> </span><span class="WHIT">			</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>771</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">sType</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>772</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">finally</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>773</span> </span><span class="WHIT">				</span><span class="NAME">nPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>774</span> </span><span class="WHIT">				</span><span class="NAME">nLenPromises</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>775</span> </span><span class="WHIT">				</span><span class="NAME">oPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>776</span> </span><span class="WHIT">				</span><span class="NAME">aTypes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>777</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>778</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>779</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>780</span> 		 * Executes the correct method/s depending of completion type [success, fail]
+<span class='line'>781</span> 		 * @member Deferred.prototype
+<span class='line'>782</span> 		 * @param {String} sType
+<span class='line'>783</span> 		 */</span><span class="WHIT">
+<span class='line'>784</span> </span><span class="WHIT">		</span><span class="NAME">complete</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sType</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>785</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nPromise</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nLenPromises</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oPromise</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>786</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sType.length</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>787</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">_false_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>788</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>789</span> </span><span class="WHIT">			</span><span class="NAME">nLenPromises</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.aPromises.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>790</span> 
+<span class='line'>791</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">nPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nPromise</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">nLenPromises</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nPromise</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>792</span> </span><span class="WHIT">				</span><span class="NAME">oPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.aPromises</span><span class="PUNC">[</span><span class="NAME">nPromise</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>793</span> </span><span class="WHIT">				</span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oPromise.aPending</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>794</span> </span><span class="WHIT">					</span><span class="NAME">oPromise.aPending.shift</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NAME">sType</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="NAME">oPromise.oResult</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>795</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>796</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>797</span> </span><span class="WHIT">			</span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.aPending</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>798</span> </span><span class="WHIT">				</span><span class="NAME">this.aPending.shift</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NAME">sType</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>799</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>800</span> 
+<span class='line'>801</span> </span><span class="WHIT">			</span><span class="NAME">nPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>802</span> </span><span class="WHIT">			</span><span class="NAME">nLenPromises</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>803</span> </span><span class="WHIT">			</span><span class="NAME">oPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>804</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>805</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>806</span> 		 * Adds new callbacks to execute when the promise has been completed
+<span class='line'>807</span> 		 * @param {Function} fpSuccess
+<span class='line'>808</span> 		 * @param {Function} fpFailure
+<span class='line'>809</span> 		 */</span><span class="WHIT">
+<span class='line'>810</span> </span><span class="WHIT">		</span><span class="NAME">then</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fpSuccess</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fpFailure</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>811</span> </span><span class="WHIT">			</span><span class="NAME">this.aPending.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">resolve</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fpSuccess</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">reject</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fpFailure</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>812</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>813</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>814</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>815</span> 
+<span class='line'>816</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>817</span> 	 * Sugar function to create a new Deferred object.
+<span class='line'>818</span> 	 * When expects Promise objects to be added to the Deferred object [Promise1, Promise2,...PromiseN]
+<span class='line'>819</span> 	 * If one of the arguments is not a Promise When assume that we want to complete the Deferred object
+<span class='line'>820</span> 	 * @private
+<span class='line'>821</span> 	 */</span><span class="WHIT">
+<span class='line'>822</span> </span><span class="WHIT">	</span><span class="NAME">When</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>823</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nArg</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nLenArgs</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oDeferred</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oArg</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>824</span> </span><span class="WHIT">		</span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">slice</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>825</span> </span><span class="WHIT">		</span><span class="NAME">nLenArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">aArgs.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>826</span> </span><span class="WHIT">		</span><span class="NAME">oArg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>827</span> 
+<span class='line'>828</span> </span><span class="WHIT">		</span><span class="NAME">this.oDeferred</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oDeferred</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Deferred</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>829</span> 
+<span class='line'>830</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">nArg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nArg</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">nLenArgs</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nArg</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>831</span> </span><span class="WHIT">			</span><span class="NAME">oArg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">aArgs</span><span class="PUNC">[</span><span class="NAME">nArg</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>832</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">oArg</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>833</span> </span><span class="WHIT">				</span><span class="NAME">oDeferred.add</span><span class="PUNC">(</span><span class="NAME">oArg</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>834</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>835</span> </span><span class="WHIT">				</span><span class="NAME">oDeferred.complete</span><span class="PUNC">(</span><span class="STRN">'resolved'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>836</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>837</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>838</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>839</span> 
+<span class='line'>840</span> </span><span class="WHIT">		</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>841</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">oDeferred</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>842</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">finally</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>843</span> </span><span class="WHIT">			</span><span class="NAME">aArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>844</span> </span><span class="WHIT">			</span><span class="NAME">nArg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>845</span> </span><span class="WHIT">			</span><span class="NAME">nLenArgs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>846</span> </span><span class="WHIT">			</span><span class="NAME">oArg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_null_</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>847</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>848</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>849</span> 
+<span class='line'>850</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>851</span> 	 * getErrorHandler is a method to gain access to the private ErrorHandler constructor.
+<span class='line'>852</span> 	 * @private
+<span class='line'>853</span> 	 * @return ErrorHandler class
+<span class='line'>854</span> 	 */</span><span class="WHIT">
+<span class='line'>855</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">getErrorHandler</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>856</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ErrorHandler</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>857</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>858</span> 
+<span class='line'>859</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>860</span> 	 * setErrorHandler is a method to set the ErrorHandler to a new object to add more logging logic.
+<span class='line'>861</span> 	 * @private
+<span class='line'>862</span> 	 * @param {Function} oErrorHandler
+<span class='line'>863</span> 	 */</span><span class="WHIT">
+<span class='line'>864</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">setErrorHandler</span><span class="PUNC">(</span><span class="NAME">oErrorHandler</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>865</span> </span><span class="WHIT">		</span><span class="NAME">ErrorHandler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">oErrorHandler</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>866</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>867</span> 
+<span class='line'>868</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>869</span> 	 * Hydra is the api that will be available to use by developers
+<span class='line'>870</span> 	 * @constructor
+<span class='line'>871</span> 	 * @class Hydra
+<span class='line'>872</span> 	 * @name Hydra
+<span class='line'>873</span> 	 */</span><span class="WHIT">
+<span class='line'>874</span> </span><span class="WHIT">	</span><span class="NAME">Hydra</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>875</span> 
+<span class='line'>876</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>877</span> 	 * Version number of Hydra.
+<span class='line'>878</span> 	 * @static
+<span class='line'>879</span> 	 * @member Hydra
+<span class='line'>880</span> 	 * @type String
+<span class='line'>881</span> 	 */</span><span class="WHIT">
+<span class='line'>882</span> </span><span class="WHIT">	</span><span class="NAME">Hydra.version</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sVersion</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>883</span> 
+<span class='line'>884</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>885</span> 	 * action is a method to get a new instance of Action
+<span class='line'>886</span> 	 * @static
+<span class='line'>887</span> 	 * @member Hydra
+<span class='line'>888</span> 	 * @return {Action} Action instance
+<span class='line'>889</span> 	 */</span><span class="WHIT">
+<span class='line'>890</span> </span><span class="WHIT">	</span><span class="NAME">Hydra.action</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>891</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Action</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>892</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>893</span> 
+<span class='line'>894</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>895</span> 	 * Returns the actual ErrorHandler
+<span class='line'>896</span> 	 * @static
+<span class='line'>897</span> 	 * @member Hydra
+<span class='line'>898</span> 	 * @type ErrorHandler
+<span class='line'>899</span> 	 */</span><span class="WHIT">
+<span class='line'>900</span> </span><span class="WHIT">	</span><span class="NAME">Hydra.errorHandler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getErrorHandler</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>901</span> 
+<span class='line'>902</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>903</span> 	 * Sets and overwrites the ErrorHandler object to log errors and messages
+<span class='line'>904</span> 	 * @static
+<span class='line'>905</span> 	 * @param ErrorHandler
+<span class='line'>906</span> 	 * @member Hydra
+<span class='line'>907</span> 	 */</span><span class="WHIT">
+<span class='line'>908</span> </span><span class="WHIT">	</span><span class="NAME">Hydra.setErrorHandler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setErrorHandler</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>909</span> 
+<span class='line'>910</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>911</span> 	 * Return a singleton of Module
+<span class='line'>912</span> 	 * @static
+<span class='line'>913</span> 	 * @member Hydra
+<span class='line'>914</span> 	 */</span><span class="WHIT">
+<span class='line'>915</span> </span><span class="WHIT">	</span><span class="NAME">Hydra.module</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Module</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>916</span> 
+<span class='line'>917</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>918</span> 	 * Change the debug mode to on/off
+<span class='line'>919</span> 	 * @static
+<span class='line'>920</span> 	 * @member Hydra
+<span class='line'>921</span> 	 */</span><span class="WHIT">
+<span class='line'>922</span> </span><span class="WHIT">	</span><span class="NAME">Hydra.setDebug</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setDebug</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>923</span> 
+<span class='line'>924</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>925</span> 	 * Returns the constructor of Deferred object
+<span class='line'>926</span> 	 * @static
+<span class='line'>927</span> 	 * @member Hydra
+<span class='line'>928</span> 	 */</span><span class="WHIT">
+<span class='line'>929</span> </span><span class="WHIT">	</span><span class="NAME">Hydra.deferred</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Deferred</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>930</span> 
+<span class='line'>931</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>932</span> 	 * Returns the constructor of Promise object
+<span class='line'>933</span> 	 * @static
+<span class='line'>934</span> 	 * @member Hydra
+<span class='line'>935</span> 	 */</span><span class="WHIT">
+<span class='line'>936</span> </span><span class="WHIT">	</span><span class="NAME">Hydra.promise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>937</span> 
+<span class='line'>938</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>939</span> 	 * Sugar method to generate Deferred objects in a simple way
+<span class='line'>940</span> 	 * @static
+<span class='line'>941</span> 	 * @member Hydra
+<span class='line'>942</span> 	 */</span><span class="WHIT">
+<span class='line'>943</span> </span><span class="WHIT">	</span><span class="NAME">Hydra.when</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">When</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>944</span> </span><span class="WHIT">	</span><span class="COMM">/*
+<span class='line'>945</span> 	 * This line exposes the private object to be accessible from outside of this code.
+<span class='line'>946</span> 	 */</span><span class="WHIT">
+<span class='line'>947</span> </span><span class="WHIT">	</span><span class="NAME">ns.Hydra</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Hydra</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>948</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">document</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
