@@ -266,6 +266,18 @@ h6 {
 #benefitsList, .changelogsList {
 	margin-left: 20px;
 }
+.firstLevelList
+{
+    margin-left: 20px;
+}
+.secondLevelList
+{
+    margin-left: 40px;
+}
+.thirdLevelList
+{
+    margin-left: 60px;
+}
 figure {
 	 -moz-border-radius: none;
 }
