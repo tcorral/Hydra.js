@@ -90,18 +90,25 @@
 	 * @param {Object} oModule
 	 * @param {Action} oAction
 	 */
-	function addPropertiesAndMethodsToModule(sModuleId, oAction)
-	{
+	function addPropertiesAndMethodsToModule(sModuleId, oAction) {
 		var oModule,
-			fpInitProxy;
+			fpInitProxy,
+			sProperty;
 		oModule = oModules[sModuleId].creator(oAction);
 		fpInitProxy = oModule.init;
 		oModule.__action__ = oAction;
 		oModule.init = function () {
+			var oEventsCallbacks = this.oEventsCallbacks;
+			// initialize listening events array.
+			for (sProperty in oEventsCallbacks) {
+				if (oEventsCallbacks.hasOwnProperty(sProperty)) {
+					this.aListeningEvents.push(sProperty);
+				}
+			}
 			oAction.listen(this.aListeningEvents, this.handleAction, this);
 			fpInitProxy.call(this, arguments);
 		};
-		oModule.aListeningEvents = oModule.aListeningEvents || [];
+		oModule.aListeningEvents = [];
 		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
 		oModule.handleAction = function (oNotifier) {
 			var fpCallback = this.oEventsCallbacks[oNotifier.type];
