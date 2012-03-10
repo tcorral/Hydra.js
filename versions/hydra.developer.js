@@ -97,12 +97,24 @@
 		oModule = oModules[sModuleId].creator(oAction);
 		fpInitProxy = oModule.init;
 		oModule.__action__ = oAction;
+		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
+		oModule.aListeningEvents = (function()
+		{
+			var oEventsCallbacks = oModule.oEventsCallbacks,
+				sKey,
+				aListeningEvents = [];
+			for (sKey in oEventsCallbacks) {
+				if (oEventsCallbacks.hasOwnProperty(sKey)) {
+					aListeningEvents.push(sKey);
+				}
+			}
+			oEventsCallbacks = sKey = null;
+			return aListeningEvents;
+		}());
 		oModule.init = function () {
 			oAction.listen(this.aListeningEvents, this.handleAction, this);
 			fpInitProxy.call(this, arguments);
 		};
-		oModule.aListeningEvents = oModule.aListeningEvents || [];
-		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
 		oModule.handleAction = function (oNotifier) {
 			var fpCallback = this.oEventsCallbacks[oNotifier.type];
 			if (fpCallback === _undefined_) {

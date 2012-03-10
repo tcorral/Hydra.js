@@ -1,8 +1,10 @@
 # Hydra.js
 Hidra.js is a module manager oriented system.
 
-## Updated to version 1.3.0
+## Updated to version 1.3.1
 
+#### ChangeLog 1.3.1 :
+    Improve aListeningEvents generation. Now the listening events are taken from oEventsCallbacks property of methods. - Thanks, Ramonacus -
 #### ChangeLog 1.3.0 :
     Delegate some repetitive jobs to the module instance creator, maintaining the size of Hydra.
 
