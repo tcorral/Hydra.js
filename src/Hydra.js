@@ -598,20 +598,23 @@
 		 * @param oNotifier - Notifier.type and Notifier.data are needed
 		 */
 		notify: function (oNotifier) {
-			var sType, oAction, nAction, nLenActions;
+			var sType, oAction, aActions, nAction, nLenActions;
 			sType = oNotifier.type;
 			oAction = _null_;
 
 			if (oActions[sType] === _undefined_) {
 				return;
 			}
-			nLenActions = oActions[sType].length;
+			// Duplicate actions array in order to avoid broken references when removing listeners.
+			aActions = oActions[sType].slice();
+			nLenActions = aActions.length;
 			for (nAction = 0; nAction < nLenActions; nAction = nAction + 1) {
-				oAction = oActions[sType][nAction];
+				oAction = aActions[nAction];
 				oAction.handler.call(oAction.module, oNotifier);
 			}
 
 			sType = _null_;
+			aActions = _null_;
 			nAction = _null_;
 			nLenActions = _null_;
 			oAction = _null_;
