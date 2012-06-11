@@ -1,9 +1,9 @@
-(function (win, doc, ns, _undefined_) {
+(function (global, ns, _undefined_) {
 	'use strict';
-	var oModules, oConsole, reResolve, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
+	var oModules, doc, oConsole, toString, reResolve, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
 
 	if (ns === _undefined_) {
-		ns = win;
+		ns = global;
 	}
 
 	/*
@@ -12,12 +12,13 @@
 	_null_ = null;
 	_false_ = false;
 	_true_ = true;
+	doc = global.document;
 	/*
 	 * End Variables to reduce size
 	 */
 
 	oModules = {};
-	oConsole = win.console;
+	oConsole = global.console;
 	reResolve = /resolve/g;
 	sVersion = "1.3.0";
 	bDebug = _false_;
@@ -28,6 +29,10 @@
 	 */
 	oActions = {};
 
+	toString = function(oObject)
+	{
+		return {}.toString.call(oObject);
+	};
 	/**
 	 * isFunction is a function to know if the object passed as parameter is a Function object.
 	 * @private
@@ -35,7 +40,17 @@
 	 * @return Boolean
 	 */
 	function isFunction(fpCallback) {
-		return {}.toString.call(fpCallback) === "[object Function]";
+		return toString(fpCallback) === '[object Function]';
+	}
+
+	/**
+	 * isArray is a function to know if the object passed as parameter is an Array
+	 * @private
+	 * @param aArray
+	 * @return {Boolean}
+	 */
+	function isArray(aArray) {
+		return toString(aArray) === '[object Array]';
 	}
 
 	/**
@@ -122,7 +137,7 @@
 			}
 			fpCallback.call(this, oNotifier);
 		};
-		oModule.onDestroy = function () {};
+		oModule.onDestroy = oModule.onDestroy || function () {};
 		oModule.destroy = function () {
 			this.onDestroy();
 			oAction.stopListen(this.aListeningEvents, this);
@@ -299,7 +314,7 @@
 		register: function (sModuleId, fpCreator) {
 			oModules[sModuleId] = {
 				creator: fpCreator,
-				instance: _null_
+				instances: {}
 			};
 			return oModules[sModuleId];
 		},
@@ -402,7 +417,7 @@
 						return oModule;
 					};
 				}(oFinalModule)),
-				instance: _null_
+				instances: {}
 			};
 
 			oModule = _null_;
@@ -432,16 +447,17 @@
 		/**
 		 * getModule returns the module with the id
 		 * It must work only when it's executed in jstestdriver environment
-		 * @param sModuleId
+		 * @param {String} sModuleId
+		 * @param {String} sContainerId
 		 */
-		getModule: function(sModuleId, bAsStart)
+		getModule: function(sModuleId, sContainerId)
 		{
-			var oModule = oModules[sModuleId];
+			var oModule = oModules[sModuleId], oInstance;
 			if(jstestdriver)
 			{
-				oModule = {};
-				oModule.instance = createInstance(sModuleId);
-				return oModules[sModuleId] = oModule;
+				oInstance = createInstance(sModuleId);
+				oModule.instances[sContainerId] = oInstance;
+				return oModule;
 			}
 			return null;
 		},
@@ -452,42 +468,52 @@
 		 *   This avoid execute the same listeners more than one time.
 		 * @member Module.prototype
 		 * @param {String} sModuleId
+		 * @param {String} sContainerId
 		 * @param {Object} oData
 		 * @param {Boolean} bSingle
 		 */
-		start: function (sModuleId, oData, bSingle) {
-			var oModule;
+		start: function (sModuleId, sContainerId, oData, bSingle) {
+			var oModule, oInstance;
 			oModule = oModules[sModuleId];
 
-			if (bSingle && this.isModuleStarted(sModuleId)) {
-				this.stop(sModuleId);
+			if (bSingle && this.isModuleStarted(sModuleId, sContainerId)) {
+				this.stop(sModuleId, sContainerId);
 			}
 			if (oModule !== _undefined_) {
-				oModule.instance = createInstance(sModuleId);
-				oModule.instance.init(oData);
+				oInstance = createInstance(sModuleId);
+				oModule.instances[sContainerId] = oInstance;
+				oInstance.__container__ = doc.getElementById(sContainerId);
+				oInstance.init(oData);
 			}
 
 			oModule = _null_;
+
+			return oInstance;
 		},
 		/**
 		 * Checks if module was already successfully started
 		 * @member Module.prototype
-		 * @param {String}sModuleId Name of the module
+		 * @param {String} sModuleId Name of the module
+		 * @param {String} sContainerId Id of the DOM element
 		 * @return boolean
 		 */
-		isModuleStarted: function (sModuleId) {
-			return (typeof oModules[sModuleId] !== _undefined_ && oModules[sModuleId].instance !== _null_);
+		isModuleStarted: function (sModuleId, sContainerId) {
+			return (typeof oModules[sModuleId] !== _undefined_ && oModules[sModuleId].instances[sContainerId] !== _undefined_);
 		},
 		/**
 		 * startAll is the method that will initialize all the registered modules.
 		 * @member Module.prototype
 		 */
 		startAll: function () {
-			var sModuleId;
+			var sModuleId, oModule;
 
 			for (sModuleId in oModules) {
 				if (ownProp(oModules, sModuleId)) {
-					this.start(sModuleId);
+					oModule = oModules[sModuleId];
+					if(oModule !== _undefined_)
+					{
+						this.start(sModuleId, Math.random());
+					}
 				}
 			}
 
@@ -498,25 +524,41 @@
 		 * When stop is called the module will call the destroy method and will nullify the instance.
 		 * @member Module.prototype
 		 * @param {String} sModuleId
+		 * @param {String} sContainerId
 		 */
-		stop: function (sModuleId) {
-			var oModule;
+		stop: function (sModuleId, sContainerId) {
+			var oModule, oInstance;
 			oModule = oModules[sModuleId];
-			if (oModule !== _undefined_ && oModule.instance !== _null_) {
-				oModule.instance.destroy();
-				oModule.instance = _null_;
+			if(oModule === _undefined_)
+			{
+				return false;
 			}
+			oInstance = oModule.instances[sContainerId];
+			if (oModule !== _undefined_ && oInstance !== _undefined_) {
+				oInstance.destroy();
+			}
+			oModule = oInstance = _null_;
 		},
 		/**
 		 * stopAll is the method that will finish all the registered and started modules.
 		 * @member Module.prototype
 		 */
 		stopAll: function () {
-			var sModuleId;
+			var sModuleId, oModule, sContainerId;
 
 			for (sModuleId in oModules) {
 				if (ownProp(oModules, sModuleId)) {
-					this.stop(sModuleId);
+					oModule = oModules[sModuleId];
+					if(oModule !== _undefined_)
+					{
+						for(sContainerId in oModule.instances)
+						{
+							if (ownProp(oModule.instances, sContainerId)) {
+								this.stop(sModuleId, sContainerId);
+							}
+
+						}
+					}
 				}
 			}
 
@@ -529,7 +571,10 @@
 		 * @param {String} sModuleId
 		 */
 		_delete: function (sModuleId) {
-			delete oModules[sModuleId];
+			if ( oModules[sModuleId] !== _undefined_ )
+			{
+				delete oModules[sModuleId];
+			}
 		},
 		/**
 		 * remove is the method that will remove the full module from the oModules object
@@ -537,16 +582,18 @@
 		 * @param {String} sModuleId
 		 */
 		remove: function (sModuleId) {
-			var oModule;
-			oModule = oModules[sModuleId];
-
+			var oModule = oModules[sModuleId];
+			if(oModule === _undefined_)
+			{
+				return null;
+			}
 			if (oModule !== _undefined_) {
 				try
 				{
 					return oModule;
 				}finally
 				{
-					oModules[sModuleId] = _null_;
+					oModule = _null_;
 					this._delete(sModuleId);
 				}
 			}
@@ -598,20 +645,23 @@
 		 * @param oNotifier - Notifier.type and Notifier.data are needed
 		 */
 		notify: function (oNotifier) {
-			var sType, oAction, nAction, nLenActions;
+			var sType, oAction, aActions, nAction, nLenActions;
 			sType = oNotifier.type;
 			oAction = _null_;
 
 			if (oActions[sType] === _undefined_) {
 				return;
 			}
-			nLenActions = oActions[sType].length;
+			// Duplicate actions array in order to avoid broken references when removing listeners.
+			aActions = oActions[sType].slice();
+			nLenActions = aActions.length;
 			for (nAction = 0; nAction < nLenActions; nAction = nAction + 1) {
-				oAction = oActions[sType][nAction];
+				oAction = aActions[nAction];
 				oAction.handler.call(oAction.module, oNotifier);
 			}
 
 			sType = _null_;
+			aActions = _null_;
 			nAction = _null_;
 			nLenActions = _null_;
 			oAction = _null_;
@@ -957,4 +1007,4 @@
 	 * This line exposes the private object to be accessible from outside of this code.
 	 */
 	ns.Hydra = Hydra;
-}(window, document));
+}(this));

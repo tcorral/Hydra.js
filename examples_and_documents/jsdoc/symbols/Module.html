@@ -301,8 +301,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/Module.html#_delete">_delete</a></b>(sModuleId)
 								</div>
-								<div class="description">_delete is a wrapper method that will call the native delete javascript function
-It's important to test the full code.</div>
+								<div class="description">_delete is a wrapper method that will call the native delete javascript functionIt's important to test the full code.</div>
 							</td>
 						</tr>
 					
@@ -327,17 +326,16 @@ It's important to test the full code.</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Module.html#getModule">getModule</a></b>(sModuleId, bAsStart)
+								<div class="fixedFont"><b><a href="../symbols/Module.html#getModule">getModule</a></b>(sModuleId, sContainerId)
 								</div>
-								<div class="description">getModule returns the module with the id
-It must work only when it's executed in jstestdriver environment</div>
+								<div class="description">getModule returns the module with the idIt must work only when it's executed in jstestdriver environment</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Module.html#isModuleStarted">isModuleStarted</a></b>(sModuleId)
+								<div class="fixedFont"><b><a href="../symbols/Module.html#isModuleStarted">isModuleStarted</a></b>(sModuleId, sContainerId)
 								</div>
 								<div class="description">Checks if module was already successfully started</div>
 							</td>
@@ -364,7 +362,7 @@ It must work only when it's executed in jstestdriver environment</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Module.html#start">start</a></b>(sModuleId, oData, bSingle)
+								<div class="fixedFont"><b><a href="../symbols/Module.html#start">start</a></b>(sModuleId, sContainerId, oData, bSingle)
 								</div>
 								<div class="description">start is the method that will initialize the module.</div>
 							</td>
@@ -382,7 +380,7 @@ It must work only when it's executed in jstestdriver environment</div>
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Module.html#stop">stop</a></b>(sModuleId)
+								<div class="fixedFont"><b><a href="../symbols/Module.html#stop">stop</a></b>(sModuleId, sContainerId)
 								</div>
 								<div class="description">stop is the method that will finish the module if it was registered and started.</div>
 							</td>
@@ -489,8 +487,7 @@ It must work only when it's executed in jstestdriver environment</div>
 					
 					</div>
 					<div class="description">
-						_delete is a wrapper method that will call the native delete javascript function
-It's important to test the full code.
+						_delete is a wrapper method that will call the native delete javascript functionIt's important to test the full code.
 						
 						
 					</div>
@@ -581,9 +578,7 @@ It's important to test the full code.
 					
 					</div>
 					<div class="description">
-						extend is the method that will be used to extend a module with new features.
-can be used to remove some features too, without touching the original code.
-You can extend a module and create a extended module with a different name.
+						extend is the method that will be used to extend a module with new features.can be used to remove some features too, without touching the original code.You can extend a module and create a extended module with a different name.
 						
 						
 					</div>
@@ -627,12 +622,11 @@ You can extend a module and create a extended module with a different name.
 					<div class="fixedFont">
 					
 					
-					<b>getModule</b>(sModuleId, bAsStart)
+					<b>getModule</b>(sModuleId, sContainerId)
 					
 					</div>
 					<div class="description">
-						getModule returns the module with the id
-It must work only when it's executed in jstestdriver environment
+						getModule returns the module with the idIt must work only when it's executed in jstestdriver environment
 						
 						
 					</div>
@@ -644,13 +638,13 @@ It must work only when it's executed in jstestdriver environment
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>sModuleId</b>
+									<span class="light fixedFont">{String}</span> <b>sModuleId</b>
 									
 								</dt>
 								<dd></dd>
 							
 								<dt>
-									<b>bAsStart</b>
+									<span class="light fixedFont">{String}</span> <b>sContainerId</b>
 									
 								</dt>
 								<dd></dd>
@@ -670,7 +664,7 @@ It must work only when it's executed in jstestdriver environment
 					<div class="fixedFont">
 					
 					
-					<b>isModuleStarted</b>(sModuleId)
+					<b>isModuleStarted</b>(sModuleId, sContainerId)
 					
 					</div>
 					<div class="description">
@@ -690,6 +684,12 @@ It must work only when it's executed in jstestdriver environment
 									
 								</dt>
 								<dd>Name of the module</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>sContainerId</b>
+									
+								</dt>
+								<dd>Id of the DOM element</dd>
 							
 							</dl>
 						
@@ -717,8 +717,7 @@ It must work only when it's executed in jstestdriver environment
 					
 					</div>
 					<div class="description">
-						register is the method that will add the new module to the oModules object.
-sModuleId will be the key where it will be stored.
+						register is the method that will add the new module to the oModules object.sModuleId will be the key where it will be stored.
 						
 						
 					</div>
@@ -792,14 +791,11 @@ sModuleId will be the key where it will be stored.
 					<div class="fixedFont">
 					
 					
-					<b>start</b>(sModuleId, oData, bSingle)
+					<b>start</b>(sModuleId, sContainerId, oData, bSingle)
 					
 					</div>
 					<div class="description">
-						start is the method that will initialize the module.
-When start is called the module instance will be created and the init method is called.
-If bSingle is true and the module is started the module will be stopped before instance it again.
-  This avoid execute the same listeners more than one time.
+						start is the method that will initialize the module.When start is called the module instance will be created and the init method is called.If bSingle is true and the module is started the module will be stopped before instance it again.  This avoid execute the same listeners more than one time.
 						
 						
 					</div>
@@ -812,6 +808,12 @@ If bSingle is true and the module is started the module will be stopped before i
 							
 								<dt>
 									<span class="light fixedFont">{String}</span> <b>sModuleId</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>sContainerId</b>
 									
 								</dt>
 								<dd></dd>
@@ -868,12 +870,11 @@ If bSingle is true and the module is started the module will be stopped before i
 					<div class="fixedFont">
 					
 					
-					<b>stop</b>(sModuleId)
+					<b>stop</b>(sModuleId, sContainerId)
 					
 					</div>
 					<div class="description">
-						stop is the method that will finish the module if it was registered and started.
-When stop is called the module will call the destroy method and will nullify the instance.
+						stop is the method that will finish the module if it was registered and started.When stop is called the module will call the destroy method and will nullify the instance.
 						
 						
 					</div>
@@ -886,6 +887,12 @@ When stop is called the module will call the destroy method and will nullify the
 							
 								<dt>
 									<span class="light fixedFont">{String}</span> <b>sModuleId</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>sContainerId</b>
 									
 								</dt>
 								<dd></dd>
@@ -934,9 +941,7 @@ When stop is called the module will call the destroy method and will nullify the
 					
 					</div>
 					<div class="description">
-						test is a method that will return the module without wrapping their methods.
-It's called test because it was created to be able to test the modules with unit testing.
-It must work only when it's executed in jstestdriver environment
+						test is a method that will return the module without wrapping their methods.It's called test because it was created to be able to test the modules with unit testing.It must work only when it's executed in jstestdriver environment
 						
 						
 					</div>
@@ -982,7 +987,7 @@ It must work only when it's executed in jstestdriver environment
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			&copy;2012<br />
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Feb 12 2012 00:43:35 GMT+0100 (CET)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Jun 12 2012 01:05:22 GMT+0200 (CEST)
 		</div>
 	</body>
 </html>

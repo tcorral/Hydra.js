@@ -1,8 +1,17 @@
 # Hydra.js
 Hidra.js is a module manager oriented system.
 
-## Updated to version 1.3.1
+## Updated to version 2.0
 
+#### ChangeLog 2.0:
+    Add multi-instance for modules.
+    Now is possible to add more than one instance for the same module.
+    It has been added a new param (id of the DOM element that will be the '__container__' property of the module instance
+    when these methods are called:
+        start
+        stop
+        getModule
+        isModuleStarted
 #### ChangeLog 1.3.1 :
     Improve aListeningEvents generation. Now the listening events are taken from oEventsCallbacks property of methods. - Thanks, Ramonacus -
 #### ChangeLog 1.3.0 :

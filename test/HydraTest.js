@@ -120,6 +120,7 @@ TestCase("HydraModuleRegisterTest", sinon.testCase({
 TestCase("HydraModuleRemoveTest", sinon.testCase({
 	setUp: function () {
 		this.sModuleId = 'test';
+		this.sContainerId = 'test';
 		this.fpModuleCreator = function (oAction) {
 			return {
 				init: function () {
@@ -140,14 +141,14 @@ TestCase("HydraModuleRemoveTest", sinon.testCase({
         Hydra.module._delete.restore();
     },
 	"test should not call the delete native if the module is not registered before remove it": function () {
-		Hydra.module.remove(this.sModuleId);
+		Hydra.module.remove(this.sModuleId, this.sContainerId);
 
 		assertEquals(0, Hydra.module._delete.callCount);
 	},
 	"test should call the delete native one time if the module is registered before remove it": function () {
 		Hydra.module.register(this.sModuleId, this.fpModuleCreator);
 
-		Hydra.module.remove(this.sModuleId);
+		Hydra.module.remove(this.sModuleId, this.sContainerId);
 
 		assertTrue(Hydra.module._delete.calledOnce);
 	}
@@ -187,6 +188,8 @@ TestCase("HydraModuleStartAllTest", sinon.testCase({
 	setUp: function () {
 		this.sModuleId = 'test';
 		this.sModuleId2 = 'test2';
+		this.sContainerId_1 = 'test1';
+		this.sContainerId_2 = 'test2';
 		this.fpInitStub = sinon.stub();
 		var self = this;
 		this.fpModuleCreator = function (oAction) {
@@ -218,6 +221,7 @@ TestCase("HydraModuleStartAllTest", sinon.testCase({
 TestCase("HydraModuleStopTest", sinon.testCase({
 	setUp: function () {
 		this.sModuleId = 'test';
+		this.sContainerId = 'test';
 		this.oModule = null;
 		Hydra.module.register(this.sModuleId, function()
         {
@@ -225,23 +229,23 @@ TestCase("HydraModuleStopTest", sinon.testCase({
                 init: function () {}
             }
         });
-        this.oModule = Hydra.module.getModule(this.sModuleId);
-        this.fpDestroyStub = sinon.stub(this.oModule.instance, 'destroy');
+        this.oModule = Hydra.module.getModule(this.sModuleId, this.sContainerId);
+        this.fpDestroyStub = sinon.stub(this.oModule.instances[this.sContainerId], 'destroy');
 	},
     tearDown: function () {
-        Hydra.module.remove(this.sModuleId);
+        Hydra.module.remove(this.sModuleId, this.sContainerId);
     },
 	"test should not call the destroy method if the module is registered but not started": function () {
         //Simulate no started
-        Hydra.module.remove(this.sModuleId);
+        Hydra.module.remove(this.sModuleId, this.sContainerId);
 
-		Hydra.module.stop(this.sModuleId);
+		Hydra.module.stop(this.sModuleId, this.sContainerId);
 
 		assertEquals(0, this.fpDestroyStub.callCount);
 	},
 	"test should call the destroy method one time if the module is registered and started": function () {
 
-		Hydra.module.stop(this.sModuleId);
+		Hydra.module.stop(this.sModuleId, this.sContainerId);
 
 		assertTrue(this.fpDestroyStub.calledOnce);
 	}
@@ -251,25 +255,19 @@ TestCase("HydraModuleStopAllTest", sinon.testCase({
 	setUp: function () {
 		var self = this;
 		this.sModuleId = 'test';
-		this.sModuleId2 = 'test2';
+		this.sContainerId_1 = 'test';
+		this.sContainerId_2 = 'test2';
 		Hydra.module.register(this.sModuleId, function()
         {
             return {
                 init: function () {}
             }
         });
-		Hydra.module.register(this.sModuleId2, function()
-        {
-            return {
-                init: function () {}
-            }
-        });
+        this.oModule1 = Hydra.module.getModule(this.sModuleId, this.sContainerId_1);
+        this.fpDestroyStub1 = sinon.stub(this.oModule1.instances[this.sContainerId_1], 'destroy');
 
-        this.oModule1 = Hydra.module.getModule(this.sModuleId);
-        this.fpDestroyStub1 = sinon.stub(this.oModule1.instance, 'destroy');
-
-        this.oModule2 = Hydra.module.getModule(this.sModuleId2);
-        this.fpDestroyStub2 = sinon.stub(this.oModule2.instance, 'destroy');
+        this.oModule2 = Hydra.module.getModule(this.sModuleId, this.sContainerId_2);
+        this.fpDestroyStub2 = sinon.stub(this.oModule2.instances[this.sContainerId_2], 'destroy');
 	},
     tearDown: function () {
         Hydra.module.remove(this.sModuleId);
