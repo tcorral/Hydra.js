@@ -3,6 +3,8 @@ Hidra.js is a module manager oriented system.
 
 ## Updated to version 2.0
 
+[Changelog](changelog.txt)
+
 #### ChangeLog 2.0:
     Add multi-instance for modules.
     Now is possible to add more than one instance for the same module.
