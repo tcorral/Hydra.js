@@ -62,9 +62,9 @@ Hydra has been designed to create your application in a modular design system.
 * You can test your modules with any Unit Testing Framework.
 * Only 2kb when [Gzipped](http://tcorral.github.com/Hydra.js/versions/hydra.js.gz).
 
-[API documentation](/tcorral/Hydra.js/tree/master/examples_and_documents/jsdoc/index.html)
+[API documentation](http://tcorral.github.com/Hydra.js/jsdoc/index.html)
 
-[Examples](/tcorral/Hydra.js/tree/master/examples_and_documents/index.html) to see for yourself!
+[Examples](http://tcorral.github.com/Hydra.js/examples_and_documents/index.html) to see for yourself!
 
 ## Usage
 
