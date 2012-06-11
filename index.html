@@ -109,68 +109,7 @@
 							&lt;script type="text/javascript" src="/path/to/Hydra.js"&gt;&lt;/script&gt;<br/>
 						</p>
 						<p>
-							<h4>Update 1.3.1:</h4>
-							<h5>ChangeLog 1.3.1:</h5>
-							<ul class="changelogsList">
-								<li>Improve aListeningEvents generation. Now the listening events are taken from oEventsCallbacks property of methods. - Thanks, Ramonacus -</li>
-							</ul>
-							<h5>ChangeLog 1.3.0:</h5>
-							<ul class="changelogsList">
-								<li>Delegate some repetitive jobs to the module instance creator, maintaining the size of Hydra.</li>
-								<li>Make easier the work of developers reducing duplicated code and decrease the final size of projects where Hydra.js is used.</li>
-								<li>
-									Some modules have been moved from modules to the instance object when creating it:
-									<ul class="secondLevelList">
-										<li>- These methods are not needed anymore to be added to your modules:</li>
-										<ul class="thirdLevelList">
-											<li>- handleAction</li>
-											<li>- destroy</li>
-										</ul>
-									</ul>
-								</li>
-								<li>
-									Added new properties to the module:
-									<ul class="secondLevelList">
-										<li>
-											- aListeningEvents
-											<ul class="thirdLevelList">
-												<li>- Array of events that the module will start listening</li>
-											</ul>
-										</li>
-										<li>
-											- oEventsCallbacks
-											<ul class="thirdLevelList">
-												<li>- Object of callbacks that must match the events</li>
-											</ul>
-										</li>
-										<li>
-											- onDestroy
-											<ul class="thirdLevelList">
-												<li>- New destroy method, only, will stop all listeners.</li>
-												<li>- This method will be executed before stop listeners.</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-								<li>
-									When the module is started the listeners will be activated before the code in init method.
-									<ul class="secondLevelList">
-										<li>
-											- Is not needed anymore to start listeners.
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<h5>ChangeLog 1.2.0:</h5>
-							<ul class="changelogsList">
-								<li>Added Promise and Deferred objects</li>
-							</ul>
-							<h5>ChangeLog 1.1.1:</h5>
-							<ul class="changelogsList">
-								<li>Added clasical inheritance to objects.</li>
-								<li>Added __action__ to access Action object from modules</li>
-								<li>Added __super__ to access parent object from methods using __call__ method.</li>
-							</ul>
+							<h4>Version 2.0</h4>
 						</p>
 					</div>
 					<a href="#" class="up">Go UP</a>
@@ -290,7 +229,7 @@
 								</ul>
 								<div class="mLeft30">With this type of extension you can access parent methods:</div>
 								<h6 class="mLeft40"><em>oModule.__super__.call('sMethodName', [data])</em></h6>
-							<h5 class="mLeft20">Hydra.module.<em>start( sModuleId, oData )</em></h5>
+							<h5 class="mLeft20">Hydra.module.<em>start( sModuleId, sContainerId, oData )</em></h5>
 								<div class="mLeft30">Start is the method that will initialize the module.</div>
 								<em class="mLeft30">Remember: When a module is started the "init" method is executed.</em>
 								<h6 class="mLeft40">Params:</h6>
@@ -299,18 +238,24 @@
 										sModuleId : Id of the module to initialize.
 									</li>
 									<li>
+										sContainerId :  Id of the DOM element that will be used as '__container__' in module instance.
+									</li>
+									<li>
 										oData : (Optional) This must be an object that will be supplied to the "init" method as first argument.
 									</li>
 								</ul>
 							<h5 class="mLeft20">Hydra.module.<em>startAll()</em></h5>
 								<div class="mLeft30 mBottom25">StartAll will initialize all the registered modules.</div>
-							<h5 class="mLeft20">Hydra.module.<em>stop( sModuleId )</em></h5>
+							<h5 class="mLeft20">Hydra.module.<em>stop( sModuleId, sContainerId )</em></h5>
 								<div class="mLeft30">Stop will stop/destroy the module.</div>
 								<em class="mLeft30">Remember: No more actions listened by this module will be triggered again.</em>
 								<h6 class="mLeft40">Params:</h6>
 								<ul class="mLeft80">
 									<li>
 										sModuleId : Id of the module to be stopped/destroyed.
+									</li>
+									<li>
+										sContainerId :  Id of the DOM element that will be used as '__container__' in module instance.
 									</li>
 								</ul>
 							<h5 class="mLeft20">Hydra.module.<em>stopAll()</em></h5>
@@ -374,6 +319,9 @@
                         	</div>
                             <div class="mLeft30 mBottom25">When returns a deferred object this means that you can use the same methods that you can in Deferred object.</div>
                     </div>
+					<p>
+						<a href="jsdoc/index.html">API Documentation</a>
+					</p>
                     <a href="#" class="up">Go UP</a>
                 </article>
 
@@ -589,6 +537,11 @@
 						</code>
 						</pre>
 					</div>
+					<p>
+						<div>
+							<a href="examples_and_documents/index.html">Examples</a>
+						</div>
+					</p>
 					<a href="#" class="up">Go UP</a>
 				</article>
 

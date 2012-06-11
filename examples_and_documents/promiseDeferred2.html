@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <script type="text/javascript">
+            var Namespace = {};
+        </script>
+        <script type="text/javascript" src="js/Hydra.js"></script>
+        <script type="text/javascript" src="js/BrowserDetection.js"></script>
+        <script type="text/javascript" src="js/Ajax.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            var oPromise = new Hydra.promise();
+            var oPromise2 = new Hydra.promise();
+
+            Hydra.when(oPromise, oPromise2).then(function(){alert("all ok")}, function(){alert("all goes wrong!")});
+
+            var oAjax = new Namespace.Ajax();
+            oAjax.setup({
+                url: "test2.php",
+                success: function(oData)
+                {
+                    oPromise.resolve(oData);
+                },
+                error: function(oData)
+                {
+                    oPromise.reject(oData);
+                }
+            }).call();
+
+            var oAjax1 = new Namespace.Ajax();
+            oAjax1.setup({
+                url: "test.php",
+                success: function(oData)
+                {
+                    oPromise2.resolve(oData);
+                },
+                error: function(oData)
+                {
+                    oPromise2.reject(oData);
+                }
+            }).call();
+        </script>
+    </body>
+</html>

@@ -1,9 +1,9 @@
-(function (global, ns, _undefined_) {
+(function (win, doc, ns, _undefined_) {
 	'use strict';
-	var oModules, doc, oConsole, toString, reResolve, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
+	var oModules, oConsole, toString, reResolve, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
 
 	if (ns === _undefined_) {
-		ns = global;
+		ns = win;
 	}
 
 	/*
@@ -12,13 +12,12 @@
 	_null_ = null;
 	_false_ = false;
 	_true_ = true;
-	doc = global.document;
 	/*
 	 * End Variables to reduce size
 	 */
 
 	oModules = {};
-	oConsole = global.console;
+	oConsole = win.console;
 	reResolve = /resolve/g;
 	sVersion = "1.3.0";
 	bDebug = _false_;
@@ -482,7 +481,7 @@
 			if (oModule !== _undefined_) {
 				oInstance = createInstance(sModuleId);
 				oModule.instances[sContainerId] = oInstance;
-				oInstance.__container__ = doc.getElementById(sContainerId);
+				oInstance.__container__ = document.getElementById(sContainerId);
 				oInstance.init(oData);
 			}
 
@@ -1007,4 +1006,4 @@
 	 * This line exposes the private object to be accessible from outside of this code.
 	 */
 	ns.Hydra = Hydra;
-}(this));
+}(window, document));
