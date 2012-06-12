@@ -446,12 +446,12 @@ TestCase("HydraErrorHandlerCreateDomTest", sinon.testCase({
 		assertNull(Hydra.errorHandler().list);
 	},
 	"test should return one list after create_dom": function () {
-		Hydra.errorHandler().create_dom();
+		Hydra.errorHandler()._create_dom();
 
 		assertTagName("UL", Hydra.errorHandler().list);
 	},
 	"test should add one layer and one list in the dom": function () {
-		Hydra.errorHandler().create_dom();
+		Hydra.errorHandler()._create_dom();
 
 		assertTrue(document.body.childNodes.length > this.nChilds);
 		assertTrue(document.body.getElementsByTagName("div").length > this.nDivs);
@@ -461,7 +461,7 @@ TestCase("HydraErrorHandlerCreateDomTest", sinon.testCase({
 		var aDivs = [];
 		var oDiv = null;
 
-		Hydra.errorHandler().create_dom();
+		Hydra.errorHandler()._create_dom();
 		aDivs = document.body.getElementsByTagName("div");
 		oDiv = aDivs[aDivs.length-1];
 
@@ -471,7 +471,7 @@ TestCase("HydraErrorHandlerCreateDomTest", sinon.testCase({
 		var aDivs = [];
 		var oDiv = null;
 
-		Hydra.errorHandler().create_dom();
+		Hydra.errorHandler()._create_dom();
 		aDivs = document.body.getElementsByTagName("div");
 		oDiv = aDivs[aDivs.length-1];
 
@@ -481,7 +481,7 @@ TestCase("HydraErrorHandlerCreateDomTest", sinon.testCase({
 		var aDivs = [];
 		var oDiv = null;
 
-		Hydra.errorHandler().create_dom();
+		Hydra.errorHandler()._create_dom();
 		aDivs = document.body.getElementsByTagName("div");
 		oDiv = aDivs[aDivs.length-1];
 
@@ -491,7 +491,7 @@ TestCase("HydraErrorHandlerCreateDomTest", sinon.testCase({
 		var aDivs = [];
 		var oDiv = null;
 
-		Hydra.errorHandler().create_dom();
+		Hydra.errorHandler()._create_dom();
 		aDivs = document.body.getElementsByTagName("div");
 		oDiv = aDivs[aDivs.length-1];
 
@@ -506,7 +506,7 @@ TestCase("HydraErrorHandlerAddItemTest", sinon.testCase({
 		this.nChilds = document.body.childNodes.length;
 		this.nDivs = document.body.getElementsByTagName("div").length;
 		this.nLists = document.body.getElementsByTagName("ul").length;
-		Hydra.errorHandler().create_dom();
+		Hydra.errorHandler()._create_dom();
 	},
     tearDown: function () {},
 	"test should return 0 for li items in the list if addItem is not called": function () {
@@ -555,15 +555,15 @@ TestCase("HydraErrorHandlerLogTest", sinon.testCase({
 		document.body.innerHTML = '';
 		this.oLog = Hydra.errorHandler().log;
 
-		if(typeof Hydra.errorHandler().create_dom.restore !== "undefined")
+		if(typeof Hydra.errorHandler()._create_dom.restore !== "undefined")
 		{
-			Hydra.errorHandler().create_dom.restore();
+			Hydra.errorHandler()._create_dom.restore();
 		}
 		if(typeof Hydra.errorHandler().addItem.restore !== "undefined")
 		{
 			Hydra.errorHandler().addItem.restore();
 		}
-		sinon.spy(Hydra.errorHandler(), "create_dom");
+		sinon.spy(Hydra.errorHandler(), "_create_dom");
 		sinon.spy(Hydra.errorHandler(), "addItem");
 		this.oConsole = window.console;
 		this.sModuleId = 'test1module';
@@ -576,21 +576,21 @@ TestCase("HydraErrorHandlerLogTest", sinon.testCase({
         Hydra.module.remove(this.sModuleId);
         window.console = this.oConsole;
         Hydra.errorHandler().log = Hydra.errorHandler().__old_log__;
-        if(typeof Hydra.errorHandler().create_dom.restore !== "undefined")
+        if(typeof Hydra.errorHandler()._create_dom.restore !== "undefined")
         {
-            Hydra.errorHandler().create_dom.restore();
+            Hydra.errorHandler()._create_dom.restore();
         }
         if(typeof Hydra.errorHandler().addItem.restore !== "undefined")
         {
             Hydra.errorHandler().addItem.restore();
         }
     },
-	"test should call the create_dom one time if window.console is undefined": function () {
+	"test should call the _create_dom one time if window.console is undefined": function () {
 		Hydra.errorHandler().list = null;
 
 		Hydra.errorHandler().log(this.sModuleId, this.sMethod, this.erError, false);
 
-		assertTrue(Hydra.errorHandler().create_dom.calledOnce);
+		assertTrue(Hydra.errorHandler()._create_dom.calledOnce);
 	},
 	"test should call the addItem one time if window.console is undefined": function () {
 		Hydra.errorHandler().list = null;

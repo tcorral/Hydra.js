@@ -1,35 +1,87 @@
 (function (global, ns, _undefined_) {
 	'use strict';
-	var oModules, doc, oConsole, toString, reResolve, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
+	var oModules, doc, oConsole, reResolve, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
 
+	/**
+	 * If ns (namespace) is not supplied global is asumed
+	 */
 	if (ns === _undefined_) {
 		ns = global;
 	}
 
-	/*
-	 * Variables to reduce size
+	/**
+	 * Assign global.document (window.document) to a local variable.
+	 */
+	if (global.document) {
+		doc = global.document;
+	}
+
+	/**
+	 * Contains a reference to null object to decrease final size
+	 * @type {Object}
+	 * @private
 	 */
 	_null_ = null;
-	_false_ = false;
-	_true_ = true;
-	doc = global.document;
-	/*
-	 * End Variables to reduce size
-	 */
 
+	/**
+	 * Contains a reference to false to decrease final size
+	 * @type {Boolean}
+	 * @private
+	 */
+	_false_ = false;
+
+	/**
+	 * Contains a reference to true to decrease final size.
+	 * @type {Boolean}
+	 * @private
+	 */
+	_true_ = true;
+
+	/**
+	 * Property that will save the registered modules
+	 * @private
+	 * @type {Object}
+	 */
 	oModules = {};
+	/**
+	 * Property that contains the access to the global.console object.
+	 * @private
+	 * @type {Object}
+	 */
 	oConsole = global.console;
+	/**
+	 * Regular expression to detect if a Promise if resolved or not.
+	 * @private
+	 * @type {RegExp}
+	 */
 	reResolve = /resolve/g;
-	sVersion = "1.3.0";
+	/**
+	 * Version of Hydra
+	 * @private
+	 * @type {String}
+	 */
+	sVersion = "2.0.0";
+	/**
+	 * Used to activate the debug mode
+	 * @private
+	 * @type {Boolean}
+	 */
 	bDebug = _false_;
 
 	/**
-	 * oActions is the property that will save the actions to be listened
-	 * @type Object
+	 * Property that will save the actions to be listened
+	 * @private
+	 * @type {Object}
 	 */
 	oActions = {};
 
-	toString = function(oObject)
+	/**
+	 * Wrapper of Object.prototype.toString to detect type of object in crossbrowsing mode.
+	 * @private
+	 * @param {Object} oObject
+	 * @return {String}
+	 */
+	function toString(oObject)
 	{
 		return {}.toString.call(oObject);
 	};
@@ -37,7 +89,7 @@
 	 * isFunction is a function to know if the object passed as parameter is a Function object.
 	 * @private
 	 * @param {Object} fpCallback
-	 * @return Boolean
+	 * @return {Boolean}
 	 */
 	function isFunction(fpCallback) {
 		return toString(fpCallback) === '[object Function]';
@@ -63,15 +115,23 @@
 	}
 
 	/**
-	 * slice is a function to convert objects like array to real arrays.
+	 * Converts objects like node list to real array.
+	 * @private
 	 * @param {Object} oLikeArray
 	 * @param {Number} nElements
-	 * @return Array
+	 * @return {Array}
 	 */
 	function slice(oLikeArray, nElements) {
 		return [].slice.call(oLikeArray, nElements || 0);
 	}
 
+	/**
+	 * Wrapper of Object.hasOwnProperty
+	 * @private
+	 * @param oObj
+	 * @param sKey
+	 * @return {Boolean}
+	 */
 	function ownProp(oObj, sKey) {
 		return oObj.hasOwnProperty(sKey);
 	}
@@ -211,9 +271,10 @@
 	 * create_dom is the method that will create the hidden layer to log the errors
 	 * on system without console.
 	 * @member ErrorHandler
+	 * @private
 	 * @static
 	 */
-	ErrorHandler.create_dom = function () {
+	ErrorHandler._create_dom = function () {
 		var oLayer, oList, oLayerStyle;
 		oLayer = doc.createElement("div");
 		oList = doc.createElement("ul");
@@ -254,8 +315,8 @@
 
 	/**
 	 * log is the method that will differentiate the system if they had console or not.
-	 * if window.console exist console.log will be called
-	 * if window.console not exist then the log on layer will be activated.
+	 * if global.console exist console.log will be called
+	 * if global.console not exist then the log on layer will be activated.
 	 * Lazy pattern will be used to avoid extra work on next calls.
 	 * Arguments are sent to the methods that will be applied.
 	 * @member ErrorHandler
@@ -267,7 +328,7 @@
 
 		if (oConsole === _undefined_ || (typeof aArgs[aArgs.length - 1] === 'boolean' && !aArgs[aArgs.length - 1])) {
 			if (this.list === _null_) {
-				this.create_dom();
+				this._create_dom();
 			}
 			this.addItem.apply(this, aArgs);
 			ErrorHandler.__old_log__ = ErrorHandler.log;
@@ -310,6 +371,7 @@
 		 * @member Module.prototype
 		 * @param {String} sModuleId
 		 * @param {Function} fpCreator
+		 * @return {Module}
 		 */
 		register: function (sModuleId, fpCreator) {
 			oModules[sModuleId] = {
@@ -324,7 +386,7 @@
 		 * @param {Object} oModuleBase
 		 * @param {Object} oModuleExtended
 		 * @param {Boolean} bKeepParent If we keep parent calls to be callable via __super__.
-		 * @return Object
+		 * @return {Module}
 		 */
 		_merge: function (oModuleBase, oModuleExtended, bKeepParent) {
 			var oFinalModule, sKey, callInSupper;
@@ -449,6 +511,7 @@
 		 * It must work only when it's executed in jstestdriver environment
 		 * @param {String} sModuleId
 		 * @param {String} sContainerId
+		 * @return {Module}
 		 */
 		getModule: function(sModuleId, sContainerId)
 		{
@@ -471,6 +534,7 @@
 		 * @param {String} sContainerId
 		 * @param {Object} oData
 		 * @param {Boolean} bSingle
+		 * @return {Module} instance of the module
 		 */
 		start: function (sModuleId, sContainerId, oData, bSingle) {
 			var oModule, oInstance;
@@ -495,7 +559,7 @@
 		 * @member Module.prototype
 		 * @param {String} sModuleId Name of the module
 		 * @param {String} sContainerId Id of the DOM element
-		 * @return boolean
+		 * @return {Boolean}
 		 */
 		isModuleStarted: function (sModuleId, sContainerId) {
 			return (typeof oModules[sModuleId] !== _undefined_ && oModules[sModuleId].instances[sContainerId] !== _undefined_);
@@ -525,6 +589,7 @@
 		 * @member Module.prototype
 		 * @param {String} sModuleId
 		 * @param {String} sContainerId
+		 * @return {Boolean}
 		 */
 		stop: function (sModuleId, sContainerId) {
 			var oModule, oInstance;
@@ -538,6 +603,7 @@
 				oInstance.destroy();
 			}
 			oModule = oInstance = _null_;
+			return true;
 		},
 		/**
 		 * stopAll is the method that will finish all the registered and started modules.
@@ -751,7 +817,7 @@
 	 * @member Promise.prototype
 	 * @param {Function} fpSuccess
 	 * @param {Function} fpFailure
-	 * @return {Object} Promise instance
+	 * @return {Promise} Promise instance
 	 */
 	Promise.prototype.then = function (fpSuccess, fpFailure) {
 		this.aPending.push({ resolve: fpSuccess, reject: fpFailure});
@@ -777,7 +843,7 @@
 		/**
 		 * Adds a new Promise object to the array of Promise object that are needed to be completed.
 		 * @member Deferred.prototype
-		 * @param oPromise
+		 * @param {Promise} oPromise
 		 * @return {Object} Deferred instance
 		 */
 		add: function (oPromise) {
@@ -987,6 +1053,7 @@
 	 * Returns the constructor of Deferred object
 	 * @static
 	 * @member Hydra
+	 * @type {Deferred}
 	 */
 	Hydra.deferred = Deferred;
 
@@ -994,6 +1061,7 @@
 	 * Returns the constructor of Promise object
 	 * @static
 	 * @member Hydra
+	 * @type {Promise}
 	 */
 	Hydra.promise = Promise;
 
