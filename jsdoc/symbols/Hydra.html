@@ -1,654 +1,434 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="generator" content="JsDoc Toolkit" />
-		
-		<title>JsDoc Reference - Hydra</title>
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="JsDoc Toolkit" />
+	<title>JsDoc Reference - Hydra</title>
 
-		<style type="text/css">
-			/* default.css */
-body
-{
-	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
-	width: 800px;
-}
+	<link media="all" rel="stylesheet" href="../css/common.css" type="text/css" />
+	<link media="all" rel="stylesheet" href="../css/prettify.css" type="text/css" />
+	<link media="all" rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" />
+	<style type="text/css">
+		.icon-jsdoc {
+			background: url("../img/classicons.png") no-repeat;
+		}
+	</style>
+	<script src="../js/jquery-1.7.2.min.js" type="text/javascript"></script>
+	<script src="../js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="../js/prettify.js" type="text/javascript"></script>
+	<script src="../js/accordion.js" type="text/javascript"></script>
+</head>
 
-.header
-{
-	clear: both;
-	background-color: #ccc;
-	padding: 8px;
-}
-
-h1
-{
-	font-size: 150%;
-	font-weight: bold;
-	padding: 0;
-	margin: 1em 0 0 .3em;
-}
-
-hr
-{
-	border: none 0;
-	border-top: 1px solid #7F8FB1;
-	height: 1px;
-}
-
-pre.code
-{
-	display: block;
-	padding: 8px;
-	border: 1px dashed #ccc;
-}
-
-#index
-{
-	margin-top: 24px;
-	float: left;
-	width: 160px;
-	position: absolute;
-	left: 8px;
-	background-color: #F3F3F3;
-	padding: 8px;
-}
-
-#content
-{
-	margin-left: 190px;
-	width: 600px;
-}
-
-.classList
-{
-	list-style-type: none;
-	padding: 0;
-	margin: 0 0 0 8px;
-	font-family: arial, sans-serif;
-	font-size: 1em;
-	overflow: auto;
-}
-
-.classList li
-{
-	padding: 0;
-	margin: 0 0 8px 0;
-}
-
-.summaryTable { width: 100%; }
-
-h1.classTitle
-{
-	font-size:170%;
-	line-height:130%;
-}
-
-h2 { font-size: 110%; }
-caption, div.sectionTitle
-{
-	background-color: #7F8FB1;
-	color: #fff;
-	font-size:130%;
-	text-align: left;
-	padding: 2px 6px 2px 6px;
-	border: 1px #7F8FB1 solid;
-}
-
-div.sectionTitle { margin-bottom: 8px; }
-.summaryTable thead { display: none; }
-
-.summaryTable td
-{
-	vertical-align: top;
-	padding: 4px;
-	border-bottom: 1px #7F8FB1 solid;
-	border-right: 1px #7F8FB1 solid;
-}
-
-/*col#summaryAttributes {}*/
-.summaryTable td.attributes
-{
-	border-left: 1px #7F8FB1 solid;
-	width: 140px;
-	text-align: right;
-}
-
-td.attributes, .fixedFont
-{
-	line-height: 15px;
-	color: #002EBE;
-	font-family: "Courier New",Courier,monospace;
-	font-size: 13px;
-}
-
-.summaryTable td.nameDescription
-{
-	text-align: left;
-	font-size: 13px;
-	line-height: 15px;
-}
-
-.summaryTable td.nameDescription, .description
-{
-	line-height: 15px;
-	padding: 4px;
-	padding-left: 4px;
-}
-
-.summaryTable { margin-bottom: 8px; }
-
-ul.inheritsList
-{
-	list-style: square;
-	margin-left: 20px;
-	padding-left: 0;
-}
-
-.detailList {
-	margin-left: 20px; 
-	line-height: 15px;
-}
-.detailList dt { margin-left: 20px; }
-
-.detailList .heading
-{
-	font-weight: bold;
-	padding-bottom: 6px;
-	margin-left: 0;
-}
-
-.light, td.attributes, .light a:link, .light a:visited
-{
-	color: #777;
-	font-style: italic;
-}
-
-.fineprint
-{
-	text-align: right;
-	font-size: 10px;
-}
-		</style>
-	</head>
-
-	<body>
+<body onload="prettyPrint()"><div class="container-fluid">
 <!-- ============================== header ================================= -->	
-		<!-- begin static/header.html -->
-		<div id="header">
-</div>
-		<!-- end static/header.html -->
+	<!-- begin static/header.html -->
+	<header class="header navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="brand" href="#"><strong>JsDoc</strong> Reference</a>
+				<ul id="class-file-selector" class="nav">
+					<li><a href="../index.html">Class Index</a></li>
+					<li><a href="../files.html">File Index</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<!-- end static/header.html -->
 
 <!-- ============================== classes index ============================ -->
-		<div id="index">
+	<div class="row-fluid">
+		<div id="index" class="span3">
 			<!-- begin publish.classesIndex -->
-			<div align="center"><a href="../index.html">Class Index</a>
-| <a href="../files.html">File Index</a></div>
-<hr />
-<h2>Classes</h2>
-<ul class="classList">
-	
-	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
-	
-	<li><a href="../symbols/Action.html">Action</a></li>
-	
-	<li><a href="../symbols/Deferred.html">Deferred</a></li>
-	
-	<li><a href="../symbols/ErrorHandler.html">ErrorHandler</a></li>
-	
-	<li><a href="../symbols/Hydra.html">Hydra</a></li>
-	
-	<li><a href="../symbols/Module.html">Module</a></li>
-	
-	<li><a href="../symbols/Promise.html">Promise</a></li>
-	
-</ul>
-<hr />
+			<div class="well" id="class-list">
+	<ul class="nav nav-list">
+		<li class="nav-header">Classes</li>
+		
+			<li><a href="../symbols/Action.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Action</span></span></a></li>
+		
+			<li><a href="../symbols/Deferred.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Deferred</span></span></a></li>
+		
+			<li><a href="../symbols/ErrorHandler.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">ErrorHandler</span></span></a></li>
+		
+			<li><a href="../symbols/Hydra.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Hydra</span></span></a></li>
+		
+			<li><a href="../symbols/Module.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Module</span></span></a></li>
+		
+			<li><a href="../symbols/Promise.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Promise</span></span></a></li>
+		
+			<li><a href="../symbols/_global_.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">_global_</span></span></a></li>
+		
+	</ul>
+</div>
+
 			<!-- end publish.classesIndex -->
 		</div>
 		
-		<div id="content">
+		<div id="content" class="span9">
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class Hydra
+				<img src="../img/class.png" alt="Class " class="jsdoc-large-icon" />Hydra
+				
+				
+				
+				
+				
+				
 			</h1>
-
-<!-- ============================== class summary ========================== -->			
-			<p class="description">
-				
-				
 			
-				Hydra
-				
-				
-					<br /><i>Defined in: </i> <a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">Hydra.js</a>.
-				
-			</p>
-
-<!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Hydra.">
-				<caption>Class Summary</caption>
-				<thead>
-					<tr>
-						<th scope="col">Constructor Attributes</th>
-						<th scope="col">Constructor Name and Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="attributes">&nbsp;</td>
-						<td class="nameDescription" >
-							<div class="fixedFont">
-								<b><a href="../symbols/Hydra.html#constructor">Hydra</a></b>()
-							</div>
-							<div class="description">Hydra is the api that will be available to use by developers</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			
-
-<!-- ============================== properties summary ===================== -->
-			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class Hydra.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
+			<div class="jsdoc-hierarchy-nav">
+				<ul class="breadcrumb">
 					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.deferred">deferred</a></b>
-								</div>
-								<div class="description">Returns the constructor of Deferred object</div>
-							</td>
-						</tr>
+						<li class="jsdoc-hierarchy-caption">Inheritance</li>
+							
+						<li class="active">Hydra</li>
 					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.errorHandler">errorHandler</a></b>
-								</div>
-								<div class="description">Returns the actual ErrorHandler</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.module">module</a></b>
-								</div>
-								<div class="description">Return a singleton of Module</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.promise">promise</a></b>
-								</div>
-								<div class="description">Returns the constructor of Promise object</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.setDebug">setDebug</a></b>
-								</div>
-								<div class="description">Change the debug mode to on/off</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.setErrorHandler">setErrorHandler</a></b>
-								</div>
-								<div class="description">Sets and overwrites the ErrorHandler object to log errors and messages</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.version">version</a></b>
-								</div>
-								<div class="description">Version number of Hydra.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								Hydra.<b><a href="../symbols/Hydra.html#.when">when</a></b>
-								</div>
-								<div class="description">Sugar method to generate Deferred objects in a simple way</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
-			
-
-<!-- ============================== methods summary ======================== -->
-			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Hydra.">
-					<caption>Method Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Method Attributes</th>
-							<th scope="col">Method Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">Hydra.<b><a href="../symbols/Hydra.html#.action">action</a></b>()
-								</div>
-								<div class="description">action is a method to get a new instance of Action</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
-			
-<!-- ============================== events summary ======================== -->
-			
-
-<!-- ============================== constructor details ==================== -->		
-			
-			<div class="details"><a name="constructor"> </a>
-				<div class="sectionTitle">
-					Class Detail
-				</div>
-				
-				<div class="fixedFont">
-						<b>Hydra</b>()
-				</div>
-				
-				<div class="description">
-					Hydra is the api that will be available to use by developers
-					
-				</div>
-				
-				
-				
-				
-					
-					
-					
-					
-					
-					
-					
-
+				</ul>
 			</div>
+
+<!-- ============================== constructor summary ==================== -->
 			
-
-<!-- ============================== field details ========================== -->		
-			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name=".deferred"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>deferred</b>
-					
-					</div>
-					<div class="description">
-						Returns the constructor of Deferred object
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".errorHandler"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{<a href="../symbols/ErrorHandler.html">ErrorHandler</a>}</span>
-					<span class="light">Hydra.</span><b>errorHandler</b>
-					
-					</div>
-					<div class="description">
-						Returns the actual ErrorHandler
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".module"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>module</b>
-					
-					</div>
-					<div class="description">
-						Return a singleton of Module
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".promise"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>promise</b>
-					
-					</div>
-					<div class="description">
-						Returns the constructor of Promise object
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".setDebug"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>setDebug</b>
-					
-					</div>
-					<div class="description">
-						Change the debug mode to on/off
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".setErrorHandler"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>setErrorHandler</b>
-					
-					</div>
-					<div class="description">
-						Sets and overwrites the ErrorHandler object to log errors and messages
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".version"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{String}</span>
-					<span class="light">Hydra.</span><b>version</b>
-					
-					</div>
-					<div class="description">
-						Version number of Hydra.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".when"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">Hydra.</span><b>when</b>
-					
-					</div>
-					<div class="description">
-						Sugar method to generate Deferred objects in a simple way
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					
-				
-			
-
-<!-- ============================== method details ========================= -->		
-			
-				<div class="sectionTitle">
-					Method Detail
-				</div>
-				
-					<a name=".action"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{<a href="../symbols/Action.html">Action</a>}</span>
-					<span class="light">Hydra.</span><b>action</b>()
-					
-					</div>
-					<div class="description">
-						action is a method to get a new instance of Action
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
+				<h3>Constructor</h3>
+				<div class="jsdoc-members">
+					<div class="jsdoc-member">
+						<div class="jsdoc-member-definition">
+							<b><a id="Hydra" href="../symbols/Hydra.html">Hydra</a></b>
+							(  )
 							
-								<dd><span class="light fixedFont">{<a href="../symbols/Action.html">Action</a>}</span> Action instance</dd>
 							
-							</dl>
-						
-						
-						
+							
+							
+							
+							
+							
+						</div>
+						<div class="jsdoc-member-description">
+							<div class="jsdoc-member-content">
+								<div class="jsdoc-member-summary">
+									Hydra is the api that will be available to use by developers
+									<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+								</div>
+								
+								
+								
+								
+								
+								
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			
 
-					
+<!-- ============================== instance members summary ===================== -->
+			
+			
+
+<!-- ============================== static members summary ======================== -->
+			
+			
+				<h3>Static members</h3>
+				
+				
+				
+					<h4>Static Methods<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<b><a id="action" href="../symbols/Hydra.html#.action">action</a></b>
+									<span class="signature">(  )</span>
+									 : <a href="../symbols/Action.html">Action</a>
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											action is a method to get a new instance of Action
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc"><a href="../symbols/Action.html">Action</a></span></dt>
+															<dd>Action instance</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+					</div>
+				
+				
+					<h4>Static Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="deferred" href="../symbols/Hydra.html#.deferred">deferred</a></b>
+									
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											Returns the constructor of Deferred object
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="errorHandler" href="../symbols/Hydra.html#.errorHandler">errorHandler</a></b>
+									 : <a href="../symbols/ErrorHandler.html">ErrorHandler</a>
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											Returns the actual ErrorHandler
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="module" href="../symbols/Hydra.html#.module">module</a></b>
+									
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											Return a singleton of Module
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="promise" href="../symbols/Hydra.html#.promise">promise</a></b>
+									
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											Returns the constructor of Promise object
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="setDebug" href="../symbols/Hydra.html#.setDebug">setDebug</a></b>
+									
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											Change the debug mode to on/off
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<b><a id="setErrorHandler" href="../symbols/Hydra.html#.setErrorHandler">setErrorHandler</a></b>
+									
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											Sets and overwrites the ErrorHandler object to log errors and messages
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>ErrorHandler : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="version" href="../symbols/Hydra.html#.version">version</a></b>
+									 : String
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											Version number of Hydra.
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="when" href="../symbols/Hydra.html#.when">when</a></b>
+									
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											Sugar method to generate Deferred objects in a simple way
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+					</div>
 				
 			
-			
-<!-- ============================== event details ========================= -->		
-			
-			
-			<hr />
-		</div>
 
-		
 <!-- ============================== footer ================================= -->
-		<div class="fineprint" style="clear:both">
-			&copy;2012<br />
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Jun 12 2012 01:05:22 GMT+0200 (CEST)
-		</div>
-	</body>
+	<footer class="footer">
+		<p>&copy;2012</p>
+		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Tue Jun 12 2012 22:57:52 GMT+0200 (CEST)</p>
+	</footer>
+</div></body>
 </html>
