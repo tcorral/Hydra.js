@@ -1,5 +1,10 @@
 ChangeLog:
-2.0
+2.1.0
+	* Added method to set vars in a private scope only accessible from the init arguments method or using the getter method
+		* Methods added:
+			- setVars (Expect one object as argument)
+			- getVars (Returns a current snapshot of the vars object)
+2.0.0
 	* Add multi-instance for modules.
 		* Now is possible to add more than one instance for the same module.
 		* It has been added a new param (id of the DOM element that will be the '__container__' property of the module instance when these methods are called:

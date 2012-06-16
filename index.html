@@ -109,7 +109,7 @@
 							&lt;script type="text/javascript" src="/path/to/Hydra.js"&gt;&lt;/script&gt;<br/>
 						</p>
 						<p>
-							<h4>Version 2.0</h4>
+							<h4>Version 2.1</h4>
 							<a href="changelog.txt">Changelog</a>
 						</p>
 					</div>
@@ -186,6 +186,17 @@
 								</ul>
 						<h4>Hydra.<em>module</em></h4>
 							<p>Module is the class that will manage the module system.</p>
+							<h5 class="mLeft20">Hydra.module.<em>setVars( oData )</em></h5>
+								<div class="mLeft30">Set vars creates a private var object inside Hydra.module to be accessed from init method arguments when starting the module.</div>
+								<div class="mLeft30">You can access this private vars object using getVars too (see getVars section)</div>
+								<h6 class="mLeft40">Params:</h6>
+								<ul class="mLeft80">
+									<li>
+										oData : Object with the vars to be used in modules.
+									</li>
+								</ul>
+							<h5 class="mLeft20">Hydra.module.<em>getVars()</em></h5>
+								<div class="mLeft30">Returns the vars object that has been set using setVars method (see setVars section);
 							<h5 class="mLeft20">Hydra.module.<em>register( sModuleId, fpCreator )</em></h5>
 								<div class="mLeft30">Register will add a new module to the module manager.</div>
 								<h6 class="mLeft40">Params:</h6>
