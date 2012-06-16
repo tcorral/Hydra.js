@@ -22,7 +22,7 @@ Hydra has been designed to create your application in a modular design system.
 * Allows set private vars to be used inside of modules.
 * Can be used in url threaded application as in a ajax threaded application.
 * You can test your modules with any Unit Testing Framework.
-* Only 2kb when [Gzipped](http://tcorral.github.com/Hydra.js/versions/hydra.min.gz).
+* Only 2kb when [Gzipped](http://tcorral.github.com/Hydra.js/js/versions/hydra.min.gz).
 
 [API documentation](http://tcorral.github.com/Hydra.js/jsdoc/index.html)
 
