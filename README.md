@@ -208,9 +208,9 @@ Deferred object has two methods "add" and "then".
 
 (Links will only work if you clone the repo.)
 
-[API documentation](/tcorral/Hydra.js/tree/master/examples_and_documents/jsdoc/index.html)
+[API documentation](http://tcorral.github.com/Hydra.js/jsdoc/index.html)
 
-[Examples](/tcorral/Hydra.js/tree/master/examples_and_documents/index.html) to see for yourself!
+[Examples](http://tcorral.github.com/Hydra.js/examples_and_documents/index.html) to see for yourself!
 
 ## License
 
