@@ -550,6 +550,96 @@ TestCase("HydraErrorHandlerAddItemTest", sinon.testCase({
 	}
 }));
 
+TestCase("HydraModuleSetVarsTest", sinon.testCase({
+	setUp: function()
+	{
+		var self = this;
+		this.oVars = null;
+		this.fpInit = function(oData)
+		{
+			self.oVars = oData;
+		};
+		Hydra.module.register("test-module", function(sandbox)
+		{
+			return {
+				init: self.fpInit,
+				destroy: function()
+				{
+
+				}
+			};
+		});
+		sinon.spy(this, 'fpInit');
+	},
+	tearDown: function()
+	{
+		this.fpInit.restore();
+		delete this.oVars;
+		delete this.fpInit;
+	},
+	'test should check that setVars method exist in Module': function()
+	{
+		assertFunction(Hydra.module.setVars);
+	},
+	'test should check that all the vars set in setVars are passed as an object when the module is started': function()
+	{
+		var oVars = {
+			'test': 'test',
+			'test1': 'test1'
+		};
+		Hydra.module.setVars(oVars);
+
+		Hydra.module.start('test-module');
+
+		assertSame(oVars, this.oVars);
+	},
+	'test should check that if we pass a param when starting the module will move the object of vars to the last position in arguments': function()
+	{
+		var oVars = {
+			'test': 'test',
+			'test1': 'test1'
+		};
+		var oData = {
+			data: 2
+		};
+		var oCall = null;
+
+		Hydra.module.setVars(oVars);
+
+		Hydra.module.start('test-module', document.body, oData);
+
+		oCall = this.fpInit.getCall(0);
+
+		assertEquals(oData, oCall.args[0]);
+		assertEquals(oVars, oCall.args[1]);
+	}
+}));
+
+TestCase("HydraModuleGetVarsTest", sinon.testCase({
+	setUp: function()
+	{
+		this.oVars = {
+			'test': 'test',
+			'test1': 'test1'
+		};
+		Hydra.module.setVars(this.oVars);
+	},
+	tearDown: function()
+	{
+		delete this.oVars;
+	},
+	'test should check that getVars method exist in Module': function()
+	{
+		assertFunction(Hydra.module.getVars);
+	},
+	'test should check that getVars return a copy of all the vars set using setVars': function()
+	{
+		var oVars = Hydra.module.getVars();
+
+		assertEquals(this.oVars, oVars);
+	}
+}));
+
 TestCase("HydraErrorHandlerLogTest", sinon.testCase({
 	setUp: function () {
 		document.body.innerHTML = '';

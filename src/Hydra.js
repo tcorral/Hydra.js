@@ -1,6 +1,6 @@
 (function (global, ns, _undefined_) {
 	'use strict';
-	var oModules, doc, oConsole, reResolve, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
+	var oModules, doc, oVars, oConsole, reResolve, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
 
 	/**
 	 * If ns (namespace) is not supplied global is asumed
@@ -186,9 +186,10 @@
 			oEventsCallbacks = sKey = null;
 			return aListeningEvents;
 		}());
-		oModule.init = function () {
+		oModule.init = function (oArgs) {
+			var aArgs = slice(arguments).concat(oVars);
 			oAction.listen(this.aListeningEvents, this.handleAction, this);
-			fpInitProxy.call(this, arguments);
+			fpInitProxy.apply(this, aArgs);
 		};
 		oModule.handleAction = function (oNotifier) {
 			var fpCallback = this.oEventsCallbacks[oNotifier.type];
@@ -491,6 +492,46 @@
 			oAction = _null_;
 		},
 		/**
+		 * Do a simple merge of two objects overwritting the target properties with source properties
+		 * @param oTarget
+		 * @param oSource
+		 * @private
+		 */
+		_simpleMerge: function(oTarget, oSource)
+		{
+			var sKey;
+			for(sKey in oSource)
+			{
+				if( ownProp(oSource, sKey) )
+				{
+					oTarget[sKey] = oSource[sKey];
+				}
+			}
+			return oTarget;
+		},
+		/**
+		 * Sets an object of vars and add it's content to oVars private variable
+		 * @param oVar
+		 */
+		setVars: function(oVar)
+		{
+			if(typeof oVars !== 'undefined')
+			{
+				oVars = this._simpleMerge(oVars, oVar);
+			}else
+			{
+				oVars = oVar;
+			}
+		},
+		/**
+		 * Returns the private vars object by copy.
+		 * @returns {Object} global vars.
+		 */
+		getVars: function()
+		{
+			return this._simpleMerge({}, oVars);
+		},
+		/**
 		 * test is a method that will return the module without wrapping their methods.
 		 * It's called test because it was created to be able to test the modules with unit testing.
 		 * It must work only when it's executed in jstestdriver environment
@@ -547,7 +588,13 @@
 				oInstance = createInstance(sModuleId);
 				oModule.instances[sContainerId] = oInstance;
 				oInstance.__container__ = doc.getElementById(sContainerId);
-				oInstance.init(oData);
+				if(typeof oData !== 'undefined')
+				{
+					oInstance.init(oData);
+				}else
+				{
+					oInstance.init();
+				}
 			}
 
 			oModule = _null_;

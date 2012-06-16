@@ -1,7 +1,7 @@
 # Hydra.js
 Hidra.js is a module manager oriented system.
 
-## Updated to version 2.0
+## Updated to version 2.1
 
 [Changelog](https://raw.github.com/tcorral/Hydra.js/master/changelog.txt)
 
@@ -18,9 +18,11 @@ Hydra has been designed to create your application in a modular design system.
 * Notifying an action will be called on all the modules that will be listening this action.
 * A module can be extended
  * If you have a module that is working well you can extend it to change his behavior without losing is original behavior.
+* Allows multi-instance modules
+* Allows set private vars to be used inside of modules.
 * Can be used in url threaded application as in a ajax threaded application.
 * You can test your modules with any Unit Testing Framework.
-* Only 2kb when [Gzipped](http://tcorral.github.com/Hydra.js/versions/hydra.js.gz).
+* Only 2kb when [Gzipped](http://tcorral.github.com/Hydra.js/versions/hydra.min.gz).
 
 [API documentation](http://tcorral.github.com/Hydra.js/jsdoc/index.html)
 
@@ -32,6 +34,19 @@ Hydra has been designed to create your application in a modular design system.
 Insert in your code:
 
 	<script type="text/javascript" src="/path/to/your/js/libs/Hydra.js"></script>
+
+### Setting vars
+	Hydra.module.setVars({
+		gaq: _gaq,
+		list: document.getElementById("list")
+	});
+Setting the vars in this way this vars will be accessible as last argument in init module method if needed you can access
+to this vars object using getVars (See 'Getting vars')
+Tip. This method not only set vars, if the object has been set before the new vars will be merged with the previous object.
+
+### Getting vars
+	var oVars = Hydra.module.getVars();
+Returns the object with the private vars set using setVars (See 'Setting vars')
 
 ### Create a module
 	Hydra.module.register('moduleId', function(action)
