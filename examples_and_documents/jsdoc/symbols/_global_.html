@@ -45,15 +45,9 @@
 		
 			<li><a href="../symbols/Action.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Action</span></span></a></li>
 		
-			<li><a href="../symbols/Deferred.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Deferred</span></span></a></li>
-		
-			<li><a href="../symbols/ErrorHandler.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">ErrorHandler</span></span></a></li>
-		
 			<li><a href="../symbols/Hydra.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Hydra</span></span></a></li>
 		
 			<li><a href="../symbols/Module.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Module</span></span></a></li>
-		
-			<li><a href="../symbols/Promise.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Promise</span></span></a></li>
 		
 			<li><a href="../symbols/_global_.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">_global_</span></span></a></li>
 		
@@ -94,42 +88,6 @@
 			
 			
 				<h3>Instance members</h3>
-				
-					<h4>Instance Methods<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
-					<div class="jsdoc-members">
-						
-							<div class="jsdoc-member container-jsdoc-private">
-								<div class="jsdoc-member-definition">
-									<div class="jsdoc-member-content">
-										<b><a id="When" href="../symbols/_global_.html#When">When</a></b>
-										<span class="signature">(  )</span>
-										
-										<span class="label label-jsdoc label-jsdoc-private">Private</span>
-										
-										
-										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/_global_.html">_global_</a></span>
-									</div>
-								</div>
-								<div class="jsdoc-member-description">
-									<div class="jsdoc-member-content">
-										<div class="jsdoc-member-summary">
-											Sugar function to create a new Deferred object.
-When expects Promise objects to be added to the Deferred object [Promise1, Promise2,...PromiseN]
-If one of the arguments is not a Promise When assume that we want to complete the Deferred object
-											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
-										</div>
-										
-										
-										
-										
-										
-										
-										
-									</div>
-								</div>
-							</div>
-						
-					</div>
 				
 				
 					<h4>Instance Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
@@ -243,6 +201,33 @@ If one of the arguments is not a Promise When assume that we want to complete th
 								</div>
 							</div>
 						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="ErrorHandler" href="../symbols/_global_.html#ErrorHandler">ErrorHandler</a></b>
+									
+									
+									
+									
+									
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/_global_.html">_global_</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											Simple object to abstract the error handler, the most basic is to be the console object
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
 							<div class="jsdoc-member container-jsdoc-private">
 								<div class="jsdoc-member-definition">
 									<b><a id="oActions" href="../symbols/_global_.html#oActions">oActions</a></b>
@@ -272,33 +257,6 @@ If one of the arguments is not a Promise When assume that we want to complete th
 						
 							<div class="jsdoc-member container-jsdoc-private">
 								<div class="jsdoc-member-definition">
-									<b><a id="oConsole" href="../symbols/_global_.html#oConsole">oConsole</a></b>
-									
-									
-									<span class="label label-jsdoc label-jsdoc-private">Private</span>
-									
-									
-									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/_global_.html">_global_</a></span>
-								</div>
-								<div class="jsdoc-member-description">
-									<div class="jsdoc-member-content">
-										<div class="jsdoc-member-summary">
-											Property that contains the access to the global.console object.
-											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
-										</div>
-										
-										
-										
-										
-										
-										
-										
-									</div>
-								</div>
-							</div>
-						
-							<div class="jsdoc-member container-jsdoc-private">
-								<div class="jsdoc-member-definition">
 									<b><a id="oModules" href="../symbols/_global_.html#oModules">oModules</a></b>
 									
 									
@@ -311,33 +269,6 @@ If one of the arguments is not a Promise When assume that we want to complete th
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											Property that will save the registered modules
-											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
-										</div>
-										
-										
-										
-										
-										
-										
-										
-									</div>
-								</div>
-							</div>
-						
-							<div class="jsdoc-member container-jsdoc-private">
-								<div class="jsdoc-member-definition">
-									<b><a id="reResolve" href="../symbols/_global_.html#reResolve">reResolve</a></b>
-									
-									
-									<span class="label label-jsdoc label-jsdoc-private">Private</span>
-									
-									
-									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/_global_.html">_global_</a></span>
-								</div>
-								<div class="jsdoc-member-description">
-									<div class="jsdoc-member-content">
-										<div class="jsdoc-member-summary">
-											Regular expression to detect if a Promise if resolved or not.
 											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
 										</div>
 										
@@ -389,7 +320,7 @@ If one of the arguments is not a Promise When assume that we want to complete th
 <!-- ============================== footer ================================= -->
 	<footer class="footer">
 		<p>&copy;2012</p>
-		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Sat Jun 16 2012 02:59:40 GMT+0200 (CEST)</p>
+		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jun 18 2012 00:58:19 GMT+0200 (CEST)</p>
 	</footer>
 </div></body>
 </html>

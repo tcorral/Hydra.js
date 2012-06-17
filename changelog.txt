@@ -1,4 +1,15 @@
 ChangeLog:
+2.2.0
+	* Separate all the elements not needed for modular architecture.
+		* BasicErrorHandler
+		* Deferred
+	* Create jQuery wrappers to avoid high coupling in modules.
+		* Ajax
+		* DOM
+		* Events
+	* Added new methods:
+		* noConflict	-> Create an alias to one part of Hydra to be called as a different name
+		* extend		-> Add a new functionality to Hydra.
 2.1.0
 	* Added method to set vars in a private scope only accessible from the init arguments method or using the getter method
 		* Methods added:

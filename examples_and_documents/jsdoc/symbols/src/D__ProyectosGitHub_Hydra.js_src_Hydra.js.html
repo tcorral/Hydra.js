@@ -43,15 +43,9 @@
 		
 			<li><a href="../../symbols/Action.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Action</span></span></a></li>
 		
-			<li><a href="../../symbols/Deferred.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Deferred</span></span></a></li>
-		
-			<li><a href="../../symbols/ErrorHandler.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">ErrorHandler</span></span></a></li>
-		
 			<li><a href="../../symbols/Hydra.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Hydra</span></span></a></li>
 		
 			<li><a href="../../symbols/Module.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Module</span></span></a></li>
-		
-			<li><a href="../../symbols/Promise.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Promise</span></span></a></li>
 		
 			<li><a href="../../symbols/_global_.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">_global_</span></span></a></li>
 		
@@ -65,21 +59,21 @@
 <!-- ============================== source code ============================ -->
 
 			<pre id="source-code" class="prettyprint linenums">
-				(function (global, ns, _undefined_) {
+				(function ( global, ns, _undefined_ ) {
 	'use strict';
-	var oModules, doc, oVars, oConsole, reResolve, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, Promise, Deferred, When;
+	var oModules, doc, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions;
 
 	/**
-	 * If ns (namespace) is not supplied global is asumed
+	 * If ns (namespace) is not supplied global is assumed
 	 */
-	if (ns === _undefined_) {
+	if ( ns === _undefined_ ) {
 		ns = global;
 	}
 
 	/**
 	 * Assign global.document (window.document) to a local variable.
 	 */
-	if (global.document) {
+	if ( global.document ) {
 		doc = global.document;
 	}
 
@@ -110,24 +104,14 @@
 	 * @type {Object}
 	 */
 	oModules = {};
-	/**
-	 * Property that contains the access to the global.console object.
-	 * @private
-	 * @type {Object}
-	 */
-	oConsole = global.console;
-	/**
-	 * Regular expression to detect if a Promise if resolved or not.
-	 * @private
-	 * @type {RegExp}
-	 */
-	reResolve = /resolve/g;
+
 	/**
 	 * Version of Hydra
 	 * @private
 	 * @type {String}
 	 */
-	sVersion = "2.0.0";
+	sVersion = "2.2.0";
+
 	/**
 	 * Used to activate the debug mode
 	 * @private
@@ -143,23 +127,23 @@
 	oActions = {};
 
 	/**
-	 * Wrapper of Object.prototype.toString to detect type of object in crossbrowsing mode.
+	 * Wrapper of Object.prototype.toString to detect type of object in cross browsing mode.
 	 * @private
 	 * @param {Object} oObject
 	 * @return {String}
 	 */
-	function toString(oObject)
-	{
-		return {}.toString.call(oObject);
-	};
+	function toString ( oObject ) {
+		return {}.toString.call( oObject );
+	}
+
 	/**
 	 * isFunction is a function to know if the object passed as parameter is a Function object.
 	 * @private
 	 * @param {Object} fpCallback
 	 * @return {Boolean}
 	 */
-	function isFunction(fpCallback) {
-		return toString(fpCallback) === '[object Function]';
+	function isFunction ( fpCallback ) {
+		return toString( fpCallback ) === '[object Function]';
 	}
 
 	/**
@@ -168,8 +152,8 @@
 	 * @param aArray
 	 * @return {Boolean}
 	 */
-	function isArray(aArray) {
-		return toString(aArray) === '[object Array]';
+	function isArray ( aArray ) {
+		return toString( aArray ) === '[object Array]';
 	}
 
 	/**
@@ -177,7 +161,7 @@
 	 * @private
 	 * @param {Boolean} _bDebug
 	 */
-	function setDebug(_bDebug) {
+	function setDebug ( _bDebug ) {
 		bDebug = _bDebug;
 	}
 
@@ -188,8 +172,8 @@
 	 * @param {Number} nElements
 	 * @return {Array}
 	 */
-	function slice(oLikeArray, nElements) {
-		return [].slice.call(oLikeArray, nElements || 0);
+	function slice ( oLikeArray, nElements ) {
+		return [].slice.call( oLikeArray, nElements || 0 );
 	}
 
 	/**
@@ -199,8 +183,24 @@
 	 * @param sKey
 	 * @return {Boolean}
 	 */
-	function ownProp(oObj, sKey) {
-		return oObj.hasOwnProperty(sKey);
+	function ownProp ( oObj, sKey ) {
+		return oObj.hasOwnProperty( sKey );
+	}
+
+	/**
+	 * Do a simple merge of two objects overwriting the target properties with source properties
+	 * @param oTarget
+	 * @param oSource
+	 * @private
+	 */
+	function simpleMerge ( oTarget, oSource ) {
+		var sKey;
+		for ( sKey in oSource ) {
+			if ( ownProp( oSource, sKey ) ) {
+				oTarget[sKey] = oSource[sKey];
+			}
+		}
+		return oTarget;
 	}
 
 	/**
@@ -212,212 +212,111 @@
 	 * @param {String} sModuleId
 	 * @param {Function} fpMethod
 	 */
-	function wrapMethod(oInstance, sName, sModuleId, fpMethod) {
-		oInstance[sName] = (function (sName, fpMethod) {
+	function wrapMethod ( oInstance, sName, sModuleId, fpMethod ) {
+		oInstance[sName] = (function ( sName, fpMethod ) {
 			return function () {
-				var aArgs = slice(arguments, 0);
+				var aArgs = slice( arguments, 0 );
 				try {
-					return fpMethod.apply(this, aArgs);
-				} catch (erError) {
-					ErrorHandler.log(sModuleId, sName, erError);
-				} finally {
+					return fpMethod.apply( this, aArgs );
+				}
+				catch ( erError ) {
+					ErrorHandler.log( sModuleId, sName, erError );
+				}
+				finally {
 					aArgs = _null_;
 				}
 			};
-		}(sName, fpMethod));
+		}( sName, fpMethod ));
 	}
 
 	/**
 	 * Add common properties and methods to avoid repeating code in modules
-	 * @param {Object} oModule
+	 * @param {String} sModuleId
 	 * @param {Action} oAction
 	 */
-	function addPropertiesAndMethodsToModule(sModuleId, oAction)
-	{
+	function addPropertiesAndMethodsToModule ( sModuleId, oAction ) {
 		var oModule,
 			fpInitProxy;
-		oModule = oModules[sModuleId].creator(oAction);
+		oModule = oModules[sModuleId].creator( oAction );
 		fpInitProxy = oModule.init;
 		oModule.__action__ = oAction;
 		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
-		oModule.aListeningEvents = (function()
-		{
+		oModule.aListeningEvents = (function () {
 			var oEventsCallbacks = oModule.oEventsCallbacks,
 				sKey,
 				aListeningEvents = [];
-			for (sKey in oEventsCallbacks) {
-				if (oEventsCallbacks.hasOwnProperty(sKey)) {
-					aListeningEvents.push(sKey);
+			for ( sKey in oEventsCallbacks ) {
+				if ( oEventsCallbacks.hasOwnProperty( sKey ) ) {
+					aListeningEvents.push( sKey );
 				}
 			}
 			oEventsCallbacks = sKey = null;
 			return aListeningEvents;
 		}());
-		oModule.init = function (oArgs) {
-			var aArgs = slice(arguments).concat(oVars);
-			oAction.listen(this.aListeningEvents, this.handleAction, this);
-			fpInitProxy.apply(this, aArgs);
+		oModule.init = function ( oArgs ) {
+			var aArgs = slice( arguments, 0 ).concat( oVars );
+			oAction.listen( this.aListeningEvents, this.handleAction, this );
+			fpInitProxy.apply( this, aArgs );
 		};
-		oModule.handleAction = function (oNotifier) {
+		oModule.handleAction = function ( oNotifier ) {
 			var fpCallback = this.oEventsCallbacks[oNotifier.type];
-			if (fpCallback === _undefined_) {
+			if ( fpCallback === _undefined_ ) {
 				return;
 			}
-			fpCallback.call(this, oNotifier);
+			fpCallback.call( this, oNotifier );
 		};
 		oModule.onDestroy = oModule.onDestroy || function () {};
 		oModule.destroy = function () {
 			this.onDestroy();
-			oAction.stopListen(this.aListeningEvents, this);
+			oAction.stopListen( this.aListeningEvents, this );
 		};
 		return oModule;
 	}
+
 	/**
 	 * createInstance is the method that will create the module instance and wrap the method if needed.
 	 * @private
 	 * @param {String} sModuleId
 	 * @return {Object} Module instance
 	 */
-	function createInstance(sModuleId) {
+	function createInstance ( sModuleId ) {
 		var oAction, oInstance, sName, fpMethod;
-		if (oModules[sModuleId] === _undefined_) {
-			throw new Error("The module is not registered!");
+		if ( oModules[sModuleId] === _undefined_ ) {
+			throw new Error( "The module is not registered!" );
 		}
 		oAction = new Action();
 		sName = '';
 		fpMethod = function () {};
 
-		oInstance = addPropertiesAndMethodsToModule(sModuleId, oAction);
+		oInstance = addPropertiesAndMethodsToModule( sModuleId, oAction );
 
-		if (!bDebug) {
-			for (sName in oInstance) {
-				if (ownProp(oInstance,sName)) {
+		if ( !bDebug ) {
+			for ( sName in oInstance ) {
+				if ( ownProp( oInstance, sName ) ) {
 					fpMethod = oInstance[sName];
-					if (!isFunction(fpMethod)) {
+					if ( !isFunction( fpMethod ) ) {
 						continue;
 					}
-					wrapMethod(oInstance, sName, sModuleId, fpMethod);
+					wrapMethod( oInstance, sName, sModuleId, fpMethod );
 				}
 			}
 		}
 		try {
 			return oInstance;
-		} finally {
+		}
+		finally {
 			oAction = _null_;
 			oInstance = _null_;
 			sName = _null_;
 			fpMethod = _null_;
 		}
 	}
-
 	/**
-	 * Class to manage the errors in modules
-	 * @constructor
-	 * @class ErrorHandler
-	 * @name ErrorHandler
+	 * Simple object to abstract the error handler, the most basic is to be the console object
 	 */
-	ErrorHandler = function () {};
-
-	/**
-	 * type is a property to be able to know the class type.
-	 * @member ErrorHandler
-	 * @static
-	 * @type String
-	 */
-	ErrorHandler.type = 'ErrorHandler';
-
-	/**
-	 * list is a property that will store the DOM object list reference.
-	 * Null by default.
-	 * @member ErrorHandler
-	 * @static
-	 * @type Object
-	 */
-	ErrorHandler.list = _null_;
-
-	/**
-	 * create_dom is the method that will create the hidden layer to log the errors
-	 * on system without console.
-	 * @member ErrorHandler
-	 * @private
-	 * @static
-	 */
-	ErrorHandler._create_dom = function () {
-		var oLayer, oList, oLayerStyle;
-		oLayer = doc.createElement("div");
-		oList = doc.createElement("ul");
-		oLayerStyle = oLayer.style;
-		this.list = oList;
-
-		oLayerStyle.display = 'none';
-		oLayerStyle.position = "fixed";
-		oLayerStyle.height = "100px";
-		oLayerStyle.width = "100%";
-		oLayerStyle.bottom = "0px";
-		oLayer.appendChild(oList);
-		doc.body.appendChild(oLayer);
-
-		oLayer = _null_;
-		oList = _null_;
-		oLayerStyle = _null_;
+	ErrorHandler = global.console || {
+		log: function(){}
 	};
-
-	/**
-	 * addItem is the method that will add a new item to the list to log the errors
-	 * on system without console.
-	 * @member ErrorHandler
-	 * @static
-	 * @param {String} sModuleId
-	 * @param {String} sMethod
-	 * @param {Error} erError
-	 */
-	ErrorHandler.addItem = function (sModuleId, sMethod, erError) {
-		var oItem;
-		oItem = doc.createElement("li");
-
-		oItem.appendChild(doc.createTextNode(sModuleId + "/" + sMethod + ": " + erError.message));
-		this.list.appendChild(oItem);
-
-		oItem = _null_;
-	};
-
-	/**
-	 * log is the method that will differentiate the system if they had console or not.
-	 * if global.console exist console.log will be called
-	 * if global.console not exist then the log on layer will be activated.
-	 * Lazy pattern will be used to avoid extra work on next calls.
-	 * Arguments are sent to the methods that will be applied.
-	 * @member ErrorHandler
-	 * @static
-	 */
-	ErrorHandler.log = function () {
-		var aArgs;
-		aArgs = slice(arguments, 0).concat();
-
-		if (oConsole === _undefined_ || (typeof aArgs[aArgs.length - 1] === 'boolean' &amp;&amp; !aArgs[aArgs.length - 1])) {
-			if (this.list === _null_) {
-				this._create_dom();
-			}
-			this.addItem.apply(this, aArgs);
-			ErrorHandler.__old_log__ = ErrorHandler.log;
-			this.log = function () {
-				var aArgs = slice(arguments, 0).concat();
-				this.addItem.apply(this, aArgs);
-				aArgs = _null_;
-			};
-		} else {
-			oConsole.log.apply(oConsole, aArgs);
-			ErrorHandler.__old_log__ = ErrorHandler.log;
-			this.log = function () {
-				var aArgs = slice(arguments, 0).concat();
-				oConsole.log.apply(oConsole, aArgs);
-				aArgs = _null_;
-			};
-		}
-
-		aArgs = _null_;
-	};
-
 	/**
 	 * Class to manage the modules.
 	 * @constructor
@@ -441,7 +340,7 @@
 		 * @param {Function} fpCreator
 		 * @return {Module}
 		 */
-		register: function (sModuleId, fpCreator) {
+		register: function ( sModuleId, fpCreator ) {
 			oModules[sModuleId] = {
 				creator: fpCreator,
 				instances: {}
@@ -456,40 +355,40 @@
 		 * @param {Boolean} bKeepParent If we keep parent calls to be callable via __super__.
 		 * @return {Module}
 		 */
-		_merge: function (oModuleBase, oModuleExtended, bKeepParent) {
+		_merge: function ( oModuleBase, oModuleExtended, bKeepParent ) {
 			var oFinalModule, sKey, callInSupper;
 			oFinalModule = {};
-			callInSupper = function (fpCallback) {
+			callInSupper = function ( fpCallback ) {
 				return function () {
-					var aArgs = slice(arguments, 0);
-					fpCallback.apply(this, aArgs);
+					var aArgs = slice( arguments, 0 );
+					fpCallback.apply( this, aArgs );
 				};
 			};
 
-			if (bKeepParent) {
+			if ( bKeepParent ) {
 				oFinalModule.__super__ = {};
 				oFinalModule.__super__.__instance__ = oModuleBase;
-				oFinalModule.__super__.__call__ = function (sKey, aArgs) {
+				oFinalModule.__super__.__call__ = function ( sKey, aArgs ) {
 					var oObject = this;
-					while (ownProp(oObject,sKey) === _false_) {
+					while ( ownProp( oObject, sKey ) === _false_ ) {
 						oObject = oObject.__instance__.__super__;
 					}
-					oObject[sKey].apply(oFinalModule, aArgs);
+					oObject[sKey].apply( oFinalModule, aArgs );
 				};
 			}
-			for (sKey in oModuleBase) {
-				if (ownProp(oModuleBase, sKey)) {
-					if (sKey === "__super__") {
+			for ( sKey in oModuleBase ) {
+				if ( ownProp( oModuleBase, sKey ) ) {
+					if ( sKey === "__super__" ) {
 						continue;
 					}
 					oFinalModule[sKey] = oModuleBase[sKey];
 				}
 			}
 
-			for (sKey in oModuleExtended) {
-				if (ownProp(oModuleExtended, sKey)) {
-					if (oFinalModule.__super__ !== _undefined_ &amp;&amp; isFunction(oFinalModule[sKey])) {
-						oFinalModule.__super__[sKey] = (callInSupper(oFinalModule[sKey]));
+			for ( sKey in oModuleExtended ) {
+				if ( ownProp( oModuleExtended, sKey ) ) {
+					if ( oFinalModule.__super__ !== _undefined_ &amp;&amp; isFunction( oFinalModule[sKey] ) ) {
+						oFinalModule.__super__[sKey] = (callInSupper( oFinalModule[sKey] ));
 
 						oFinalModule[sKey] = oModuleExtended[sKey];
 					} else {
@@ -499,7 +398,8 @@
 			}
 			try {
 				return oFinalModule;
-			} finally {
+			}
+			finally {
 				oFinalModule = _null_;
 				sKey = _null_;
 			}
@@ -513,40 +413,40 @@
 		 * @param {Function/String} oSecondParameter can be the name of the new module that extends the baseModule or a function if we want to extend an existent module.
 		 * @param {Function} oThirdParameter [optional] this must exist only if we need to create a new module that extends the baseModule.
 		 */
-		extend: function (sModuleId, oSecondParameter, oThirdParameter) {
+		extend: function ( sModuleId, oSecondParameter, oThirdParameter ) {
 			var oModule, sFinalModuleId, fpCreator, oBaseModule, oExtendedModule, oFinalModule, oAction;
 			oModule = oModules[sModuleId];
 			sFinalModuleId = sModuleId;
-			fpCreator = function (oAction) {
+			fpCreator = function ( oAction ) {
 				return oAction;
 			};
 
 			// Function "overloading".
 			// If the 2nd parameter is a string,
-			if (typeof oSecondParameter === "string") {
+			if ( typeof oSecondParameter === "string" ) {
 				sFinalModuleId = oSecondParameter;
 				fpCreator = oThirdParameter;
 			} else {
 				fpCreator = oSecondParameter;
 			}
-			if (oModule === _undefined_) {
+			if ( oModule === _undefined_ ) {
 				return;
 			}
 			oAction = new Action();
-			oExtendedModule = fpCreator(oAction);
-			oBaseModule = oModule.creator(oAction);
+			oExtendedModule = fpCreator( oAction );
+			oBaseModule = oModule.creator( oAction );
 			// If we extend the module with the different name, we
 			// create proxy class for the original methods.
-			oFinalModule = this._merge(oBaseModule, oExtendedModule, (sFinalModuleId !== sModuleId));
+			oFinalModule = this._merge( oBaseModule, oExtendedModule, (sFinalModuleId !== sModuleId) );
 			// This gives access to the Action instance used to listen and notify.
 			oFinalModule.__action__ = oAction;
 
 			oModules[sFinalModuleId] = {
-				creator: (function (oModule) {
+				creator: (function ( oModule ) {
 					return function () {
 						return oModule;
 					};
-				}(oFinalModule)),
+				}( oFinalModule )),
 				instances: {}
 			};
 
@@ -559,34 +459,13 @@
 			oAction = _null_;
 		},
 		/**
-		 * Do a simple merge of two objects overwritting the target properties with source properties
-		 * @param oTarget
-		 * @param oSource
-		 * @private
-		 */
-		_simpleMerge: function(oTarget, oSource)
-		{
-			var sKey;
-			for(sKey in oSource)
-			{
-				if( ownProp(oSource, sKey) )
-				{
-					oTarget[sKey] = oSource[sKey];
-				}
-			}
-			return oTarget;
-		},
-		/**
 		 * Sets an object of vars and add it's content to oVars private variable
 		 * @param oVar
 		 */
-		setVars: function(oVar)
-		{
-			if(typeof oVars !== 'undefined')
-			{
-				oVars = this._simpleMerge(oVars, oVar);
-			}else
-			{
+		setVars: function ( oVar ) {
+			if ( typeof oVars !== 'undefined' ) {
+				oVars = simpleMerge( oVars, oVar );
+			} else {
 				oVars = oVar;
 			}
 		},
@@ -594,9 +473,8 @@
 		 * Returns the private vars object by copy.
 		 * @returns {Object} global vars.
 		 */
-		getVars: function()
-		{
-			return this._simpleMerge({}, oVars);
+		getVars: function () {
+			return simpleMerge( {}, oVars );
 		},
 		/**
 		 * test is a method that will return the module without wrapping their methods.
@@ -606,12 +484,11 @@
 		 * @param {String} sModuleId
 		 * @param {Function} fpCallback
 		 */
-		test: function (sModuleId, fpCallback) {
-			if(jstestdriver)
-			{
-				setDebug(_true_);
-				fpCallback(createInstance(sModuleId));
-				setDebug(_false_);
+		test: function ( sModuleId, fpCallback ) {
+			if ( jstestdriver ) {
+				setDebug( _true_ );
+				fpCallback( createInstance( sModuleId ) );
+				setDebug( _false_ );
 			}
 		},
 		/**
@@ -621,12 +498,10 @@
 		 * @param {String} sContainerId
 		 * @return {Module}
 		 */
-		getModule: function(sModuleId, sContainerId)
-		{
+		getModule: function ( sModuleId, sContainerId ) {
 			var oModule = oModules[sModuleId], oInstance;
-			if(jstestdriver)
-			{
-				oInstance = createInstance(sModuleId);
+			if ( jstestdriver ) {
+				oInstance = createInstance( sModuleId );
 				oModule.instances[sContainerId] = oInstance;
 				return oModule;
 			}
@@ -644,22 +519,20 @@
 		 * @param {Boolean} bSingle
 		 * @return {Module} instance of the module
 		 */
-		start: function (sModuleId, sContainerId, oData, bSingle) {
+		start: function ( sModuleId, sContainerId, oData, bSingle ) {
 			var oModule, oInstance;
 			oModule = oModules[sModuleId];
 
-			if (bSingle &amp;&amp; this.isModuleStarted(sModuleId, sContainerId)) {
-				this.stop(sModuleId, sContainerId);
+			if ( bSingle &amp;&amp; this.isModuleStarted( sModuleId, sContainerId ) ) {
+				this.stop( sModuleId, sContainerId );
 			}
-			if (oModule !== _undefined_) {
-				oInstance = createInstance(sModuleId);
+			if ( oModule !== _undefined_ ) {
+				oInstance = createInstance( sModuleId );
 				oModule.instances[sContainerId] = oInstance;
-				oInstance.__container__ = doc.getElementById(sContainerId);
-				if(typeof oData !== 'undefined')
-				{
-					oInstance.init(oData);
-				}else
-				{
+				oInstance.__container__ = doc.getElementById( sContainerId );
+				if ( typeof oData !== 'undefined' ) {
+					oInstance.init( oData );
+				} else {
 					oInstance.init();
 				}
 			}
@@ -675,7 +548,7 @@
 		 * @param {String} sContainerId Id of the DOM element
 		 * @return {Boolean}
 		 */
-		isModuleStarted: function (sModuleId, sContainerId) {
+		isModuleStarted: function ( sModuleId, sContainerId ) {
 			return (typeof oModules[sModuleId] !== _undefined_ &amp;&amp; oModules[sModuleId].instances[sContainerId] !== _undefined_);
 		},
 		/**
@@ -685,12 +558,11 @@
 		startAll: function () {
 			var sModuleId, oModule;
 
-			for (sModuleId in oModules) {
-				if (ownProp(oModules, sModuleId)) {
+			for ( sModuleId in oModules ) {
+				if ( ownProp( oModules, sModuleId ) ) {
 					oModule = oModules[sModuleId];
-					if(oModule !== _undefined_)
-					{
-						this.start(sModuleId, Math.random());
+					if ( oModule !== _undefined_ ) {
+						this.start( sModuleId, Math.random() );
 					}
 				}
 			}
@@ -705,15 +577,14 @@
 		 * @param {String} sContainerId
 		 * @return {Boolean}
 		 */
-		stop: function (sModuleId, sContainerId) {
+		stop: function ( sModuleId, sContainerId ) {
 			var oModule, oInstance;
 			oModule = oModules[sModuleId];
-			if(oModule === _undefined_)
-			{
+			if ( oModule === _undefined_ ) {
 				return false;
 			}
 			oInstance = oModule.instances[sContainerId];
-			if (oModule !== _undefined_ &amp;&amp; oInstance !== _undefined_) {
+			if ( oModule !== _undefined_ &amp;&amp; oInstance !== _undefined_ ) {
 				oInstance.destroy();
 			}
 			oModule = oInstance = _null_;
@@ -726,15 +597,13 @@
 		stopAll: function () {
 			var sModuleId, oModule, sContainerId;
 
-			for (sModuleId in oModules) {
-				if (ownProp(oModules, sModuleId)) {
+			for ( sModuleId in oModules ) {
+				if ( ownProp( oModules, sModuleId ) ) {
 					oModule = oModules[sModuleId];
-					if(oModule !== _undefined_)
-					{
-						for(sContainerId in oModule.instances)
-						{
-							if (ownProp(oModule.instances, sContainerId)) {
-								this.stop(sModuleId, sContainerId);
+					if ( oModule !== _undefined_ ) {
+						for ( sContainerId in oModule.instances ) {
+							if ( ownProp( oModule.instances, sContainerId ) ) {
+								this.stop( sModuleId, sContainerId );
 							}
 
 						}
@@ -750,9 +619,8 @@
 		 * @member Module.prototype
 		 * @param {String} sModuleId
 		 */
-		_delete: function (sModuleId) {
-			if ( oModules[sModuleId] !== _undefined_ )
-			{
+		_delete: function ( sModuleId ) {
+			if ( oModules[sModuleId] !== _undefined_ ) {
 				delete oModules[sModuleId];
 			}
 		},
@@ -761,20 +629,18 @@
 		 * @member Module.prototype
 		 * @param {String} sModuleId
 		 */
-		remove: function (sModuleId) {
+		remove: function ( sModuleId ) {
 			var oModule = oModules[sModuleId];
-			if(oModule === _undefined_)
-			{
+			if ( oModule === _undefined_ ) {
 				return null;
 			}
-			if (oModule !== _undefined_) {
-				try
-				{
+			if ( oModule !== _undefined_ ) {
+				try {
 					return oModule;
-				}finally
-				{
+				}
+				finally {
 					oModule = _null_;
-					this._delete(sModuleId);
+					this._delete( sModuleId );
 				}
 			}
 		}
@@ -803,20 +669,20 @@
 		 * @param {Function} fpHandler
 		 * @param {Object} oModule
 		 */
-		listen: function (aNotificationsToListen, fpHandler, oModule) {
+		listen: function ( aNotificationsToListen, fpHandler, oModule ) {
 			var sNotification, nNotification, nLenNotificationsToListen;
 			sNotification = '';
 			nLenNotificationsToListen = aNotificationsToListen.length;
 
-			for (nNotification = 0; nNotification &lt; nLenNotificationsToListen; nNotification = nNotification + 1) {
+			for ( nNotification = 0; nNotification &lt; nLenNotificationsToListen; nNotification = nNotification + 1 ) {
 				sNotification = aNotificationsToListen[nNotification];
-				if (oActions[sNotification] === _undefined_) {
+				if ( oActions[sNotification] === _undefined_ ) {
 					oActions[sNotification] = [];
 				}
-				oActions[sNotification].push({
+				oActions[sNotification].push( {
 					module: oModule,
 					handler: fpHandler
-				});
+				} );
 			}
 		},
 		/**
@@ -824,20 +690,20 @@
 		 * @member Action.prototype
 		 * @param oNotifier - Notifier.type and Notifier.data are needed
 		 */
-		notify: function (oNotifier) {
+		notify: function ( oNotifier ) {
 			var sType, oAction, aActions, nAction, nLenActions;
 			sType = oNotifier.type;
 			oAction = _null_;
 
-			if (oActions[sType] === _undefined_) {
+			if ( oActions[sType] === _undefined_ ) {
 				return;
 			}
 			// Duplicate actions array in order to avoid broken references when removing listeners.
 			aActions = oActions[sType].slice();
 			nLenActions = aActions.length;
-			for (nAction = 0; nAction &lt; nLenActions; nAction = nAction + 1) {
+			for ( nAction = 0; nAction &lt; nLenActions; nAction = nAction + 1 ) {
 				oAction = aActions[nAction];
-				oAction.handler.call(oAction.module, oNotifier);
+				oAction.handler.call( oAction.module, oNotifier );
 			}
 
 			sType = _null_;
@@ -852,7 +718,7 @@
 		 * @param {Array} aNotificationsToStopListen
 		 * @param {Object} oModule
 		 */
-		stopListen: function (aNotificationsToStopListen, oModule) {
+		stopListen: function ( aNotificationsToStopListen, oModule ) {
 			var sNotification, aAuxActions, nNotification, nLenNotificationsToListen, nAction, nLenActions;
 			sNotification = '';
 			aAuxActions = [];
@@ -860,17 +726,17 @@
 			nAction = 0;
 			nLenActions = 0;
 
-			for (nNotification = 0; nNotification &lt; nLenNotificationsToListen; nNotification = nNotification + 1) {
+			for ( nNotification = 0; nNotification &lt; nLenNotificationsToListen; nNotification = nNotification + 1 ) {
 				aAuxActions = [];
 				sNotification = aNotificationsToStopListen[nNotification];
 				nLenActions = oActions[sNotification].length;
-				for (nAction = 0; nAction &lt; nLenActions; nAction = nAction + 1) {
-					if (oModule !== oActions[sNotification][nAction].module) {
-						aAuxActions.push(oActions[sNotification][nAction]);
+				for ( nAction = 0; nAction &lt; nLenActions; nAction = nAction + 1 ) {
+					if ( oModule !== oActions[sNotification][nAction].module ) {
+						aAuxActions.push( oActions[sNotification][nAction] );
 					}
 				}
 				oActions[sNotification] = aAuxActions;
-				if (oActions[sNotification].length === 0) {
+				if ( oActions[sNotification].length === 0 ) {
 					delete oActions[sNotification];
 				}
 			}
@@ -887,205 +753,8 @@
 		 * @private
 		 * @member Action.prototype
 		 */
-		__restore__ : function () {
+		__restore__: function () {
 			oActions = {};
-		}
-	};
-
-	/**
-	 * Promise is a class that must/can be used to defer execution of one or some callbacks when one condition (normally some asynchronous callbacks that are depending one of other)
-	 * @class Promise
-	 * @constructor
-	 * @name Promise
-	 */
-	Promise = function () {
-		// Pending callbacks
-		this.aPending = [];
-		this.bCompleted = _false_;
-		this.sType = '';
-		this.oResult = _null_;
-		this.oAction = Hydra.action();
-
-		// Must be called when something finished successfully
-		this.resolve = (function (oContext) {
-			return function (oResult) {
-				oContext.bCompleted = _true_;
-				oContext.sType = 'resolve';
-				oContext.oResult = oResult;
-				oContext.oAction.notify({type: 'complete'});
-			};
-		}(this));
-		// Must be called when something fails
-		this.reject = (function (oContext) {
-			return function (oResult) {
-				oContext.bCompleted = _true_;
-				oContext.sType = 'reject';
-				oContext.oResult = oResult;
-				oContext.oAction.notify({type: 'complete'});
-			};
-		}(this));
-	};
-
-	/**
-	 * Adds new callbacks to execute when the promise has been completed
-	 * @member Promise.prototype
-	 * @param {Function} fpSuccess
-	 * @param {Function} fpFailure
-	 * @return {Promise} Promise instance
-	 */
-	Promise.prototype.then = function (fpSuccess, fpFailure) {
-		this.aPending.push({ resolve: fpSuccess, reject: fpFailure});
-		return this;
-	};
-
-	/**
-	 * Deferred is a manager of Promise objects.
-	 * Deferred object has some Promise objects added and execute the correct callbacks when all the added Promise object are completed.
-	 * @class Deferred
-	 * @constructor
-	 * @name Deferred
-	 */
-	Deferred = function () {
-		this.aPromises = [];
-		this.aPending = [];
-		this.sType = '';
-		this.oAction = Hydra.action();
-		this.oAction.listen(['complete'], this.checkCompleted, this);
-	};
-
-	Deferred.prototype = {
-		/**
-		 * Adds a new Promise object to the array of Promise object that are needed to be completed.
-		 * @member Deferred.prototype
-		 * @param {Promise} oPromise
-		 * @return {Object} Deferred instance
-		 */
-		add: function (oPromise) {
-			this.aPromises.push(oPromise);
-			return this;
-		},
-		/**
-		 * This method is called when any Promise object notify 'complete'
-		 * Checks the completion of all the Promise objects.
-		 * If any of the Promises is not complete continue waiting.
-		 * If all the Promises are complete then complete method is executed.
-		 * @member Deferred.prototype
-		 */
-		checkCompleted: function () {
-			var nPromise, nLenPromise, oPromise;
-			nLenPromise = this.aPromises.length;
-			oPromise = _null_;
-
-			for (nPromise = 0; nPromise &lt; nLenPromise; nPromise++) {
-				oPromise = this.aPromises[nPromise];
-				if (!oPromise.bCompleted) {
-					return _false_;
-				}
-			}
-			this.complete(this.getType());
-
-			nPromise = _null_;
-			nLenPromise = _null_;
-			oPromise = _null_;
-		},
-		/**
-		 * Return the type of completion [reject, resolve]
-		 * @member Deferred.prototype
-		 */
-		getType: function () {
-			var nPromise, nLenPromises, oPromise, aTypes, sType;
-			nLenPromises = this.aPromises.length;
-			oPromise = _null_;
-			aTypes = [];
-
-			for (nPromise = 0; nPromise &lt; nLenPromises; nPromise++) {
-				oPromise = this.aPromises[nPromise];
-				if (oPromise.bCompleted) {
-					aTypes.push(oPromise.sType);
-				}
-			}
-			if (aTypes.length === 0) {
-				return "";
-			}
-			sType = aTypes.join("").replace(reResolve, "").length &gt; 0 ? 'reject' : 'resolve';
-
-			try {
-				return sType;
-			} finally {
-				nPromise = _null_;
-				nLenPromises = _null_;
-				oPromise = _null_;
-				aTypes = _null_;
-			}
-		},
-		/**
-		 * Executes the correct method/s depending of completion type [success, fail]
-		 * @member Deferred.prototype
-		 * @param {String} sType
-		 */
-		complete: function (sType) {
-			var nPromise, nLenPromises, oPromise;
-			if (sType.length === 0) {
-				return _false_;
-			}
-			nLenPromises = this.aPromises.length;
-
-			for (nPromise = 0; nPromise &lt; nLenPromises; nPromise++) {
-				oPromise = this.aPromises[nPromise];
-				while (oPromise.aPending[0]) {
-					oPromise.aPending.shift()[sType](oPromise.oResult);
-				}
-			}
-			while (this.aPending[0]) {
-				this.aPending.shift()[sType]();
-			}
-
-			nPromise = _null_;
-			nLenPromises = _null_;
-			oPromise = _null_;
-		},
-		/**
-		 * Adds new callbacks to execute when the promise has been completed
-		 * @param {Function} fpSuccess
-		 * @param {Function} fpFailure
-		 */
-		then: function (fpSuccess, fpFailure) {
-			this.aPending.push({ resolve: fpSuccess, reject: fpFailure});
-			return this;
-		}
-	};
-
-	/**
-	 * Sugar function to create a new Deferred object.
-	 * When expects Promise objects to be added to the Deferred object [Promise1, Promise2,...PromiseN]
-	 * If one of the arguments is not a Promise When assume that we want to complete the Deferred object
-	 * @private
-	 */
-	When = function () {
-		var aArgs, nArg, nLenArgs, oDeferred, oArg;
-		aArgs = slice(arguments, 0);
-		nLenArgs = aArgs.length;
-		oArg = _null_;
-
-		this.oDeferred = oDeferred = new Deferred();
-
-		for (nArg = 0; nArg &lt; nLenArgs; nArg++) {
-			oArg = aArgs[nArg];
-			if (oArg instanceof Promise) {
-				oDeferred.add(oArg);
-			} else {
-				oDeferred.complete('resolved');
-				return;
-			}
-		}
-
-		try {
-			return oDeferred;
-		} finally {
-			aArgs = _null_;
-			nArg = _null_;
-			nLenArgs = _null_;
-			oArg = _null_;
 		}
 	};
 
@@ -1094,7 +763,7 @@
 	 * @private
 	 * @return ErrorHandler class
 	 */
-	function getErrorHandler() {
+	function getErrorHandler () {
 		return ErrorHandler;
 	}
 
@@ -1103,7 +772,7 @@
 	 * @private
 	 * @param {Function} oErrorHandler
 	 */
-	function setErrorHandler(oErrorHandler) {
+	function setErrorHandler ( oErrorHandler ) {
 		ErrorHandler = oErrorHandler;
 	}
 
@@ -1164,32 +833,42 @@
 	Hydra.setDebug = setDebug;
 
 	/**
-	 * Returns the constructor of Deferred object
-	 * @static
-	 * @member Hydra
-	 * @type {Deferred}
+	 * Extends Hydra object with new functionality
+	 * @param sIdExtension
+	 * @param oExtension
 	 */
-	Hydra.deferred = Deferred;
+	Hydra.extend = function(sIdExtension, oExtension)
+	{
+		if(this[sIdExtension] === _undefined_)
+		{
+			this[sIdExtension] = oExtension;
+		}else
+		{
+			this[sIdExtension] = simpleMerge(this[sIdExtension], oExtension);
+		}
+	};
 
 	/**
-	 * Returns the constructor of Promise object
-	 * @static
-	 * @member Hydra
-	 * @type {Promise}
+	 * Adds an alias to parts of Hydra
+	 * @param sOldName
+	 * @param sNewName
+	 * @return {Boolean}
 	 */
-	Hydra.promise = Promise;
+	Hydra.noConflict = function(sOldName, oNewContext, sNewName)
+	{
+		if(this[sOldName] !== _undefined_)
+		{
+			oNewContext[sNewName] = this[sOldName];
+			return true;
+		}
+		return false;
+	};
 
-	/**
-	 * Sugar method to generate Deferred objects in a simple way
-	 * @static
-	 * @member Hydra
-	 */
-	Hydra.when = When;
 	/*
 	 * This line exposes the private object to be accessible from outside of this code.
 	 */
 	ns.Hydra = Hydra;
-}(this));
+}( window ));
 			</pre>
 		</div>
 	</div>
@@ -1197,7 +876,7 @@
 <!-- ============================== footer ================================= -->
 	<footer class="footer">
 		<p>&copy;2012</p>
-		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Sat Jun 16 2012 02:59:40 GMT+0200 (CEST)</p>
+		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jun 18 2012 00:58:19 GMT+0200 (CEST)</p>
 	</footer>
 </div>
 <script type="text/javascript">

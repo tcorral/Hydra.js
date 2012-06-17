@@ -49,7 +49,7 @@
 	 * @private
 	 * @type {String}
 	 */
-	sVersion = "2.1.0";
+	sVersion = "2.2.0";
 
 	/**
 	 * Used to activate the debug mode

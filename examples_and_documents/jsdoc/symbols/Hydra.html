@@ -45,15 +45,9 @@
 		
 			<li><a href="../symbols/Action.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Action</span></span></a></li>
 		
-			<li><a href="../symbols/Deferred.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Deferred</span></span></a></li>
-		
-			<li><a href="../symbols/ErrorHandler.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">ErrorHandler</span></span></a></li>
-		
 			<li><a href="../symbols/Hydra.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Hydra</span></span></a></li>
 		
 			<li><a href="../symbols/Module.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Module</span></span></a></li>
-		
-			<li><a href="../symbols/Promise.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Promise</span></span></a></li>
 		
 			<li><a href="../symbols/_global_.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">_global_</span></span></a></li>
 		
@@ -178,15 +172,10 @@
 								</div>
 							</div>
 						
-					</div>
-				
-				
-					<h4>Static Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
-					<div class="jsdoc-members">
-						
-							<div class="jsdoc-member">
+							<div class="jsdoc-member accordion-button">
 								<div class="jsdoc-member-definition">
-									<b><a id="deferred" href="../symbols/Hydra.html#.deferred">deferred</a></b>
+									<b><a id="extend" href="../symbols/Hydra.html#.extend">extend</a></b>
+									<span class="signature">( <span class="jsdoc-typedesc">unknown</span> sIdExtension, <span class="jsdoc-typedesc">unknown</span> oExtension )</span>
 									
 									
 									
@@ -198,7 +187,7 @@
 								<div class="jsdoc-member-description">
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
-											Returns the constructor of Deferred object
+											Extends Hydra object with new functionality
 											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
 										</div>
 										
@@ -208,14 +197,92 @@
 										
 										
 										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>sIdExtension : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+															<dt>oExtension : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+											</div>
+										
 									</div>
 								</div>
 							</div>
 						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<b><a id="noConflict" href="../symbols/Hydra.html#.noConflict">noConflict</a></b>
+									<span class="signature">( <span class="jsdoc-typedesc">unknown</span> sOldName, <span class="jsdoc-typedesc">unknown</span> sNewName, <span class="jsdoc-typedesc">unknown</span> sNewName )</span>
+									 : Boolean
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											Adds an alias to parts of Hydra
+											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>sOldName : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+															<dt>sNewName : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+															<dt>sNewName : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">Boolean</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+					</div>
+				
+				
+					<h4>Static Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						
 							<div class="jsdoc-member">
 								<div class="jsdoc-member-definition">
 									<b><a id="errorHandler" href="../symbols/Hydra.html#.errorHandler">errorHandler</a></b>
-									 : <a href="../symbols/ErrorHandler.html">ErrorHandler</a>
+									 : <a href="../symbols/_global_.html#ErrorHandler">ErrorHandler</a>
 									
 									
 									
@@ -255,34 +322,6 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											Return a singleton of Module
-											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
-										</div>
-										
-										
-										
-										
-										
-										
-										
-									</div>
-								</div>
-							</div>
-						
-							<div class="jsdoc-member">
-								<div class="jsdoc-member-definition">
-									<b><a id="promise" href="../symbols/Hydra.html#.promise">promise</a></b>
-									
-									
-									
-									
-									
-									<span class="label label-jsdoc label-jsdoc-static">Static</span>
-									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
-								</div>
-								<div class="jsdoc-member-description">
-									<div class="jsdoc-member-content">
-										<div class="jsdoc-member-summary">
-											Returns the constructor of Promise object
 											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
 										</div>
 										
@@ -393,34 +432,6 @@
 								</div>
 							</div>
 						
-							<div class="jsdoc-member">
-								<div class="jsdoc-member-definition">
-									<b><a id="when" href="../symbols/Hydra.html#.when">when</a></b>
-									
-									
-									
-									
-									
-									<span class="label label-jsdoc label-jsdoc-static">Static</span>
-									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hydra.html">Hydra</a></span>
-								</div>
-								<div class="jsdoc-member-description">
-									<div class="jsdoc-member-content">
-										<div class="jsdoc-member-summary">
-											Sugar method to generate Deferred objects in a simple way
-											<span class="pull-right"><a href="../symbols/src/D__ProyectosGitHub_Hydra.js_src_Hydra.js.html">code »</a></span>
-										</div>
-										
-										
-										
-										
-										
-										
-										
-									</div>
-								</div>
-							</div>
-						
 					</div>
 				
 			
@@ -428,7 +439,7 @@
 <!-- ============================== footer ================================= -->
 	<footer class="footer">
 		<p>&copy;2012</p>
-		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Sat Jun 16 2012 02:59:40 GMT+0200 (CEST)</p>
+		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jun 18 2012 00:58:19 GMT+0200 (CEST)</p>
 	</footer>
 </div></body>
 </html>
