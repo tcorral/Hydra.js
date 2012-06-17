@@ -1,11 +1,12 @@
 <html>
     <head>
-        <script type="text/javascript">
-            var Namespace = {};
-        </script>
-        <script type="text/javascript" src="js/Hydra.js"></script>
-        <script type="text/javascript" src="js/BrowserDetection.js"></script>
-        <script type="text/javascript" src="js/Ajax.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="js/Hydra.js"></script>
+		<script type="text/javascript" src="js/BasicErrorHandler.js"></script>
+		<script type="text/javascript" src="js/Deferred.js"></script>
+		<script type="text/javascript" src="js/jQuery/DOM.js"></script>
+		<script type="text/javascript" src="js/jQuery/Ajax.js"></script>
+		<script type="text/javascript" src="js/jQuery/Events.js"></script>
     </head>
     <body>
         <script type="text/javascript">
@@ -14,8 +15,7 @@
 
             Hydra.when(oPromise, oPromise2).then(function(){alert("all ok")}, function(){alert("all goes wrong!")});
 
-            var oAjax = new Namespace.Ajax();
-            oAjax.setup({
+            $.ajax({
                 url: "test2.php",
                 success: function(oData)
                 {
@@ -25,10 +25,9 @@
                 {
                     oPromise.reject(oData);
                 }
-            }).call();
+            });
 
-            var oAjax1 = new Namespace.Ajax();
-            oAjax1.setup({
+            $.ajax({
                 url: "test.php",
                 success: function(oData)
                 {
@@ -38,7 +37,7 @@
                 {
                     oPromise2.reject(oData);
                 }
-            }).call();
+            });
         </script>
     </body>
 </html>
