@@ -1,19 +1,12 @@
 (function ( global, ns, _undefined_ ) {
 	'use strict';
-	var oModules, doc, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions;
+	var oModules, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions;
 
 	/**
 	 * If ns (namespace) is not supplied global is assumed
 	 */
 	if ( ns === _undefined_ ) {
 		ns = global;
-	}
-
-	/**
-	 * Assign global.document (window.document) to a local variable.
-	 */
-	if ( global.document ) {
-		doc = global.document;
 	}
 
 	/**
@@ -434,14 +427,14 @@
 		 * getModule returns the module with the id
 		 * It must work only when it's executed in jstestdriver environment
 		 * @param {String} sModuleId
-		 * @param {String} sContainerId
+		 * @param {String} sIdInstance
 		 * @return {Module}
 		 */
-		getModule: function ( sModuleId, sContainerId ) {
+		getModule: function ( sModuleId, sIdInstance ) {
 			var oModule = oModules[sModuleId], oInstance;
 			if ( jstestdriver ) {
 				oInstance = createInstance( sModuleId );
-				oModule.instances[sContainerId] = oInstance;
+				oModule.instances[sIdInstance] = oInstance;
 				return oModule;
 			}
 			return null;
@@ -453,22 +446,22 @@
 		 *   This avoid execute the same listeners more than one time.
 		 * @member Module.prototype
 		 * @param {String} sModuleId
-		 * @param {String} sContainerId
+		 * @param {String} sIdInstance
 		 * @param {Object} oData
 		 * @param {Boolean} bSingle
 		 * @return {Module} instance of the module
 		 */
-		start: function ( sModuleId, sContainerId, oData, bSingle ) {
+		start: function ( sModuleId, sIdInstance, oData, bSingle ) {
 			var oModule, oInstance;
 			oModule = oModules[sModuleId];
 
-			if ( bSingle && this.isModuleStarted( sModuleId, sContainerId ) ) {
-				this.stop( sModuleId, sContainerId );
+			if ( bSingle && this.isModuleStarted( sModuleId, sIdInstance ) ) {
+				this.stop( sModuleId, sIdInstance );
 			}
 			if ( oModule !== _undefined_ ) {
 				oInstance = createInstance( sModuleId );
-				oModule.instances[sContainerId] = oInstance;
-				oInstance.__container__ = doc.getElementById( sContainerId );
+				oModule.instances[sIdInstance] = oInstance;
+				oInstance._id_ =  sIdInstance;
 				if ( typeof oData !== 'undefined' ) {
 					oInstance.init( oData );
 				} else {
@@ -484,11 +477,11 @@
 		 * Checks if module was already successfully started
 		 * @member Module.prototype
 		 * @param {String} sModuleId Name of the module
-		 * @param {String} sContainerId Id of the DOM element
+		 * @param {String} sInstanceId Id of the instance
 		 * @return {Boolean}
 		 */
-		isModuleStarted: function ( sModuleId, sContainerId ) {
-			return (typeof oModules[sModuleId] !== _undefined_ && oModules[sModuleId].instances[sContainerId] !== _undefined_);
+		isModuleStarted: function ( sModuleId, sInstanceId ) {
+			return (typeof oModules[sModuleId] !== _undefined_ && oModules[sModuleId].instances[sInstanceId] !== _undefined_);
 		},
 		/**
 		 * startAll is the method that will initialize all the registered modules.
@@ -513,16 +506,16 @@
 		 * When stop is called the module will call the destroy method and will nullify the instance.
 		 * @member Module.prototype
 		 * @param {String} sModuleId
-		 * @param {String} sContainerId
+		 * @param {String} sInstanceId
 		 * @return {Boolean}
 		 */
-		stop: function ( sModuleId, sContainerId ) {
+		stop: function ( sModuleId, sInstanceId ) {
 			var oModule, oInstance;
 			oModule = oModules[sModuleId];
 			if ( oModule === _undefined_ ) {
 				return false;
 			}
-			oInstance = oModule.instances[sContainerId];
+			oInstance = oModule.instances[sInstanceId];
 			if ( oModule !== _undefined_ && oInstance !== _undefined_ ) {
 				oInstance.destroy();
 			}
@@ -534,15 +527,15 @@
 		 * @member Module.prototype
 		 */
 		stopAll: function () {
-			var sModuleId, oModule, sContainerId;
+			var sModuleId, oModule, sInstanceId;
 
 			for ( sModuleId in oModules ) {
 				if ( ownProp( oModules, sModuleId ) ) {
 					oModule = oModules[sModuleId];
 					if ( oModule !== _undefined_ ) {
-						for ( sContainerId in oModule.instances ) {
-							if ( ownProp( oModule.instances, sContainerId ) ) {
-								this.stop( sModuleId, sContainerId );
+						for ( sInstanceId in oModule.instances ) {
+							if ( ownProp( oModule.instances, sInstanceId ) ) {
+								this.stop( sModuleId, sInstanceId );
 							}
 
 						}
@@ -807,4 +800,4 @@
 	 * This line exposes the private object to be accessible from outside of this code.
 	 */
 	ns.Hydra = Hydra;
-}( window ));
+}( this ));
