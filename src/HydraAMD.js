@@ -1,6 +1,7 @@
-/*global define*/
 define([], function()
 {
+	var root;
+	root = (typeof exports !== "undefined" && exports !== null) ? exports : this;
 	'use strict';
 	var oModules, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions;
 
@@ -241,7 +242,7 @@ define([], function()
 	/**
 	 * Simple object to abstract the error handler, the most basic is to be the console object
 	 */
-	ErrorHandler = global.console || {
+	ErrorHandler = root.console || {
 		log: function(){}
 	};
 	/**

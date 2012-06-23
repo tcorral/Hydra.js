@@ -1,13 +1,16 @@
-(function ( global, ns, _undefined_ ) {
+(function () {
 	'use strict';
-	var oModules, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions;
+	var root, sNotDefined, oModules, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions;
+	/**
+	 * Cache 'undefined' string to test typeof
+	 * @type {String}
+	 */
+	sNotDefined = 'undefined';
 
 	/**
-	 * If ns (namespace) is not supplied global is assumed
+	 * set the correct root depending from the environment.
 	 */
-	if ( ns === _undefined_ ) {
-		ns = global;
-	}
+	root = (typeof exports !== sNotDefined && exports !== null) ? exports : this;
 
 	/**
 	 * Contains a reference to null object to decrease final size
@@ -42,7 +45,7 @@
 	 * @private
 	 * @type {String}
 	 */
-	sVersion = "2.2.1";
+	sVersion = '2.2.1';
 
 	/**
 	 * Used to activate the debug mode
@@ -192,7 +195,7 @@
 		};
 		oModule.handleAction = function ( oNotifier ) {
 			var fpCallback = this.oEventsCallbacks[oNotifier.type];
-			if ( fpCallback === _undefined_ ) {
+			if ( typeof fpCallback === sNotDefined ) {
 				return;
 			}
 			fpCallback.call( this, oNotifier );
@@ -213,8 +216,8 @@
 	 */
 	function createInstance ( sModuleId ) {
 		var oAction, oInstance, sName, fpMethod;
-		if ( oModules[sModuleId] === _undefined_ ) {
-			throw new Error( "The module is not registered!" );
+		if ( typeof oModules[sModuleId] === sNotDefined ) {
+			throw new Error( 'The module is not registered!' );
 		}
 		oAction = new Action();
 		sName = '';
@@ -246,7 +249,7 @@
 	/**
 	 * Simple object to abstract the error handler, the most basic is to be the console object
 	 */
-	ErrorHandler = global.console || {
+	ErrorHandler = root.console || {
 		log: function(){}
 	};
 	/**
@@ -310,7 +313,7 @@
 			}
 			for ( sKey in oModuleBase ) {
 				if ( ownProp( oModuleBase, sKey ) ) {
-					if ( sKey === "__super__" ) {
+					if ( sKey === '__super__' ) {
 						continue;
 					}
 					oFinalModule[sKey] = oModuleBase[sKey];
@@ -319,7 +322,7 @@
 
 			for ( sKey in oModuleExtended ) {
 				if ( ownProp( oModuleExtended, sKey ) ) {
-					if ( oFinalModule.__super__ !== _undefined_ && isFunction( oFinalModule[sKey] ) ) {
+					if ( typeof oFinalModule.__super__ !== sNotDefined && isFunction( oFinalModule[sKey] ) ) {
 						oFinalModule.__super__[sKey] = (callInSupper( oFinalModule[sKey] ));
 
 						oFinalModule[sKey] = oModuleExtended[sKey];
@@ -355,13 +358,13 @@
 
 			// Function "overloading".
 			// If the 2nd parameter is a string,
-			if ( typeof oSecondParameter === "string" ) {
+			if ( typeof oSecondParameter === 'string' ) {
 				sFinalModuleId = oSecondParameter;
 				fpCreator = oThirdParameter;
 			} else {
 				fpCreator = oSecondParameter;
 			}
-			if ( oModule === _undefined_ ) {
+			if ( typeof oModule === sNotDefined ) {
 				return;
 			}
 			oAction = new Action();
@@ -395,7 +398,7 @@
 		 * @param oVar
 		 */
 		setVars: function ( oVar ) {
-			if ( typeof oVars !== 'undefined' ) {
+			if ( typeof oVars !== sNotDefined ) {
 				oVars = simpleMerge( oVars, oVar );
 			} else {
 				oVars = oVar;
@@ -458,11 +461,11 @@
 			if ( bSingle && this.isModuleStarted( sModuleId, sIdInstance ) ) {
 				this.stop( sModuleId, sIdInstance );
 			}
-			if ( oModule !== _undefined_ ) {
+			if ( typeof oModule !== sNotDefined ) {
 				oInstance = createInstance( sModuleId );
 				oModule.instances[sIdInstance] = oInstance;
 				oInstance._id_ =  sIdInstance;
-				if ( typeof oData !== 'undefined' ) {
+				if ( typeof oData !== sNotDefined ) {
 					oInstance.init( oData );
 				} else {
 					oInstance.init();
@@ -481,7 +484,7 @@
 		 * @return {Boolean}
 		 */
 		isModuleStarted: function ( sModuleId, sInstanceId ) {
-			return (typeof oModules[sModuleId] !== _undefined_ && oModules[sModuleId].instances[sInstanceId] !== _undefined_);
+			return (typeof oModules[sModuleId] !== sNotDefined && typeof oModules[sModuleId].instances[sInstanceId] !== sNotDefined);
 		},
 		/**
 		 * startAll is the method that will initialize all the registered modules.
@@ -493,7 +496,7 @@
 			for ( sModuleId in oModules ) {
 				if ( ownProp( oModules, sModuleId ) ) {
 					oModule = oModules[sModuleId];
-					if ( oModule !== _undefined_ ) {
+					if ( typeof oModule !== sNotDefined ) {
 						this.start( sModuleId, Math.random() );
 					}
 				}
@@ -512,11 +515,11 @@
 		stop: function ( sModuleId, sInstanceId ) {
 			var oModule, oInstance;
 			oModule = oModules[sModuleId];
-			if ( oModule === _undefined_ ) {
+			if ( typeof oModule === sNotDefined ) {
 				return false;
 			}
 			oInstance = oModule.instances[sInstanceId];
-			if ( oModule !== _undefined_ && oInstance !== _undefined_ ) {
+			if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
 				oInstance.destroy();
 			}
 			oModule = oInstance = _null_;
@@ -532,7 +535,7 @@
 			for ( sModuleId in oModules ) {
 				if ( ownProp( oModules, sModuleId ) ) {
 					oModule = oModules[sModuleId];
-					if ( oModule !== _undefined_ ) {
+					if ( typeof oModule !== sNotDefined ) {
 						for ( sInstanceId in oModule.instances ) {
 							if ( ownProp( oModule.instances, sInstanceId ) ) {
 								this.stop( sModuleId, sInstanceId );
@@ -552,7 +555,7 @@
 		 * @param {String} sModuleId
 		 */
 		_delete: function ( sModuleId ) {
-			if ( oModules[sModuleId] !== _undefined_ ) {
+			if ( typeof oModules[sModuleId] !== sNotDefined ) {
 				delete oModules[sModuleId];
 			}
 		},
@@ -563,10 +566,10 @@
 		 */
 		remove: function ( sModuleId ) {
 			var oModule = oModules[sModuleId];
-			if ( oModule === _undefined_ ) {
+			if ( typeof oModule === sNotDefined ) {
 				return null;
 			}
-			if ( oModule !== _undefined_ ) {
+			if ( typeof oModule !== sNotDefined ) {
 				try {
 					return oModule;
 				}
@@ -592,7 +595,7 @@
 		 * @member Action.prototype
 		 * @type String
 		 */
-		type: "Action",
+		type: 'Action',
 		/**
 		 * listen is the method that will add a new action to the oActions object
 		 * and that will activate the listener.
@@ -608,7 +611,7 @@
 
 			for ( nNotification = 0; nNotification < nLenNotificationsToListen; nNotification = nNotification + 1 ) {
 				sNotification = aNotificationsToListen[nNotification];
-				if ( oActions[sNotification] === _undefined_ ) {
+				if ( typeof oActions[sNotification] === sNotDefined ) {
 					oActions[sNotification] = [];
 				}
 				oActions[sNotification].push( {
@@ -627,7 +630,7 @@
 			sType = oNotifier.type;
 			oAction = _null_;
 
-			if ( oActions[sType] === _undefined_ ) {
+			if ( typeof oActions[sType] === sNotDefined ) {
 				return;
 			}
 			// Duplicate actions array in order to avoid broken references when removing listeners.
@@ -771,7 +774,7 @@
 	 */
 	Hydra.extend = function(sIdExtension, oExtension)
 	{
-		if(this[sIdExtension] === _undefined_)
+		if(typeof this[sIdExtension] === sNotDefined)
 		{
 			this[sIdExtension] = oExtension;
 		}else
@@ -788,7 +791,7 @@
 	 */
 	Hydra.noConflict = function(sOldName, oNewContext, sNewName)
 	{
-		if(this[sOldName] !== _undefined_)
+		if(typeof this[sOldName] !== sNotDefined)
 		{
 			oNewContext[sNewName] = this[sOldName];
 			return true;
@@ -799,5 +802,5 @@
 	/*
 	 * This line exposes the private object to be accessible from outside of this code.
 	 */
-	ns.Hydra = Hydra;
-}( this ));
+	root.Hydra = Hydra;
+}());
