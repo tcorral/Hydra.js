@@ -10,7 +10,7 @@
 	/**
 	 * set the correct root depending from the environment.
 	 */
-	root = (typeof exports !== sNotDefined && exports !== null) ? exports : this;
+	root = this;
 
 	/**
 	 * Contains a reference to null object to decrease final size
@@ -802,5 +802,12 @@
 	/*
 	 * This line exposes the private object to be accessible from outside of this code.
 	 */
-	root.Hydra = Hydra;
+	if (typeof exports !== 'undefined') {
+		if (typeof module !== 'undefined' && module.exports) {
+			exports = module.exports = Hydra;
+		}
+		exports.Hydra = Hydra;
+	} else {
+		root.Hydra = Hydra;
+	}
 }).call(this);
