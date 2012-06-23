@@ -803,4 +803,4 @@
 	 * This line exposes the private object to be accessible from outside of this code.
 	 */
 	root.Hydra = Hydra;
-}());
+}).call(this);
