@@ -32,26 +32,6 @@
 		}
 	} ) );
 
-	TestCase( "HydraErrorHandlerTest", sinon.testCase( {
-		setUp: function () {},
-		tearDown: function () {},
-		"test should return the ErrorHandler Class": function () {
-			var oResult;
-
-			oResult = Hydra.errorHandler();
-
-			assertEquals( "ErrorHandler", oResult.type );
-		},
-		"test should return an instance of ErrorHandler": function () {
-			var oInstance = null;
-
-			var oClass = Hydra.errorHandler();
-			oInstance = new (oClass);
-
-			assertInstanceOf( oClass, oInstance );
-		}
-	} ) );
-
 	TestCase( "HydraSetErrorHandlerTest", sinon.testCase( {
 		setUp: function () {
 			this.ErrorHandler = Hydra.errorHandler();
@@ -506,53 +486,6 @@
 			var oVars = Hydra.module.getVars();
 
 			assertEquals( this.oVars, oVars );
-		}
-	} ) );
-
-	TestCase( "HydraErrorHandlerLogTest", sinon.testCase( {
-		setUp: function () {
-			document.body.innerHTML = '';
-			this.oLog = Hydra.errorHandler().log;
-
-			if ( typeof Hydra.errorHandler()._create_dom.restore !== "undefined" ) {
-				Hydra.errorHandler()._create_dom.restore();
-			}
-			if ( typeof Hydra.errorHandler().addItem.restore !== "undefined" ) {
-				Hydra.errorHandler().addItem.restore();
-			}
-			sinon.spy( Hydra.errorHandler(), "_create_dom" );
-			sinon.spy( Hydra.errorHandler(), "addItem" );
-			this.oConsole = window.console;
-			this.sModuleId = 'test1module';
-			this.sMethod = 'testmethod';
-			this.erError = {
-				message: 'testmessage'
-			};
-		},
-		tearDown: function () {
-			Hydra.module.remove( this.sModuleId );
-			window.console = this.oConsole;
-			Hydra.errorHandler().log = Hydra.errorHandler().__old_log__;
-			if ( typeof Hydra.errorHandler()._create_dom.restore !== "undefined" ) {
-				Hydra.errorHandler()._create_dom.restore();
-			}
-			if ( typeof Hydra.errorHandler().addItem.restore !== "undefined" ) {
-				Hydra.errorHandler().addItem.restore();
-			}
-		},
-		"test should call the _create_dom one time if window.console is undefined": function () {
-			Hydra.errorHandler().list = null;
-
-			Hydra.errorHandler().log( this.sModuleId, this.sMethod, this.erError, false );
-
-			assertTrue( Hydra.errorHandler()._create_dom.calledOnce );
-		},
-		"test should call the addItem one time if window.console is undefined": function () {
-			Hydra.errorHandler().list = null;
-
-			Hydra.errorHandler().log( this.sModuleId, this.sMethod, this.erError, false );
-
-			assertTrue( Hydra.errorHandler().addItem.calledOnce );
 		}
 	} ) );
 

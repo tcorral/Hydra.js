@@ -1,4 +1,7 @@
 ChangeLog:
+2.2.1
+	* Separate Hydra in two differents projects, Core and Extensions.
+	* Modify test to remove test from ErrorHandler that are not needed anymore.
 2.2.0
 	* Separate all the elements not needed for modular architecture.
 		* BasicErrorHandler
