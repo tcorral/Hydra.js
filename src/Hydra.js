@@ -1,6 +1,17 @@
 (function () {
 	'use strict';
 	var root, sNotDefined, oModules, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions;
+
+	/**
+	 * Check if Object.create exist, if not exist we create it to be used inside the code.
+	 */
+	if (typeof Object.create !== 'function') {
+		Object.create = function (oObject) {
+			function Copy() {}
+			Copy.prototype = oObject;
+			return new Copy();
+		};
+	}
 	/**
 	 * Cache 'undefined' string to test typeof
 	 * @type {String}
