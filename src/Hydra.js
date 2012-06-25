@@ -811,8 +811,9 @@
 	};
 
 	/*
-	 * This line exposes the private object to be accessible from outside of this code.
+	 * Expose Hydra to be used in node.js, as AMD module or as global
 	 */
+	root.Hydra = Hydra;
 	if (typeof exports !== 'undefined') {
 		if (typeof module !== 'undefined' && module.exports) {
 			exports = module.exports = Hydra;
@@ -822,7 +823,5 @@
 	        define(function() {
 	        	return Hydra;
 	        });
-	}else {
-		root.Hydra = Hydra;
 	}
 }).call(this);
