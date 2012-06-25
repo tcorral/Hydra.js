@@ -818,7 +818,11 @@
 			exports = module.exports = Hydra;
 		}
 		exports.Hydra = Hydra;
-	} else {
+	} else if(typeof define !== 'undefined') {
+	        define(function() {
+	        	return Hydra;
+	        });
+	}else {
 		root.Hydra = Hydra;
 	}
 }).call(this);
