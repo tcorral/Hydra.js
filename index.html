@@ -1,673 +1,190 @@
-<!DOCTYPE html> <!-- The new doctype -->
+<!DOCTYPE html>
 <html>
-	<head>
-
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-		<title>Hydra.js  Modular Application Javascript Architecture </title>
-
-		<link rel="stylesheet" type="text/css" href="css/styles.css" />
-		<style type="text/css">
-			.other_projects {
-				list-style-type: none;
-			}
-			.other_projects li {
-				float: left;
-				padding-left: 5px;
-				padding-right: 5px;
-				width: 15%;
-			}
-		</style>
-		<!-- Internet Explorer HTML5 enabling code: -->
-		<!--[if IE]>
-			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-			<link href="css/ie.css" rel="stylesheet" type="text/css"/>
-		<![endif]-->
-		<script type="text/javascript">
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-24600326-1']);
-			_gaq.push(['_trackPageview']);
-
-			(function() {
-				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
-		</script>
+    <head>    
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Hydra.js is the library that will help you to scale your app.</title>
+		<link type="text/css" rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/MyFontsWebfontsKit.css">
+		<script type="text/javascript" src="js/html5shiv.js"></script>
 	</head>
-
 	<body>
-
-		<section id="page"> <!-- Defining the #page section with the section tag -->
-
-			<header> <!-- Defining the header section of the page with the appropriate tag -->
-
-				<hgroup>
-					<h1>
-						<img src="img/logo.png" width="98" height="87"/>
-						Hydra.js
-					</h1>
-					<h2>Be modular</h2>
-				</hgroup>
-				<hgroup class="downloads">
-					<a href="http://github.com/tcorral/Hydra.js/zipball/master">
-						<img border="0" width="90" src="img/zip.png">
-					</a>
-					<a href="http://github.com/tcorral/Hydra.js/tarball/master">
-						<img border="0" width="90" src="img/tar.png">
-					</a>
-				</hgroup>
-				<hgroup>
-					<nav class="clear"> <!-- The nav link semantically marks your main site navigation -->
-						<ul>
-							<li><a href="#info">Info</a></li>
-							<li><a href="#api">API</a></li>
-							<li><a href="#examples">Examples</a></li>
-							<li><a href="#download">Download</a></li>
-							<li><a href="#license">License</a></li>
+		<div id="container">
+			<section>
+				<header>
+					<div id="logo">
+						<a href="/">
+							<h1>Hydra.js be modular</h1>
+							<img src="images/logo.png" width="515" height="100"/>
+						</a>
+					</div>
+					<nav id="top_menu">
+						<ul class="Museo-700">
+							<li class="active">
+								<a href="/index.html">
+									ABOUT
+								</a>
+								<div class="mark"></div>
+							</li>
+							<li>
+								<a href="/downloads.html">
+									DOWNLOADS
+								</a>
+								<div class="mark"></div>
+							</li>
+							<li>
+								<a href="/extensions.html">
+									EXTENSIONS
+								</a>
+								<div class="mark"></div>
+							</li>
+							<li>
+								<a href="/documentation.html">
+									DOCUMENTATION
+								</a>
+								<div class="mark"></div>
+							</li>
+							<li>
+								<a href="/comunity.html">
+									COMUNITY
+								</a>
+								<div class="mark"></div>
+							</li>
 						</ul>
 					</nav>
-				</hgroup>
-			</header>
-
-			<section id="articles"> <!-- A new section with the articles -->
-
-				<!-- Article 1 start -->
-
-				<div class="line"></div>  <!-- Dividing line -->
-
-				<article id="info"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
-					<h3>Hydra.js! Yes another modular architecture for your app!</h3>
-
-					<div class="line"></div>
-
-					<div class="articleBody clear">
-
-						<figure>
-							<a href="img/HydraArch.jpg">
-								<img src="img/modules.jpg" width="620" height="301" />
-							</a>
-						</figure>
-
-						<h4>History:</h4>
-						<p>
-							Hydra was a mythological creature (Multi-headed water serpent/dragon).<br/>
-							When one of their heads was cut off two grew back.
-						</p>
-						<h4>Description:</h4>
-						<p>
-							A website without a modular system is prone to failure.<br/>
-							Hydra.js has come to solve this problem!<br/>
-						</p>
-						<h4>Designed to:</h4>
-					<ul id='benefitsList'>
-							<li>
-								Avoid failing your full application for some little error.
-							</li>
-							<li>
-								Be extended.
-							</li>
-							<li>
-								Be framework agnostic.
-							</li>
-							<li>
-								Create a scalable, maintainable and module oriented system.
-							</li>
-						</ul>
-						<h4>Install:</h4>
-						<p>
-							&lt;script type="text/javascript" src="/path/to/Hydra.js"&gt;&lt;/script&gt;<br/>
-						</p>
-						<p>
-							<h4>Version 2.1</h4>
-							<a href="changelog.txt">Changelog</a>
-						</p>
-					</div>
-					<a href="#" class="up">Go UP</a>
-				</article>
-
-				<!-- Article 1 end -->
-
-
-				<!-- Article 2 start -->
-
-				<div class="line"></div>
-
-				<article id="api">
-					<h3>Hydra.js API</h3>
-
-					<div class="line"></div>
-
-					<div class="articleBody clear">
-						<h4>Hydra.<em>action()</em></h4>
-						<p>Returns the Action class.</p>
-							<h5 class="mLeft20">Hydra.action().<em>listen( aNotificationsToListen, fpHandler, oModule )</em></h5>
-								<div class="mLeft30">Listen adds new/s action/s to be listened by the module.</div>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										aNotificationsToListen : Array of id's of actions to listen.
-									</li>
-									<li>
-										fpHandler : Handler/Callback to manage the actions.
-									</li>
-									<li>
-										oModule : Module reference.
-									</li>
-								</ul>
-							<h5 class="mLeft20">Hydra.action().<em>notify( oNotifier )</em></h5>
-								<div class="mLeft30">Notify triggers the actions that are being listened by the module.</div>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										oNotifier : Notifier object.
-										<ul class="mLeft20">
-											<li>
-												oNotifier.<strong>type</strong> : Action id to be triggered.
-											</li>
-											<li>
-												oNotifier.<strong>data</strong> : Data that will be used when triggering the action.
-											</li>
-										</ul>
-									</li>
-								</ul>
-							<h5 class="mLeft20">Hydra.action().<em>stopListen( aNotificationsToStopListen, oModule )</em></h5>
-								<div class="mLeft30">StopListen removes the indicated listeners for the module.</div>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										aNotificationsToStopListen : Array of id's of actions to listen.
-									</li>
-									<li>
-										oModule : Module reference.
-									</li>
-								</ul>
-						<h4>Hydra.<em>errorHandler()</em></h4>
-						<p>Returns the ErrorHandler class.</p>
-							<h5 class="mLeft20">Hydra.errorHandler().<em>log( )</em></h5>
-							<div class="mLeft30 mBottom25">Logs the error on the console if available. If console is not available the logs will be appended on a hidden layer.</div>
-						<h4>Hydra.<em>setErrorHandler( oErrorHandler )</em></h4>
-							<div class="mLeft30">SetErrorHandler can be used to change the ErrorHandler object to add more logging logic.</div>
-							<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										oErrorHandler : ErrorHandler to change the original. This object must have a "log" method at least.
-									</li>
-								</ul>
-						<h4>Hydra.<em>module</em></h4>
-							<p>Module is the class that will manage the module system.</p>
-							<h5 class="mLeft20">Hydra.module.<em>setVars( oData )</em></h5>
-								<div class="mLeft30">Set vars creates a private var object inside Hydra.module to be accessed from init method arguments when starting the module.</div>
-								<div class="mLeft30">You can access this private vars object using getVars too (see getVars section)</div>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										oData : Object with the vars to be used in modules.
-									</li>
-								</ul>
-							<h5 class="mLeft20">Hydra.module.<em>getVars()</em></h5>
-								<div class="mLeft30">Returns the vars object that has been set using setVars method (see setVars section);</div>
-								<div>&nbsp;</div>
-							<h5 class="mLeft20">Hydra.module.<em>register( sModuleId, fpCreator )</em></h5>
-								<div class="mLeft30">Register will add a new module to the module manager.</div>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										sModuleId : Id of the module to register.
-									</li>
-									<li>
-										fpCreator : Function that will return the object module when initialized.
-									</li>
-								</ul>
-							<h5 class="mLeft20">Hydra.module.<em>extend( sModuleId, fpCreator )</em></h5>
-								<div class="mLeft30">Extend is the method that must be used to extend a valid module overwritting it.</div>
-								<em class="mLeft30">Remember: The module to be extended must be registered before extend it.</em>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										sModuleId : Id of the module to be extended.
-									</li>
-									<li>
-										fpCreator : Function that will extend the base object module when initialized.
-
-
-
-
-																					</li>
-								</ul>
-							<h5 class="mLeft20">Hydra.module.<em>extend( sModuleId, sNewModule, fpCreator )</em></h5>
-								<div class="mLeft30">Extend is the method that must be used to extend a valid module creating a new module.</div>
-								<em class="mLeft30">Remember: The module to be extended must be registered before extend it.</em>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										sModuleId : Id of the module to be extended.
-									</li>
-									<li>
-										sNewModule : Id of the module to be created.
-									</li>
-									<li>
-										fpCreator : Function that will extend the base object module when initialized.
-									</li>
-								</ul>
-								<div class="mLeft30">With this type of extension you can access parent methods:</div>
-								<h6 class="mLeft40"><em>oModule.__super__.call('sMethodName', [data])</em></h6>
-							<h5 class="mLeft20">Hydra.module.<em>start( sModuleId, sContainerId, oData )</em></h5>
-								<div class="mLeft30">Start is the method that will initialize the module.</div>
-								<em class="mLeft30">Remember: When a module is started the "init" method is executed.</em>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										sModuleId : Id of the module to initialize.
-									</li>
-									<li>
-										sContainerId :  Id of the DOM element that will be used as '__container__' in module instance.
-									</li>
-									<li>
-										oData : (Optional) This must be an object that will be supplied to the "init" method as first argument.
-									</li>
-								</ul>
-							<h5 class="mLeft20">Hydra.module.<em>startAll()</em></h5>
-								<div class="mLeft30 mBottom25">StartAll will initialize all the registered modules.</div>
-							<h5 class="mLeft20">Hydra.module.<em>stop( sModuleId, sContainerId )</em></h5>
-								<div class="mLeft30">Stop will stop/destroy the module.</div>
-								<em class="mLeft30">Remember: No more actions listened by this module will be triggered again.</em>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										sModuleId : Id of the module to be stopped/destroyed.
-									</li>
-									<li>
-										sContainerId :  Id of the DOM element that will be used as '__container__' in module instance.
-									</li>
-								</ul>
-							<h5 class="mLeft20">Hydra.module.<em>stopAll()</em></h5>
-								<div class="mLeft30 mBottom25">StopAll will stop/destroy all the registered modules.</div>
-							<h5 class="mLeft20">Hydra.module.<em>register( sModuleId, fpCreator )</em></h5>
-								<div class="mLeft30">Register will add a new module to the module manager.</div>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										sModuleId : Id of the module to register.
-									</li>
-									<li>
-										fpCreator : Function that will return the object module when initialized.
-									</li>
-								</ul>
-							<h5 class="mLeft20">Hydra.module.<em>test( sModuleId, fpCallback )</em></h5>
-								<div class="mLeft30">Test executes the callback with the instanced module as first parameter.</div>
-								<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										sModuleId : Id of the module to be returned.
-									</li>
-									<li>
-										fpCallback : Function that will be executed when the module is instanced.
-									</li>
-								</ul>
-						<h4>Hydra.<em>setDebug( bDebug )</em></h4>
-							<div class="mLeft30 mBottom25">SetDebug changes the debug flag.</div>
-							<div>
-								<em class="mLeft30">Remember: True will activate the debug mode. This allows the modules to fail.</em>
+				</header>
+				<article>
+					<div id="impact">
+						<div class="left">
+							<div class="frame">
+								<div class="left">
+									<div id="framework_agnosthic">
+										<img src="images/framework_agnosthic.png" width="360" height="268"/>
+									</div>
+								</div>
+								<div class="left">
+									<div id="modular">
+										<img src="images/modular.png" width="160" height="120"/>
+									</div>
+									<div id="extensible">
+										<img src="images/extensible.png" width="160" height="120"/>
+									</div>
+								</div>
 							</div>
-							<div>
-								<em class="mLeft30">Remember: False will deactivate the debug mode. This avoid the modules to fail.</em>
-							</div>
-							<h6 class="mLeft40">Params:</h6>
-								<ul class="mLeft80">
-									<li>
-										bDebug : Boolean value to activate/deactive debug mode.
-									</li>
-								</ul>
-						<h4>Hydra.<em>promise()</em></h4>
-						    <div>
-								<em class="mLeft30">Promise object is an object that manages the status of execution of an asynchronous execution. You can manage several Promise objects from a Deferred object</em>
-							</div>
-						    <div class="mLeft30 mBottom25">Promise creates a new instance of a Promise object.</div>
-						<h5>Hydra.promise()<em>then</em></h5>
-						    <div class="mLeft30 mBottom25">"Then" method sets the success and error callbacks to execute when the Promise object is rejected or resolved.</div>
-
-						<h4>Hydra.<em>deferred()</em></h4>
-						    <div>
-								<em class="mLeft30">Deferred object is a manager of Promise objects that will execute the success or error callbacks only when all the asynchronous executions are completed</em>
-							</div>
-						    <div class="mLeft30 mBottom25">Deferred creates a new instance of a Deferred object.</div>
-						<h5>Hydra.deferred()<em>add</em></h5>
-						    <div class="mLeft30 mBottom25">"Add" method add a Promise object to the Deferred object to be managed.</div>
-						<h5>Hydra.deferred()<em>then</em></h5>
-						    <div class="mLeft30 mBottom25">"Then" method sets the success and error callbacks to execute when all the Promise objects are completed.</div>
-						<h4>Hydra.<em>when()</em></h4>
-						    <div>
-								<em class="mLeft30">"When" is a helper method to create a Deferred object.</em>
-                        	</div>
-                            <div class="mLeft30 mBottom25">When returns a deferred object this means that you can use the same methods that you can in Deferred object.</div>
-                    </div>
-					<p>
-						<a href="jsdoc/index.html">API Documentation</a>
-					</p>
-                    <a href="#" class="up">Go UP</a>
-                </article>
-
-				<!-- Article 2 end -->
-
-				<!-- Article 3 start -->
-
-                <div class="line"></div>
-
-                <article id="examples">
-                    <h3>Examples</h3>
-
-                    <div class="line"></div>
-
-                    <div class="articleBody clear">
-                    	<h4>Module:</h4>
-                    	<h5>Create a module:</h4>
-                    	<pre>
-                    	<code>
-	Hydra.module.<strong>register</strong>('moduleId', function(action)
-	{
-		return {
-			init: function (oData) {}
-		};
-	});
-                    	</code>
-                    	</pre>
-                    	<h5>Extend a module overwritting the base method:</h4>
-                    	<pre>
-                    	<code>
-	Hydra.module.<strong>extend</strong>('moduleId', function(action)
-	{
-		return {
-			init: function (oData) {}
-		};
-	});
-                    	</code>
-                    	</pre>
-                    	<h5>Extend a module creating a new module:</h4>
-                    	<pre>
-                    	<code>
-	Hydra.module.<strong>extend</strong>('moduleId', 'newModuleId', function(action)
-	{
-		return {
-			init: function (oData) {}
-		};
-	});
-                    	</code>
-                    	</pre>
-                    	<h5>Access parent methods (only if you extended the method creating a new module):</h4>
-                    	<pre>
-                    	<code>
-	Hydra.module.<strong>register</strong>('moduleId', function(action)
-	{
-		return {
-			init: function (oData) {},
-			changeTitle: function(sTitle){
-				document.title = sTitle;
-			}
-		};
-	});
-	Hydra.module.<strong>extend</strong>('moduleId', 'newModuleId', function(action)
-	{
-		return {
-			init: function (oData) {},
-			changeTitle: function(sTitle){
-				sTitle += " " + new Date().getTime();
-				<strong>this.__super__.call("changeTitle", [sTitle])</strong>
-			}
-		};
-	});
-						</code>
-						</pre>
-						<h4>Actions Listening:</h4>
-						<p>To use the action manager you have it accessible inside the module as "action".</p>
-						<h5>Listen one action:</h4>
-						<pre>
-						<code>
-	Hydra.module.register('moduleId', function(action)
-	{
-		return {
-			aListeningEvents: ['action1'],
-			oEventsCallbacks: {
-				'action1': function(){
-					/*your code*/
-				}
-			},
-			init: function (oData) {
-			},
-		};
-	});
-						</code>
-						</pre>
-						<h5>Listen two actions:</h4>
-						<pre>
-						<code>
-	Hydra.module.register('moduleId', function(action)
-	{
-		return {
-			aListeningEvents: ['action1', 'action2'],
-			oEventsCallbacks: {
-				'action1': function(){
-					/*your code*/
-				},
-				'action2': function(){
-					/*your code*/
-				}
-			},
-			init: function (oData) {
-			}
-		};
-	});
-						</code>
-						</pre>
-						<h5>Listen more actions:</h4>
-						<pre>
-						<code>
-	Hydra.module.register('moduleId', function(action)
-	{
-		return {
-			<strong>aListeningEvents: ['action1', 'action2', 'action3'],</strong>
-			<strong>oEventsCallbacks: {
-				'action1': function(){
-					/*your code*/
-				},
-				'action2': function(){
-					/*your code*/
-				},
-				'action2': function(){
-					/*your code*/
-				}
-			},</strong>
-			init: function (oData) {
-			}
-		};
-	});
-						</code>
-						</pre>
-						<h4>Actions Notifying:</h4>
-						<p>To use the action manager you have it accessible inside the module as "action".</p>
-						<p>
-							<em>Tip: You can notify an action where ever you want inside the module using 'action'.</em>
-						</p>
-						<p>
-							When notifying an action you will need to use a Notifier JSON object:
-							<pre>
-								<code>
-	var oNotifier = {
-		type: 'listenedAction',
-		data: 'data'
-	};
-								</code>
-							</pre>
-						</p>
-					 	<h5>Notifying inside of a module:</h4>
-						<pre>
-						<code>
-	Hydra.module.register('moduleId', function(action)
-	{
-		return {
-			init: function (oData) {
-				$("#button").click(function(){
-					<strong>action.notify({
-						type: 'listenedAction',
-						data: 'data'
-					});</strong>
-				});
-			}
-		};
-	});
-						</code>
-						</pre>
-						<h5>Notifying from outside of a module:</h4>
-						<pre>
-						<code>
-	var oAction = new (Hydra.action());
-	oAction.notify({
-		type: 'listenedAction',
-		data: 'data'
-	});
-						</code>
-						</pre>
-						<h4>Promise:</h4>
-						<h5>Create a Promise object:</h4>
-						<pre>
-						<code>
-	var oPromise = Hydra.promise();
-						</code>
-						</pre>
-						<h5>Add success and error callbacks:</h4>
-						<pre>
-						<code>
-	oPromise.then(fpSuccessCallback, fpErrorCallback);
-						</code>
-						</pre>
-						<h4>Deferred:</h4>
-						<h5>Create a Deferred object:</h4>
-						<pre>
-						<code>
-	var oDeferred = Hydra.deferred();
-						</code>
-						</pre>
-						<h5>Add Promise objects to be managed:</h4>
-						<pre>
-						<code>
-	oDeferred.add(oPromiseObject);
-						</code>
-						</pre>
-						<h5>Add success and error callbacks:</h4>
-						<pre>
-						<code>
-	oDeferred.then(fpSuccessCallback, fpErrorCallback);
-						</code>
-						</pre>
-					</div>
-					<p>
-						<div>
-							<a href="examples_and_documents/index.html">Examples</a>
 						</div>
-					</p>
-					<a href="#" class="up">Go UP</a>
-				</article>
-
-				<!-- Article 3 end -->
-				<!-- Article 1 start -->
-
-				<div class="line"></div>  <!-- Dividing line -->
-
-				<article id="download"> <!-- The new article tag. The id is supplied so it can be scrolled into view. -->
-					<h3>Hydra.js download.</h3>
-
-					<div class="line"></div>
-
-					<div class="articleBody clear">
-
-						<h4>Download:</h4>
-
-						<ul id='downloadList' class="mLeft20">
+						<div class="right">
+							<div id="slogan">
+								<img src="images/blue_logo_word.png" width="88" height="18"/>
+								<span>is the library that will help you to scale your app.</span>
+							</div>
+							<p>
+								Hydra.js is a framework that gives you the tools to write your application 
+using modules or widgets and make easy to work with them.
+							</p>
+							<p>
+								Hydra.js use a decoupled architecture that:
+							</p>
+							<ul>
+								<li>
+									Allows you to change your base framework without change the modules or widgets code.
+								</li>
+								<li>
+									Allow the modules communicate with each other without knowing wich modules are loaded. 
+								</li>
+								<li>
+									Can be easily extended with new features.
+								</li>
+							</ul>  
+							<div id="download_hydra_about">
+								<ul>
+									<li>
+										<input type="radio" value="development" checked="true" data-url="js/Hydra.js" name="download"/>
+										<label>Development &nbsp;&nbsp;&nbsp;&nbsp;(Uncompressed code)</label>
+									</li>
+									<li>
+										<input type="radio" value="production" data-url="js/Hydra.js.gz" name="download"/>
+										<label>Production &nbsp;&nbsp;&nbsp;&nbsp;(Minimized and Gzipped)</label>
+									</li>
+								</ul>
+								<a href="js/Hydra.js" class="blank">
+									<img src="images/download_button_about.png" width="273" height="36"/>
+								</a>
+								<div id='current_release'>
+									<span class='title'>Current release:</span><span class='version'>v. 2.2.1</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="links">
+						<ul>
 							<li>
-								<a href="js/versions/hydra.developer.js">Developer version - 25kb.</a>
+								<div class="softonic">
+									<div>
+										<img src="images/softonic_screenshot.png" width="261" height="184"/>
+									</div>
+									<p>
+										<strong>"Using Hydra.js in development we have reduced the quantity of errors and improved productivity"</strong>
+									</p>
+									<p>
+										Softonic is a web where you can download any program for free and has been using Hydra.js for two years and go on.
+									</p>
+									<a href="http://www.softonic.com" class="button">
+										Link
+									</a>
+								</div>
 							</li>
 							<li>
-								<a href="js/versions/hydra.min.js">Minimized version - 6kb</a>
+								<div class="byveo">
+									<div>
+										<img src="images/byveo_screenshot.png" width="261" height="184"/>
+									</div>
+									<p>
+										<strong>"We solved all our problems with comunications between modules using Hydra.js"</strong>
+									</p>
+									<p>
+										Byveo is a social network focused on professionals of entertainment (movies, theather, music...)
+									</p>
+									<a href="http://www.byveo.com" class="button">
+										Link
+									</a>
+								</div>
 							</li>
 							<li>
-								<a href="js/versions/hydra.min.gz">Minimized-Gzipped version - 2kb</a>
+								<div class="mentions">
+									<div>
+										<img src="images/genbeta_logo.png" width="261" height="184"/>
+									</div>
+									<p>
+										<strong>"Hydra.js, a manager that allows us to define a modular system for our applications easily scalable."</strong>
+									</p>
+									<p>
+										GenbetaDev made a review about Hydra.js (Spanish)
+									</p>
+									<a href="http://www.genbetadev.com/desarrollo-web/hydrajs-arquitectura-modular-para-tus-aplicaciones-javascript" class="button">
+										Link
+									</a>
+								</div>
 							</li>
 						</ul>
 					</div>
-					<a href="#" class="up">Go UP</a>
-                </article>
-
-				<!-- Article 1 end -->
-
-				<div class="line"></div>
-
-				<article id="license">
-					<h3>Hydra.js License:</h3>
-
-					<div class="line"></div>
-
-					<div class="articleBody clear">
-						<h4>Hydra.js is licensed under the MIT license.</h4>
-						<pre>
-						<code>
-	Copyright (c) 2011 Tomás Corral Casas
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-	and associated documentation files (the "Software"), to deal in the Software without
-	restriction, including without limitation the rights to use, copy, modify, merge, publish,
-	distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
-	Software is furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all copies or
-	substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-	BUT NOT LIMITED	TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE	LIABLE FOR ANY CLAIM,
-	DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF	CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-						</code>
-						</pre>
-					</div>
-					<a href="#" class="up">Go UP</a>
 				</article>
-
+				<footer> </footer>
 			</section>
-
-		<footer> <!-- Marking the footer section -->
-
-			<div class="line"></div>
-			<div id="projects">
-				<div class="title">Other projects:</div>
-				<ul class="other_projects">
-					<li>
-						<a href="http://tcorral.github.com/IM.js/">IM.js</a>
-					</li>
-					<li>
-						<a href="http://tcorral.github.com/Hermes.js/">Hermes.js</a>
-					</li>
-					<li>
-						<a href="https://github.com/tcorral/Design-Patterns-in-Javascript/">Design Patterns</a>
-					</li>
-					<li>
-						<a href="http://tcorral.github.com/Cutter.js/">Cutter.js</a>
-					</li>
-					<li>
-						<a href="http://tcorral.github.com/CSSplus/">CSSplus</a>
-					</li>
-				</ul>
-			</div>
-
-
-
-		</footer>
-
-		</section> <!-- Closing the #page section -->
-		<a href="https://github.com/tcorral/Hydra.js/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
-		<!-- JavaScript Includes -->
-
-		<script src="js/jquery.js"></script>
-		<script src="js/jquery.scrollTo-min.js"></script>
-		<script src="js/script.js"></script>
+		</div>
+		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function()
+			{
+				var $DownloadContainer = $(document.getElementById("download_hydra_about")),
+					$oDownloadLink = $DownloadContainer.find("a.blank")
+				$DownloadContainer.find("a.blank").each(function()
+				{
+					this.target = 'blank';
+				});
+				$DownloadContainer.find("input").bind("change", function(eEvent)
+				{
+					$oDownloadLink.attr("href", this.getAttribute("data-url"));
+				});
+			});
+		</script>
 	</body>
 </html>
