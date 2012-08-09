@@ -1,4 +1,5 @@
 (function(win, doc, Hydra){
+	Hydra.setTestFramework(jstestdriver);
 	TestCase( "HydraInitializationTest", sinon.testCase( {
 		setUp: function () {},
 		tearDown: function () {},
