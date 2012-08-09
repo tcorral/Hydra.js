@@ -41,15 +41,15 @@
 		<div id="download_hydra_about">
 			<ul>
 				<li>
-					<input type="radio" value="development" checked="true" data-url="js/Hydra.js" name="download"/>
+					<input type="radio" value="development" checked="true" data-url="https://raw.github.com/tcorral/Hydra.js/master/versions/hydra.js" name="download"/>
 					<label><%= home.download_options.development%></label>
 				</li>
 				<li>
-					<input type="radio" value="production" data-url="js/Hydra.js.gz" name="download"/>
+					<input type="radio" value="production" data-url="https://github.com/tcorral/Hydra.js/raw/master/versions/hydra.min.js.gz" name="download"/>
 					<label><%= home.download_options.production%></label>
 				</li>
 			</ul>
-			<a href="js/Hydra.js" class="blank">
+			<a href="https://raw.github.com/tcorral/Hydra.js/master/versions/hydra.js" class="blank">
 				<img src="images/download_button_about.png" width="273" height="36"/>
 			</a>
 			<div id='current_release'>

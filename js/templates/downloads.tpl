@@ -15,17 +15,17 @@
 		</a>
 	</li>
 	<li>
-		<a href="https://raw.github.com/tcorral/Hydra.js/gh-pages/versions/hydra.developer.js" target="_blank">
+		<a href="https://raw.github.com/tcorral/Hydra.js/master/versions/hydra.js" target="_blank">
 			<img src="images/download-button-development.png" width="175" height="177"/>
 		</a>
 	</li>
 	<li>
-		<a href="https://github.com/tcorral/Hydra.js/raw/gh-pages/versions/hydra.min.js" target="_blank">
+		<a href="https://github.com/tcorral/Hydra.js/raw/master/versions/hydra.min.js" target="_blank">
 			<img src="images/download-button-minimized.png" width="175" height="177"/>
 		</a>
 	</li>
 	<li>
-		<a href="https://github.com/tcorral/Hydra.js/raw/gh-pages/versions/hydra.min.gz" target="_blank">
+		<a href="https://github.com/tcorral/Hydra.js/raw/master/versions/hydra.min.js.gz" target="_blank">
 			<img src="images/download-button-minimized-gzipped.png" width="175" height="177"/>
 		</a>
 	</li>
