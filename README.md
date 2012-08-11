@@ -26,7 +26,7 @@ Hydra has been designed to create your application in a modular design system.
 
 [API documentation](http://tcorral.github.com/Hydra.js/jsdoc/index.html)
 
-[Examples](http://tcorral.github.com/Hydra.js/examples_and_documents/index.html) to see for yourself!
+[Examples](http://tcorral.github.com/Hydra.js/examples/index.html) to see for yourself!
 
 ## Usage
 
