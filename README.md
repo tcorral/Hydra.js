@@ -10,6 +10,8 @@ Hidra.js is a module manager oriented system.
 Hydra.js is the library that will help you to scale your app.
 Hydra.js is a framework that gives you the tools to write your application using modules or widgets and make easy to work with them.
 
+Hydra.js use a decoupled architecture that:
+
 * Allows you to change your base framework without change the modules or widgets code.
 * Allow the modules communicate with each other without knowing wich modules are loaded.
 * Can be easily extended with new features.
