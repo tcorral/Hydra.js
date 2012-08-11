@@ -22,7 +22,9 @@ Hydra has been designed to create your application in a modular design system.
 * Allows set private vars to be used inside of modules.
 * Can be used in url threaded application as in a ajax threaded application.
 * You can test your modules with any Unit Testing Framework.
-* Only 1.8Kb when [Gzipped](http://tcorral.github.com/Hydra.js/js/versions/hydra.min.gz) 2.5Kb if you add BasicErrorHandler and Deferred plugins.
+* Only 1.8Kb when [Gzipped](https://github.com/tcorral/Hydra.js/raw/master/versions/hydra.min.js.gz) 2.5Kb if you add BasicErrorHandler and Deferred plugins.
+
+[Project Web](http://tcorral.github.com/Hydra.js)
 
 [API documentation](http://tcorral.github.com/Hydra.js/apis/Hydra.js_API_v2.5.0/index.html)
 
@@ -169,6 +171,8 @@ The notify method needs a Notifier object:
 ## Documentation
 
 (Links will only work if you clone the repo.)
+
+[Project Web](http://tcorral.github.com/Hydra.js)
 
 [API documentation](http://tcorral.github.com/Hydra.js/apis/Hydra.js_API_v2.5.0/index.html)
 
