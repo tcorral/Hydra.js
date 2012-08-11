@@ -29,17 +29,18 @@
 			<a href="#expert_documentation">
 				Expert
 			</a>
+		</li>
+		<li>
+			<a target="_blank" href="examples/index.html">
+				Examples
+			</a>
 		</li><!--
 							<li>
 								<a href="documentation/multimedia.html">
 									Multimedia
 								</a>
 							</li>
-							<li>
-								<a href="documentation/examples.html">
-									Examples
-								</a>
-							</li>-->
+							-->
 	</ul>
 </nav>
 <div id="documentation"></div>
