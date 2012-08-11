@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<script type="text/javascript" src="../js/Hydra.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="js/sampleModuleListener.js"></script>
+		<script type="text/javascript" src="js/sampleModuleNotifier.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#launchModule").click(function () {
+					Hydra.module.start("sampleModuleListener");
+					return false;
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Hydra.js - Two Modules - Listener and Notifier -</h1>
+		<p>
+			<a href='#' id='launchModule'>Start Module</a>
+		</p>
+	</body>
+</html>
