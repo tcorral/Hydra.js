@@ -1,5 +1,81 @@
 (function(win, doc, Hydra){
 	Hydra.setTestFramework(jstestdriver);
+
+	TestCase( "TestExtensionModuleBugOnLazyPatternTestSingleModuleTest", sinon.testCase( {
+		setUp: function()
+		{
+			var self = this;
+			this.oModule = null;
+			Hydra.module.test('single-module', function(oModule)
+			{
+				self.oModule = oModule;
+			});
+		},
+		tearDown: function()
+		{
+			this.oModule = null;
+		},
+		"test the first time module is executed once": function()
+		{
+			this.oModule.init();
+
+			assertTrue( this.oModule.isFirstExecution );
+		},
+
+		"test the second time module is executed once": function()
+		{
+			this.oModule.init();
+
+			assertTrue( this.oModule.isFirstExecution );
+		},
+
+		"test the second time module is executed twice": function()
+		{
+			this.oModule.init();
+			assertTrue( this.oModule.isFirstExecution );
+
+			this.oModule.init();
+			assertFalse( this.oModule.isFirstExecution );
+		}
+	} ) );
+
+	TestCase( "TestExtensionModuleBugOnLazyPatternTestExtendedModuleTest", sinon.testCase( {
+		setUp: function()
+		{
+			var self = this;
+			this.oModule = null;
+			Hydra.module.test('extended-module', function(oModule)
+			{
+				self.oModule = oModule;
+			});
+		},
+		tearDown: function()
+		{
+			this.oModule = null;
+		},
+		"test the first time module is executed once": function()
+		{
+			this.oModule.init();
+
+			assertTrue( this.oModule.isFirstExecution );
+		},
+
+		"test the second time module is executed once": function()
+		{
+			this.oModule.init();
+
+			assertTrue( this.oModule.isFirstExecution );
+		},
+
+		"test the second time module is executed twice": function()
+		{
+			this.oModule.init();
+			assertTrue( this.oModule.isFirstExecution );
+
+			this.oModule.init();
+			assertFalse( this.oModule.isFirstExecution );
+		}
+	} ) );
 	TestCase( "HydraInitializationTest", sinon.testCase( {
 		setUp: function () {},
 		tearDown: function () {},
@@ -298,10 +374,10 @@
 			Hydra.module.remove( this.sModuleId );
 			Hydra.module._merge.restore();
 		},
-		"test should call the merge method one time": function () {
+		"test should not call the merge method until is started": function () {
 			Hydra.module.extend( this.sModuleId, this.fpModuleExtendedCreator );
 
-			assertTrue( Hydra.module._merge.calledOnce );
+			assertEquals( 0, Hydra.module._merge.callCount );
 		},
 		"test should call the init method of the final extended module": function () {
 			Hydra.module.extend( this.sModuleId, this.fpModuleExtendedCreator );
@@ -309,6 +385,7 @@
 			Hydra.module.start( this.sModuleId );
 
 			assertTrue( this.fpInitStub.calledOnce );
+			assertEquals( 1, Hydra.module._merge.callCount );
 		},
 		"test should call the destroy method of the final extended module": function () {
 			Hydra.module.extend( this.sModuleId, this.fpModuleExtendedCreator );
@@ -360,10 +437,10 @@
 			Hydra.module.remove( this.sExtendedModuleId );
 			Hydra.module._merge.restore();
 		},
-		"test should call the merge method one time": function () {
+		"test should not call the merge method until started": function () {
 			Hydra.module.extend( this.sModuleId, this.sExtendedModuleId, this.fpModuleExtendedCreator );
 
-			assertTrue( Hydra.module._merge.calledOnce );
+			assertEquals( 0, Hydra.module._merge.callCount );
 		},
 		"test should call the init method of the final extended module": function () {
 			Hydra.module.extend( this.sModuleId, this.sExtendedModuleId, this.fpModuleExtendedCreator );
@@ -371,6 +448,7 @@
 			Hydra.module.start( this.sExtendedModuleId );
 
 			assertTrue( this.fpInitStub.calledOnce );
+			assertEquals( 1, Hydra.module._merge.callCount );
 		},
 		"test should call the destroy method of the final extended module": function () {
 			Hydra.module.extend( this.sModuleId, this.sExtendedModuleId, this.fpModuleExtendedCreator );
