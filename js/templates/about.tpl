@@ -53,7 +53,7 @@
 				<img src="images/download_button_about.png" width="273" height="36"/>
 			</a>
 			<div id='current_release'>
-				<span class='title'>Current release:</span><span class='version'>v. 2.5.0</span>
+				<span class='title'>Current release:</span><span class='version'>v. 2.5.1</span>
 			</div>
 		</div>
 	</div>
