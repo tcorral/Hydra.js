@@ -366,7 +366,8 @@
 		 * @param {Function} oThirdParameter [optional] this must exist only if we need to create a new module that extends the baseModule.
 		 */
 		extend: function ( sModuleId, oSecondParameter, oThirdParameter ) {
-			var oModule, sFinalModuleId, fpCreator, oBaseModule, oExtendedModule, oFinalModule, oAction;
+			var oModule, sFinalModuleId, fpCreator, oBaseModule, oExtendedModule, oFinalModule, self, oAction;
+			self = this;
 			oModule = oModules[sModuleId];
 			sFinalModuleId = sModuleId;
 			fpCreator = function ( oAction ) {
@@ -387,28 +388,18 @@
 			oAction = new Action();
 			oExtendedModule = fpCreator( oAction );
 			oBaseModule = oModule.creator( oAction );
-			// If we extend the module with the different name, we
-			// create proxy class for the original methods.
-			oFinalModule = this._merge( oBaseModule, oExtendedModule, (sFinalModuleId !== sModuleId) );
-			// This gives access to the Action instance used to listen and notify.
-			oFinalModule.__action__ = oAction;
 
 			oModules[sFinalModuleId] = {
-				creator: (function ( oModule ) {
-					return function () {
-						return oModule;
-					};
-				}( oFinalModule )),
+				creator: function(oAction){
+					// If we extend the module with the different name, we
+					// create proxy class for the original methods.
+					oFinalModule = self._merge( oBaseModule, oExtendedModule, (sFinalModuleId !== sModuleId) );
+					// This gives access to the Action instance used to listen and notify.
+					oFinalModule.__action__ = oAction;
+					return oFinalModule;
+				},
 				instances: {}
 			};
-
-			oModule = _null_;
-			sFinalModuleId = _null_;
-			fpCreator = _null_;
-			oBaseModule = _null_;
-			oExtendedModule = _null_;
-			oFinalModule = _null_;
-			oAction = _null_;
 		},
 		/**
 		 * Sets an object of vars and add it's content to oVars private variable
