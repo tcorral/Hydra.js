@@ -62,7 +62,7 @@
 	 * @private
 	 * @type {String}
 	 */
-	sVersion = '2.5.1';
+	sVersion = '2.5.2';
 
 	/**
 	 * Used to activate the debug mode
@@ -304,10 +304,9 @@
 		 * @private
 		 * @param {Object} oModuleBase
 		 * @param {Object} oModuleExtended
-		 * @param {Boolean} bKeepParent If we keep parent calls to be callable via __super__.
 		 * @return {Module}
 		 */
-		_merge: function ( oModuleBase, oModuleExtended, bKeepParent ) {
+		_merge: function ( oModuleBase, oModuleExtended ) {
 			var oFinalModule, sKey, callInSupper;
 			oFinalModule = {};
 			callInSupper = function ( fpCallback ) {
@@ -317,17 +316,15 @@
 				};
 			};
 
-			if ( bKeepParent ) {
-				oFinalModule.__super__ = {};
-				oFinalModule.__super__.__instance__ = oModuleBase;
-				oFinalModule.__super__.__call__ = function ( sKey, aArgs ) {
-					var oObject = this;
-					while ( ownProp( oObject, sKey ) === _false_ ) {
-						oObject = oObject.__instance__.__super__;
-					}
-					oObject[sKey].apply( oFinalModule, aArgs );
-				};
-			}
+			oFinalModule.__super__ = {};
+			oFinalModule.__super__.__instance__ = oModuleBase;
+			oFinalModule.__super__.__call__ = function ( sKey, aArgs ) {
+				var oObject = this;
+				while ( ownProp( oObject, sKey ) === _false_ ) {
+					oObject = oObject.__instance__.__super__;
+				}
+				oObject[sKey].apply( oFinalModule, aArgs );
+			};
 			for ( sKey in oModuleBase ) {
 				if ( ownProp( oModuleBase, sKey ) ) {
 					if ( sKey === '__super__' ) {
@@ -393,7 +390,7 @@
 				creator: function(oAction){
 					// If we extend the module with the different name, we
 					// create proxy class for the original methods.
-					oFinalModule = self._merge( oBaseModule, oExtendedModule, (sFinalModuleId !== sModuleId) );
+					oFinalModule = self._merge( oBaseModule, oExtendedModule );
 					// This gives access to the Action instance used to listen and notify.
 					oFinalModule.__action__ = oAction;
 					return oFinalModule;
