@@ -1,6 +1,7 @@
 ChangeLog:
 2.5.3
 	* Helper test methods have been moved to one extension to reduce final size of Hydra.js
+	* Added log of events when running in debug mode.
 2.5.2
 	* Now all the extended modules can access the parent methods using __super__
 2.5.1

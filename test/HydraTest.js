@@ -595,11 +595,14 @@
 				handleAction: this.fpHandler,
 				destroy: function () {}
 			};
+			this.oErrorHandler = Hydra.errorHandler();
+			sinon.stub(this.oErrorHandler, "log");
 			this.oAction = Hydra.action();
 			this.oAction.__restore__();
 			this.oAction.listen( [this.sListener], this.fpHandler, this.oModule );
 		},
 		tearDown: function () {
+			this.oErrorHandler.log.restore();
 			this.oAction.__restore__();
 		},
 		"test should not call the fpListen callback if the action called is test2": function () {
@@ -612,9 +615,26 @@
 
 			assertTrue( this.fpListen.calledOnce );
 		},
-		"test should call ErrorHandler.log one time": function()
+		"test should not call ErrorHandler.log if debug mode is off": function()
 		{
+			this.oAction.notify( this.oNotifier );
 
+			assertEquals(0, this.oErrorHandler.log.callCount);
+		},
+		"test should call ErrorHandler.log one time if debug mode is active": function()
+		{
+			var oCall;
+			Hydra.setDebug(true);
+			this.oAction.notify( this.oNotifier );
+			oCall = this.oErrorHandler.log.getCall(0);
+
+			assertEquals(1, this.oErrorHandler.log.callCount);
+			assertEquals(this.oNotifier.type, oCall.args[0]);
+			assertEquals(this.oNotifier.type, oCall.args[1].type);
+			assertEquals(1, oCall.args[1].executed.calls);
+			assertSame(this.oModule, oCall.args[1].executed.actions[0].module);
+			assertSame(this.fpHandler, oCall.args[1].executed.actions[0].handler);
+			Hydra.setDebug(false);
 		}
 	} ) );
 

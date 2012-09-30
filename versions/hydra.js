@@ -602,14 +602,19 @@
 			// Duplicate actions array in order to avoid broken references when removing listeners.
 			aActions = oActions[sType].slice();
 			nLenActions = aActions.length;
-			oLog.type = sType;
-			oLog.executed = { calls: nLenActions, modules: [], callbacks: aActions };
+
+			if(bDebug)
+			{
+				oLog.type = sType;
+				oLog.executed = { calls: nLenActions, actions: aActions };
+				ErrorHandler.log(sType, oLog);
+			}
+
 			for ( nAction = 0; nAction < nLenActions; nAction = nAction + 1 ) {
 				oAction = aActions[nAction];
-				oLog.executed.modules.push( oAction.module );
 				oAction.handler.call( oAction.module, oNotifier );
 			}
-			ErrorHandler.log(oLog);
+
 
 			sType = aActions = nAction = nLenActions = oAction = _null_;
 		},
