@@ -174,6 +174,7 @@
 		var oModule,
 			fpInitProxy;
 		oModule = oModules[sModuleId].creator( oAction );
+		oModule.__id__ = sModuleId;
 		fpInitProxy = oModule.init || function () {};
 		oModule.__action__ = oAction;
 		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
