@@ -55,7 +55,7 @@
 	 * @private
 	 * @type {String}
 	 */
-	sVersion = '2.5.2';
+	sVersion = '2.5.3';
 
 	/**
 	 * Used to activate the debug mode
