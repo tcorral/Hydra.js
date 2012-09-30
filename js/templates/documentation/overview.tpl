@@ -24,6 +24,16 @@
 					Reference Guide
 				</a>
 			</li>
+            <li>
+                <a href="#expert">
+                    Expert
+                </a>
+            </li>
+            <li>
+                <a href="#examples">
+                    Examples
+                </a>
+            </li>
 			<li>
 			   <a href="#multimedia">
 				   Multimedia
@@ -71,13 +81,29 @@
 		</p>
 	</div>
 	<div>
-	   <h2 id="multimedia">
-		   Multimedia
-	   </h2>
-	   <p>
-		   Here you will find from screencasts to interviews, you'll be able to find presentations, webinars, workshops...
-	   </p>
-   </div>
+		<h2 id="expert">
+			Expert
+		</h2>
+		<p>
+			Here you will find special info about the architecture of Hydra.js
+		</p>
+	</div>
+	<div>
+		<h2 id="examples">
+			Examples
+		</h2>
+		<p>
+			Here you will find some simple examples to know how to use Hydra.js.
+		</p>
+	</div>
+	<div>
+		<h2 id="multimedia">
+			Multimedia
+		</h2>
+		<p>
+			Here you will find from screencasts to interviews, you'll be able to find presentations, webinars, workshops...
+		</p>
+	</div>
 		<!--				   <div>
 							   <h2 id="examples">
 								   Examples
