@@ -1,7 +1,7 @@
 /*global exports, module, require, define*/
 (function () {
 	'use strict';
-	var root, sNotDefined, oModules, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, isNodeEnvironment;
+	var root, sNotDefined, oModules, oVars, _null_, _false_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, isNodeEnvironment;
 
 	/**
 	 * Check if Object.create exist, if not exist we create it to be used inside the code.
