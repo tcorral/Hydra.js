@@ -1,7 +1,6 @@
 (function () {
 	'use strict';
-
-	var root, sNotDefined, oModules, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, oTestFramework, Action, oActions, isNodeEnvironment;
+	var root, sNotDefined, oModules, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, isNodeEnvironment;
 
 	/**
 	 * Check if Object.create exist, if not exist we create it to be used inside the code.
@@ -234,7 +233,7 @@
 	function createInstance ( sModuleId ) {
 		var oAction, oInstance, sName, fpMethod;
 		if ( typeof oModules[sModuleId] === sNotDefined ) {
-			throw new Error( 'The module is not registered!' );
+			throw new Error( 'The module ' + sModuleId + ' is not registered!' );
 		}
 		oAction = new Action();
 		sName = '';
@@ -284,6 +283,10 @@
 		 * @type String
 		 */
 		type: 'Module',
+		/**
+		 * Wrapper to use createInstance for plugins if needed.
+		 */
+		getInstance: createInstance,
 		/**
 		 * register is the method that will add the new module to the oModules object.
 		 * sModuleId will be the key where it will be stored.
@@ -398,6 +401,16 @@
 				instances: {}
 			};
 		},
+		setInstance: function(sModuleId, sIdInstance, oInstance)
+		{
+			var oModule = oModules[sModuleId];
+			if(!oModule)
+			{
+				throw new Error( 'The module '+ sModuleId +' is not registered!' );
+			}
+			oModule.instances[sIdInstance] = oInstance;
+			return oModule;
+		},
 		/**
 		 * Sets an object of vars and add it's content to oVars private variable
 		 * @param oVar
@@ -415,37 +428,6 @@
 		 */
 		getVars: function () {
 			return simpleMerge( {}, oVars );
-		},
-		/**
-		 * test is a method that will return the module without wrapping their methods.
-		 * It's called test because it was created to be able to test the modules with unit testing.
-		 * It must work only when it's executed in oTestFramework environment
-		 * @member Module.prototype
-		 * @param {String} sModuleId
-		 * @param {Function} fpCallback
-		 */
-		test: function ( sModuleId, fpCallback ) {
-			if ( oTestFramework ) {
-				setDebug( _true_ );
-				fpCallback( createInstance( sModuleId ) );
-				setDebug( _false_ );
-			}
-		},
-		/**
-		 * getModule returns the module with the id
-		 * It must work only when it's executed in oTestFramework environment
-		 * @param {String} sModuleId
-		 * @param {String} sIdInstance
-		 * @return {Module}
-		 */
-		getModule: function ( sModuleId, sIdInstance ) {
-			var oModule = oModules[sModuleId], oInstance;
-			if ( oTestFramework ) {
-				oInstance = createInstance( sModuleId );
-				oModule.instances[sIdInstance] = oInstance;
-				return oModule;
-			}
-			return null;
 		},
 		/**
 		 * start is the method that will initialize the module.
@@ -808,16 +790,6 @@
 		return false;
 	};
 
-	/**
-	 * Sets the framework object that will be used to allow test and getModule methods in module
-	 * @static
-	 * @member Hydra
-	 * @param {Object} oTest
-	 */
-	Hydra.setTestFramework = function (oTest)
-	{
-		oTestFramework = oTest;
-	};
 	/*
 	 * Expose Hydra to be used in node.js, as AMD module or as global
 	 */

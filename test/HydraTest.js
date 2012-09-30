@@ -459,37 +459,6 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleTestTest", sinon.testCase( {
-		setUp: function () {
-			var self = this;
-			this.sModuleId = 'test';
-			this.fpCallback = sinon.stub();
-			this.fpDestroyStub = sinon.stub();
-			this.fpModuleCreator = function ( oAction ) {
-				return {
-					init: function () {
-
-					},
-					handleAction: function () {
-
-					},
-					destroy: function () {
-						self.fpDestroyStub();
-					}
-				}
-			};
-			Hydra.module.register( this.sModuleId, this.fpModuleCreator );
-		},
-		tearDown: function () {
-			Hydra.module.remove( this.sModuleId );
-		},
-		"test should call the callback": function () {
-			Hydra.module.test( this.sModuleId, this.fpCallback );
-
-			assertTrue( this.fpCallback.calledOnce );
-		}
-	} ) );
-
 	TestCase( "HydraModuleSetVarsTest", sinon.testCase( {
 		setUp: function () {
 			var self = this;
