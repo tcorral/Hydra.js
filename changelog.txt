@@ -1,4 +1,8 @@
 ChangeLog:
+2.6.0
+	* Added backward compatibility with previous versions. Start and Stop methods allow not to pass any instance id.
+		When starting a module without any instance id it will generate one automatically.
+		When stopping a module without any instance id it will stop all the instances of the module.
 2.5.3
 	* Helper test methods have been moved to one extension to reduce final size of Hydra.js
 	* Added log of events when running in debug mode.
