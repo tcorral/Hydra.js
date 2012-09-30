@@ -174,7 +174,7 @@
 		var oModule,
 			fpInitProxy;
 		oModule = oModules[sModuleId].creator( oAction );
-		oModule.__id__ = sModuleId;
+		oModule.__module_id__ = sModuleId;
 		fpInitProxy = oModule.init || function () {};
 		oModule.__action__ = oAction;
 		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
@@ -430,7 +430,7 @@
 			if ( typeof oModule !== sNotDefined ) {
 				oInstance = createInstance( sModuleId );
 				oModule.instances[sIdInstance] = oInstance;
-				oInstance._id_ = sIdInstance;
+				oInstance._instance_id_ = sIdInstance;
 				if ( typeof oData !== sNotDefined ) {
 					oInstance.init( oData );
 				} else {
