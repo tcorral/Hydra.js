@@ -1,3 +1,4 @@
+/*global exports, module, require, define*/
 (function () {
 	'use strict';
 	var root, sNotDefined, oModules, oVars, _null_, _false_, _true_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, isNodeEnvironment;
@@ -41,13 +42,6 @@
 	 * @private
 	 */
 	_false_ = false;
-
-	/**
-	 * Contains a reference to true to decrease final size.
-	 * @type {Boolean}
-	 * @private
-	 */
-	_true_ = true;
 
 	/**
 	 * Property that will save the registered modules
@@ -95,16 +89,6 @@
 	 */
 	function isFunction ( fpCallback ) {
 		return toString( fpCallback ) === '[object Function]';
-	}
-
-	/**
-	 * isArray is a function to know if the object passed as parameter is an Array
-	 * @private
-	 * @param aArray
-	 * @return {Boolean}
-	 */
-	function isArray ( aArray ) {
-		return toString( aArray ) === '[object Array]';
 	}
 
 	/**
@@ -256,10 +240,7 @@
 			return oInstance;
 		}
 		finally {
-			oAction = _null_;
-			oInstance = _null_;
-			sName = _null_;
-			fpMethod = _null_;
+			oAction = oInstance = sName = fpMethod = _null_;
 		}
 	}
 	/**
@@ -341,11 +322,8 @@
 				if ( ownProp( oModuleExtended, sKey ) ) {
 					if ( typeof oFinalModule.__super__ !== sNotDefined && isFunction( oFinalModule[sKey] ) ) {
 						oFinalModule.__super__[sKey] = (callInSupper( oFinalModule[sKey] ));
-
-						oFinalModule[sKey] = oModuleExtended[sKey];
-					} else {
-						oFinalModule[sKey] = oModuleExtended[sKey];
 					}
+					oFinalModule[sKey] = oModuleExtended[sKey];
 				}
 			}
 			try {
@@ -628,11 +606,7 @@
 				oAction.handler.call( oAction.module, oNotifier );
 			}
 
-			sType = _null_;
-			aActions = _null_;
-			nAction = _null_;
-			nLenActions = _null_;
-			oAction = _null_;
+			sType = aActions = nAction = nLenActions = oAction = _null_;
 		},
 		/**
 		 * stopListen removes the actions that are listening the aNotificationsToStopListen in the oModule
@@ -663,12 +637,7 @@
 				}
 			}
 
-			sNotification = _null_;
-			aAuxActions = _null_;
-			nNotification = _null_;
-			nLenNotificationsToListen = _null_;
-			nAction = _null_;
-			nLenActions = _null_;
+			sNotification = aAuxActions = nNotification = nLenNotificationsToListen = nAction = nLenActions = _null_;
 		},
 		/**
 		 * __restore__ is a private method to reset the oActions object to an empty object.
