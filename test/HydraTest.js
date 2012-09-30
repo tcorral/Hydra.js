@@ -510,7 +510,7 @@
 
 			Hydra.module.setVars( oVars );
 
-			Hydra.module.start( 'test-module', document.body, oData );
+			Hydra.module.start( 'test-module', 'instance_id', oData );
 
 			oCall = this.fpInit.getCall( 0 );
 

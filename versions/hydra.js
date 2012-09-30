@@ -4,6 +4,36 @@
 	var root, sNotDefined, oModules, oVars, _null_, _false_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, isNodeEnvironment;
 
 	/**
+	 * Used to generate an unique key for instance ids that are not supplied by the user.
+	 * @return {String}
+	 */
+	function generateUniqueKey () {
+		var sFirstToken = +new Date() + '',
+			sSecondToken = Math.floor( Math.random() * (999999 - 1 + 1) ) + 1;
+		return sFirstToken + '_' + sSecondToken;
+	}
+
+	/**
+	 * Return the lenght of properties of one object
+	 * @param oObj
+	 * @return {*}
+	 */
+	function getObjectLength ( oObj ) {
+		var nLen, sKey;
+		if ( Object.keys ) {
+			nLen = Object.keys( oObj ).length;
+		} else {
+			nLen = 0;
+			for ( sKey in oObj ) {
+				if ( oObj.hasOwnProperty( sKey ) ) {
+					nLen++;
+				}
+			}
+		}
+		return nLen;
+	}
+
+	/**
 	 * Check if Object.create exist, if not exist we create it to be used inside the code.
 	 */
 	if ( typeof Object.create !== 'function' ) {
@@ -424,13 +454,19 @@
 			var oModule, oInstance;
 			oModule = oModules[sModuleId];
 
+			if ( typeof sIdInstance !== 'string' ) {
+				oData = sIdInstance;
+				bSingle = oData;
+				sIdInstance = generateUniqueKey();
+			}
+
 			if ( bSingle && this.isModuleStarted( sModuleId, sIdInstance ) ) {
 				this.stop( sModuleId, sIdInstance );
 			}
 			if ( typeof oModule !== sNotDefined ) {
 				oInstance = createInstance( sModuleId );
 				oModule.instances[sIdInstance] = oInstance;
-				oInstance._instance_id_ = sIdInstance;
+				oInstance.__instance_id__ = sIdInstance;
 				if ( typeof oData !== sNotDefined ) {
 					oInstance.init( oData );
 				} else {
@@ -450,7 +486,13 @@
 		 * @return {Boolean}
 		 */
 		isModuleStarted: function ( sModuleId, sInstanceId ) {
-			return (typeof oModules[sModuleId] !== sNotDefined && typeof oModules[sModuleId].instances[sInstanceId] !== sNotDefined);
+			var bStarted = false;
+			if ( typeof sInstanceId === sNotDefined ) {
+				bStarted = ( typeof oModules[sModuleId] !== sNotDefined && getObjectLength( oModules[sModuleId].instances ) > 0 );
+			} else {
+				bStarted = ( typeof oModules[sModuleId] !== sNotDefined && typeof oModules[sModuleId].instances[sInstanceId] !== sNotDefined );
+			}
+			return bStarted;
 		},
 		/**
 		 * startAll is the method that will initialize all the registered modules.
@@ -463,7 +505,7 @@
 				if ( ownProp( oModules, sModuleId ) ) {
 					oModule = oModules[sModuleId];
 					if ( typeof oModule !== sNotDefined ) {
-						this.start( sModuleId, Math.random() );
+						this.start( sModuleId, generateUniqueKey() );
 					}
 				}
 			}
@@ -479,15 +521,32 @@
 		 * @return {Boolean}
 		 */
 		stop: function ( sModuleId, sInstanceId ) {
-			var oModule, oInstance;
+			var oModule, oInstance, oInstances, sKey;
 			oModule = oModules[sModuleId];
 			if ( typeof oModule === sNotDefined ) {
 				return false;
 			}
-			oInstance = oModule.instances[sInstanceId];
-			if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
-				oInstance.destroy();
+			if(typeof sInstanceId !== sNotDefined)
+			{
+				oInstance = oModule.instances[sInstanceId];
+				if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
+					oInstance.destroy();
+				}
+			}else
+			{
+				oInstances = oModule.instances;
+				for(sKey in oInstances)
+				{
+					if(oInstances.hasOwnProperty(sKey))
+					{
+						oInstance = oInstances[sKey];
+						if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
+							oInstance.destroy();
+						}
+					}
+				}
 			}
+
 			oModule = oInstance = _null_;
 			return true;
 		},
@@ -604,11 +663,10 @@
 			aActions = oActions[sType].slice();
 			nLenActions = aActions.length;
 
-			if(bDebug)
-			{
+			if ( bDebug ) {
 				oLog.type = sType;
 				oLog.executed = { calls: nLenActions, actions: aActions };
-				ErrorHandler.log(sType, oLog);
+				ErrorHandler.log( sType, oLog );
 			}
 
 			for ( nAction = 0; nAction < nLenActions; nAction = nAction + 1 ) {
