@@ -34,13 +34,12 @@
 			<a target="_blank" href="examples/index.html">
 				Examples
 			</a>
-		</li><!--
-							<li>
-								<a href="documentation/multimedia.html">
-									Multimedia
-								</a>
-							</li>
-							-->
+		</li>
+		<li id="doc_top_multimedia">
+			<a href="#multimedia">
+				Multimedia
+			</a>
+		</li>
 	</ul>
 </nav>
 <div id="documentation"></div>

@@ -12,6 +12,7 @@ define(['backbone'], function(Backbone){
 			"multimedia": "multimedia",
 			"examples": "examples",
 			"community": "community",
+			'multimedia': 'multimedia',
 			'es': 'es',
 			'en': 'en',
 			'*path': "home"
@@ -130,10 +131,13 @@ define(['backbone'], function(Backbone){
 			this.lastRoute = 'reference_guide';
 		},
 		"multimedia": function () {
-			require(['views/multimedia'], function(multimediaView)
+			require(['views/documentation', 'views/documentation/multimedia', 'views/documentationMenu'], function(documentationView, multimediaView, docMenuView)
 			{
-				var oView = new multimediaView();
+				var oDocView = new documentationView();
+				oDocView.render();
+				var oView = new multimediaView({el: document.getElementById("documentation")});
 				oView.render();
+				var oDocMenu = new docMenuView();
 			});
 			this.lastRoute = 'multimedia';
 		},

@@ -24,12 +24,12 @@
 					Reference Guide
 				</a>
 			</li>
-			<!--<li>
-											   <a href="#multimedia">
-												   Multimedia
-											   </a>
-										   </li>
-										   <li>
+			<li>
+			   <a href="#multimedia">
+				   Multimedia
+			   </a>
+			</li>
+			<!--							   <li>
 											   <a href="#examples">
 												   Examples
 											   </a>
@@ -70,15 +70,15 @@
 			Reference Guide is the most extensive documentation you can found about Hydra.js and how to use it. This reference is full of examples to make easier your work every day, and with some tips to improve your productivity.
 		</p>
 	</div>
-	<!--<div>
-							   <h2 id="multimedia">
-								   Multimedia
-							   </h2>
-							   <p>
-								   Here you will find from screencasts to interviews, you'll be able to find presentations, webinars, workshops...
-							   </p>
-						   </div>
-						   <div>
+	<div>
+	   <h2 id="multimedia">
+		   Multimedia
+	   </h2>
+	   <p>
+		   Here you will find from screencasts to interviews, you'll be able to find presentations, webinars, workshops...
+	   </p>
+   </div>
+		<!--				   <div>
 							   <h2 id="examples">
 								   Examples
 							   </h2>
