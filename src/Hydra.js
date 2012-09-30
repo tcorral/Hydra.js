@@ -189,7 +189,7 @@
 		var oModule,
 			fpInitProxy;
 		oModule = oModules[sModuleId].creator( oAction );
-		fpInitProxy = oModule.init;
+		fpInitProxy = oModule.init || function () {};
 		oModule.__action__ = oAction;
 		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
 		oModule.aListeningEvents = (function () {
