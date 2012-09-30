@@ -1,7 +1,10 @@
+/*global TestCase, jstestdriver, assertFalse, assertTrue, assertFunction, assertObject, assertEquals, assertInstanceOf, assertException, assertSame, window, Core, document, Hydra, assertUndefined*/
 (function(win, doc, Hydra){
+	'use strict';
+	var oTestCase = TestCase;
 	Hydra.setTestFramework(jstestdriver);
 
-	TestCase( "TestExtensionModuleBugOnLazyPatternTestSingleModuleTest", sinon.testCase( {
+	oTestCase( "TestExtensionModuleBugOnLazyPatternTestSingleModuleTest", sinon.testCase( {
 		setUp: function()
 		{
 			var self = this;
@@ -39,7 +42,7 @@
 		}
 	} ) );
 
-	TestCase( "TestExtensionModuleBugOnLazyPatternTestExtendedModuleTest", sinon.testCase( {
+	oTestCase( "TestExtensionModuleBugOnLazyPatternTestExtendedModuleTest", sinon.testCase( {
 		setUp: function()
 		{
 			var self = this;
@@ -76,7 +79,8 @@
 			assertFalse( this.oModule.isFirstExecution );
 		}
 	} ) );
-	TestCase( "HydraInitializationTest", sinon.testCase( {
+
+	oTestCase( "HydraInitializationTest", sinon.testCase( {
 		setUp: function () {},
 		tearDown: function () {},
 		"test should return an object for window.Hydra or Hydra": function () {
@@ -98,7 +102,7 @@
 		}
 	} ) );
 
-	TestCase( "HydraActionTest", sinon.testCase( {
+	oTestCase( "HydraActionTest", sinon.testCase( {
 		setUp: function () {},
 		tearDown: function () {},
 		"test should return the Action Class": function () {
@@ -109,7 +113,7 @@
 		}
 	} ) );
 
-	TestCase( "HydraSetErrorHandlerTest", sinon.testCase( {
+	oTestCase( "HydraSetErrorHandlerTest", sinon.testCase( {
 		setUp: function () {
 			this.ErrorHandler = Hydra.errorHandler();
 			var FakeClass = function () {};
@@ -121,15 +125,15 @@
 			Hydra.setErrorHandler( this.ErrorHandler );
 		},
 		"test should change the ErrorHandler Class to a Fake Class": function () {
-			var oResult = null;
+			var oResult;
 
 			oResult = Hydra.errorHandler();
 
 			assertEquals( "Fake", oResult.type );
 		},
 		"test should return an instance of Fake Class": function () {
-			var oInstance = null;
-			var oClass = null;
+			var oInstance,
+				oClass;
 
 			oClass = Hydra.errorHandler();
 			oInstance = new (oClass);
@@ -138,10 +142,10 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleRegisterTest", sinon.testCase( {
+	oTestCase( "HydraModuleRegisterTest", sinon.testCase( {
 		setUp: function () {
 			this.sModuleId = 'test';
-			this.fpModuleCreator = function ( oAction ) {
+			this.fpModuleCreator = function () {
 				return {
 					init: function () {
 
@@ -161,7 +165,7 @@
 		"test should throw an error if we try to create a module without register if the ErrorHandler Class": function () {
 			var self = this;
 			assertException( function () {
-				Hydra.module.test( self.sModuleId, function ( oModule ) {} );
+				Hydra.module.test( self.sModuleId, function ( ) {} );
 			} );
 		},
 		"test should return a module if we create a module registering it": function () {
@@ -174,11 +178,11 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleRemoveTest", sinon.testCase( {
+	oTestCase( "HydraModuleRemoveTest", sinon.testCase( {
 		setUp: function () {
 			this.sModuleId = 'test';
 			this.sContainerId = 'test';
-			this.fpModuleCreator = function ( oAction ) {
+			this.fpModuleCreator = function () {
 				return {
 					init: function () {
 
@@ -211,12 +215,12 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleStartTest", sinon.testCase( {
+	oTestCase( "HydraModuleStartTest", sinon.testCase( {
 		setUp: function () {
 			this.sModuleId = 'test';
 			this.fpInitStub = sinon.stub();
 			var self = this;
-			this.fpModuleCreator = function ( oAction ) {
+			this.fpModuleCreator = function () {
 				return {
 					init: function () {
 						self.fpInitStub();
@@ -241,7 +245,7 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleStartAllTest", sinon.testCase( {
+	oTestCase( "HydraModuleStartAllTest", sinon.testCase( {
 		setUp: function () {
 			this.sModuleId = 'test';
 			this.sModuleId2 = 'test2';
@@ -249,7 +253,7 @@
 			this.sContainerId_2 = 'test2';
 			this.fpInitStub = sinon.stub();
 			var self = this;
-			this.fpModuleCreator = function ( oAction ) {
+			this.fpModuleCreator = function () {
 				return {
 					init: function () {
 						self.fpInitStub();
@@ -275,7 +279,7 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleStopTest", sinon.testCase( {
+	oTestCase( "HydraModuleStopTest", sinon.testCase( {
 		setUp: function () {
 			this.sModuleId = 'test';
 			this.sContainerId = 'test';
@@ -307,9 +311,8 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleStopAllTest", sinon.testCase( {
+	oTestCase( "HydraModuleStopAllTest", sinon.testCase( {
 		setUp: function () {
-			var self = this;
 			this.sModuleId = 'test';
 			this.sContainerId_1 = 'test';
 			this.sContainerId_2 = 'test2';
@@ -335,13 +338,13 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleSimpleExtendTest", sinon.testCase( {
+	oTestCase( "HydraModuleSimpleExtendTest", sinon.testCase( {
 		setUp: function () {
 			var self = this;
 			this.sModuleId = 'test';
 			this.fpInitStub = sinon.stub();
 			this.fpDestroyStub = sinon.stub();
-			this.fpModuleCreator = function ( oAction ) {
+			this.fpModuleCreator = function () {
 				return {
 					init: function () {
 
@@ -354,7 +357,7 @@
 					}
 				}
 			};
-			this.fpModuleExtendedCreator = function ( oAction ) {
+			this.fpModuleExtendedCreator = function () {
 				return {
 					init: function () {
 						self.fpInitStub();
@@ -396,14 +399,14 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleComplexExtendTest", sinon.testCase( {
+	oTestCase( "HydraModuleComplexExtendTest", sinon.testCase( {
 		setUp: function () {
 			var self = this;
 			this.sModuleId = 'test';
 			this.sExtendedModuleId = 'test2';
 			this.fpInitStub = sinon.stub();
 			this.fpDestroyStub = sinon.stub();
-			this.fpModuleCreator = function ( oAction ) {
+			this.fpModuleCreator = function () {
 				return {
 					init: function () {
 
@@ -416,7 +419,7 @@
 					}
 				}
 			};
-			this.fpModuleExtendedCreator = function ( oAction ) {
+			this.fpModuleExtendedCreator = function () {
 				return {
 					init: function () {
 						self.fpInitStub();
@@ -459,14 +462,14 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleSetVarsTest", sinon.testCase( {
+	oTestCase( "HydraModuleSetVarsTest", sinon.testCase( {
 		setUp: function () {
 			var self = this;
 			this.oVars = null;
 			this.fpInit = function ( oData ) {
 				self.oVars = oData;
 			};
-			Hydra.module.register( "test-module", function ( sandbox ) {
+			Hydra.module.register( "test-module", function () {
 				return {
 					init: self.fpInit,
 					destroy: function () {
@@ -497,13 +500,13 @@
 		},
 		'test should check that if we pass a param when starting the module will move the object of vars to the last position in arguments': function () {
 			var oVars = {
-				'test': 'test',
-				'test1': 'test1'
-			};
-			var oData = {
-				data: 2
-			};
-			var oCall = null;
+					'test': 'test',
+					'test1': 'test1'
+				},
+				oData = {
+					data: 2
+				},
+				oCall;
 
 			Hydra.module.setVars( oVars );
 
@@ -516,7 +519,7 @@
 		}
 	} ) );
 
-	TestCase( "HydraModuleGetVarsTest", sinon.testCase( {
+	oTestCase( "HydraModuleGetVarsTest", sinon.testCase( {
 		setUp: function () {
 			this.oVars = {
 				'test': 'test',
@@ -537,9 +540,8 @@
 		}
 	} ) );
 
-	TestCase( "HydraActionListenTest", sinon.testCase( {
+	oTestCase( "HydraActionListenTest", sinon.testCase( {
 		setUp: function () {
-			var self = this;
 			this.sListener = 'test';
 			this.fpHandler = sinon.stub();
 			this.oModule = {
@@ -567,7 +569,7 @@
 		}
 	} ) );
 
-	TestCase( "HydraActionNotifyTest", sinon.testCase( {
+	oTestCase( "HydraActionNotifyTest", sinon.testCase( {
 		setUp: function () {
 			this.oAction = Hydra.action();
 			var self = this;
@@ -609,10 +611,14 @@
 			this.oAction.notify( this.oNotifier );
 
 			assertTrue( this.fpListen.calledOnce );
+		},
+		"test should call ErrorHandler.log one time": function()
+		{
+
 		}
 	} ) );
 
-	TestCase( "HydraActionStopListenTest", sinon.testCase( {
+	oTestCase( "HydraActionStopListenTest", sinon.testCase( {
 		setUp: function () {
 			this.oAction = Hydra.action();
 			var self = this;
@@ -656,7 +662,7 @@
 		}
 	} ) );
 
-	TestCase( "HydraExtendTest", sinon.testCase( {
+	oTestCase( "HydraExtendTest", sinon.testCase( {
 		setUp: function () {
 
 		},
@@ -681,7 +687,7 @@
 		}
 	} ) );
 
-	TestCase( "HydraNoConflictTest", sinon.testCase( {
+	oTestCase( "HydraNoConflictTest", sinon.testCase( {
 		setUp: function () {
 
 		},
@@ -697,7 +703,7 @@
 		},
 		'test should check when executing noConflict a part of Hydra will be callable with other name and in other context': function()
 		{
-			var bDone = false;
+			var bDone;
 
 			bDone = Hydra.noConflict('module', window, 'Core');
 
@@ -707,7 +713,7 @@
 		},
 		'test should check when executing noConflic with a name of part of Hydra it will do nothing': function()
 		{
-			var bDone = true;
+			var bDone;
 
 			bDone = Hydra.noConflict("how", window, 'toTest');
 

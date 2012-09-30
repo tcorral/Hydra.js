@@ -6,9 +6,10 @@
 	/**
 	 * Check if Object.create exist, if not exist we create it to be used inside the code.
 	 */
-	if (typeof Object.create !== 'function') {
-		Object.create = function (oObject) {
-			function Copy() {}
+	if ( typeof Object.create !== 'function' ) {
+		Object.create = function ( oObject ) {
+			function Copy () {}
+
 			Copy.prototype = oObject;
 			return new Copy();
 		};
@@ -243,11 +244,12 @@
 			oAction = oInstance = sName = fpMethod = _null_;
 		}
 	}
+
 	/**
 	 * Simple object to abstract the error handler, the most basic is to be the console object
 	 */
 	ErrorHandler = root.console || {
-		log: function(){}
+		log: function () {}
 	};
 	/**
 	 * Class to manage the modules.
@@ -368,7 +370,7 @@
 			oBaseModule = oModule.creator( oAction );
 
 			oModules[sFinalModuleId] = {
-				creator: function(oAction){
+				creator: function ( oAction ) {
 					// If we extend the module with the different name, we
 					// create proxy class for the original methods.
 					oFinalModule = self._merge( oBaseModule, oExtendedModule );
@@ -379,12 +381,10 @@
 				instances: {}
 			};
 		},
-		setInstance: function(sModuleId, sIdInstance, oInstance)
-		{
+		setInstance: function ( sModuleId, sIdInstance, oInstance ) {
 			var oModule = oModules[sModuleId];
-			if(!oModule)
-			{
-				throw new Error( 'The module '+ sModuleId +' is not registered!' );
+			if ( !oModule ) {
+				throw new Error( 'The module ' + sModuleId + ' is not registered!' );
 			}
 			oModule.instances[sIdInstance] = oInstance;
 			return oModule;
@@ -429,7 +429,7 @@
 			if ( typeof oModule !== sNotDefined ) {
 				oInstance = createInstance( sModuleId );
 				oModule.instances[sIdInstance] = oInstance;
-				oInstance._id_ =  sIdInstance;
+				oInstance._id_ = sIdInstance;
 				if ( typeof oData !== sNotDefined ) {
 					oInstance.init( oData );
 				} else {
@@ -591,7 +591,8 @@
 		 * @param oNotifier - Notifier.type and Notifier.data are needed
 		 */
 		notify: function ( oNotifier ) {
-			var sType, oAction, aActions, nAction, nLenActions;
+			var sType, oAction, aActions, nAction, nLenActions, oLog;
+			oLog = {};
 			sType = oNotifier.type;
 			oAction = _null_;
 
@@ -601,10 +602,14 @@
 			// Duplicate actions array in order to avoid broken references when removing listeners.
 			aActions = oActions[sType].slice();
 			nLenActions = aActions.length;
+			oLog.type = sType;
+			oLog.executed = { calls: nLenActions, modules: [], callbacks: aActions };
 			for ( nAction = 0; nAction < nLenActions; nAction = nAction + 1 ) {
 				oAction = aActions[nAction];
+				oLog.executed.modules.push( oAction.module );
 				oAction.handler.call( oAction.module, oNotifier );
 			}
+			ErrorHandler.log(oLog);
 
 			sType = aActions = nAction = nLenActions = oAction = _null_;
 		},
@@ -730,14 +735,11 @@
 	 * @param sIdExtension
 	 * @param oExtension
 	 */
-	Hydra.extend = function(sIdExtension, oExtension)
-	{
-		if(typeof this[sIdExtension] === sNotDefined)
-		{
+	Hydra.extend = function ( sIdExtension, oExtension ) {
+		if ( typeof this[sIdExtension] === sNotDefined ) {
 			this[sIdExtension] = oExtension;
-		}else
-		{
-			this[sIdExtension] = simpleMerge(this[sIdExtension], oExtension);
+		} else {
+			this[sIdExtension] = simpleMerge( this[sIdExtension], oExtension );
 		}
 	};
 
@@ -749,10 +751,8 @@
 	 * @param sNewName
 	 * @return {Boolean}
 	 */
-	Hydra.noConflict = function(sOldName, oNewContext, sNewName)
-	{
-		if(typeof this[sOldName] !== sNotDefined)
-		{
+	Hydra.noConflict = function ( sOldName, oNewContext, sNewName ) {
+		if ( typeof this[sOldName] !== sNotDefined ) {
 			oNewContext[sNewName] = this[sOldName];
 			return true;
 		}
@@ -763,11 +763,11 @@
 	 * Expose Hydra to be used in node.js, as AMD module or as global
 	 */
 	root.Hydra = Hydra;
-	if (isNodeEnvironment) {
+	if ( isNodeEnvironment ) {
 		module.exports = Hydra;
-	} else if(typeof define !== 'undefined') {
-		define(function() {
+	} else if ( typeof define !== 'undefined' ) {
+		define( function () {
 			return Hydra;
-		});
+		} );
 	}
-}).call(this);
+}).call( this );
