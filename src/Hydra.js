@@ -834,4 +834,4 @@
 			return Hydra;
 		} );
 	}
-}).call( this );
+}.call( this ));
