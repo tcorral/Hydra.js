@@ -217,9 +217,11 @@
 
 	oTestCase( "HydraModuleStartTest", sinon.testCase( {
 		setUp: function () {
-			this.sModuleId = 'test';
-			this.fpInitStub = sinon.stub();
 			var self = this;
+			this.sModuleId = 'test';
+			this.sModuleId2 = 'test2';
+			this.fpInitStub = sinon.stub();
+			this.fpInitStub2 = sinon.stub();
 			this.fpModuleCreator = function () {
 				return {
 					init: function () {
@@ -233,7 +235,21 @@
 					}
 				}
 			};
+			this.fpModuleCreator2 = function () {
+				return {
+					init: function () {
+						self.fpInitStub2();
+					},
+					handleAction: function () {
+
+					},
+					destroy: function () {
+
+					}
+				}
+			};
 			Hydra.module.register( this.sModuleId, this.fpModuleCreator );
+			Hydra.module.register( this.sModuleId2, this.fpModuleCreator2 );
 		},
 		tearDown: function () {
 			Hydra.module.remove( this.sModuleId );
@@ -242,6 +258,13 @@
 			Hydra.module.start( this.sModuleId );
 
 			assertTrue( this.fpInitStub.calledOnce );
+		},
+		"test should check that all the init methods in the modules are called when using multi-module start": function()
+		{
+			Hydra.module.start([this.sModuleId, this.sModuleId2]);
+
+			assertTrue( this.fpInitStub.calledOnce );
+			assertTrue( this.fpInitStub2.calledOnce );
 		}
 	} ) );
 

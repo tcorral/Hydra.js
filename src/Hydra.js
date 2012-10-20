@@ -1,7 +1,7 @@
 /*global exports, module, require, define*/
 (function () {
 	'use strict';
-	var root, sNotDefined, oModules, oVars, _null_, _false_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, isNodeEnvironment;
+	var root, sNotDefined, oModules, oVars, _null_, _false_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, isNodeEnvironment, oObjProto;
 
 	/**
 	 * Used to generate an unique key for instance ids that are not supplied by the user.
@@ -54,7 +54,11 @@
 	 * @type {String}
 	 */
 	sNotDefined = 'undefined';
-
+	/**
+	 * Cache of object prototype to use it in other functions
+	 * @type {Object}
+	 */
+	oObjProto = Object.prototype;
 	/**
 	 * set the correct root depending from the environment.
 	 */
@@ -109,7 +113,7 @@
 	 * @return {String}
 	 */
 	function toString ( oObject ) {
-		return {}.toString.call( oObject );
+		return oObjProto.toString.call( oObject );
 	}
 
 	/**
@@ -120,6 +124,16 @@
 	 */
 	function isFunction ( fpCallback ) {
 		return toString( fpCallback ) === '[object Function]';
+	}
+
+	/**
+	 * isArray is a function to know if the object passed as parameter is an Array object.
+	 * @private
+	 * @param {Object} aArray
+	 * @return {Boolean}
+	 */
+	function isArray ( aArray ) {
+		return toString( aArray ) === '[object Array]';
 	}
 
 	/**
@@ -151,6 +165,41 @@
 	 */
 	function ownProp ( oObj, sKey ) {
 		return oObj.hasOwnProperty( sKey );
+	}
+
+	/**
+	 * startSingleModule is the method that will initialize the module.
+	 * When start is called the module instance will be created and the init method is called.
+	 * If bSingle is true and the module is started the module will be stopped before instance it again.
+	 *   This avoid execute the same listeners more than one time.
+	 * @member Module.prototype
+	 * @param {String} sModuleId
+	 * @param {String} sIdInstance
+	 * @param {Object} oData
+	 * @param {Boolean} bSingle
+	 * @return {Module} instance of the module
+	 */
+	function startSingleModule ( sModuleId, sIdInstance, oData, bSingle ) {
+		var oModule, oInstance;
+		oModule = oModules[sModuleId];
+
+		if ( bSingle && this.isModuleStarted( sModuleId, sIdInstance ) ) {
+			this.stop( sModuleId, sIdInstance );
+		}
+		if ( typeof oModule !== sNotDefined ) {
+			oInstance = createInstance( sModuleId );
+			oModule.instances[sIdInstance] = oInstance;
+			oInstance.__instance_id__ = sIdInstance;
+			if ( typeof oData !== sNotDefined ) {
+				oInstance.init( oData );
+			} else {
+				oInstance.init();
+			}
+		}
+
+		oModule = _null_;
+
+		return oInstance;
 	}
 
 	/**
@@ -438,45 +487,44 @@
 		getVars: function () {
 			return simpleMerge( {}, oVars );
 		},
-		/**
-		 * start is the method that will initialize the module.
-		 * When start is called the module instance will be created and the init method is called.
-		 * If bSingle is true and the module is started the module will be stopped before instance it again.
-		 *   This avoid execute the same listeners more than one time.
-		 * @member Module.prototype
-		 * @param {String} sModuleId
-		 * @param {String} sIdInstance
-		 * @param {Object} oData
-		 * @param {Boolean} bSingle
-		 * @return {Module} instance of the module
-		 */
+
 		start: function ( sModuleId, sIdInstance, oData, bSingle ) {
-			var oModule, oInstance;
-			oModule = oModules[sModuleId];
+			var bStartMultipleModules = isArray( sModuleId ),
+				aModulesIds,
+				aInstancesIds,
+				aData,
+				aSingle,
+				nIndex,
+				nLenModules,
+				sId;
 
-			if ( typeof sIdInstance !== 'string' ) {
-				oData = sIdInstance;
-				bSingle = oData;
-				sIdInstance = generateUniqueKey();
-			}
-
-			if ( bSingle && this.isModuleStarted( sModuleId, sIdInstance ) ) {
-				this.stop( sModuleId, sIdInstance );
-			}
-			if ( typeof oModule !== sNotDefined ) {
-				oInstance = createInstance( sModuleId );
-				oModule.instances[sIdInstance] = oInstance;
-				oInstance.__instance_id__ = sIdInstance;
-				if ( typeof oData !== sNotDefined ) {
-					oInstance.init( oData );
-				} else {
-					oInstance.init();
+			if ( bStartMultipleModules ) {
+				aModulesIds = sModuleId.slice(0);
+				if ( isArray( sIdInstance ) ) {
+					aInstancesIds = sIdInstance.slice( 0 );
 				}
+				if ( isArray( oData ) ) {
+					aData = oData.slice(0);
+				}
+				if ( isArray( bSingle ) ) {
+					aSingle = bSingle.slice(0);
+				}
+				for(nIndex = 0, nLenModules = aModulesIds.length; nIndex < nLenModules; nIndex++)
+				{
+					sModuleId = aModulesIds[nIndex];
+					sIdInstance = aInstancesIds && aInstancesIds[nIndex] || generateUniqueKey();
+					oData = aData && aData[nIndex] || oData;
+					bSingle = aSingle && aSingle[nIndex] || bSingle;
+					startSingleModule( sModuleId, sIdInstance, oData, bSingle );
+				}
+			} else {
+				if ( typeof sIdInstance !== 'string' ) {
+					oData = sIdInstance;
+					bSingle = oData;
+					sIdInstance = generateUniqueKey();
+				}
+				startSingleModule( sModuleId, sIdInstance, oData, bSingle );
 			}
-
-			oModule = _null_;
-
-			return oInstance;
 		},
 		/**
 		 * Checks if module was already successfully started
@@ -526,19 +574,15 @@
 			if ( typeof oModule === sNotDefined ) {
 				return false;
 			}
-			if(typeof sInstanceId !== sNotDefined)
-			{
+			if ( typeof sInstanceId !== sNotDefined ) {
 				oInstance = oModule.instances[sInstanceId];
 				if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
 					oInstance.destroy();
 				}
-			}else
-			{
+			} else {
 				oInstances = oModule.instances;
-				for(sKey in oInstances)
-				{
-					if(oInstances.hasOwnProperty(sKey))
-					{
+				for ( sKey in oInstances ) {
+					if ( oInstances.hasOwnProperty( sKey ) ) {
 						oInstance = oInstances[sKey];
 						if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
 							oInstance.destroy();
