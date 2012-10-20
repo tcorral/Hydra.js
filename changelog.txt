@@ -1,4 +1,11 @@
 ChangeLog:
+2.7.0
+	* Added the multi-module start feature. No more than one line when starting more than one module at the same time.
+		Now you can pass:
+			An array of ids of modules
+			An array of instance ids
+			An array of data objects
+			An array with booleans indicating if the module will be a single instance or not.
 2.6.0
 	* Added backward compatibility with previous versions. Start and Stop methods allow not to pass any instance id.
 		When starting a module without any instance id it will generate one automatically.
