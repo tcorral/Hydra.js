@@ -487,7 +487,15 @@
 		getVars: function () {
 			return simpleMerge( {}, oVars );
 		},
-
+		/**
+		 * start is the method that initialize the module/s
+		 * If you use array instead of arrays you can start more than one module even adding the instance, the data and if it must be executed
+		 * as single module start.
+		 * @param sModuleId
+		 * @param sIdInstance
+		 * @param oData
+		 * @param bSingle
+		 */
 		start: function ( sModuleId, sIdInstance, oData, bSingle ) {
 			var bStartMultipleModules = isArray( sModuleId ),
 				aModulesIds,
