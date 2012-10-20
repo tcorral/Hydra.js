@@ -401,6 +401,12 @@
     </p>
 
     <div class="h4">
+        Sample of starting a single module (without id of instance):
+    </div>
+    <div>
+        <pre><code class="language-javascript">Hydra.module.start('my-fist-module');</code></pre>
+    </div>
+    <div class="h4">
         Sample of starting a single module (without parameters):
     </div>
     <div>
