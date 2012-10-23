@@ -545,8 +545,8 @@
     </div>
     <div>
 		<pre><code class="language-javascript">// To maintain compatibility with previous versions.
-            Hydra.noConflict("module", "Core", window);
-            Hydra.noConfict("action", "Sandbox", window);
+            Hydra.noConflict("module", window, "Core" );
+            Hydra.noConfict("action", window, "Sandbox");
 
             //Now you can use Core and Sandbox when coding
             Core.register('module-name', function (action)
