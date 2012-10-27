@@ -27,7 +27,16 @@
 				</tr>
 				</thead>
 				<tbody>
-
+                <tr class="alt">
+                    <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
+                    <td class="content"> <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/Sandbox" class="js-slide-to js-rewrite-sha" target="_blank" id="2652eec977dcb2a5aea85f5bec235b05-75d18ae555d05e320dd0f9a4afb0aed6165eb579">Sandbox</a></td>
+                    <td class="message"> Sandbox is a manager class that was used in library core before version 3.0.0 to maintain compatibility with old code or to being used to migrate to the new one without break anything, this must be used</td>
+                </tr>
+                <tr class="">
+                    <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
+                    <td class="content"> <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/TestingHelper" class="js-slide-to js-rewrite-sha" target="_blank" id="db77eeeec3241781306ba87dfe780ea1-0df6237fa6c3ba28e9c776de5dd42a6857477113">TestingHelper</a></td>
+                    <td class="message"> In previous versions to 2.6.0 the testing helper methods belonged to the core code but now you can only add it in your testing code reducing the final library size in production. </td>
+                </tr>
 				<tr class="alt">
 					<td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
 					<td class="content"> <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/jQuery" class="js-slide-to js-rewrite-sha" target="_blank" id="38977e6ba4439b87df9ae6c8f843213f2bbef9de">jQuery</a></td>
