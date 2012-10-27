@@ -49,7 +49,7 @@ Insert in your code:
 	});
 Setting the vars in this way this vars will be accessible as last argument in init module method if needed you can access
 to this vars object using getVars (See 'Getting vars')
-Tip. This method not only set vars, if the object has been set before the new vars will be merged with the previous object.
+*Tip. This method not only set vars, if the object has been set before the new vars will be merged with the previous object.*
 
 ### Getting vars
 	var oVars = Hydra.module.getVars();
@@ -142,7 +142,7 @@ The publish method expect three params, but only the first two are mandatory, th
 
 	Hydra.bus.publish( 'channel_name', 'event_name', data );
 
-*Tip: 'global' channel is created by default to use it if you want to communicate with other modules that are not related with an specific channel.
+*Tip: 'global' channel is created by default to use it if you want to communicate with other modules that are not related with an specific channel.*
 
 	Hydra.module.register( 'moduleId', function( bus )
 	{
@@ -160,6 +160,9 @@ The publish method expect three params, but only the first two are mandatory, th
 			}
 		};
 	});
+
+If you need compatibility with the previous event manager called Action, you can add it in your code to maintain compatibility with previous versions code. You can download it from: [Action](https://github.com/tcorral/Hydra_Extensions/tree/master/Sandbox)
+
 
 ## Documentation
 
