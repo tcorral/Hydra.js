@@ -9,6 +9,11 @@
 					API documentation
 				</a>
 			</li>
+            <li>
+                <a href="#version_3_0_0">
+                    version 3.0.0
+                </a>
+            </li>
 			<li>
 				<a href="#version_2_5_1">
 					version 2.5.1
@@ -42,6 +47,20 @@
 				</tr>
 				</thead>
 				<tbody>
+                <tr id="version_3_0_0">
+                    <td>
+                        Version 3.0.0
+                    </td>
+                    <td>
+                        <a href="apis/Hydra.js_API_v3.0.0/index.html">Browse online</a>
+                    </td>
+                    <td class="tar">
+                        <a href="downloads/apis/Hydra.js_API_v3.0.0.tar.gz">tar.gz</a>
+                    </td>
+                    <td class="zip">
+                        <a href="downloads/apis/Hydra.js_API_v3.0.0.zip">zip</a>
+                    </td>
+                </tr>
 				<tr id="version_2_5_1">
 					<td>
 						Version 2.5.1
