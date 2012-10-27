@@ -1,7 +1,7 @@
 # Hydra.js
 Hidra.js is a module manager oriented system.
 
-## Updated to version 2.7.0
+## Updated to version 3.0.0
 
 [Changelog](https://raw.github.com/tcorral/Hydra.js/master/changelog.txt)
 
@@ -31,7 +31,7 @@ Hydra.js use a decoupled architecture that:
 
 [Project Web](http://tcorral.github.com/Hydra.js)
 
-[API documentation](http://tcorral.github.com/Hydra.js/apis/Hydra.js_API_v2.5.0/index.html)
+[API documentation](http://tcorral.github.com/Hydra.js/apis/Hydra.js_API_v3.0.0/index.html)
 
 [Examples](http://tcorral.github.com/Hydra.js/examples/index.html) to see for yourself!
 
@@ -45,7 +45,7 @@ Insert in your code:
 ### Setting vars
 	Hydra.module.setVars({
 		gaq: _gaq,
-		list: document.getElementById("list")
+		list: document.getElementById( "list" )
 	});
 Setting the vars in this way this vars will be accessible as last argument in init module method if needed you can access
 to this vars object using getVars (See 'Getting vars')
@@ -56,30 +56,30 @@ Tip. This method not only set vars, if the object has been set before the new va
 Returns the object with the private vars set using setVars (See 'Setting vars')
 
 ### Create a module
-	Hydra.module.register('moduleId', function(action)
+	Hydra.module.register( 'moduleId', function( bus )
 	{
 		return {
-			init: function (oData) {}
+			init: function ( oData ) {}
 		};
 	});
 
 ### Extend a module overwritting the base module
 To extend a module you will need to register the base module before extend it.
 
-	Hydra.module.extend('moduleId', function(action)
+	Hydra.module.extend( 'moduleId', function( bus )
 	{
 		return {
-			init: function (oData) {}
+			init: function ( oData ) {}
 		};
 	});
 
 ### Extend a module creating a new module
 To extend a module you will need to register the base module before extend it.
 
-	Hydra.module.extend('moduleId', 'newModuleId', function(action)
+	Hydra.module.extend( 'moduleId', 'newModuleId', function( bus )
 	{
 		return {
-			init: function (oData) {}
+			init: function ( oData ) {}
 		};
 	});
 
@@ -89,11 +89,11 @@ This extension allows access the parent methods as classical inheritance.
 
 Register base module:
 
-	Hydra.module.register('moduleId', function(action)
+	Hydra.module.register( 'moduleId', function( bus )
 	{
 		return {
-			init: function (oData) {},
-			changeTitle: function(sTitle){
+			init: function ( oData ) {},
+			changeTitle: function( sTitle ){
 					document.title = sTitle;
 			}
 		};
@@ -101,77 +101,65 @@ Register base module:
 
 Create the new module using "extend":
 
-	Hydra.module.extend('moduleId', 'newModuleId', function(action)
+	Hydra.module.extend( 'moduleId', 'newModuleId', function( bus )
 	{
 		return {
-			init: function (oData) {},
-			changeTitle: function(sTitle){
+			init: function ( oData ) {},
+			changeTitle: function( sTitle ){
 					sTitle += " " + new Date().getTime();
 					// This is the way of access parent methods.
-					this.__super__.call("changeTitle", [sTitle]);
+					this.__super__.call( "changeTitle", [sTitle] );
 			}
 		};
 	});
 
 
 #### When listening events
-	Hydra.module.register('moduleId', function(action)
+	Hydra.module.register( 'moduleId', function( bus )
 	{
 		return {
 			aListeningEvents: ['action1', 'action2'],
 			oEventsCallbacks: {
-				'action1': function(oNotify)
+				'event1': function( oNotify )
 				{
 						/* your code */
 				},
-				'action2': function(oNotify)
+				'event2': function( oNotify )
 				{
 						/* your code */
 				}
 			},
-			init: function (oData) {
+			init: function ( oData ) {
+				bus.subscribe( 'channel_name', this );
 			}
 		};
 	});
 
-### Notifying actions
-To use the action manager you have accessible using "action".
+### Publishing actions
+To use the action manager you have accessible using "bus".
 
-The notify method needs a Notifier object:
+The publish method expect three params, but only the first two are mandatory, the channel name and the event name
 
-	var oNotifier = {
-		type: 'listenedAction',
-		data: 'data'
-	};
+	Hydra.bus.publish( 'channel_name', 'event_name', data );
 
-*Tip: You can notify an action where ever you want inside the module using 'action'*
+*Tip: 'global' channel is created by default to use it if you want to communicate with other modules that are not related with an specific channel.
 
-	Hydra.module.register('moduleId', function(action)
+	Hydra.module.register( 'moduleId', function( bus )
 	{
 		return {
 			aListeningEvents : ['action1', 'action2', 'action3'],
 			oEventsCallbacks : {
-				'action1': function (oData) {},
-				'action2': function (oData) {},
-				'action3': function (oData) {}
+				'action1': function ( oData ) {},
+				'action2': function ( oData ) {},
+				'action3': function ( oData ) {}
 			},
-			init: function (oData) {
-					$("#button").click(function(){
-						action.notify({
-							type: 'listenedAction',
-							data: 'data'
-						});
+			init: function ( oData ) {
+					$( "#button" ).click( function(){
+						bus.publish( 'channel_name', 'event_name', {} );
 					});
 			}
 		};
 	});
-*Tip: You can create an Action on your code to notify some module creating a new instance of it in this way:*
-
-	var oAction = new (Hydra.action());
-		oAction.notify({
-			type: 'listenedAction',
-			data: 'data'
-		});
 
 ## Documentation
 

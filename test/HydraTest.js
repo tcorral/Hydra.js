@@ -1,39 +1,33 @@
-/*global TestCase, jstestdriver, assertFalse, assertTrue, assertFunction, assertObject, assertEquals, assertInstanceOf, assertException, assertSame, window, Core, document, Hydra, assertUndefined*/
-(function(win, doc, Hydra){
+/*global TestCase, jstestdriver, assertFalse, assertTrue, assertFunction, assertObject, assertEquals, assertInstanceOf, assertException, assertSame, window, Core, document, Hydra, assertUndefined, assertNoException, assertArray*/
+(function ( win, doc, Hydra ) {
 	'use strict';
 	var oTestCase = TestCase;
-	Hydra.setTestFramework(jstestdriver);
+	Hydra.setTestFramework( jstestdriver );
 
 	oTestCase( "TestExtensionModuleBugOnLazyPatternTestSingleModuleTest", sinon.testCase( {
-		setUp: function()
-		{
+		setUp: function () {
 			var self = this;
 			this.oModule = null;
-			Hydra.module.test('single-module', function(oModule)
-			{
+			Hydra.module.test( 'single-module', function ( oModule ) {
 				self.oModule = oModule;
-			});
+			} );
 		},
-		tearDown: function()
-		{
+		tearDown: function () {
 			this.oModule = null;
 		},
-		"test the first time module is executed once": function()
-		{
+		"test the first time module is executed once": function () {
 			this.oModule.init();
 
 			assertTrue( this.oModule.isFirstExecution );
 		},
 
-		"test the second time module is executed once": function()
-		{
+		"test the second time module is executed once": function () {
 			this.oModule.init();
 
 			assertTrue( this.oModule.isFirstExecution );
 		},
 
-		"test the second time module is executed twice": function()
-		{
+		"test the second time module is executed twice": function () {
 			this.oModule.init();
 			assertTrue( this.oModule.isFirstExecution );
 
@@ -43,35 +37,29 @@
 	} ) );
 
 	oTestCase( "TestExtensionModuleBugOnLazyPatternTestExtendedModuleTest", sinon.testCase( {
-		setUp: function()
-		{
+		setUp: function () {
 			var self = this;
 			this.oModule = null;
-			Hydra.module.test('extended-module', function(oModule)
-			{
+			Hydra.module.test( 'extended-module', function ( oModule ) {
 				self.oModule = oModule;
-			});
+			} );
 		},
-		tearDown: function()
-		{
+		tearDown: function () {
 			this.oModule = null;
 		},
-		"test the first time module is executed once": function()
-		{
+		"test the first time module is executed once": function () {
 			this.oModule.init();
 
 			assertTrue( this.oModule.isFirstExecution );
 		},
 
-		"test the second time module is executed once": function()
-		{
+		"test the second time module is executed once": function () {
 			this.oModule.init();
 
 			assertTrue( this.oModule.isFirstExecution );
 		},
 
-		"test the second time module is executed twice": function()
-		{
+		"test the second time module is executed twice": function () {
 			this.oModule.init();
 			assertTrue( this.oModule.isFirstExecution );
 
@@ -87,9 +75,6 @@
 			assertFunction( window.Hydra );
 			assertFunction( Hydra );
 		},
-		"test should return a function for action property of Hydra": function () {
-			assertFunction( Hydra.action );
-		},
 		"test should return a function for errorHandler property of Hydra": function () {
 			assertFunction( Hydra.errorHandler );
 		},
@@ -99,17 +84,6 @@
 		"test should return a Module object for module property of Hydra": function () {
 			assertObject( Hydra.module );
 			assertEquals( "Module", Hydra.module.type );
-		}
-	} ) );
-
-	oTestCase( "HydraActionTest", sinon.testCase( {
-		setUp: function () {},
-		tearDown: function () {},
-		"test should return the Action Class": function () {
-			var oResult;
-			oResult = Hydra.action();
-
-			assertEquals( "Action", oResult.type );
 		}
 	} ) );
 
@@ -165,7 +139,7 @@
 		"test should throw an error if we try to create a module without register if the ErrorHandler Class": function () {
 			var self = this;
 			assertException( function () {
-				Hydra.module.test( self.sModuleId, function ( ) {} );
+				Hydra.module.test( self.sModuleId, function () {} );
 			} );
 		},
 		"test should return a module if we create a module registering it": function () {
@@ -259,9 +233,8 @@
 
 			assertTrue( this.fpInitStub.calledOnce );
 		},
-		"test should check that all the init methods in the modules are called when using multi-module start": function()
-		{
-			Hydra.module.start([this.sModuleId, this.sModuleId2]);
+		"test should check that all the init methods in the modules are called when using multi-module start": function () {
+			Hydra.module.start( [this.sModuleId, this.sModuleId2] );
 
 			assertTrue( this.fpInitStub.calledOnce );
 			assertTrue( this.fpInitStub2.calledOnce );
@@ -563,148 +536,6 @@
 		}
 	} ) );
 
-	oTestCase( "HydraActionListenTest", sinon.testCase( {
-		setUp: function () {
-			this.sListener = 'test';
-			this.fpHandler = sinon.stub();
-			this.oModule = {
-				init: function () {},
-				handleAction: this.fpHandler,
-				destroy: function () {}
-			};
-			this.oAction = new Hydra.action();
-			this.oAction.__restore__();
-		},
-		tearDown: function () {
-			this.oAction.__restore__();
-		},
-		"test should not call fpHandler if notify is launched before set the listeners": function () {
-			this.oAction.notify( [this.sListener], {type: this.sListener} );
-
-			assertEquals( 0, this.fpHandler.callCount );
-		},
-		"test should call fpHandler if notify is launched after set the listeners": function () {
-			this.oAction.listen( [this.sListener], this.fpHandler, this.oModule );
-
-			this.oAction.notify( {type: this.sListener} );
-
-			assertEquals( 1, this.fpHandler.callCount );
-		}
-	} ) );
-
-	oTestCase( "HydraActionNotifyTest", sinon.testCase( {
-		setUp: function () {
-			this.oAction = Hydra.action();
-			var self = this;
-			this.fpListen = sinon.stub();
-			this.sListener = 'test';
-			this.sOtherListener = 'test2';
-			this.nData = 1;
-			this.oNotifier = {
-				type: this.sListener,
-				data: this.nData
-			};
-			this.oOtherNotifier = {
-				type: this.sOtherListener,
-				data: this.nData
-			};
-			this.fpHandler = function ( oAction ) {
-				if ( oAction.type === self.sListener ) {
-					self.fpListen();
-				}
-			};
-			this.oModule = {
-				init: function () {},
-				handleAction: this.fpHandler,
-				destroy: function () {}
-			};
-			this.oErrorHandler = Hydra.errorHandler();
-			sinon.stub(this.oErrorHandler, "log");
-			this.oAction = Hydra.action();
-			this.oAction.__restore__();
-			this.oAction.listen( [this.sListener], this.fpHandler, this.oModule );
-		},
-		tearDown: function () {
-			this.oErrorHandler.log.restore();
-			this.oAction.__restore__();
-		},
-		"test should not call the fpListen callback if the action called is test2": function () {
-			this.oAction.notify( this.oOtherNotifier );
-
-			assertEquals( 0, this.fpListen.callCount );
-		},
-		"test should call the fpListen callback if the action called is test": function () {
-			this.oAction.notify( this.oNotifier );
-
-			assertTrue( this.fpListen.calledOnce );
-		},
-		"test should not call ErrorHandler.log if debug mode is off": function()
-		{
-			this.oAction.notify( this.oNotifier );
-
-			assertEquals(0, this.oErrorHandler.log.callCount);
-		},
-		"test should call ErrorHandler.log one time if debug mode is active": function()
-		{
-			var oCall;
-			Hydra.setDebug(true);
-			this.oAction.notify( this.oNotifier );
-			oCall = this.oErrorHandler.log.getCall(0);
-
-			assertEquals(1, this.oErrorHandler.log.callCount);
-			assertEquals(this.oNotifier.type, oCall.args[0]);
-			assertEquals(this.oNotifier.type, oCall.args[1].type);
-			assertEquals(1, oCall.args[1].executed.calls);
-			assertSame(this.oModule, oCall.args[1].executed.actions[0].module);
-			assertSame(this.fpHandler, oCall.args[1].executed.actions[0].handler);
-			Hydra.setDebug(false);
-		}
-	} ) );
-
-	oTestCase( "HydraActionStopListenTest", sinon.testCase( {
-		setUp: function () {
-			this.oAction = Hydra.action();
-			var self = this;
-			this.fpListen = sinon.stub();
-			this.sListener = 'test';
-			this.nData = 1;
-			this.oNotifier = {
-				type: this.sListener,
-				data: this.nData
-			};
-			this.fpHandler = function ( oAction ) {
-				if ( oAction.type === self.sListener ) {
-					self.fpListen();
-				}
-			};
-			this.oModule = {
-				init: function () {},
-				handleAction: function () {
-					self.fpHandler();
-				},
-				destroy: function () {}
-			};
-			this.oAction = Hydra.action();
-			this.oAction.__restore__();
-			this.oAction.listen( [this.sListener], this.fpHandler, this.oModule );
-		},
-		tearDown: function () {
-			this.oAction.__restore__();
-		},
-		"test should call the fpListen callback if the action called is test if not stopListen": function () {
-			this.oAction.notify( this.oNotifier );
-
-			assertEquals( 1, this.fpListen.callCount );
-		},
-		"test should not call the fpListen callback if the action called is test if stopListen is called before": function () {
-			this.oAction.stopListen( [this.sListener], this.oModule );
-
-			this.oAction.notify( this.oNotifier );
-
-			assertEquals( 0, this.fpListen.callCount );
-		}
-	} ) );
-
 	oTestCase( "HydraExtendTest", sinon.testCase( {
 		setUp: function () {
 
@@ -715,18 +546,16 @@
 		'test should check that extend method exist': function () {
 			assertFunction( Hydra.extend );
 		},
-		'test should check that extend method must receive two params': function()
-		{
-			assertEquals(2, Hydra.extend.length);
+		'test should check that extend method must receive two params': function () {
+			assertEquals( 2, Hydra.extend.length );
 		},
-		'test should check when executing extend method the new object will be part of Hydra': function()
-		{
+		'test should check when executing extend method the new object will be part of Hydra': function () {
 			var oTest = {
 				test: sinon.stub()
 			};
-			Hydra.extend("test", oTest);
+			Hydra.extend( "test", oTest );
 
-			assertSame(oTest, Hydra.test);
+			assertSame( oTest, Hydra.test );
 		}
 	} ) );
 
@@ -738,31 +567,224 @@
 
 		},
 		'test should check that noConflict method exist': function () {
-			assertFunction(Hydra.noConflict);
+			assertFunction( Hydra.noConflict );
 		},
-		'test should check that noConflict method must receive three params': function()
-		{
-			assertEquals(3, Hydra.noConflict.length);
+		'test should check that noConflict method must receive three params': function () {
+			assertEquals( 3, Hydra.noConflict.length );
 		},
-		'test should check when executing noConflict a part of Hydra will be callable with other name and in other context': function()
-		{
+		'test should check when executing noConflict a part of Hydra will be callable with other name and in other context': function () {
 			var bDone;
 
-			bDone = Hydra.noConflict('module', window, 'Core');
+			bDone = Hydra.noConflict( 'module', window, 'Core' );
 
-			assertTrue(bDone);
-			assertSame(Hydra.module, window.Core);
-			assertSame(Hydra.module.register, window.Core.register);
+			assertTrue( bDone );
+			assertSame( Hydra.module, window.Core );
+			assertSame( Hydra.module.register, window.Core.register );
 		},
-		'test should check when executing noConflic with a name of part of Hydra it will do nothing': function()
-		{
+		'test should check when executing noConflic with a name of part of Hydra it will do nothing': function () {
 			var bDone;
 
-			bDone = Hydra.noConflict("how", window, 'toTest');
+			bDone = Hydra.noConflict( "how", window, 'toTest' );
 
-			assertFalse(bDone);
-			assertUndefined(Hydra.how);
-			assertUndefined(window.toTest);
+			assertFalse( bDone );
+			assertUndefined( Hydra.how );
+			assertUndefined( window.toTest );
 		}
 	} ) );
-}(window, document, Hydra));
+
+	oTestCase( 'HydraBusConstructorTest', sinon.testCase( {
+		setUp: function () {
+			Hydra.bus.reset();
+		},
+		tearDown: function () {
+
+		},
+		'test should check that Hydra.bus is not undefined': function () {
+			assertNotUndefined( Hydra.bus );
+		},
+		'test should check that Hydra.bus has method subscribers': function () {
+			assertFunction( Hydra.bus.subscribers );
+		},
+		'test should check that Hydra.bus has method subscribe': function () {
+			assertFunction( Hydra.bus.subscribe );
+		},
+		'test should check that Hydra.bus has method unsubscribe': function () {
+			assertFunction( Hydra.bus.unsubscribe );
+		},
+		'test should check that Hydra.bus has method publish': function () {
+			assertFunction( Hydra.bus.publish );
+		}
+	} ) );
+
+	oTestCase('HydraSubscribersTest', sinon.testCase({
+		setUp: function()
+		{
+			Hydra.bus.reset();
+			this.oSubscriber = {
+				oEventsCallbacks: {
+					'test': function()
+					{
+
+					}
+				}
+			};
+		},
+		tearDown: function()
+		{
+			delete this.oSubscriber;
+		},
+		'test should check that must return an empty array if there are no channel': function()
+		{
+			var oResult = null;
+
+			oResult = Hydra.bus.subscribers('test_channel', 'test');
+
+			assertArray(oResult);
+			assertEquals(0, oResult.length);
+		},
+		'test should check that must return an array with an element if a subscriber is registered': function()
+		{
+			var oResult = null;
+			Hydra.bus.subscribe('test_channel', this.oSubscriber);
+
+			oResult = Hydra.bus.subscribers('test_channel', 'test');
+
+			assertArray(oResult);
+			assertEquals(1, oResult.length);
+
+			Hydra.bus.unsubscribe('test_channel', this.oSubscriber);
+		}
+	}));
+
+	oTestCase('HydraBusSubscribeTest', sinon.testCase({
+		setUp: function()
+		{
+			Hydra.bus.reset();
+			this.oSubscriber = {
+				oEventsCallbacks: {
+					'test': function()
+					{
+
+					}
+				}
+			};
+			this.oBadSubscriber = {};
+		},
+		tearDown: function()
+		{
+			delete this.oSubscriber;
+			delete this.oBadSubscriber;
+		},
+		'test should check that no subscriber must be added if Subscriber does not have oEventsCallbacks and must return false': function()
+		{
+			var bResult = true;
+
+			bResult = Hydra.bus.subscribe('test', this.oBadSubscriber);
+
+			assertFalse(bResult);
+			assertEquals(0, Hydra.bus.subscribers('test', 'test' ).length);
+
+			Hydra.bus.unsubscribe('test', this.oBadSubscriber);
+		},
+		'test should check that one subscriber has been added if Subscriber has oEventsCallbacks and must return true': function()
+		{
+			var aSubscribers = null,
+				bResult = false;
+
+			bResult = Hydra.bus.subscribe('test', this.oSubscriber);
+
+			aSubscribers = Hydra.bus.subscribers('test', 'test' );
+			assertTrue(bResult);
+			assertEquals(1, aSubscribers.length);
+			assertSame(this.oSubscriber, aSubscribers[0].subscriber);
+			assertSame(this.oSubscriber.oEventsCallbacks.test, aSubscribers[0].handler);
+
+			Hydra.bus.unsubscribe('test', this.oSubscriber);
+		}
+	}));
+
+	oTestCase('HydraBusUnsubscribeTest', sinon.testCase({
+		setUp: function()
+		{
+			Hydra.bus.reset();
+			this.oSubscriber = {
+				oEventsCallbacks: {
+					'test': function()
+					{
+
+					}
+				}
+			};
+			this.oBadSubscriber = {};
+		},
+		tearDown: function()
+		{
+			delete this.oSubscriber;
+			delete this.oBadSubscriber;
+		},
+		'test should check that must return false if Subscriber does not have oEventsCallbacks': function()
+		{
+			var bResult = true;
+
+			bResult = Hydra.bus.unsubscribe('test', this.oBadSubscriber);
+
+			assertFalse(bResult);
+		},
+		'test should check that must return false if Subscriber has oEventsCallbacks but has not been subscribed': function()
+		{
+			var bResult = true;
+
+			bResult = Hydra.bus.unsubscribe('test', this.oSubscriber);
+
+			assertFalse(bResult);
+		},
+		'test should check that must return true if Subscriber has oEventsCallbacks but has been subscribed': function()
+		{
+			var bResult = false;
+			Hydra.bus.subscribe('test', this.oSubscriber);
+
+			bResult = Hydra.bus.unsubscribe('test', this.oSubscriber);
+
+			assertFalse(bResult);
+		}
+	}));
+
+	oTestCase('HydraBusPublishTest', sinon.testCase({
+		setUp: function()
+		{
+			Hydra.bus.reset();
+			this.oSubscriber = {
+				oEventsCallbacks: {
+					'test': sinon.stub()
+				}
+			};
+			this.oBadSubscriber = {};
+		},
+		tearDown: function()
+		{
+			delete this.oSubscriber;
+			delete this.oBadSubscriber;
+		},
+		'test should check that must return false if there are no subscribers to the event in channel': function()
+		{
+			var bResult = true,
+				oData = {};
+
+			bResult = Hydra.bus.publish('test', 'test', oData);
+
+			assertFalse(bResult);
+			assertEquals(0, this.oSubscriber.oEventsCallbacks.test.callCount);
+		},
+		'test should check that must return true if there are any subscriber to the event in channel': function()
+		{
+			var bResult = false,
+				oData = {};
+			Hydra.bus.subscribe('test', this.oSubscriber);
+
+			bResult = Hydra.bus.publish('test', 'test', oData);
+
+			assertTrue(bResult);
+			assertEquals(1, this.oSubscriber.oEventsCallbacks.test.callCount);
+		}
+	}));
+}( window, document, Hydra ));

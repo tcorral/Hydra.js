@@ -1,7 +1,7 @@
 /*global exports, module, require, define*/
 (function () {
 	'use strict';
-	var root, sNotDefined, oModules, oVars, _null_, _false_, sVersion, Hydra, bDebug, ErrorHandler, Module, Action, oActions, isNodeEnvironment, oObjProto;
+	var root, sNotDefined, oModules, oVars, _null_, _false_, sVersion, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
 
 	/**
 	 * Used to generate an unique key for instance ids that are not supplied by the user.
@@ -25,7 +25,7 @@
 		} else {
 			nLen = 0;
 			for ( sKey in oObj ) {
-				if ( oObj.hasOwnProperty( sKey ) ) {
+				if ( ownProp( oObj, sKey ) ) {
 					nLen++;
 				}
 			}
@@ -90,7 +90,7 @@
 	 * @private
 	 * @type {String}
 	 */
-	sVersion = '2.7.0';
+	sVersion = '3.0.0';
 
 	/**
 	 * Used to activate the debug mode
@@ -98,13 +98,6 @@
 	 * @type {Boolean}
 	 */
 	bDebug = _false_;
-
-	/**
-	 * Property that will save the actions to be listened
-	 * @private
-	 * @type {Object}
-	 */
-	oActions = {};
 
 	/**
 	 * Wrapper of Object.prototype.toString to detect type of object in cross browsing mode.
@@ -159,8 +152,8 @@
 	/**
 	 * Wrapper of Object.hasOwnProperty
 	 * @private
-	 * @param oObj
-	 * @param sKey
+	 * @param {Object} oObj
+	 * @param {String} sKey
 	 * @return {Boolean}
 	 */
 	function ownProp ( oObj, sKey ) {
@@ -171,13 +164,13 @@
 	 * startSingleModule is the method that will initialize the module.
 	 * When start is called the module instance will be created and the init method is called.
 	 * If bSingle is true and the module is started the module will be stopped before instance it again.
-	 *   This avoid execute the same listeners more than one time.
-	 * @member Module.prototype
+	 * This avoid execute the same listeners more than one time.
 	 * @param {String} sModuleId
 	 * @param {String} sIdInstance
 	 * @param {Object} oData
 	 * @param {Boolean} bSingle
 	 * @return {Module} instance of the module
+	 * @private
 	 */
 	function startSingleModule ( sModuleId, sIdInstance, oData, bSingle ) {
 		var oModule, oInstance;
@@ -197,15 +190,15 @@
 			}
 		}
 
-		oModule = _null_;
+		oModule = oInstance = _null_;
 
 		return oInstance;
 	}
 
 	/**
 	 * Do a simple merge of two objects overwriting the target properties with source properties
-	 * @param oTarget
-	 * @param oSource
+	 * @param {Object} oTarget
+	 * @param {Object} oSource
 	 * @private
 	 */
 	function simpleMerge ( oTarget, oSource ) {
@@ -245,33 +238,152 @@
 	}
 
 	/**
-	 * Add common properties and methods to avoid repeating code in modules
-	 * @param {String} sModuleId
-	 * @param {Action} oAction
+	 * Private object to save the channels for communicating event driven
+	 * @private
+	 * @type {Object}
 	 */
-	function addPropertiesAndMethodsToModule ( sModuleId, oAction ) {
-		var oModule,
-			fpInitProxy;
-		oModule = oModules[sModuleId].creator( oAction );
-		oModule.__module_id__ = sModuleId;
-		fpInitProxy = oModule.init || function () {};
-		oModule.__action__ = oAction;
-		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
-		oModule.aListeningEvents = (function () {
-			var oEventsCallbacks = oModule.oEventsCallbacks,
-				sKey,
-				aListeningEvents = [];
-			for ( sKey in oEventsCallbacks ) {
-				if ( oEventsCallbacks.hasOwnProperty( sKey ) ) {
-					aListeningEvents.push( sKey );
+	oChannels = {
+		global: {}
+	};
+
+	/**
+	 * subscribersByEvent return all the subscribers of the event in the channel.
+	 * @param {Object} oChannel
+	 * @param {String} sEventName
+	 * @return {Array}
+	 * @private
+	 */
+	function subscribersByEvent ( oChannel, sEventName ) {
+		var aSubscribers = [],
+			sEvent;
+		if ( typeof oChannel !== 'undefined' ) {
+			for ( sEvent in oChannel ) {
+				if ( ownProp( oChannel, sEvent ) ) {
+					if ( sEvent === sEventName ) {
+						aSubscribers = oChannel[sEvent];
+					}
 				}
 			}
-			oEventsCallbacks = sKey = null;
-			return aListeningEvents;
-		}());
+		}
+		return aSubscribers;
+	}
+
+	/**
+	 * Bus is the object that must be used to manage the notifications by channels
+	 * @constructor
+	 */
+	Bus = {
+		/**
+		 * subscribers return the array of subscribers to one channel and event.
+		 * @param {String} sChannelId
+		 * @param {String} sEventName
+		 * @return {Array}
+		 */
+		subscribers: function ( sChannelId, sEventName ) {
+			return subscribersByEvent( oChannels[sChannelId], sEventName );
+		},
+		/**
+		 * subscribe method gets the oEventsCallbacks object with all the handlers and add these handlers to the channel.
+		 * @param {String} sChannelId
+		 * @param {Module/Object} oSubscriber
+		 * @return {Boolean}
+		 */
+		subscribe: function ( sChannelId, oSubscriber ) {
+			var sEvent, oEventsCallbacks;
+			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' ) {
+				return false;
+			}
+			oEventsCallbacks = oSubscriber.oEventsCallbacks;
+			if ( typeof oChannels[sChannelId] === 'undefined' ) {
+				oChannels[sChannelId] = {};
+			}
+			for ( sEvent in oEventsCallbacks ) {
+				if ( ownProp( oEventsCallbacks, sEvent ) ) {
+					if ( typeof oChannels[sChannelId][sEvent] === 'undefined' ) {
+						oChannels[sChannelId][sEvent] = [];
+					}
+					oChannels[sChannelId][sEvent].push( {
+						subscriber: oSubscriber,
+						handler: oEventsCallbacks[sEvent]
+					} );
+				}
+			}
+			return true;
+		},
+		/**
+		 * unsubscribe gets the oEventsCallbacks methods and removes the handlers of the channel.
+		 * @param {String} sChannelId
+		 * @param {Module/Object} oSubscriber
+		 * @return {Boolean}
+		 */
+		unsubscribe: function ( sChannelId, oSubscriber ) {
+			var sEvent, oEventsCallbacks, aSubscribers, nIndex = 0, nLenSubscribers, nUnsubscribed = 0;
+			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' || typeof oChannels[sChannelId] === 'undefined' ) {
+				return false;
+			}
+			oEventsCallbacks = oSubscriber.oEventsCallbacks;
+			for ( sEvent in oEventsCallbacks ) {
+				if ( ownProp( oEventsCallbacks, sEvent ) ) {
+					if ( typeof oChannels[sChannelId][sEvent] !== 'undefined' ) {
+						aSubscribers = oChannels[sChannelId][sEvent];
+						nLenSubscribers = aSubscribers.length;
+						for ( ; nIndex < nLenSubscribers; nIndex++ ) {
+							if ( aSubscribers.subscriber === oSubscriber ) {
+								nUnsubscribed++;
+								oChannels[sChannelId][sEvent].splice( nIndex, 1 );
+							}
+						}
+					}
+				}
+			}
+			return nUnsubscribed > 0;
+		},
+		/**
+		 * Publish the event in one channel.
+		 * @param {String} sChannelId
+		 * @param {String} sEvent
+		 * @param {String} oData
+		 */
+		publish: function ( sChannelId, sEvent, oData ) {
+			var aSubscribers = this.subscribers( sChannelId, sEvent ),
+				nIndex = 0,
+				nLenSubscribers = aSubscribers.length,
+				oHandlerObject;
+			if ( nLenSubscribers === 0 ) {
+				return false;
+			}
+			for ( ; nIndex < nLenSubscribers; nIndex++ ) {
+				oHandlerObject = aSubscribers[nIndex];
+				oHandlerObject.handler.call( oHandlerObject.subscriber, oData );
+				ErrorHandler.log( sChannelId, sEvent, oHandlerObject );
+			}
+			return true;
+		},
+		/**
+		 * Reset channels
+		 */
+		reset: function () {
+			oChannels = {
+				global: {}
+			};
+		}
+	};
+	/**
+	 * Add common properties and methods to avoid repeating code in modules
+	 * @param {String} sModuleId
+	 * @param {Object} Bus
+	 */
+	function addPropertiesAndMethodsToModule ( sModuleId, Bus ) {
+		var oModule,
+			fpInitProxy;
+		oModule = oModules[sModuleId].creator( Bus );
+		oModule.__module_id__ = sModuleId;
+		fpInitProxy = oModule.init || function () {};
+		oModule.__action__ = Bus;
+		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
 		oModule.init = function ( oArgs ) {
 			var aArgs = slice( arguments, 0 ).concat( oVars );
-			oAction.listen( this.aListeningEvents, this.handleAction, this );
+			Bus.subscribe( sModuleId, oModule );
 			fpInitProxy.apply( this, aArgs );
 		};
 		oModule.handleAction = function ( oNotifier ) {
@@ -284,7 +396,7 @@
 		oModule.onDestroy = oModule.onDestroy || function () {};
 		oModule.destroy = function () {
 			this.onDestroy();
-			oAction.stopListen( this.aListeningEvents, this );
+			Bus.unsubscribe( sModuleId, oModule );
 		};
 		return oModule;
 	}
@@ -296,15 +408,14 @@
 	 * @return {Object} Module instance
 	 */
 	function createInstance ( sModuleId ) {
-		var oAction, oInstance, sName, fpMethod;
+		var oInstance, sName, fpMethod;
 		if ( typeof oModules[sModuleId] === sNotDefined ) {
 			throw new Error( 'The module ' + sModuleId + ' is not registered!' );
 		}
-		oAction = new Action();
 		sName = '';
 		fpMethod = function () {};
 
-		oInstance = addPropertiesAndMethodsToModule( sModuleId, oAction );
+		oInstance = addPropertiesAndMethodsToModule( sModuleId, Bus );
 
 		if ( !bDebug ) {
 			for ( sName in oInstance ) {
@@ -321,7 +432,7 @@
 			return oInstance;
 		}
 		finally {
-			oAction = oInstance = sName = fpMethod = _null_;
+			oInstance = sName = fpMethod = _null_;
 		}
 	}
 
@@ -426,13 +537,11 @@
 		 * @param {Function} oThirdParameter [optional] this must exist only if we need to create a new module that extends the baseModule.
 		 */
 		extend: function ( sModuleId, oSecondParameter, oThirdParameter ) {
-			var oModule, sFinalModuleId, fpCreator, oBaseModule, oExtendedModule, oFinalModule, self, oAction;
+			var oModule, sFinalModuleId, fpCreator, oBaseModule, oExtendedModule, oFinalModule, self;
 			self = this;
 			oModule = oModules[sModuleId];
 			sFinalModuleId = sModuleId;
-			fpCreator = function ( oAction ) {
-				return oAction;
-			};
+			fpCreator = function () {};
 
 			// Function "overloading".
 			// If the 2nd parameter is a string,
@@ -445,22 +554,28 @@
 			if ( typeof oModule === sNotDefined ) {
 				return;
 			}
-			oAction = new Action();
-			oExtendedModule = fpCreator( oAction );
-			oBaseModule = oModule.creator( oAction );
+			oExtendedModule = fpCreator( Bus );
+			oBaseModule = oModule.creator( Bus );
 
 			oModules[sFinalModuleId] = {
-				creator: function ( oAction ) {
+				creator: function ( Bus ) {
 					// If we extend the module with the different name, we
 					// create proxy class for the original methods.
 					oFinalModule = self._merge( oBaseModule, oExtendedModule );
 					// This gives access to the Action instance used to listen and notify.
-					oFinalModule.__action__ = oAction;
+					oFinalModule.__action__ = Bus;
 					return oFinalModule;
 				},
 				instances: {}
 			};
 		},
+		/**
+		 * Method to set an instance of a module
+		 * @param {String} sModuleId
+		 * @param {String} sIdInstance
+		 * @param {Instance} oInstance
+		 * @return {Module}
+		 */
 		setInstance: function ( sModuleId, sIdInstance, oInstance ) {
 			var oModule = oModules[sModuleId];
 			if ( !oModule ) {
@@ -471,7 +586,7 @@
 		},
 		/**
 		 * Sets an object of vars and add it's content to oVars private variable
-		 * @param oVar
+		 * @param {Object} oVar
 		 */
 		setVars: function ( oVar ) {
 			if ( typeof oVars !== sNotDefined ) {
@@ -491,10 +606,10 @@
 		 * start is the method that initialize the module/s
 		 * If you use array instead of arrays you can start more than one module even adding the instance, the data and if it must be executed
 		 * as single module start.
-		 * @param sModuleId
-		 * @param sIdInstance
-		 * @param oData
-		 * @param bSingle
+		 * @param {String/Array} sModuleId
+		 * @param {String/Array} sIdInstance
+		 * @param {Object/Array} oData
+		 * @param {Boolean/Array} bSingle
 		 */
 		start: function ( sModuleId, sIdInstance, oData, bSingle ) {
 			var bStartMultipleModules = isArray( sModuleId ),
@@ -507,18 +622,17 @@
 				sId;
 
 			if ( bStartMultipleModules ) {
-				aModulesIds = sModuleId.slice(0);
+				aModulesIds = sModuleId.slice( 0 );
 				if ( isArray( sIdInstance ) ) {
 					aInstancesIds = sIdInstance.slice( 0 );
 				}
 				if ( isArray( oData ) ) {
-					aData = oData.slice(0);
+					aData = oData.slice( 0 );
 				}
 				if ( isArray( bSingle ) ) {
-					aSingle = bSingle.slice(0);
+					aSingle = bSingle.slice( 0 );
 				}
-				for(nIndex = 0, nLenModules = aModulesIds.length; nIndex < nLenModules; nIndex++)
-				{
+				for ( nIndex = 0, nLenModules = aModulesIds.length; nIndex < nLenModules; nIndex++ ) {
 					sModuleId = aModulesIds[nIndex];
 					sIdInstance = aInstancesIds && aInstancesIds[nIndex] || generateUniqueKey();
 					oData = aData && aData[nIndex] || oData;
@@ -590,7 +704,7 @@
 			} else {
 				oInstances = oModule.instances;
 				for ( sKey in oInstances ) {
-					if ( oInstances.hasOwnProperty( sKey ) ) {
+					if ( ownProp( oInstances, sKey ) ) {
 						oInstance = oInstances[sKey];
 						if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
 							oInstance.destroy();
@@ -659,118 +773,6 @@
 	};
 
 	/**
-	 * Mediator/Bus class that manages the listeners and notifications
-	 * @constructor
-	 * @class Action
-	 * @name Action
-	 */
-	Action = function () {};
-
-	Action.prototype = {
-		/**
-		 * type is a property to be able to know the class type.
-		 * @member Action.prototype
-		 * @type String
-		 */
-		type: 'Action',
-		/**
-		 * listen is the method that will add a new action to the oActions object
-		 * and that will activate the listener.
-		 * @member Action.prototype
-		 * @param {Array} aNotificationsToListen
-		 * @param {Function} fpHandler
-		 * @param {Object} oModule
-		 */
-		listen: function ( aNotificationsToListen, fpHandler, oModule ) {
-			var sNotification, nNotification, nLenNotificationsToListen;
-			sNotification = '';
-			nLenNotificationsToListen = aNotificationsToListen.length;
-
-			for ( nNotification = 0; nNotification < nLenNotificationsToListen; nNotification = nNotification + 1 ) {
-				sNotification = aNotificationsToListen[nNotification];
-				if ( typeof oActions[sNotification] === sNotDefined ) {
-					oActions[sNotification] = [];
-				}
-				oActions[sNotification].push( {
-					module: oModule,
-					handler: fpHandler
-				} );
-			}
-		},
-		/**
-		 * notify is the method that will launch the actions that are listening the notified action
-		 * @member Action.prototype
-		 * @param oNotifier - Notifier.type and Notifier.data are needed
-		 */
-		notify: function ( oNotifier ) {
-			var sType, oAction, aActions, nAction, nLenActions, oLog;
-			oLog = {};
-			sType = oNotifier.type;
-			oAction = _null_;
-
-			if ( typeof oActions[sType] === sNotDefined ) {
-				return;
-			}
-			// Duplicate actions array in order to avoid broken references when removing listeners.
-			aActions = oActions[sType].slice();
-			nLenActions = aActions.length;
-
-			if ( bDebug ) {
-				oLog.type = sType;
-				oLog.executed = { calls: nLenActions, actions: aActions };
-				ErrorHandler.log( sType, oLog );
-			}
-
-			for ( nAction = 0; nAction < nLenActions; nAction = nAction + 1 ) {
-				oAction = aActions[nAction];
-				oAction.handler.call( oAction.module, oNotifier );
-			}
-
-
-			sType = aActions = nAction = nLenActions = oAction = _null_;
-		},
-		/**
-		 * stopListen removes the actions that are listening the aNotificationsToStopListen in the oModule
-		 * @member Action.prototype
-		 * @param {Array} aNotificationsToStopListen
-		 * @param {Object} oModule
-		 */
-		stopListen: function ( aNotificationsToStopListen, oModule ) {
-			var sNotification, aAuxActions, nNotification, nLenNotificationsToListen, nAction, nLenActions;
-			sNotification = '';
-			aAuxActions = [];
-			nLenNotificationsToListen = aNotificationsToStopListen.length;
-			nAction = 0;
-			nLenActions = 0;
-
-			for ( nNotification = 0; nNotification < nLenNotificationsToListen; nNotification = nNotification + 1 ) {
-				aAuxActions = [];
-				sNotification = aNotificationsToStopListen[nNotification];
-				nLenActions = oActions[sNotification].length;
-				for ( nAction = 0; nAction < nLenActions; nAction = nAction + 1 ) {
-					if ( oModule !== oActions[sNotification][nAction].module ) {
-						aAuxActions.push( oActions[sNotification][nAction] );
-					}
-				}
-				oActions[sNotification] = aAuxActions;
-				if ( oActions[sNotification].length === 0 ) {
-					delete oActions[sNotification];
-				}
-			}
-
-			sNotification = aAuxActions = nNotification = nLenNotificationsToListen = nAction = nLenActions = _null_;
-		},
-		/**
-		 * __restore__ is a private method to reset the oActions object to an empty object.
-		 * @private
-		 * @member Action.prototype
-		 */
-		__restore__: function () {
-			oActions = {};
-		}
-	};
-
-	/**
 	 * getErrorHandler is a method to gain access to the private ErrorHandler constructor.
 	 * @private
 	 * @return ErrorHandler class
@@ -805,15 +807,10 @@
 	Hydra.version = sVersion;
 
 	/**
-	 * action is a method to get a new instance of Action
-	 * @static
-	 * @member Hydra
-	 * @return {Action} Action instance
+	 * bus is a singleton instance of the bus to subscribe and publish content in channels.
+	 * @type {Object}
 	 */
-	Hydra.action = function () {
-		return new Action();
-	};
-
+	Hydra.bus = Bus;
 	/**
 	 * Returns the actual ErrorHandler
 	 * @static
@@ -845,11 +842,19 @@
 	Hydra.setDebug = setDebug;
 
 	/**
+	 * Get the debug status
+	 * @static
+	 * @member Hydra
+	 */
+	Hydra.getDebug = function () {
+		return bDebug;
+	};
+	/**
 	 * Extends Hydra object with new functionality
 	 * @static
 	 * @member Hydra
-	 * @param sIdExtension
-	 * @param oExtension
+	 * @param {String} sIdExtension
+	 * @param {Object} oExtension
 	 */
 	Hydra.extend = function ( sIdExtension, oExtension ) {
 		if ( typeof this[sIdExtension] === sNotDefined ) {
@@ -863,8 +868,9 @@
 	 * Adds an alias to parts of Hydra
 	 * @static
 	 * @member Hydra
-	 * @param sOldName
-	 * @param sNewName
+	 * @param {String} sOldName
+	 * @param {Object} oNewContext
+	 * @param {String} sNewName
 	 * @return {Boolean}
 	 */
 	Hydra.noConflict = function ( sOldName, oNewContext, sNewName ) {

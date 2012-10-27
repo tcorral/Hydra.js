@@ -1,4 +1,8 @@
 ChangeLog:
+3.0.0
+	* A new system of register events to any object with a oEvents property where the keys must be the events to be triggered and the values the callbacks to be executed. The system adds automatically the events using the oEvents object.
+	* Action has been moved to one extension in https://github.com/tcorral/Hydra_Extensions/tree/master/Sandbox if you need backward compatibility.
+
 2.7.0
 	* Added the multi-module start feature. No more than one line when starting more than one module at the same time.
 		Now you can pass:
