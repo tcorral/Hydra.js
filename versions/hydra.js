@@ -90,7 +90,7 @@
 	 * @private
 	 * @type {String}
 	 */
-	sVersion = '3.0.0';
+	sVersion = '3.0.1';
 
 	/**
 	 * Used to activate the debug mode
@@ -286,10 +286,11 @@
 		 * subscribe method gets the oEventsCallbacks object with all the handlers and add these handlers to the channel.
 		 * @param {String} sChannelId
 		 * @param {Module/Object} oSubscriber
+		 * @param {Boolean} bOnlyGlobal
 		 * @return {Boolean}
 		 */
-		subscribe: function ( sChannelId, oSubscriber ) {
-			var sEvent, oEventsCallbacks;
+		subscribe: function ( sChannelId, oSubscriber, bOnlyGlobal ) {
+			var sEvent, oEventsCallbacks, aEventsParts, sChannel, sEventType, bGlobal = bOnlyGlobal || false;
 			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' ) {
 				return false;
 			}
@@ -299,10 +300,21 @@
 			}
 			for ( sEvent in oEventsCallbacks ) {
 				if ( ownProp( oEventsCallbacks, sEvent ) ) {
-					if ( typeof oChannels[sChannelId][sEvent] === 'undefined' ) {
-						oChannels[sChannelId][sEvent] = [];
+					aEventsParts = sEvent.split( ':' );
+					if(bGlobal && aEventsParts[0] !== 'global' || !bGlobal && aEventsParts[0] === 'global')
+					{
+						continue;
 					}
-					oChannels[sChannelId][sEvent].push( {
+					sChannel = sChannelId;
+					sEventType = sEvent;
+					if ( aEventsParts[0] === 'global' ) {
+						sChannel = aEventsParts[0];
+						sEventType = aEventsParts[1];
+					}
+					if ( typeof oChannels[sChannel][sEventType] === 'undefined' ) {
+						oChannels[sChannel][sEventType] = [];
+					}
+					oChannels[sChannel][sEventType].push( {
 						subscriber: oSubscriber,
 						handler: oEventsCallbacks[sEvent]
 					} );
@@ -314,23 +326,35 @@
 		 * unsubscribe gets the oEventsCallbacks methods and removes the handlers of the channel.
 		 * @param {String} sChannelId
 		 * @param {Module/Object} oSubscriber
+		 * @param {Boolean} bOnlyGlobal
 		 * @return {Boolean}
 		 */
-		unsubscribe: function ( sChannelId, oSubscriber ) {
-			var sEvent, oEventsCallbacks, aSubscribers, nIndex = 0, nLenSubscribers, nUnsubscribed = 0;
+		unsubscribe: function ( sChannelId, oSubscriber, bOnlyGlobal ) {
+			var sEvent, oEventsCallbacks, aSubscribers, nIndex = 0, nLenSubscribers, nUnsubscribed = 0, aEventsParts, sChannel, sEventType, bGlobal = bOnlyGlobal || false;
 			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' || typeof oChannels[sChannelId] === 'undefined' ) {
 				return false;
 			}
 			oEventsCallbacks = oSubscriber.oEventsCallbacks;
 			for ( sEvent in oEventsCallbacks ) {
 				if ( ownProp( oEventsCallbacks, sEvent ) ) {
-					if ( typeof oChannels[sChannelId][sEvent] !== 'undefined' ) {
-						aSubscribers = oChannels[sChannelId][sEvent];
+					aEventsParts = sEvent.split( ':' );
+					if(bGlobal && aEventsParts[0] !== 'global' || !bGlobal && aEventsParts[0] === 'global')
+					{
+						continue;
+					}
+					sChannel = sChannelId;
+					sEventType = sEvent;
+					if ( aEventsParts[0] === 'global' ) {
+						sChannel = aEventsParts[0];
+						sEventType = aEventsParts[1];
+					}
+					if ( typeof oChannels[sChannel][sEventType] !== 'undefined' ) {
+						aSubscribers = oChannels[sChannel][sEventType];
 						nLenSubscribers = aSubscribers.length;
 						for ( ; nIndex < nLenSubscribers; nIndex++ ) {
 							if ( aSubscribers.subscriber === oSubscriber ) {
 								nUnsubscribed++;
-								oChannels[sChannelId][sEvent].splice( nIndex, 1 );
+								oChannels[sChannel][sEventType].splice( nIndex, 1 );
 							}
 						}
 					}
@@ -383,7 +407,7 @@
 		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
 		oModule.init = function ( oArgs ) {
 			var aArgs = slice( arguments, 0 ).concat( oVars );
-			Bus.subscribe( sModuleId, oModule );
+			Bus.subscribe( 'global', oModule, true );
 			fpInitProxy.apply( this, aArgs );
 		};
 		oModule.handleAction = function ( oNotifier ) {
@@ -396,7 +420,7 @@
 		oModule.onDestroy = oModule.onDestroy || function () {};
 		oModule.destroy = function () {
 			this.onDestroy();
-			Bus.unsubscribe( sModuleId, oModule );
+			Bus.unsubscribe( 'global', oModule, true );
 		};
 		return oModule;
 	}
