@@ -1,5 +1,5 @@
 require("jstestdriver");
 
-jstestdriver start --config ../../jsTestDriver.conf
+jstestdriver start --config "/home/travis/builds/tcorral/Hydra.js/"
 
-jstestdriver run
+jstestdriver run --tests all
