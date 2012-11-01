@@ -1,7 +1,8 @@
 /*global TestCase, jstestdriver, assertFalse, assertTrue, assertFunction, assertObject, assertEquals, assertInstanceOf, assertException, assertSame, window, Core, document, Hydra, assertUndefined, assertNoException, assertArray*/
 (function ( win, doc, Hydra ) {
 	'use strict';
-	var oTestCase = TestCase;
+	var oTestCase = TestCase,
+		sDummy = '';
 	Hydra.setTestFramework( jstestdriver );
 
 	oTestCase( "TestExtensionModuleBugOnLazyPatternTestSingleModuleTest", sinon.testCase( {
