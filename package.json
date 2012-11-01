@@ -29,6 +29,9 @@
 			"url": "https://github.com/tcorral/Hydra.js.git"
 		}
 	],
+	"dependencies": {
+		"jstestdriver": "~1.0"
+	},
 	"scripts": {
 		"test": "node test/node/run.js"
 	},
