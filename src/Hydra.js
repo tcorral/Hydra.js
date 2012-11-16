@@ -524,23 +524,8 @@
 			};
 			return oModules[sModuleId];
 		},
-		/**
-		 * _merge is the method that gets the base module and the extended and returns the merge of them
-		 * @private
-		 * @param {Object} oModuleBase
-		 * @param {Object} oModuleExtended
-		 * @return {Module}
-		 */
-		_merge: function ( oModuleBase, oModuleExtended ) {
-			var oFinalModule, sKey, callInSupper;
-			oFinalModule = {};
-			callInSupper = function ( fpCallback ) {
-				return function () {
-					var aArgs = slice( arguments, 0 );
-					fpCallback.apply( this, aArgs );
-				};
-			};
-
+		_setSuper: function(oFinalModule, oModuleBase)
+		{
 			oFinalModule.__super__ = {};
 			oFinalModule.__super__.__instance__ = oModuleBase;
 			oFinalModule.__super__.__call__ = function ( sKey, aArgs ) {
@@ -550,23 +535,50 @@
 				}
 				oObject[sKey].apply( oFinalModule, aArgs );
 			};
-			for ( sKey in oModuleBase ) {
-				if ( ownProp( oModuleBase, sKey ) ) {
-					if ( sKey === '__super__' ) {
-						continue;
-					}
-					oFinalModule[sKey] = oModuleBase[sKey];
-				}
-			}
-
+		},
+		callInSupper: function ( fpCallback ) {
+			return function () {
+				var aArgs = slice( arguments, 0 );
+				fpCallback.apply( this, aArgs );
+			};
+		},
+		_mergeModuleExtended: function(oFinalModule, oModuleExtended)
+		{
+			var sKey;
 			for ( sKey in oModuleExtended ) {
 				if ( ownProp( oModuleExtended, sKey ) ) {
 					if ( typeof oFinalModule.__super__ !== sNotDefined && isFunction( oFinalModule[sKey] ) ) {
-						oFinalModule.__super__[sKey] = (callInSupper( oFinalModule[sKey] ));
+						oFinalModule.__super__[sKey] = (this.callInSupper( oFinalModule[sKey] ));
 					}
 					oFinalModule[sKey] = oModuleExtended[sKey];
 				}
 			}
+		},
+		_mergeModuleBase: function(oFinalModule, oModuleBase)
+		{
+			var sKey;
+			for ( sKey in oModuleBase ) {
+				if ( ownProp( oModuleBase, sKey ) ) {
+					if ( sKey !== '__super__' ) {
+						oFinalModule[sKey] = oModuleBase[sKey];
+					}
+				}
+			}
+		},
+		/**
+		 * _merge is the method that gets the base module and the extended and returns the merge of them
+		 * @private
+		 * @param {Object} oModuleBase
+		 * @param {Object} oModuleExtended
+		 * @return {Object}
+		 */
+		_merge: function ( oModuleBase, oModuleExtended ) {
+			var oFinalModule = {},
+				sKey;
+			this._setSuper(oFinalModule, oModuleBase);
+			this._mergeModuleBase(oFinalModule, oModuleBase);
+
+			this._mergeModuleExtended(oFinalModule, oModuleExtended);
 			try {
 				return oFinalModule;
 			}
