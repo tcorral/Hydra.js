@@ -306,22 +306,9 @@
 			}
 			return oChannels[sChannel][sEventType];
 		},
-		/**
-		 * subscribe method gets the oEventsCallbacks object with all the handlers and add these handlers to the channel.
-		 * @param {String} sChannelId
-		 * @param {Module/Object} oSubscriber
-		 * @param {Boolean} bOnlyGlobal
-		 * @return {Boolean}
-		 */
-		subscribe: function ( sChannelId, oSubscriber, bOnlyGlobal ) {
-			var sEvent, aChannelEvents, oEventsCallbacks, aEventsParts, bGlobal = bOnlyGlobal || false;
-			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' ) {
-				return false;
-			}
-			oEventsCallbacks = oSubscriber.oEventsCallbacks;
-			if ( typeof oChannels[sChannelId] === 'undefined' ) {
-				oChannels[sChannelId] = {};
-			}
+		_addSubscribers: function(oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber)
+		{
+			var sEvent, aEventsParts, aChannelEvents, bGlobal = bOnlyGlobal || false;
 			for ( sEvent in oEventsCallbacks ) {
 				if ( ownProp( oEventsCallbacks, sEvent ) ) {
 					aEventsParts = sEvent.split( ':' );
@@ -337,6 +324,23 @@
 					} );
 				}
 			}
+		},
+		/**
+		 * subscribe method gets the oEventsCallbacks object with all the handlers and add these handlers to the channel.
+		 * @param {String} sChannelId
+		 * @param {Module/Object} oSubscriber
+		 * @param {Boolean} bOnlyGlobal
+		 * @return {Boolean}
+		 */
+		subscribe: function ( sChannelId, oSubscriber, bOnlyGlobal ) {
+			var sEvent, aChannelEvents;
+			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' ) {
+				return false;
+			}
+			if ( typeof oChannels[sChannelId] === 'undefined' ) {
+				oChannels[sChannelId] = {};
+			}
+			this._addSubscribers(oSubscriber.oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber);
 			return true;
 		},
 		/**
