@@ -780,7 +780,7 @@
 
 			bResult = Hydra.bus.unsubscribe('test', this.oSubscriber);
 
-			assertFalse(bResult);
+			assertTrue(bResult);
 		},
 		'test should check that subscribers of global must have no subscriber if unsubscribe is launched with true': function()
 		{
@@ -801,7 +801,7 @@
 			bResult = Hydra.bus.unsubscribe('test', this.oSubscriber);
 			aSubscribers = Hydra.bus.subscribers('global', 'test');
 
-			assertFalse(bResult);
+			assertTrue(bResult);
 			assertEquals(0, aSubscribers.length);
 		}
 	}));

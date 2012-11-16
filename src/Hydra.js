@@ -165,6 +165,7 @@
 	 * When start is called the module instance will be created and the init method is called.
 	 * If bSingle is true and the module is started the module will be stopped before instance it again.
 	 * This avoid execute the same listeners more than one time.
+	 * @param {Object} oWrapper
 	 * @param {String} sModuleId
 	 * @param {String} sIdInstance
 	 * @param {Object} oData
@@ -172,12 +173,12 @@
 	 * @return {Module} instance of the module
 	 * @private
 	 */
-	function startSingleModule ( sModuleId, sIdInstance, oData, bSingle ) {
+	function startSingleModule (oWrapper, sModuleId, sIdInstance, oData, bSingle ) {
 		var oModule, oInstance;
 		oModule = oModules[sModuleId];
 
-		if ( bSingle && this.isModuleStarted( sModuleId, sIdInstance ) ) {
-			this.stop( sModuleId, sIdInstance );
+		if ( bSingle && oWrapper.isModuleStarted( sModuleId, sIdInstance ) ) {
+			oWrapper.stop( sModuleId, sIdInstance );
 		}
 		if ( typeof oModule !== sNotDefined ) {
 			oInstance = createInstance( sModuleId );
@@ -258,10 +259,8 @@
 			sEvent;
 		if ( typeof oChannel !== 'undefined' ) {
 			for ( sEvent in oChannel ) {
-				if ( ownProp( oChannel, sEvent ) ) {
-					if ( sEvent === sEventName ) {
-						aSubscribers = oChannel[sEvent];
-					}
+				if ( ownProp( oChannel, sEvent ) && sEvent === sEventName ) {
+					aSubscribers = oChannel[sEvent];
 				}
 			}
 		}
@@ -323,6 +322,30 @@
 			return true;
 		},
 		/**
+		 * _removeSubscribers remove the subscribers to one channel and return the number of
+		 * subscribers that have been unsubscribed.
+		 * @param aSubscribers
+		 * @param oSubscriber
+		 * @return {Number}
+		 * @private
+		 */
+		_removeSubscribers: function(aSubscribers, oSubscriber) {
+			var nLenSubscribers,
+				nIndex = 0,
+				nUnsubscribed = 0;
+			if(typeof aSubscribers !== sNotDefined)
+			{
+				nLenSubscribers = aSubscribers.length;
+				for ( ; nIndex < nLenSubscribers; nIndex++ ) {
+					if ( aSubscribers[nIndex].subscriber === oSubscriber ) {
+						nUnsubscribed++;
+						aSubscribers.splice( nIndex, 1 );
+					}
+				}
+			}
+			return nUnsubscribed;
+		},
+		/**
 		 * unsubscribe gets the oEventsCallbacks methods and removes the handlers of the channel.
 		 * @param {String} sChannelId
 		 * @param {Module/Object} oSubscriber
@@ -330,7 +353,7 @@
 		 * @return {Boolean}
 		 */
 		unsubscribe: function ( sChannelId, oSubscriber, bOnlyGlobal ) {
-			var sEvent, oEventsCallbacks, aSubscribers, nIndex = 0, nLenSubscribers, nUnsubscribed = 0, aEventsParts, sChannel, sEventType, bGlobal = bOnlyGlobal || false;
+			var sEvent, oEventsCallbacks, nUnsubscribed, aEventsParts, sChannel, sEventType, bGlobal = bOnlyGlobal || false;
 			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' || typeof oChannels[sChannelId] === 'undefined' ) {
 				return false;
 			}
@@ -348,16 +371,7 @@
 						sChannel = aEventsParts[0];
 						sEventType = aEventsParts[1];
 					}
-					if ( typeof oChannels[sChannel][sEventType] !== 'undefined' ) {
-						aSubscribers = oChannels[sChannel][sEventType];
-						nLenSubscribers = aSubscribers.length;
-						for ( ; nIndex < nLenSubscribers; nIndex++ ) {
-							if ( aSubscribers.subscriber === oSubscriber ) {
-								nUnsubscribed++;
-								oChannels[sChannel][sEventType].splice( nIndex, 1 );
-							}
-						}
-					}
+					nUnsubscribed = this._removeSubscribers(oChannels[sChannel][sEventType], oSubscriber);
 				}
 			}
 			return nUnsubscribed > 0;
@@ -405,7 +419,7 @@
 		fpInitProxy = oModule.init || function () {};
 		oModule.__action__ = Bus;
 		oModule.oEventsCallbacks = oModule.oEventsCallbacks || {};
-		oModule.init = function ( oArgs ) {
+		oModule.init = function () {
 			var aArgs = slice( arguments, 0 ).concat( oVars );
 			Bus.subscribe( 'global', oModule, true );
 			fpInitProxy.apply( this, aArgs );
@@ -642,8 +656,7 @@
 				aData,
 				aSingle,
 				nIndex,
-				nLenModules,
-				sId;
+				nLenModules;
 
 			if ( bStartMultipleModules ) {
 				aModulesIds = sModuleId.slice( 0 );
@@ -661,7 +674,7 @@
 					sIdInstance = aInstancesIds && aInstancesIds[nIndex] || generateUniqueKey();
 					oData = aData && aData[nIndex] || oData;
 					bSingle = aSingle && aSingle[nIndex] || bSingle;
-					startSingleModule( sModuleId, sIdInstance, oData, bSingle );
+					startSingleModule(this, sModuleId, sIdInstance, oData, bSingle );
 				}
 			} else {
 				if ( typeof sIdInstance !== 'string' ) {
@@ -669,7 +682,7 @@
 					bSingle = oData;
 					sIdInstance = generateUniqueKey();
 				}
-				startSingleModule( sModuleId, sIdInstance, oData, bSingle );
+				startSingleModule(this, sModuleId, sIdInstance, oData, bSingle );
 			}
 		},
 		/**
