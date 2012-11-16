@@ -783,6 +783,39 @@
 			sModuleId = _null_;
 		},
 		/**
+		 * stop more than one module at the same time.
+		 * @param oModule
+		 * @private
+		 */
+		_multiModuleStop: function(oModule)
+		{
+			var sKey,
+				oInstances = oModule.instances,
+				oInstance;
+			for ( sKey in oInstances ) {
+				if ( ownProp( oInstances, sKey ) ) {
+					oInstance = oInstances[sKey];
+					if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
+						oInstance.destroy();
+					}
+				}
+			}
+		},
+		/**
+		 * Stop only one module.
+		 * @param oModule
+		 * @param sModuleId
+		 * @param sInstanceId
+		 * @private
+		 */
+		_singleModuleStop: function(oModule, sModuleId, sInstanceId)
+		{
+			var oInstance = oModule.instances[sInstanceId];
+			if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
+				oInstance.destroy();
+			}
+		},
+		/**
 		 * stop is the method that will finish the module if it was registered and started.
 		 * When stop is called the module will call the destroy method and will nullify the instance.
 		 * @member Module.prototype
@@ -797,20 +830,9 @@
 				return false;
 			}
 			if ( typeof sInstanceId !== sNotDefined ) {
-				oInstance = oModule.instances[sInstanceId];
-				if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
-					oInstance.destroy();
-				}
+				this._singleModuleStop(oModule, sModuleId, sInstanceId);
 			} else {
-				oInstances = oModule.instances;
-				for ( sKey in oInstances ) {
-					if ( ownProp( oInstances, sKey ) ) {
-						oInstance = oInstances[sKey];
-						if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
-							oInstance.destroy();
-						}
-					}
-				}
+				this._multiModuleStop(oModule);
 			}
 
 			oModule = oInstance = _null_;
