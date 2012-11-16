@@ -468,19 +468,11 @@
 		if ( typeof oModules[sModuleId] === sNotDefined ) {
 			throw new Error( 'The module ' + sModuleId + ' is not registered!' );
 		}
-		sName = '';
-		fpMethod = function () {};
-
 		oInstance = addPropertiesAndMethodsToModule( sModuleId, Bus );
-
 		if ( !bDebug ) {
 			for ( sName in oInstance ) {
-				if ( ownProp( oInstance, sName ) ) {
-					fpMethod = oInstance[sName];
-					if ( !isFunction( fpMethod ) ) {
-						continue;
-					}
-					wrapMethod( oInstance, sName, sModuleId, fpMethod );
+				if ( ownProp( oInstance, sName ) && isFunction(oInstance[sName]) ) {
+					wrapMethod( oInstance, sName, sModuleId, oInstance[sName] );
 				}
 			}
 		}
