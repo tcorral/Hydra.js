@@ -282,6 +282,31 @@
 			return subscribersByEvent( oChannels[sChannelId], sEventName );
 		},
 		/**
+		 * _getChannelEvents return the events array in channel.
+		 * @param aEventsParts
+		 * @param sChannelId
+		 * @param sEvent
+		 * @return {Object}
+		 * @private
+		 */
+		_getChannelEvents: function(aEventsParts, sChannelId, sEvent)
+		{
+			var sChannel, sChan, sEventType;
+			sChan = aEventsParts[0];
+			if ( sChan === 'global' ) {
+				sChannel = sChan;
+				sEventType = aEventsParts[1];
+			}else
+			{
+				sChannel = sChannelId;
+				sEventType = sEvent;
+			}
+			if ( typeof oChannels[sChannel][sEventType] === 'undefined' ) {
+				oChannels[sChannel][sEventType] = [];
+			}
+			return oChannels[sChannel][sEventType];
+		},
+		/**
 		 * subscribe method gets the oEventsCallbacks object with all the handlers and add these handlers to the channel.
 		 * @param {String} sChannelId
 		 * @param {Module/Object} oSubscriber
@@ -289,7 +314,7 @@
 		 * @return {Boolean}
 		 */
 		subscribe: function ( sChannelId, oSubscriber, bOnlyGlobal ) {
-			var sEvent, oEventsCallbacks, aEventsParts, sChannel, sEventType, bGlobal = bOnlyGlobal || false;
+			var sEvent, aChannelEvents, oEventsCallbacks, aEventsParts, sChannel, oParts, sEventType, bGlobal = bOnlyGlobal || false;
 			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' ) {
 				return false;
 			}
@@ -304,16 +329,9 @@
 					{
 						continue;
 					}
-					sChannel = sChannelId;
-					sEventType = sEvent;
-					if ( aEventsParts[0] === 'global' ) {
-						sChannel = aEventsParts[0];
-						sEventType = aEventsParts[1];
-					}
-					if ( typeof oChannels[sChannel][sEventType] === 'undefined' ) {
-						oChannels[sChannel][sEventType] = [];
-					}
-					oChannels[sChannel][sEventType].push( {
+					aChannelEvents = this._getChannelEvents(aEventsParts, sChannelId, sEvent);
+
+					aChannelEvents.push( {
 						subscriber: oSubscriber,
 						handler: oEventsCallbacks[sEvent]
 					} );
