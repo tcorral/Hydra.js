@@ -14,7 +14,7 @@
 	}
 
 	/**
-	 * Return the lenght of properties of one object
+	 * Return the length of properties of one object
 	 * @param oObj
 	 * @return {*}
 	 */
@@ -122,7 +122,7 @@
 	/**
 	 * isArray is a function to know if the object passed as parameter is an Array object.
 	 * @private
-	 * @param {Object} aArray
+	 * @param {String|Array|Object} aArray
 	 * @return {Boolean}
 	 */
 	function isArray ( aArray ) {
@@ -190,9 +190,6 @@
 				oInstance.init();
 			}
 		}
-
-		oModule = oInstance = _null_;
-
 		return oInstance;
 	}
 
@@ -230,9 +227,7 @@
 				}
 				catch ( erError ) {
 					ErrorHandler.log( sModuleId, sName, erError );
-				}
-				finally {
-					aArgs = _null_;
+					return false;
 				}
 			};
 		}( sName, fpMethod ));
@@ -369,7 +364,7 @@
 		/**
 		 * Loops per all the events to remove subscribers.
 		 * @param oEventsCallbacks
-		 * @param bGlobal
+		 * @param bOnlyGlobal
 		 * @param sChannelId
 		 * @param oSubscriber
 		 * @return {*}
@@ -483,7 +478,7 @@
 	 * @return {Object} Module instance
 	 */
 	function createInstance ( sModuleId ) {
-		var oInstance, sName, fpMethod;
+		var oInstance, sName;
 		if ( typeof oModules[sModuleId] === sNotDefined ) {
 			throw new Error( 'The module ' + sModuleId + ' is not registered!' );
 		}
@@ -495,12 +490,7 @@
 				}
 			}
 		}
-		try {
-			return oInstance;
-		}
-		finally {
-			oInstance = sName = fpMethod = _null_;
-		}
+		return oInstance;
 	}
 
 	/**
@@ -615,19 +605,11 @@
 		 * @return {Object}
 		 */
 		_merge: function ( oModuleBase, oModuleExtended ) {
-			var oFinalModule = {},
-				sKey;
+			var oFinalModule = {};
 			this._setSuper(oFinalModule, oModuleBase);
 			this._mergeModuleBase(oFinalModule, oModuleBase);
-
 			this._mergeModuleExtended(oFinalModule, oModuleExtended);
-			try {
-				return oFinalModule;
-			}
-			finally {
-				oFinalModule = _null_;
-				sKey = _null_;
-			}
+			return oFinalModule;
 		},
 		/**
 		 * extend is the method that will be used to extend a module with new features.
@@ -675,7 +657,7 @@
 		 * Method to set an instance of a module
 		 * @param {String} sModuleId
 		 * @param {String} sIdInstance
-		 * @param {Instance} oInstance
+		 * @param {Object} oInstance
 		 * @return {Module}
 		 */
 		setInstance: function ( sModuleId, sIdInstance, oInstance ) {
@@ -789,7 +771,6 @@
 		 */
 		startAll: function () {
 			var sModuleId, oModule;
-
 			for ( sModuleId in oModules ) {
 				if ( ownProp( oModules, sModuleId ) ) {
 					oModule = oModules[sModuleId];
@@ -798,8 +779,6 @@
 					}
 				}
 			}
-
-			sModuleId = _null_;
 		},
 		/**
 		 * stop more than one module at the same time.
@@ -843,7 +822,7 @@
 		 * @return {Boolean}
 		 */
 		stop: function ( sModuleId, sInstanceId ) {
-			var oModule, oInstance;
+			var oModule;
 			oModule = oModules[sModuleId];
 			if ( typeof oModule === sNotDefined ) {
 				return false;
@@ -853,8 +832,6 @@
 			} else {
 				this._multiModuleStop(oModule);
 			}
-
-			oModule = oInstance = _null_;
 			return true;
 		},
 		/**
@@ -883,7 +860,6 @@
 					this._stopOneByOne(oModules[sModuleId].instances, sModuleId);
 				}
 			}
-			sModuleId = _null_;
 		},
 		/**
 		 * _delete is a wrapper method that will call the native delete javascript function
@@ -911,10 +887,10 @@
 					return oModule;
 				}
 				finally {
-					oModule = _null_;
 					this._delete( sModuleId );
 				}
 			}
+			return null;
 		}
 	};
 
