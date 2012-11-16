@@ -314,7 +314,7 @@
 		 * @return {Boolean}
 		 */
 		subscribe: function ( sChannelId, oSubscriber, bOnlyGlobal ) {
-			var sEvent, aChannelEvents, oEventsCallbacks, aEventsParts, sChannel, oParts, sEventType, bGlobal = bOnlyGlobal || false;
+			var sEvent, aChannelEvents, oEventsCallbacks, aEventsParts, bGlobal = bOnlyGlobal || false;
 			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' ) {
 				return false;
 			}
