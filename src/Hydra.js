@@ -333,7 +333,6 @@
 		 * @return {Boolean}
 		 */
 		subscribe: function ( sChannelId, oSubscriber, bOnlyGlobal ) {
-			var sEvent, aChannelEvents;
 			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' ) {
 				return false;
 			}
