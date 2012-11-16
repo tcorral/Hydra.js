@@ -367,18 +367,17 @@
 			return nUnsubscribed;
 		},
 		/**
-		 * unsubscribe gets the oEventsCallbacks methods and removes the handlers of the channel.
-		 * @param {String} sChannelId
-		 * @param {Module/Object} oSubscriber
-		 * @param {Boolean} bOnlyGlobal
-		 * @return {Boolean}
+		 * Loops per all the events to remove subscribers.
+		 * @param oEventsCallbacks
+		 * @param bGlobal
+		 * @param sChannelId
+		 * @param oSubscriber
+		 * @return {*}
+		 * @private
 		 */
-		unsubscribe: function ( sChannelId, oSubscriber, bOnlyGlobal ) {
-			var sEvent, oEventsCallbacks, nUnsubscribed, aEventsParts, sChannel, sEventType, bGlobal = bOnlyGlobal || false;
-			if ( typeof oSubscriber.oEventsCallbacks === 'undefined' || typeof oChannels[sChannelId] === 'undefined' ) {
-				return false;
-			}
-			oEventsCallbacks = oSubscriber.oEventsCallbacks;
+		_removeSubscribersPerEvent: function(oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber)
+		{
+			var sEvent, aEventsParts, sChannel, sEventType, bGlobal = bOnlyGlobal || false, nUnsubscribed;
 			for ( sEvent in oEventsCallbacks ) {
 				if ( ownProp( oEventsCallbacks, sEvent ) ) {
 					aEventsParts = sEvent.split( ':' );
@@ -395,6 +394,23 @@
 					nUnsubscribed = this._removeSubscribers(oChannels[sChannel][sEventType], oSubscriber);
 				}
 			}
+			return nUnsubscribed;
+		},
+		/**
+		 * unsubscribe gets the oEventsCallbacks methods and removes the handlers of the channel.
+		 * @param {String} sChannelId
+		 * @param {Module/Object} oSubscriber
+		 * @param {Boolean} bOnlyGlobal
+		 * @return {Boolean}
+		 */
+		unsubscribe: function ( sChannelId, oSubscriber, bOnlyGlobal ) {
+			var nUnsubscribed, oEventsCallbacks = oSubscriber.oEventsCallbacks;
+			if ( typeof oEventsCallbacks === 'undefined' || typeof oChannels[sChannelId] === 'undefined' ) {
+				return false;
+			}
+
+			nUnsubscribed = this._removeSubscribersPerEvent(oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber);
+
 			return nUnsubscribed > 0;
 		},
 		/**
