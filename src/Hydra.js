@@ -524,6 +524,12 @@
 			};
 			return oModules[sModuleId];
 		},
+		/**
+		 * _setSuper add the __super__ support to access to the methods in parent module.
+		 * @param oFinalModule
+		 * @param oModuleBase
+		 * @private
+		 */
 		_setSuper: function(oFinalModule, oModuleBase)
 		{
 			oFinalModule.__super__ = {};
@@ -536,24 +542,41 @@
 				oObject[sKey].apply( oFinalModule, aArgs );
 			};
 		},
-		callInSupper: function ( fpCallback ) {
+		/**
+		 * Callback that is used to call the methods in parent module.
+		 * @param fpCallback
+		 * @return {Function}
+		 */
+		callInSuper: function ( fpCallback ) {
 			return function () {
 				var aArgs = slice( arguments, 0 );
 				fpCallback.apply( this, aArgs );
 			};
 		},
+		/**
+		 * Adds the extended properties and methods to final module.
+		 * @param oFinalModule
+		 * @param oModuleExtended
+		 * @private
+		 */
 		_mergeModuleExtended: function(oFinalModule, oModuleExtended)
 		{
 			var sKey;
 			for ( sKey in oModuleExtended ) {
 				if ( ownProp( oModuleExtended, sKey ) ) {
 					if ( typeof oFinalModule.__super__ !== sNotDefined && isFunction( oFinalModule[sKey] ) ) {
-						oFinalModule.__super__[sKey] = (this.callInSupper( oFinalModule[sKey] ));
+						oFinalModule.__super__[sKey] = (this.callInSuper( oFinalModule[sKey] ));
 					}
 					oFinalModule[sKey] = oModuleExtended[sKey];
 				}
 			}
 		},
+		/**
+		 * Adds the base properties and methods to final module.
+		 * @param oFinalModule
+		 * @param oModuleBase
+		 * @private
+		 */
 		_mergeModuleBase: function(oFinalModule, oModuleBase)
 		{
 			var sKey;
