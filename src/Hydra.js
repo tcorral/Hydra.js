@@ -799,26 +799,31 @@
 			return true;
 		},
 		/**
+		 * Loops over instances of modules to stop them.
+		 * @param oInstances
+		 * @param sModuleId
+		 * @private
+		 */
+		_stopOneByOne: function(oInstances, sModuleId)
+		{
+			var sInstanceId;
+			for ( sInstanceId in oInstances ) {
+				if ( ownProp( oInstances, sInstanceId ) ) {
+					this.stop( sModuleId, sInstanceId );
+				}
+			}
+		},
+		/**
 		 * stopAll is the method that will finish all the registered and started modules.
 		 * @member Module.prototype
 		 */
 		stopAll: function () {
-			var sModuleId, oModule, sInstanceId;
-
+			var sModuleId;
 			for ( sModuleId in oModules ) {
-				if ( ownProp( oModules, sModuleId ) ) {
-					oModule = oModules[sModuleId];
-					if ( typeof oModule !== sNotDefined ) {
-						for ( sInstanceId in oModule.instances ) {
-							if ( ownProp( oModule.instances, sInstanceId ) ) {
-								this.stop( sModuleId, sInstanceId );
-							}
-
-						}
-					}
+				if ( ownProp( oModules, sModuleId ) && typeof oModules[sModuleId] !== sNotDefined ) {
+					this._stopOneByOne(oModules[sModuleId].instances, sModuleId);
 				}
 			}
-
 			sModuleId = _null_;
 		},
 		/**
