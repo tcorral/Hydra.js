@@ -686,6 +686,51 @@
 			return simpleMerge( {}, oVars );
 		},
 		/**
+		 * start more than one module at the same time.
+		 * @param aModulesIds
+		 * @param sIdInstance
+		 * @param oData
+		 * @param bSingle
+		 * @private
+		 */
+		_multiModuleStart: function(aModulesIds, sIdInstance, oData, bSingle)
+		{
+			var aInstancesIds, aData, aSingle, nIndex, nLenModules, sModuleId;
+			if ( isArray( sIdInstance ) ) {
+				aInstancesIds = sIdInstance.slice( 0 );
+			}
+			if ( isArray( oData ) ) {
+				aData = oData.slice( 0 );
+			}
+			if ( isArray( bSingle ) ) {
+				aSingle = bSingle.slice( 0 );
+			}
+			for ( nIndex = 0, nLenModules = aModulesIds.length; nIndex < nLenModules; nIndex++ ) {
+				sModuleId = aModulesIds[nIndex];
+				sIdInstance = aInstancesIds && aInstancesIds[nIndex] || generateUniqueKey();
+				oData = aData && aData[nIndex] || oData;
+				bSingle = aSingle && aSingle[nIndex] || bSingle;
+				startSingleModule(this, sModuleId, sIdInstance, oData, bSingle );
+			}
+		},
+		/**
+		 * Start only one module.
+		 * @param sModuleId
+		 * @param sIdInstance
+		 * @param oData
+		 * @param bSingle
+		 * @private
+		 */
+		_singleModuleStart: function(sModuleId, sIdInstance, oData, bSingle)
+		{
+			if ( typeof sIdInstance !== 'string' ) {
+				oData = sIdInstance;
+				bSingle = oData;
+				sIdInstance = generateUniqueKey();
+			}
+			startSingleModule(this, sModuleId, sIdInstance, oData, bSingle );
+		},
+		/**
 		 * start is the method that initialize the module/s
 		 * If you use array instead of arrays you can start more than one module even adding the instance, the data and if it must be executed
 		 * as single module start.
@@ -695,39 +740,12 @@
 		 * @param {Boolean/Array} bSingle
 		 */
 		start: function ( sModuleId, sIdInstance, oData, bSingle ) {
-			var bStartMultipleModules = isArray( sModuleId ),
-				aModulesIds,
-				aInstancesIds,
-				aData,
-				aSingle,
-				nIndex,
-				nLenModules;
+			var bStartMultipleModules = isArray( sModuleId );
 
 			if ( bStartMultipleModules ) {
-				aModulesIds = sModuleId.slice( 0 );
-				if ( isArray( sIdInstance ) ) {
-					aInstancesIds = sIdInstance.slice( 0 );
-				}
-				if ( isArray( oData ) ) {
-					aData = oData.slice( 0 );
-				}
-				if ( isArray( bSingle ) ) {
-					aSingle = bSingle.slice( 0 );
-				}
-				for ( nIndex = 0, nLenModules = aModulesIds.length; nIndex < nLenModules; nIndex++ ) {
-					sModuleId = aModulesIds[nIndex];
-					sIdInstance = aInstancesIds && aInstancesIds[nIndex] || generateUniqueKey();
-					oData = aData && aData[nIndex] || oData;
-					bSingle = aSingle && aSingle[nIndex] || bSingle;
-					startSingleModule(this, sModuleId, sIdInstance, oData, bSingle );
-				}
+				this._multiModuleStart(sModuleId.slice( 0 ), sIdInstance, oData, bSingle);
 			} else {
-				if ( typeof sIdInstance !== 'string' ) {
-					oData = sIdInstance;
-					bSingle = oData;
-					sIdInstance = generateUniqueKey();
-				}
-				startSingleModule(this, sModuleId, sIdInstance, oData, bSingle );
+				this._singleModuleStart(sModuleId, sIdInstance, oData, bSingle);
 			}
 		},
 		/**
