@@ -417,7 +417,10 @@
 				do {
 					oHandlerObject = aSubs.shift();
 					oHandlerObject.handler.call( oHandlerObject.subscriber, oData );
-					ErrorHandler.log( sChannelId, sEvent, oHandlerObject );
+					if(bDebug)
+					{
+						ErrorHandler.log( sChannelId, sEvent, oHandlerObject );
+					}
 				}
 				while ( aSubs.length > 0 && ( +new Date() - nStart < 50 ) );
 				if ( aSubs.length > 0 ) {
