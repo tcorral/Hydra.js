@@ -1,4 +1,4 @@
-/*global exports, module, require, define*/
+/*global exports, module, require, define, setTimeout*/
 (function () {
 	'use strict';
 	var root, sNotDefined, oModules, oVars, _null_, _false_, sVersion, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
@@ -14,7 +14,7 @@
 	}
 
 	/**
-	 * Return the lenght of properties of one object
+	 * Return the length of properties of one object
 	 * @param oObj
 	 * @return {*}
 	 */
@@ -90,7 +90,7 @@
 	 * @private
 	 * @type {String}
 	 */
-	sVersion = '3.0.1';
+	sVersion = '3.0.2';
 
 	/**
 	 * Used to activate the debug mode
@@ -122,7 +122,7 @@
 	/**
 	 * isArray is a function to know if the object passed as parameter is an Array object.
 	 * @private
-	 * @param {Object} aArray
+	 * @param {String|Array|Object} aArray
 	 * @return {Boolean}
 	 */
 	function isArray ( aArray ) {
@@ -173,7 +173,7 @@
 	 * @return {Module} instance of the module
 	 * @private
 	 */
-	function startSingleModule (oWrapper, sModuleId, sIdInstance, oData, bSingle ) {
+	function startSingleModule ( oWrapper, sModuleId, sIdInstance, oData, bSingle ) {
 		var oModule, oInstance;
 		oModule = oModules[sModuleId];
 
@@ -190,9 +190,6 @@
 				oInstance.init();
 			}
 		}
-
-		oModule = oInstance = _null_;
-
 		return oInstance;
 	}
 
@@ -230,9 +227,7 @@
 				}
 				catch ( erError ) {
 					ErrorHandler.log( sModuleId, sName, erError );
-				}
-				finally {
-					aArgs = _null_;
+					return false;
 				}
 			};
 		}( sName, fpMethod ));
@@ -289,15 +284,13 @@
 		 * @return {Object}
 		 * @private
 		 */
-		_getChannelEvents: function(aEventsParts, sChannelId, sEvent)
-		{
+		_getChannelEvents: function ( aEventsParts, sChannelId, sEvent ) {
 			var sChannel, sChan, sEventType;
 			sChan = aEventsParts[0];
 			if ( sChan === 'global' ) {
 				sChannel = sChan;
 				sEventType = aEventsParts[1];
-			}else
-			{
+			} else {
 				sChannel = sChannelId;
 				sEventType = sEvent;
 			}
@@ -306,17 +299,15 @@
 			}
 			return oChannels[sChannel][sEventType];
 		},
-		_addSubscribers: function(oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber)
-		{
+		_addSubscribers: function ( oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber ) {
 			var sEvent, aEventsParts, aChannelEvents, bGlobal = bOnlyGlobal || false;
 			for ( sEvent in oEventsCallbacks ) {
 				if ( ownProp( oEventsCallbacks, sEvent ) ) {
 					aEventsParts = sEvent.split( ':' );
-					if(bGlobal && aEventsParts[0] !== 'global' || !bGlobal && aEventsParts[0] === 'global')
-					{
+					if ( bGlobal && aEventsParts[0] !== 'global' || !bGlobal && aEventsParts[0] === 'global' ) {
 						continue;
 					}
-					aChannelEvents = this._getChannelEvents(aEventsParts, sChannelId, sEvent);
+					aChannelEvents = this._getChannelEvents( aEventsParts, sChannelId, sEvent );
 
 					aChannelEvents.push( {
 						subscriber: oSubscriber,
@@ -339,7 +330,7 @@
 			if ( typeof oChannels[sChannelId] === 'undefined' ) {
 				oChannels[sChannelId] = {};
 			}
-			this._addSubscribers(oSubscriber.oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber);
+			this._addSubscribers( oSubscriber.oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber );
 			return true;
 		},
 		/**
@@ -350,12 +341,11 @@
 		 * @return {Number}
 		 * @private
 		 */
-		_removeSubscribers: function(aSubscribers, oSubscriber) {
+		_removeSubscribers: function ( aSubscribers, oSubscriber ) {
 			var nLenSubscribers,
 				nIndex = 0,
 				nUnsubscribed = 0;
-			if(typeof aSubscribers !== sNotDefined)
-			{
+			if ( typeof aSubscribers !== sNotDefined ) {
 				nLenSubscribers = aSubscribers.length;
 				for ( ; nIndex < nLenSubscribers; nIndex++ ) {
 					if ( aSubscribers[nIndex].subscriber === oSubscriber ) {
@@ -369,20 +359,18 @@
 		/**
 		 * Loops per all the events to remove subscribers.
 		 * @param oEventsCallbacks
-		 * @param bGlobal
+		 * @param bOnlyGlobal
 		 * @param sChannelId
 		 * @param oSubscriber
 		 * @return {*}
 		 * @private
 		 */
-		_removeSubscribersPerEvent: function(oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber)
-		{
+		_removeSubscribersPerEvent: function ( oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber ) {
 			var sEvent, aEventsParts, sChannel, sEventType, bGlobal = bOnlyGlobal || false, nUnsubscribed;
 			for ( sEvent in oEventsCallbacks ) {
 				if ( ownProp( oEventsCallbacks, sEvent ) ) {
 					aEventsParts = sEvent.split( ':' );
-					if(bGlobal && aEventsParts[0] !== 'global' || !bGlobal && aEventsParts[0] === 'global')
-					{
+					if ( bGlobal && aEventsParts[0] !== 'global' || !bGlobal && aEventsParts[0] === 'global' ) {
 						continue;
 					}
 					sChannel = sChannelId;
@@ -391,7 +379,7 @@
 						sChannel = aEventsParts[0];
 						sEventType = aEventsParts[1];
 					}
-					nUnsubscribed = this._removeSubscribers(oChannels[sChannel][sEventType], oSubscriber);
+					nUnsubscribed = this._removeSubscribers( oChannels[sChannel][sEventType], oSubscriber );
 				}
 			}
 			return nUnsubscribed;
@@ -409,9 +397,33 @@
 				return false;
 			}
 
-			nUnsubscribed = this._removeSubscribersPerEvent(oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber);
+			nUnsubscribed = this._removeSubscribersPerEvent( oEventsCallbacks, bOnlyGlobal, sChannelId, oSubscriber );
 
 			return nUnsubscribed > 0;
+		},
+		/**
+		 * Method to execute all the callbacks but without blocking the user interface.
+		 * @private
+		 * @param {Array} aSubscribers
+		 * @param {Object} oData
+		 * @param {String} sChannelId
+		 * @param {String} sEvent
+		 */
+		_avoidBlockUI: function ( aSubscribers, oData, sChannelId, sEvent ) {
+			var oHandlerObject,
+				aSubs = aSubscribers.concat();
+			setTimeout( function recall () {
+				var nStart = +new Date();
+				do {
+					oHandlerObject = aSubs.shift();
+					oHandlerObject.handler.call( oHandlerObject.subscriber, oData );
+					ErrorHandler.log( sChannelId, sEvent, oHandlerObject );
+				}
+				while ( aSubs.length > 0 && ( +new Date() - nStart < 50 ) );
+				if ( aSubs.length > 0 ) {
+					setTimeout( recall, 25 );
+				}
+			}, 25 );
 		},
 		/**
 		 * Publish the event in one channel.
@@ -421,17 +433,11 @@
 		 */
 		publish: function ( sChannelId, sEvent, oData ) {
 			var aSubscribers = this.subscribers( sChannelId, sEvent ),
-				nIndex = 0,
-				nLenSubscribers = aSubscribers.length,
-				oHandlerObject;
+				nLenSubscribers = aSubscribers.length;
 			if ( nLenSubscribers === 0 ) {
 				return false;
 			}
-			for ( ; nIndex < nLenSubscribers; nIndex++ ) {
-				oHandlerObject = aSubscribers[nIndex];
-				oHandlerObject.handler.call( oHandlerObject.subscriber, oData );
-				ErrorHandler.log( sChannelId, sEvent, oHandlerObject );
-			}
+			this._avoidBlockUI( aSubscribers, oData, sChannelId, sEvent );
 			return true;
 		},
 		/**
@@ -483,24 +489,19 @@
 	 * @return {Object} Module instance
 	 */
 	function createInstance ( sModuleId ) {
-		var oInstance, sName, fpMethod;
+		var oInstance, sName;
 		if ( typeof oModules[sModuleId] === sNotDefined ) {
 			throw new Error( 'The module ' + sModuleId + ' is not registered!' );
 		}
 		oInstance = addPropertiesAndMethodsToModule( sModuleId, Bus );
 		if ( !bDebug ) {
 			for ( sName in oInstance ) {
-				if ( ownProp( oInstance, sName ) && isFunction(oInstance[sName]) ) {
+				if ( ownProp( oInstance, sName ) && isFunction( oInstance[sName] ) ) {
 					wrapMethod( oInstance, sName, sModuleId, oInstance[sName] );
 				}
 			}
 		}
-		try {
-			return oInstance;
-		}
-		finally {
-			oInstance = sName = fpMethod = _null_;
-		}
+		return oInstance;
 	}
 
 	/**
@@ -549,8 +550,7 @@
 		 * @param oModuleBase
 		 * @private
 		 */
-		_setSuper: function(oFinalModule, oModuleBase)
-		{
+		_setSuper: function ( oFinalModule, oModuleBase ) {
 			oFinalModule.__super__ = {};
 			oFinalModule.__super__.__instance__ = oModuleBase;
 			oFinalModule.__super__.__call__ = function ( sKey, aArgs ) {
@@ -578,8 +578,7 @@
 		 * @param oModuleExtended
 		 * @private
 		 */
-		_mergeModuleExtended: function(oFinalModule, oModuleExtended)
-		{
+		_mergeModuleExtended: function ( oFinalModule, oModuleExtended ) {
 			var sKey;
 			for ( sKey in oModuleExtended ) {
 				if ( ownProp( oModuleExtended, sKey ) ) {
@@ -596,8 +595,7 @@
 		 * @param oModuleBase
 		 * @private
 		 */
-		_mergeModuleBase: function(oFinalModule, oModuleBase)
-		{
+		_mergeModuleBase: function ( oFinalModule, oModuleBase ) {
 			var sKey;
 			for ( sKey in oModuleBase ) {
 				if ( ownProp( oModuleBase, sKey ) ) {
@@ -615,19 +613,11 @@
 		 * @return {Object}
 		 */
 		_merge: function ( oModuleBase, oModuleExtended ) {
-			var oFinalModule = {},
-				sKey;
-			this._setSuper(oFinalModule, oModuleBase);
-			this._mergeModuleBase(oFinalModule, oModuleBase);
-
-			this._mergeModuleExtended(oFinalModule, oModuleExtended);
-			try {
-				return oFinalModule;
-			}
-			finally {
-				oFinalModule = _null_;
-				sKey = _null_;
-			}
+			var oFinalModule = {};
+			this._setSuper( oFinalModule, oModuleBase );
+			this._mergeModuleBase( oFinalModule, oModuleBase );
+			this._mergeModuleExtended( oFinalModule, oModuleExtended );
+			return oFinalModule;
 		},
 		/**
 		 * extend is the method that will be used to extend a module with new features.
@@ -675,7 +665,7 @@
 		 * Method to set an instance of a module
 		 * @param {String} sModuleId
 		 * @param {String} sIdInstance
-		 * @param {Instance} oInstance
+		 * @param {Object} oInstance
 		 * @return {Module}
 		 */
 		setInstance: function ( sModuleId, sIdInstance, oInstance ) {
@@ -712,8 +702,7 @@
 		 * @param bSingle
 		 * @private
 		 */
-		_multiModuleStart: function(aModulesIds, sIdInstance, oData, bSingle)
-		{
+		_multiModuleStart: function ( aModulesIds, sIdInstance, oData, bSingle ) {
 			var aInstancesIds, aData, aSingle, nIndex, nLenModules, sModuleId;
 			if ( isArray( sIdInstance ) ) {
 				aInstancesIds = sIdInstance.slice( 0 );
@@ -729,7 +718,7 @@
 				sIdInstance = aInstancesIds && aInstancesIds[nIndex] || generateUniqueKey();
 				oData = aData && aData[nIndex] || oData;
 				bSingle = aSingle && aSingle[nIndex] || bSingle;
-				startSingleModule(this, sModuleId, sIdInstance, oData, bSingle );
+				startSingleModule( this, sModuleId, sIdInstance, oData, bSingle );
 			}
 		},
 		/**
@@ -740,14 +729,13 @@
 		 * @param bSingle
 		 * @private
 		 */
-		_singleModuleStart: function(sModuleId, sIdInstance, oData, bSingle)
-		{
+		_singleModuleStart: function ( sModuleId, sIdInstance, oData, bSingle ) {
 			if ( typeof sIdInstance !== 'string' ) {
 				oData = sIdInstance;
 				bSingle = oData;
 				sIdInstance = generateUniqueKey();
 			}
-			startSingleModule(this, sModuleId, sIdInstance, oData, bSingle );
+			startSingleModule( this, sModuleId, sIdInstance, oData, bSingle );
 		},
 		/**
 		 * start is the method that initialize the module/s
@@ -762,9 +750,9 @@
 			var bStartMultipleModules = isArray( sModuleId );
 
 			if ( bStartMultipleModules ) {
-				this._multiModuleStart(sModuleId.slice( 0 ), sIdInstance, oData, bSingle);
+				this._multiModuleStart( sModuleId.slice( 0 ), sIdInstance, oData, bSingle );
 			} else {
-				this._singleModuleStart(sModuleId, sIdInstance, oData, bSingle);
+				this._singleModuleStart( sModuleId, sIdInstance, oData, bSingle );
 			}
 		},
 		/**
@@ -789,7 +777,6 @@
 		 */
 		startAll: function () {
 			var sModuleId, oModule;
-
 			for ( sModuleId in oModules ) {
 				if ( ownProp( oModules, sModuleId ) ) {
 					oModule = oModules[sModuleId];
@@ -798,16 +785,13 @@
 					}
 				}
 			}
-
-			sModuleId = _null_;
 		},
 		/**
 		 * stop more than one module at the same time.
 		 * @param oModule
 		 * @private
 		 */
-		_multiModuleStop: function(oModule)
-		{
+		_multiModuleStop: function ( oModule ) {
 			var sKey,
 				oInstances = oModule.instances,
 				oInstance;
@@ -827,8 +811,7 @@
 		 * @param sInstanceId
 		 * @private
 		 */
-		_singleModuleStop: function(oModule, sModuleId, sInstanceId)
-		{
+		_singleModuleStop: function ( oModule, sModuleId, sInstanceId ) {
 			var oInstance = oModule.instances[sInstanceId];
 			if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined ) {
 				oInstance.destroy();
@@ -843,18 +826,16 @@
 		 * @return {Boolean}
 		 */
 		stop: function ( sModuleId, sInstanceId ) {
-			var oModule, oInstance;
+			var oModule;
 			oModule = oModules[sModuleId];
 			if ( typeof oModule === sNotDefined ) {
 				return false;
 			}
 			if ( typeof sInstanceId !== sNotDefined ) {
-				this._singleModuleStop(oModule, sModuleId, sInstanceId);
+				this._singleModuleStop( oModule, sModuleId, sInstanceId );
 			} else {
-				this._multiModuleStop(oModule);
+				this._multiModuleStop( oModule );
 			}
-
-			oModule = oInstance = _null_;
 			return true;
 		},
 		/**
@@ -863,8 +844,7 @@
 		 * @param sModuleId
 		 * @private
 		 */
-		_stopOneByOne: function(oInstances, sModuleId)
-		{
+		_stopOneByOne: function ( oInstances, sModuleId ) {
 			var sInstanceId;
 			for ( sInstanceId in oInstances ) {
 				if ( ownProp( oInstances, sInstanceId ) ) {
@@ -880,10 +860,9 @@
 			var sModuleId;
 			for ( sModuleId in oModules ) {
 				if ( ownProp( oModules, sModuleId ) && typeof oModules[sModuleId] !== sNotDefined ) {
-					this._stopOneByOne(oModules[sModuleId].instances, sModuleId);
+					this._stopOneByOne( oModules[sModuleId].instances, sModuleId );
 				}
 			}
-			sModuleId = _null_;
 		},
 		/**
 		 * _delete is a wrapper method that will call the native delete javascript function
@@ -911,10 +890,10 @@
 					return oModule;
 				}
 				finally {
-					oModule = _null_;
 					this._delete( sModuleId );
 				}
 			}
+			return null;
 		}
 	};
 

@@ -809,6 +809,7 @@
 	oTestCase('HydraBusPublishTest', sinon.testCase({
 		setUp: function()
 		{
+			this.clock = sinon.useFakeTimers();
 			Hydra.bus.reset();
 			this.oSubscriber = {
 				oEventsCallbacks: {
@@ -819,6 +820,7 @@
 		},
 		tearDown: function()
 		{
+			this.clock.restore();
 			delete this.oSubscriber;
 			delete this.oBadSubscriber;
 		},
@@ -828,6 +830,7 @@
 				oData = {};
 
 			bResult = Hydra.bus.publish('test', 'test', oData);
+			this.clock.tick(30);
 
 			assertFalse(bResult);
 			assertEquals(0, this.oSubscriber.oEventsCallbacks.test.callCount);
@@ -837,8 +840,9 @@
 			var bResult = false,
 				oData = {};
 			Hydra.bus.subscribe('test', this.oSubscriber);
-
+debugger;
 			bResult = Hydra.bus.publish('test', 'test', oData);
+			this.clock.tick(30);
 
 			assertTrue(bResult);
 			assertEquals(1, this.oSubscriber.oEventsCallbacks.test.callCount);
