@@ -201,6 +201,51 @@ ProgressBar.prototype.update = function (nProgress) {
         </div>
     </div>
     <div>
+        <h4 id="subscribeTo">Hydra.bus.subscribeTo</h4>
+
+        <p class="h4">
+            Method to subscribe one callback to one channel and event.
+        </p>
+
+        <p class="h4">
+            This method requires four parameters:
+            <ol>
+                <li>
+                    Channel name {String}
+                </li>
+                <li>
+                    Event name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{String}
+                </li>
+                <li>
+                    Callback&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{Function}
+                </li>
+                <li>
+                    Subscriber&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{Module or Class}
+                </li>
+            </ol>
+        </p>
+
+        <div class="h4">
+            Sample of usage:
+        </div>
+        <div>
+            <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
+    return {
+        sName: 'John Doe',
+        sayHi: function ()
+        {
+            alert( 'Hi!' + this.sName );
+        },
+        init: function () {
+            // You can subscribe to one channel and event to one callback inside a module or class.
+            // When the event 'item:action' is called in 'channel' channel an alert will be shown.
+            bus.subscribeTo( 'channel', 'item:action', this.sayHi, this );
+        }
+    };
+});</code></pre>
+        </div>
+    </div>
+    <div>
         <h4 id="notify">Hydra.bus.publish</h4>
 
         <p class="h4">
