@@ -121,7 +121,7 @@
     <h3 id="version">Hydra.version</h3>
 
     <p>
-        Version attribute returns Hydra version.
+        Version property returns Hydra version.
     </p>
 
     <div>
@@ -144,8 +144,8 @@
         <h4 id="listen">Hydra.bus.subscribe</h4>
 
         <p class="h4">
-            Method to start listening events in one defined channel, this method is used internally when <em>init</em> method is executed but
-            it can be used while developing if needed.
+            The method to start listening events in one defined channel, this method is used internally when “init”
+            method is executed but it can be used while developing if needed.
         </p>
 
         <div class="tip">
@@ -155,24 +155,49 @@
             Sample of usage:
         </div>
         <div>
-			<pre><code class="language-javascript">// The only thing that is needed is a property object named 'oEventsCallbacks' with event names as keys, and values that are callbacks to execute when the event is triggered.
+			<pre><code class="language-javascript">// The only thing that is needed is a property object named 'events' with event names as keys,
+// and values that are callbacks to execute when the event is triggered.
 
 Hydra.module().register( "module-name", function ( bus ) {
     return {
-        oEventsCallbacks: {
-            'user-clicks-button': function ( oData ) {
-                this._logClick(oData.sButtonType);
+        events: {
+            'channel': {
+                'item:action': function ( oData ) {
+                    this._logClick(oData.sButtonType);
+                }
             }
+
         },
         _logClick: function( sButtonType ) {
             console.log("User clicked a ' + sButtonType + ' button");
         },
         init: function() {
-            bus.subscribe( 'channel_name', this);
+            // The subscribing is done my Hydra.js
         }
     };
 });
 </code></pre>
+        </div>
+        <div>
+            Using it in a class implementing Hydra.bus.subscribe
+        </div>
+        <div>
+            <pre><code class="language-javascript">var ProgressBar = function () {
+    this.events = {
+        'download': {
+            'progress': function (nProgress)
+            {
+                this.update(nProgress);
+            }
+        }
+    };
+    this.nProgress = 0;
+    // Starts listening events in channel 'download'
+    Hydra.bus.subscribe( this );
+};
+ProgressBar.prototype.update = function (nProgress) {
+    this.nProgress = nProgress;
+};</code></pre>
         </div>
     </div>
     <div>
@@ -183,9 +208,8 @@ Hydra.module().register( "module-name", function ( bus ) {
         </p>
 
         <p class="h4">
-            Publish method needs at least two of the three params it expects.
-			It needs to know the name of the channel and the name of the event.
-			Third parameter is an optional object with data to pass to the actions.
+            Publish method needs at least two of the three parameters it expects. It needs to know the name of the
+            channel and the name of the event. Third parameter is an optional object with data to pass to the actions.
         </p>
 
         <div class="h4">
@@ -194,16 +218,20 @@ Hydra.module().register( "module-name", function ( bus ) {
         <div>
             <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
 	return {
-		oEventsCallbacks: {
-        	'user-clicks-button': function ( oData ) {
-        		this._logClick(oData.sButtonType);
+		events: {
+            'channel': {
+                'item:action': function ( oData ) {
+                    this._logClick(oData.sButtonType);
+                }
             }
         },
-        _logClick: function( sButtonType ) {
-            bus.publish( 'channel_name2', 'event_name', { test: 'hello' } );
+        _logClick: function ( sButtonType ) {
+            bus.publish( 'channel2', 'item2:action2', { test: 'hello' } );
         },
-        init: function() {
-            bus.subscribe( 'channel_name', this);
+        init: function () {
+            document.getElementById( 'button' ).addEventListener('click', function() {
+                bus.publish( 'channel', 'item:action', { sButtonType: 'loginButton'} );
+            });
         }
     };
 });</code></pre>
@@ -213,8 +241,8 @@ Hydra.module().register( "module-name", function ( bus ) {
         <h4>Hydra.bus.unsubscribe</h4>
 
         <p class="h4">
-            Method to stop listening events in channels, this method should be used in <em>onDestroy</em> method and it will be executed
-            when <em>stop</em> module is executed but it can be used while developing if needed.
+            Method to stop listening events in channels, this method should be used in onDestroy method and it will be
+            executed when stop module is executed but it can be used while developing if needed.
         </p>
 
         <div class="h4">
@@ -223,20 +251,18 @@ Hydra.module().register( "module-name", function ( bus ) {
         <div>
             <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
     return {
-        oEventsCallbacks: {
-            'user-clicks-button': function ( oData ) {
-                this._logClick(oData.sButtonType);
+        events: {
+            'channel_name': {
+                'user-clicks-button': function ( oData ) {
+                    this._logClick(oData.sButtonType);
+                }
             }
 		},
         _logClick: function( sButtonType ) {
             console.log("User clicked a ' + sButtonType + ' button");
         },
         init: function() {
-            bus.subscribe( 'channel_name', this);
-        },
-		onDestroy: function() {
-            bus.unsubscribe( 'channel_name', 'event_name', module );
-		}
+        }
     };
 });</code></pre>
         </div>
@@ -283,7 +309,7 @@ oErrorHandler.log('This is an error');</code></pre>
     <h4 id="setVars">Hydra.module.setVars</h4>
 
     <p class="h4">
-        Method to set instance modules scope variables to avoid pollute globals.
+        The method to set instance module's scope variables to avoid pollute global.
     </p>
 
     <div class="h4">
@@ -297,7 +323,7 @@ oErrorHandler.log('This is an error');</code></pre>
     <h4 id="getVars">Hydra.module.getVars</h4>
 
     <p class="h4">
-        Method to get instance modules scope variables.
+        Method to get instance module's scope variables.
     </p>
 
     <div class="h4">
@@ -320,10 +346,12 @@ oErrorHandler.log('This is an error');</code></pre>
     <div>
 			<pre><code class="language-javascript">Hydra.module().register("module-name", function (action) {
 	return {
-		oEventsCallbacks: {
-			'user-clicks-button': function (oNotify) {
-				this._logClick(oNotify.sButtonType);
-			}
+		events: {
+            'channel': {
+                'button:click': function (oData) {
+                    this._logClick(oData.sButtonType);
+                }
+            }
 		},
 		_logClick: function(sButtonType) {
 			console.log("User clicked a ' + sButtonType + ' button");
@@ -339,7 +367,7 @@ oErrorHandler.log('This is an error');</code></pre>
     <h4 id="module_extend">Hydra.module.extend</h4>
 
     <p class="h4">
-        Module extension in Hydra.js could be used in two different ways:
+        Module extension in Hydra could be used in two different ways:
     </p>
     <ul>
         <li>
@@ -350,7 +378,7 @@ oErrorHandler.log('This is an error');</code></pre>
         </li>
     </ul>
     <div class="h4">
-        Sample of how to extend a module overwriting behaviour:
+        A sample of how to extend a module's overwriting behavior:
     </div>
     <div>
 			<pre><code class="language-javascript">// Base module will alert 'hello world!" when started.
@@ -389,7 +417,7 @@ Hydra.module.register( 'my-first-module', function(){
 });
 
 // Extending a module in this way will make a copy of 'my-first-module' module with a new name
-// that could be started as a normal module. You get two modules, the base module that will remains
+// that could be started as a normal module. You get two modules, the base module that will remain
 // untouched and a new one to use it as you want.
 // Starting 'my-first-module' you will get an alert with 'hello world!' and if you start
 // 'copy-first-module' you will get an alert with 'Yorolei!'.
@@ -407,15 +435,14 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     <h4 id="start">Hydra.module.start</h4>
 
     <p class="h4">
-        Executes the init method in a module or modules to start it, and now it will start listening events if some of
-        them have been defined. Hydra.js is a multi-instance module system this is the reason you will need to add a
-        single id for each instance when starting a module.
-        When you start a module you can pass a third parameter that will be sent to init when executed to be used inside
-        init method.
+        Executes the “init” method in a module or modules to start it, and now it will start listening events if some
+        of them have been defined. Hydra is a multi-instance module system this is the reason you will need to add a
+        single id for each instance when starting a module. When you start a module you can pass a third parameter that
+        will be sent to “init” when executed to be used inside “init” method.
     </p>
 
     <div class="h4">
-        Sample of starting a single module (without id of instance):
+        Sample of starting a single module (without id of the instance):
     </div>
     <div>
         <pre><code class="language-javascript">Hydra.module.start( 'my-fist-module' );</code></pre>
@@ -433,7 +460,7 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
         <pre><code class="language-javascript">Hydra.module.start( 'my-fist-module', 'my-first-instance-id', { data: 'test' } );</code></pre>
     </div>
     <div class="h4">
-        Sample of starting a single module but single instance (with parameters):
+        Sample of starting a single module but a single instance (with parameters):
     </div>
     <div>
         <pre><code class="language-javascript">Hydra.module.start( 'my-fist-module', 'my-first-instance-id', { data:'test' }, true );</code></pre>
@@ -452,8 +479,8 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     <h4 id="startAll">Hydra.module.startAll</h4>
 
     <p class="h4">
-        Start all the modules that are registered, one instance per module. The id for these instances are
-        autogenerated.
+        Start all the modules that are registered, one instance per module. The id for these instances are auto
+        generated.
     </p>
 
     <div class="h4">
@@ -467,7 +494,7 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     <h4 id="isModuleStarted">Hydra.module.isModuleStarted</h4>
 
     <p class="h4">
-        Check if the instance of one module has been started. Returns true or false.
+        Check if the instance of one module has been started. Returns a boolean value.
     </p>
 
     <div class="h4">
@@ -510,8 +537,8 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     <h3 id="setDebug">Hydra.setDebug</h3>
 
     <p>
-        Hydra.js wraps all the module methods to avoid that an error in one module make fails the app if debug mode is
-        off<br>
+        Hydra wraps all the module methods to avoid that an error in one module makes fails the app if debug mode is
+        off.<br>
         If you have an error and make you drive crazy and you need to see your code fail, then you must set debug mode
         on.<br>
     </p>
@@ -534,7 +561,7 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
 
     <p>
         Hydra.getDebug method must be used to know if debug mode is on.<br>
-		This method will help some implementations of debugging extensions.
+        This method will help some implementations of debugging extensions.
     </p>
 
     <div>
@@ -548,7 +575,7 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     <h3 id="extend">Hydra.extend</h3>
 
     <p>
-        Method to extend Hydra.js framework with new features.
+        Method to extend Hydra framework with new features.
     </p>
 
     <div>
@@ -561,7 +588,7 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
 	}
 });
 
-//How to use after extend Hydra.js
+//How to use after extended Hydra.js
 Hydra.extension.hello_world() </code></pre>
     </div>
 </div>
@@ -569,18 +596,18 @@ Hydra.extension.hello_world() </code></pre>
     <h3 id="noConflict">Hydra.noConflict</h3>
 
     <p>
-        Method to create alias for the elements of Hydra.js.
+        A method to create an alias for the elements of Hydra.js.
     </p>
 
     <div>
         Sample of usage:
     </div>
     <div>
-		<pre><code class="language-javascript">// To maintain compatibility with previous versions.
+		<pre><code class="language-javascript">// Maintain compatibility with previous versions.
 Hydra.noConflict("module", window, "Core" );
 Hydra.noConfict("action", window, "Sandbox");
 
-//Now you can use Core and Sandbox when coding
+//Now you can use Core and Sandbox when coding.
 Core.register('module-name', function (action)
 {
 	return {

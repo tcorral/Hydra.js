@@ -1,4 +1,65 @@
-/*global exports, module, require, define, setTimeout*/
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Source - D:\Github_Projects\Hydra.js\src\Hydra.js</title>
+	<meta name="generator" content="JsDoc Toolkit" />
+	
+	<link media="all" rel="stylesheet" href="../../css/common.css" type="text/css" />
+	<link media="all" rel="stylesheet" href="../../css/bootstrap.min.css" type="text/css" />
+	<link media="all" rel="stylesheet" href="../../css/prettify.css" type="text/css" />
+	<style type="text/css">
+		.icon-jsdoc {
+			background: url("../../img/classicons.png") no-repeat;
+		}
+	</style>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="../../js/prettify.js" type="text/javascript"></script>
+	<script src="../../js/bootstrap.min.js" type="text/javascript"></script>
+</head>
+<body><div class="container-fluid">
+<!-- ============================== header ================================= -->	
+	<!-- begin static/header.html -->
+	<header class="header navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="brand" href="#"><strong>JsDoc</strong> Reference</a>
+				<ul id="class-file-selector" class="nav">
+					<li><a href="../../index.html">Class Index</a></li>
+					<li><a href="../../files.html">File Index</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+	<div class="row-fluid">
+		<div id="index" class="span3">
+			<!-- begin publish.classesIndex -->
+			<div class="well" id="class-list">
+	<ul class="nav nav-list">
+		<li class="nav-header">Classes</li>
+		
+			<li><a href="../../symbols/Bus.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Bus</span></span></a></li>
+		
+			<li><a href="../../symbols/Hydra.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Hydra</span></span></a></li>
+		
+			<li><a href="../../symbols/Module.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Module</span></span></a></li>
+		
+			<li><a href="../../symbols/_global_.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">_global_</span></span></a></li>
+		
+	</ul>
+</div>
+
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content" class="span9">
+<!-- ============================== source code ============================ -->
+
+			<pre id="source-code" class="prettyprint linenums">
+				/*global exports, module, require, define, setTimeout*/
 (function () {
     'use strict';
     var root, sNotDefined, oModules, oVars, _null_, _false_, sVersion, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
@@ -49,7 +110,7 @@
      * Check if Hydra.js is loaded in Node.js environment
      * @type {Boolean}
      */
-    isNodeEnvironment = typeof exports === "object" && typeof module === "object" && typeof module.exports === "object" && typeof require === "function";
+    isNodeEnvironment = typeof exports === "object" &amp;&amp; typeof module === "object" &amp;&amp; typeof module.exports === "object" &amp;&amp; typeof require === "function";
     /**
      * Cache 'undefined' string to test typeof
      * @type {String}
@@ -178,7 +239,7 @@
         var oModule, oInstance;
         oModule = oModules[sModuleId];
 
-        if (bSingle && oWrapper.isModuleStarted(sModuleId, sIdInstance)) {
+        if (bSingle &amp;&amp; oWrapper.isModuleStarted(sModuleId, sIdInstance)) {
             oWrapper.stop(sModuleId, sIdInstance);
         }
         if (typeof oModule !== sNotDefined) {
@@ -255,7 +316,7 @@
             sEvent;
         if (typeof oChannel !== 'undefined') {
             for (sEvent in oChannel) {
-                if (ownProp(oChannel, sEvent) && sEvent === sEventName) {
+                if (ownProp(oChannel, sEvent) &amp;&amp; sEvent === sEventName) {
                     aSubscribers = oChannel[sEvent];
                 }
             }
@@ -355,7 +416,7 @@
                 nUnsubscribed = 0;
             if (typeof aSubscribers !== sNotDefined) {
                 nLenSubscribers = aSubscribers.length;
-                for (; nIndex < nLenSubscribers; nIndex++) {
+                for (; nIndex &lt; nLenSubscribers; nIndex++) {
                     if (aSubscribers[nIndex].subscriber === oSubscriber) {
                         nUnsubscribed++;
                         aSubscribers.splice(nIndex, 1);
@@ -410,7 +471,7 @@
                 }
             }
 
-            return nUnsubscribed > 0;
+            return nUnsubscribed &gt; 0;
         },
         /**
          * Method to execute all the callbacks but without blocking the user interface.
@@ -432,8 +493,8 @@
                         ErrorHandler.log(sChannelId, sEvent, oHandlerObject);
                     }
                 }
-                while (aSubs.length > 0 && ( +new Date() - nStart < 50 ));
-                if (aSubs.length > 0) {
+                while (aSubs.length &gt; 0 &amp;&amp; ( +new Date() - nStart &lt; 50 ));
+                if (aSubs.length &gt; 0) {
                     setTimeout(recall, 25);
                 }
             }, 25);
@@ -511,7 +572,7 @@
         oInstance = addPropertiesAndMethodsToModule(sModuleId, Bus);
         if (!bDebug) {
             for (sName in oInstance) {
-                if (ownProp(oInstance, sName) && isFunction(oInstance[sName])) {
+                if (ownProp(oInstance, sName) &amp;&amp; isFunction(oInstance[sName])) {
                     wrapMethod(oInstance, sName, sModuleId, oInstance[sName]);
                 }
             }
@@ -600,7 +661,7 @@
             var sKey;
             for (sKey in oModuleExtended) {
                 if (ownProp(oModuleExtended, sKey)) {
-                    if (typeof oFinalModule.__super__ !== sNotDefined && isFunction(oFinalModule[sKey])) {
+                    if (typeof oFinalModule.__super__ !== sNotDefined &amp;&amp; isFunction(oFinalModule[sKey])) {
                         oFinalModule.__super__[sKey] = (this._callInSuper(oFinalModule[sKey]));
                     }
                     oFinalModule[sKey] = oModuleExtended[sKey];
@@ -732,11 +793,11 @@
             if (isArray(bSingle)) {
                 aSingle = bSingle.slice(0);
             }
-            for (nIndex = 0, nLenModules = aModulesIds.length; nIndex < nLenModules; nIndex++) {
+            for (nIndex = 0, nLenModules = aModulesIds.length; nIndex &lt; nLenModules; nIndex++) {
                 sModuleId = aModulesIds[nIndex];
-                sIdInstance = aInstancesIds && aInstancesIds[nIndex] || generateUniqueKey();
-                oData = aData && aData[nIndex] || oData;
-                bSingle = aSingle && aSingle[nIndex] || bSingle;
+                sIdInstance = aInstancesIds &amp;&amp; aInstancesIds[nIndex] || generateUniqueKey();
+                oData = aData &amp;&amp; aData[nIndex] || oData;
+                bSingle = aSingle &amp;&amp; aSingle[nIndex] || bSingle;
                 startSingleModule(this, sModuleId, sIdInstance, oData, bSingle);
             }
         },
@@ -784,9 +845,9 @@
         isModuleStarted:function (sModuleId, sInstanceId) {
             var bStarted = false;
             if (typeof sInstanceId === sNotDefined) {
-                bStarted = ( typeof oModules[sModuleId] !== sNotDefined && getObjectLength(oModules[sModuleId].instances) > 0 );
+                bStarted = ( typeof oModules[sModuleId] !== sNotDefined &amp;&amp; getObjectLength(oModules[sModuleId].instances) &gt; 0 );
             } else {
-                bStarted = ( typeof oModules[sModuleId] !== sNotDefined && typeof oModules[sModuleId].instances[sInstanceId] !== sNotDefined );
+                bStarted = ( typeof oModules[sModuleId] !== sNotDefined &amp;&amp; typeof oModules[sModuleId].instances[sInstanceId] !== sNotDefined );
             }
             return bStarted;
         },
@@ -817,7 +878,7 @@
             for (sKey in oInstances) {
                 if (ownProp(oInstances, sKey)) {
                     oInstance = oInstances[sKey];
-                    if (typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined) {
+                    if (typeof oModule !== sNotDefined &amp;&amp; typeof oInstance !== sNotDefined) {
                         oInstance.destroy();
                     }
                 }
@@ -832,7 +893,7 @@
          */
         _singleModuleStop:function (oModule, sModuleId, sInstanceId) {
             var oInstance = oModule.instances[sInstanceId];
-            if (typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined) {
+            if (typeof oModule !== sNotDefined &amp;&amp; typeof oInstance !== sNotDefined) {
                 oInstance.destroy();
             }
         },
@@ -878,7 +939,7 @@
         stopAll:function () {
             var sModuleId;
             for (sModuleId in oModules) {
-                if (ownProp(oModules, sModuleId) && typeof oModules[sModuleId] !== sNotDefined) {
+                if (ownProp(oModules, sModuleId) &amp;&amp; typeof oModules[sModuleId] !== sNotDefined) {
                     this._stopOneByOne(oModules[sModuleId].instances, sModuleId);
                 }
             }
@@ -1038,3 +1099,22 @@
         });
     }
 }.call(this));
+			</pre>
+		</div>
+	</div>
+	
+<!-- ============================== footer ================================= -->
+	<footer class="footer">
+		<p>&copy;2012</p>
+		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Sat Jan 26 2013 22:01:14 GMT+0100 (CET)</p>
+	</footer>
+</div>
+<script type="text/javascript">
+	prettyPrint();
+	var i = 1;
+	$('#source-code li').each(function() {
+		$(this).attr({ id: 'line' + (i++) });
+	});
+</script>
+</body>
+</html>

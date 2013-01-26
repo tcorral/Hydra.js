@@ -41,7 +41,7 @@
 		<div id="download_hydra_about">
 			<ul>
 				<li>
-					<input type="radio" value="development" checked="true" data-url="https://raw.github.com/tcorral/Hydra.js/master/versions/hydra.js" name="download"/>
+					<input type="radio" value="development" checked="true" data-url="https://raw.github.com/tcorral/Hydra.js/master/versions/Hydra.js" name="download"/>
 					<label><%= home.download_options.development%></label>
 				</li>
 				<li>
@@ -53,7 +53,7 @@
 				<img src="images/download_button_about.png" width="273" height="36"/>
 			</a>
 			<div id='current_release'>
-				<span class='title'>Current release:</span><span class='version'>v. 3.0.1</span>
+				<span class='title'>Current release:</span><span class='version'>v. 3.1.0</span>
 			</div>
 		</div>
 	</div>

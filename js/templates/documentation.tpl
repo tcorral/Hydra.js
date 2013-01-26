@@ -12,7 +12,7 @@
 		</li>
 		<li id="doc_top_quickstart">
 			<a href="#quickstart">
-				Quickstart
+				Quick start
 			</a>
 		</li>
 		<li id="doc_top_apis">
@@ -30,8 +30,8 @@
 				Expert
 			</a>
 		</li>
-		<li>
-			<a target="_blank" href="examples/index.html">
+		<li id="doc_top_examples">
+			<a href="#examples">
 				Examples
 			</a>
 		</li>

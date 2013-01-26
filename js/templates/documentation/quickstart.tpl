@@ -6,12 +6,12 @@
         <ul>
             <li>
                 <a href="#quickstart">
-                    Quickstart
+                    Quick start
                 </a>
             </li>
             <li>
                 <a href="#whatshydra">
-                    What's Hydra.js?
+                    What's Hydra?
                 </a>
             </li>
             <li>
@@ -75,16 +75,16 @@
 <div id="doc_content">
 <div>
     <h2 id="quickstart">
-        Quickstart
+        Quick start
     </h2>
 
     <div>
         <h3 id="whatshydra">
-            What's Hydra.js?
+            What's Hydra?
         </h3>
 
         <p>
-            Hydra.js is a module oriented and event driven architecture.
+            Hydra is a module oriented and event driven architecture.
         </p>
 
         <p>
@@ -94,7 +94,7 @@
                 Avoid rewriting my Javascript code each time I changed the base framework.
             </li>
             <li>
-                Avoid to broke my apps by the most little error.
+                Avoid breaking my apps by the most little error.
             </li>
             <li>
                 Wait to start working on some feature because dependencies with other fellow work.
@@ -103,11 +103,11 @@
         <h4>Solved</h4>
         <ul id="solutions">
             <li>
-                Decouple the base framework from my code using an adapter where I'll use the same code independently of
+                Decouple the base framework for my code using an adapter where I'll use the same code independently of
                 what base framework I'm using.
             </li>
             <li>
-                When deploying my apps to production environment all the errors are catched to avoid broke anything.
+                When deploying my apps to production environment all the errors are caught to avoid broke anything.
             </li>
             <li>
                 All the logic of my apps is inside modules that can communicate with other modules through events.
@@ -117,23 +117,23 @@
     <p>
         Hydra.js is based in one presentation from Nicholas Zakas <a
             href="http://www.slideshare.net/nzakas/scalable-javascript-application-architecture"><strong>'Scalable
-        Javascript Application Architecture'</strong></a> where he explains how to create an architecture to make your
+        Javascript Application Architecture'</strong></a> where he explains how to create architecture to make your
         application more robust and less prone to fail.
     </p>
 
     <p>
-        Hydra.js architecture can be divided in two different parts.
+        Hydra architecture can be divided into two different parts.
     </p>
     <ul id="arch_parts">
         <li>
-            <strong>Manager:</strong><span>Manage the modules that are registered in your application.</span>
+            <strong>Manager: </strong><span>Manage the modules that are registered in your application.</span>
         </li>
         <li>
-            <strong>Mediator:</strong><span>Manage the communication between modules when events are launched.</span>
+            <strong>Mediator: </strong><span>Manage the communication between modules when events are launched.</span>
         </li>
     </ul>
     <p>
-        Hydra.js architecture is framework agnostic, this means that is not relevant what type of base framework you're
+        Hydra architecture is framework agnostic, this means that is not relevant what type of base framework you're
         using in your application.
     </p>
 
@@ -147,8 +147,8 @@
     <h3 id="meaningmodulararquitecture">That we mean when we talk about modular architecture?</h3>
 
     <p>
-        A modular architecture is an architecture where all the code is written in modules and this have some big
-        improvements when developing any app.
+        A modular architecture is an architecture where all the code is written in modules and this has some big
+        improvements when developing an app.
     </p>
     <h4>What is a module?</h4>
 
@@ -168,14 +168,14 @@
         </li>
     </ul>
     <div class="tip">
-        Tip: To get the most of Hydra.js remember to use an abstraction adapter for your base framework.
+        Tip: To get the most of Hydra keep in mind to use an abstraction adapter for your base framework.
     </div>
 </div>
 <div>
-    <h3 id="howtoinstall">How to install Hydra.js?</h3>
+    <h3 id="howtoinstall">How to install Hydra?</h3>
 
     <p>
-        To install Hydra.js in your app you must download the version you need or use our hosted <a
+        To install Hydra in your app you must download the version you need or use our hosted <a
             href="https://raw.github.com/tcorral/Hydra.js/master/src/Hydra.js">version</a> and import it using this code
         snippet...
     </p>
@@ -188,8 +188,8 @@
     <h3 id="installadapter">How to install an adapter extension for your base framework?</h3>
 
     <p>
-        If you want to get the most of Hydra.js you must add an adapter for your base framework. An adapter is and must
-        be divided in:
+        If you want to get the most of Hydra you must add an adapter for your base framework. An adapter is and must be
+        divided into:
     </p>
     <ul>
         <li>
@@ -203,7 +203,7 @@
         </li>
     </ul>
     <div class="tip">
-        Tip: Hydra.js has adapters for jQuery and Prototype.js. See <a href="#extensions">extensions section</a>.
+        Tip: Hydra has adapters for jQuery and Prototype. See <a href="#extensions">extensions section</a>.
     </div>
     <p>
         This is the public API that you could use with adapters:
@@ -248,13 +248,13 @@
             Hydra.<strong>ajax</strong>
             <ul>
                 <li>
-                    <strong>call</strong> - Makes an ajax call totally configurable.
+                    <strong>call</strong> - Makes an Ajax call totally configurable.
                 </li>
                 <li>
-                    <strong>getJSON</strong> - Makes an ajax call that expects to retrieve a JSON object.
+                    <strong>getJSON</strong> - Makes an Ajax call that expects to retrieve a JSON object.
                 </li>
                 <li>
-                    <strong>getScript</strong> - Makes a call to get a script and to evaluate it in the page.
+                    <strong>getScript</strong> - Makes an Ajax call to get a script and evaluate it in the page.
                 </li>
                 <li>
                     <strong>jsonP</strong> - Makes a JSONP call to a different domain server.
@@ -263,7 +263,7 @@
         </li>
     </ul>
     <div>
-        Example of using all the adapters for jQuery:
+        An example of using all the adapters for jQuery:
     </div>
     <div>
 	<pre><code class="language-javascript">&lt;script type=&quot;text/javascript&quot; src=&quot;path/to/jQuery/src/DOM.js&quot;&gt;&lt;/script&gt;
@@ -275,8 +275,9 @@
     <h3 id="createadapter">I can't find an adapter for my base framework.</h3>
 
     <p>
-        If you don't found an adapter for your base framework in <a href="#extensions">extensions section</a> feel free
-        to write your own and make a pull request, to add it to the extensions repository, to be used for the community.
+        If you don't find an adapter for your base framework in the <a href="#extensions">extensions section</a> feel
+        free to write your own and make a pull request, to add it to the extensions repository, to be used for the
+        community.
         <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/jQuery/src">Example</a>
     </p>
 
@@ -323,13 +324,13 @@
             Hydra.<strong>ajax</strong>
             <ul>
                 <li>
-                    <strong>call</strong> - Must make an ajax call totally configurable.
+                    <strong>call</strong> - Must make an Ajax  call totally configurable.
                 </li>
                 <li>
-                    <strong>getJSON</strong> - Must make an ajax call that expects to retrieve a JSON object.
+                    <strong>getJSON</strong> - Must make an Ajax  call that expects to retrieve a JSON object.
                 </li>
                 <li>
-                    <strong>getScript</strong> - Must make a call to get a script and to evaluate it in the page.
+                    <strong>getScript</strong> - Must make an Ajax call to get a script and to evaluate it in the page.
                 </li>
                 <li>
                     <strong>jsonP</strong> - Must make a JSONP call to a different domain server.
@@ -339,26 +340,28 @@
     </ul>
 </div>
 <div>
-    <h3 id="changebaseframework">How to change of base framework without change my code.</h3>
+    <h3 id="changebaseframework">How to change the base framework without change my code.</h3>
 
     <p>
-        If you need to change your base framework during your development process to could change it without pain if you
-        read the last sections where you can see how base frameworks Hydra.js adapters could help you and what modules
-        you can use in your modules code.
+        If you need to change your base framework during your development process to could change it without pain if
+        you read the last sections where you can see how base frameworks Hydra adapters could help you and what modules
+        you can use in your module code.
     </p>
 </div>
 <div>
     <h3 id="modules">Modules</h3>
 
-    <p>Hydra.js is a module oriented and event driven architecture. This section talks about the modules and how them
-        works.</p>
+    <p>
+        Hydra is a module oriented and event driven architecture. This section talks about the modules and how they
+        work.
+    </p>
 
     <p>
         A module could be of two different types:
     </p>
     <ul>
         <li>
-            Logic: Used to manage flow controls or that doesn't needs to be tied to the Browser
+            Logic: Used to manage flow controls or that doesn't need to be tied to the Browser.
         </li>
         <li>
             Visual: Used in web applications and that hijack some parts of the web page.
@@ -366,14 +369,14 @@
     </ul>
 </div>
 <div>
-    <h4 id="createmodule">How to create a module.</h4>
+    <h4 id="createmodule">How create a module.</h4>
 
-    <p class="h4">Hydra.js modules use the <a
+    <p class="h4">Hydra modules use the <a
             href="http://blog.alexanderdickson.com/javascript-revealing-module-pattern">module revealing</a> pattern.
     </p>
 
     <p class="h4">
-        Sample of module with the minimum required:
+        A sample of the module with the minimum required:
     </p>
 
     <div>
@@ -390,7 +393,7 @@
     <h4 id="registermodule">Register a module.</h4>
 
     <p class="h4">
-        To add a module to the manager in Hydra.js you need to register it.
+        To add a module to the manager in Hydra you need to register it.
     </p>
 
     <p class="h4">
@@ -411,33 +414,35 @@
     <h4 id="communicatemodules">How to use events to communicate between modules.</h4>
 
     <p class="h4">
-        All the modules know about it's existence but not about the existence of other modules. This section explains
-        how to use events to allow communication between modules using events that will be managed by Hydra.js Mediator.
+        All the modules know about its existence but not about the existence of other modules. This section explains
+        how to use events to allow communication between modules using events that will be managed by Hydra Mediator.
     </p>
     <h5>Subscribing to one channel:</h5>
 
     <p class="h5">
         To be able to subscribe to one channel even if it's the 'global' channel, you need a property object called
-        oEventsCallbacks, the keys of this object must match with the name of the event we want to listen, the values
+        events, the keys of this object must match with the name of the event we want to listen, the values
         must be the callbacks to be executed when the event is triggered.
     </p>
 
     <div class="tip">
-        Tip: The context object <em>(this)</em> of events callback will be the module/object itself.
+        Tip: The context object <em>(this)</em> of event callback will be the module/object itself.
     </div>
     <div>
 	<pre><code class="language-javascript">Hydra.module.register( 'my-first-module', function( bus ){
     return {
-        oEventsCallbacks: {
-            'user-clicks-button': function ( oNotify ) {
-                this._logClick( oNotify.sButtonType );
+        events: {
+            'channel_name': {
+                'user-clicks-button': function ( oNotify ) {
+                    this._logClick( oNotify.sButtonType );
+                }
             }
         },
         _logClick: function( sButtonType ) {
             console.log("User clicked a ' + sButtonType + ' button");
         },
         init: function() {
-            bus.subscribe( 'channel_name', this );
+            // The subscribe is done by Hydra.js when the module is started.
             // Code that will be executed when this module is started.
         }
     };
@@ -446,13 +451,13 @@
     <h5>Publishing an event in one channel:</h5>
 
     <p class="h5">
-        When a module needs to communicate with other modules, it must use events to publish actions in the modules that
-        are subscribed to the channel and the called event.
+        When a module needs to communicate with other modules, it must use events to publish actions in the modules
+        that are subscribed to the channel and the called event.
     </p>
 
     <p class="h5">
-        If you want to publish an event you need to know in which channel and what event you want to publish it and what
-        event using bus that is the Mediator object that manage the communication between modules.
+        If you want to publish an event you need to know in which channel and what event you want to publish it and
+        what event using “Bus” that is the Mediator object that manage the communication between modules.
     </p>
 
     <div>
@@ -477,7 +482,8 @@
     <h5>Unregistering from one channel:</h5>
 
     <p class="h5">
-        When you want to stop responding to messages launched from one channel you need to unregister your module from it.
+        When you want to stop responding to messages launched from one channel you need to unregister your module
+        from it.
     </p>
 
     <div>
@@ -508,8 +514,8 @@
 
     <p>
         Now that you know how to create and register a module to the system, now you will learn how to start it. <br>
-        Hydra.js is a multi-instance module system this is the reason because you will need to add a single identifier
-        for the instance of the module to be started.
+        Hydra is a multi-instance module system this is the reason because you will need to add a single identifier for
+        the instance of the module to be started.
     </p>
 
     <div>
@@ -524,10 +530,10 @@
             because a little error.
         </li>
         <li>
-            Creates an instance of the module.
+            Create an instance of the module.
         </li>
         <li>
-            Executes the init method inside of module.
+            Execute the “init” method inside of the module.
         </li>
     </ol>
     <div>
@@ -537,14 +543,14 @@
         <pre><code class="language-javascript">Hydra.module.start('my-first-module', 'my-instance');</code></pre>
     </div>
     <div class="tip">
-        Tip: Start method accept params if you pass anything as third parameter, this will be passed arguments in the
-        init method
+        Tip: Start method accepts the parameters if you pass anything as third parameter, this will be passed arguments
+        in the “init” method
     </div>
     <div>
-        <strong>Sample of simple start module with params:</strong>
+        <strong>Sample of simple start module with parameters:</strong>
     </div>
     <div>
-        Sample of Module with init that needs params.
+        Sample of Module with “init” method with parameters.
     </div>
     <div>
 	<pre><code class="language-javascript">Hydra.module.register( 'my-first-module', function( bus ) {
@@ -567,7 +573,7 @@ Hydra.module.start( 'my-first-module', 'my-instance', { hello: 'hello world!' } 
     </p>
 
     <div class="tip">
-        Tip: If you something more that just remove listeners you can use the 'onDestroy' method where you could remove
+        Tip: If you something more than just remove listeners you can use the 'onDestroy' method where you could remove
         some expensive resource as web workers or drivers to access NoSQL databases.
     </div>
     <div>

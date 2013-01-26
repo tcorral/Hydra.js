@@ -142,10 +142,13 @@ define(['backbone'], function(Backbone){
 			this.lastRoute = 'multimedia';
 		},
 		"examples": function () {
-			require(['views/examples'], function(examplesView)
+			require(['views/documentation', 'views/documentation/examples', 'views/documentationMenu'], function(documentationView, examplesView, docMenuView)
 			{
-				var oView = new examplesView();
-				oView.render();
+                var oDocView = new documentationView();
+                oDocView.render();
+                var oView = new examplesView({el: document.getElementById("documentation")});
+                oView.render();
+                var oDocMenu = new docMenuView();
 			});
 			this.lastRoute = 'examples';
 		}

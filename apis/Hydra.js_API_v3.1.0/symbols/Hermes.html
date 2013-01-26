@@ -1,0 +1,1212 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="JsDoc Toolkit" />
+	<title>JsDoc Reference - Hermes</title>
+
+	<link media="all" rel="stylesheet" href="../css/common.css" type="text/css" />
+	<link media="all" rel="stylesheet" href="../css/prettify.css" type="text/css" />
+	<link media="all" rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" />
+	<style type="text/css">
+		.icon-jsdoc {
+			background: url("../img/classicons.png") no-repeat;
+		}
+	</style>
+	<script src="../js/jquery-1.7.2.min.js" type="text/javascript"></script>
+	<script src="../js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="../js/prettify.js" type="text/javascript"></script>
+	<script src="../js/accordion.js" type="text/javascript"></script>
+</head>
+
+<body onload="prettyPrint()"><div class="container-fluid">
+<!-- ============================== header ================================= -->	
+	<!-- begin static/header.html -->
+	<header class="header navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="brand" href="#"><strong>JsDoc</strong> Reference</a>
+				<ul id="class-file-selector" class="nav">
+					<li><a href="../index.html">Class Index</a></li>
+					<li><a href="../files.html">File Index</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+	<div class="row-fluid">
+		<div id="index" class="span3">
+			<!-- begin publish.classesIndex -->
+			<div class="well" id="class-list">
+	<ul class="nav nav-list">
+		<li class="nav-header">Classes</li>
+		
+			<li><a href="../symbols/Appender.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Appender</span></span> <span class="pull-right label label-jsdoc label-jsdoc-private">Private</span> </a></li>
+		
+			<li><a href="../symbols/Hermes.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Hermes</span></span> <span class="pull-right label label-jsdoc label-jsdoc-private">Private</span> </a></li>
+		
+			<li><a href="../symbols/Layout.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Layout</span></span> <span class="pull-right label label-jsdoc label-jsdoc-private">Private</span> </a></li>
+		
+			<li><a href="../symbols/Level.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Level</span></span> <span class="pull-right label label-jsdoc label-jsdoc-private">Private</span> </a></li>
+		
+			<li><a href="../symbols/Message.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-class"></i><span class="jsdoc-class-index">Message</span></span> <span class="pull-right label label-jsdoc label-jsdoc-private">Private</span> </a></li>
+		
+			<li><a href="../symbols/_global_.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">_global_</span></span></a></li>
+		
+			<li><a href="../symbols/oHermes.html"><span class="indent" style="padding-left:0px;"><i class="icon-jsdoc icon-jsdoc-namespace"></i><span class="jsdoc-class-index">oHermes</span></span></a></li>
+		
+	</ul>
+</div>
+
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content" class="span9">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				<img src="../img/class.png" alt="Class " class="jsdoc-large-icon" />Hermes
+				
+				
+				
+				<span class="label label-jsdoc label-jsdoc-private">Private</span>
+				
+				
+			</h1>
+			
+			
+			<div class="jsdoc-hierarchy-nav">
+				<ul class="breadcrumb">
+					
+						<li class="jsdoc-hierarchy-caption">Inheritance</li>
+							
+						<li class="active">Hermes</li>
+					
+				</ul>
+			</div>
+
+<!-- ============================== constructor summary ==================== -->
+			
+				<h3>Constructor</h3>
+				<div class="jsdoc-members">
+					<div class="jsdoc-member accordion-button">
+						<div class="jsdoc-member-definition">
+							<b><a id="Hermes" href="../symbols/Hermes.html">Hermes</a></b>
+							( <span class="jsdoc-typedesc"><a href="../symbols/Level.html">Level</a></span> oLevel, <span class="jsdoc-typedesc">Number</span> nImmediate, <span class="jsdoc-typedesc">Number</span> nTimeout )
+							
+							
+							
+							<span class="label label-jsdoc label-jsdoc-private">Private</span> 
+							
+							
+							
+						</div>
+						<div class="jsdoc-member-description">
+							<div class="jsdoc-member-content">
+								<div class="jsdoc-member-summary">
+									Hermes is the class that manages Appender, Messages, Deferred calls and Levels of Messages to show
+We can add Message but if the Message is not of the same level the message will not be showed.
+If the Hermes Message Level is ALL all the logs will be added
+If the Hermes Message Level is OFF no log will be added
+The add of logs can be deferred to avoid multiple calls that block browser
+									<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+								</div>
+								
+								
+								
+								
+								
+								
+								
+									<div class="jsdoc-member-detail accordion-content">
+										
+											<b>Parameters</b>
+											<dl>
+												
+													<dt>oLevel : <span class="jsdoc-typedesc"><a href="../symbols/Level.html">Level</a></span></dt>
+													<dd>No description.</dd>
+												
+													<dt>nImmediate : <span class="jsdoc-typedesc">Number</span></dt>
+													<dd>No description.</dd>
+												
+													<dt>nTimeout : <span class="jsdoc-typedesc">Number</span></dt>
+													<dd>No description.</dd>
+												
+											</dl>
+										
+										
+									</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			
+
+<!-- ============================== instance members summary ===================== -->
+			
+			
+				<h3>Instance members</h3>
+				
+					<h4>Instance Methods<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="addAppender" href="../symbols/Hermes.html#addAppender">addAppender</a></b>
+										<span class="signature">( <span class="jsdoc-typedesc">unknown</span> oAppender )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											addAppender add a new Appender to Hermes. When the Appender is added starts to log messages
+Before add a new Appender it's checked if oAppender is instance of Appender to be added or not.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>oAppender : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>Hermes instance</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="addMessage" href="../symbols/Hermes.html#addMessage">addMessage</a></b>
+										<span class="signature">( <span class="jsdoc-typedesc">unknown</span> oMessage )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											addMessage check if oMessage is instance of Message and if it's the error is added and the notifyAppender is called
+notifyAppender is executed to defer or log the message.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>oMessage : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>Hermes instance</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="clear" href="../symbols/Hermes.html#clear">clear</a></b>
+										<span class="signature">(  )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											clear is the method that will clear messages
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="deferLog" href="../symbols/Hermes.html#deferLog">deferLog</a></b>
+										<span class="signature">(  )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											deferLog change the method to append logs to be deferred
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>Hermes instance</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="forceLog" href="../symbols/Hermes.html#forceLog">forceLog</a></b>
+										<span class="signature">(  )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											forceLog will log messages even if the method of log is Deferred.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>Hermes instance</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="immediateLog" href="../symbols/Hermes.html#immediateLog">immediateLog</a></b>
+										<span class="signature">(  )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											immediateLog change the method to append logs to be immediate
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>Hermes instance</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="isImmediate" href="../symbols/Hermes.html#isImmediate">isImmediate</a></b>
+										<span class="signature">( <span class="jsdoc-typedesc">unknown</span> oMessage )</span>
+										 : <span class="jsdoc-typedesc">Boolean</span>
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											isImmediate checks if nImmediate is equals to Hermes.IMMEDIATE
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>oMessage : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">Boolean</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="isSameLevel" href="../symbols/Hermes.html#isSameLevel">isSameLevel</a></b>
+										<span class="signature">( <span class="jsdoc-typedesc">unknown</span> oMessage )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											isSameLevel checks if the Message Level is the same that in oMessage
+The method returns true if Level is ALL to allow log all the logs
+The method returns false if Level is OFF to avoid log any log
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>oMessage : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">Boolean</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="isTimeToSend" href="../symbols/Hermes.html#isTimeToSend">isTimeToSend</a></b>
+										<span class="signature">(  )</span>
+										 : <span class="jsdoc-typedesc">Boolean</span>
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											isTimeToSend checks if now is time to sent new logs to the appender
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">Boolean</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="log" href="../symbols/Hermes.html#log">log</a></b>
+										<span class="signature">( <span class="jsdoc-typedesc">unknown</span> oMessage )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											log is the method that will log messages
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>oMessage : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="nextTimeToSend" href="../symbols/Hermes.html#nextTimeToSend">nextTimeToSend</a></b>
+										<span class="signature">(  )</span>
+										 : <span class="jsdoc-typedesc">Number</span>
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											nextTimeToSend returns the time to know, if the method of log is Deferred, if it's possible to log messages.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">Number</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="notifyAppender" href="../symbols/Hermes.html#notifyAppender">notifyAppender</a></b>
+										<span class="signature">( <span class="jsdoc-typedesc">String</span> sAction, <span class="jsdoc-typedesc"><a href="../symbols/Message.html">Message</a></span> oMessage )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											notifyAppender send the message log for all the Appender if the execution is Deferred and is time to send new logs or if the execution is Immediate.
+after execute notifyAppender the message are reset to allow new messages to log.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>sAction : <span class="jsdoc-typedesc">String</span></dt>
+															<dd>No description.</dd>
+														
+															<dt>oMessage : <span class="jsdoc-typedesc"><a href="../symbols/Message.html">Message</a></span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>Hermes instance</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="now" href="../symbols/Hermes.html#now">now</a></b>
+										<span class="signature">(  )</span>
+										 : <span class="jsdoc-typedesc">Number</span>
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											now returns the number of milliseconds at the moment of the execution of this method
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">Number</span></dt>
+															<dd>Milliseconds</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="removeAppender" href="../symbols/Hermes.html#removeAppender">removeAppender</a></b>
+										<span class="signature">( <span class="jsdoc-typedesc">unknown</span> oAppender )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											removeAppender removes the Appender. When the Appender is removed stops to log messages
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>oAppender : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>Hermes instance</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="resetMessages" href="../symbols/Hermes.html#resetMessages">resetMessages</a></b>
+										<span class="signature">(  )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											resetMessages clean all the messages and errors in the aMessages Array
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="sendMessage" href="../symbols/Hermes.html#sendMessage">sendMessage</a></b>
+										<span class="signature">( <span class="jsdoc-typedesc">unknown</span> oAppender, <span class="jsdoc-typedesc">unknown</span> sAction )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											sendMessage executes the action in Appender for each Message.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>oAppender : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+															<dt>sAction : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="setAppenders" href="../symbols/Hermes.html#setAppenders">setAppenders</a></b>
+										<span class="signature">( <span class="jsdoc-typedesc">unknown</span> aAppenders )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											setAppender add an array of Appender to be added in one step.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>aAppenders : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>Hermes instance</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member accordion-button">
+								<div class="jsdoc-member-definition">
+									<div class="jsdoc-member-content">
+										<b><a id="setLevel" href="../symbols/Hermes.html#setLevel">setLevel</a></b>
+										<span class="signature">( <span class="jsdoc-typedesc">unknown</span> oLevel )</span>
+										
+										
+										
+										
+										<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+									</div>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											setLevel set a new Level for the Hermes
+Before change the level it's checked if oLevel is instance of Level to be assigned or not.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+											<div class="jsdoc-member-detail accordion-content">
+												
+													<b>Parameters</b>
+													<dl>
+														
+															<dt>oLevel : <span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>No description.</dd>
+														
+													</dl>
+												
+												
+													<b>Returns</b>
+													<dl>
+														
+															<dt><span class="jsdoc-typedesc">unknown</span></dt>
+															<dd>Hermes instance</dd>
+														
+													</dl>
+												
+											</div>
+										
+									</div>
+								</div>
+							</div>
+						
+					</div>
+				
+				
+					<h4>Instance Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="aMessages" href="../symbols/Hermes.html#aMessages">aMessages</a></b>
+									
+									
+									
+									
+									
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											aMessages is the array that will contain the Messages
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="nImmediate" href="../symbols/Hermes.html#nImmediate">nImmediate</a></b>
+									
+									
+									
+									
+									
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											nImmediate is the config number to defer or not the append of logs
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="nTimeLastSent" href="../symbols/Hermes.html#nTimeLastSent">nTimeLastSent</a></b>
+									
+									
+									
+									
+									
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											nTimeLastSent is the number of milliseconds of the last sent
+now date by default
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="nTimeout" href="../symbols/Hermes.html#nTimeout">nTimeout</a></b>
+									
+									
+									
+									
+									
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											nTimeout is the number of milliseconds to defer the append of logs
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="oAppenders" href="../symbols/Hermes.html#oAppenders">oAppenders</a></b>
+									
+									
+									
+									
+									
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											oAppender is the object that will contain the Appender to append messages
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="oLevel" href="../symbols/Hermes.html#oLevel">oLevel</a></b>
+									
+									
+									
+									
+									
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											oLevel is the Level instance to manage the Message Level to show.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+					</div>
+				
+			
+
+<!-- ============================== static members summary ======================== -->
+			
+			
+				<h3>Static members</h3>
+				
+				
+				
+				
+					<h4>Static Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="DEFERRED" href="../symbols/Hermes.html#.DEFERRED">DEFERRED</a></b>
+									
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											No description.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+							<div class="jsdoc-member">
+								<div class="jsdoc-member-definition">
+									<b><a id="IMMEDIATE" href="../symbols/Hermes.html#.IMMEDIATE">IMMEDIATE</a></b>
+									
+									
+									
+									
+									
+									<span class="label label-jsdoc label-jsdoc-static">Static</span>
+									<span class="jsdoc-inherits-from pull-right"><a href="../symbols/Hermes.html">Hermes</a></span>
+								</div>
+								<div class="jsdoc-member-description">
+									<div class="jsdoc-member-content">
+										<div class="jsdoc-member-summary">
+											No description.
+											<span class="pull-right"><a href="../symbols/src/D__Repositorios_Github_Hermes.js_src_Hermes.js.html">code »</a></span>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						
+					</div>
+				
+			
+
+<!-- ============================== footer ================================= -->
+	<footer class="footer">
+		<p>&copy;2012</p>
+		<p>Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Nov 12 2012 02:11:44 GMT+0100 (CET)</p>
+	</footer>
+</div></body>
+</html>

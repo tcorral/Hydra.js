@@ -27,7 +27,7 @@
                 <h3>Spanish</h3>
 				<ul>
 					<li>
-						<div>Talk in WeLoveJS 29/09/2012</div>
+						<div>WeLoveJS Hydra's presentation slides 29/09/2012</div>
                         <iframe src="http://www.slideshare.net/slideshow/embed_code/14512817" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="http://www.slideshare.net/amischol/hydrajs-modula-tu-cdigo" title="Hydra.js modula tu código" target="_blank">Hydra.js modula tu código</a> </strong> from <strong><a href="http://www.slideshare.net/amischol" target="_blank">Tomas Corral Casas</a></strong> </div>
 					</li>
 				</ul>
@@ -51,7 +51,7 @@
 				<h3>Spanish</h3>
 				<ul>
 					<li>
-						Talk in WeLoveJS 29/09/2012
+						WeLoveJS Hydra's presentation video 29/09/2012
 						<div>
 							<iframe width="480" height="302" src="http://www.ustream.tv/embed/recorded/25786352" scrolling="no" frameborder="0" style="border: 0px none transparent;">    </iframe>
 						</div>
@@ -59,13 +59,5 @@
 				</ul>
 			</li>
 		</ul>
-       <!-- <ul>
-            <li>
-                <h3>English</h3>
-                <ul>
-                    <li></li>
-                </ul>
-            </li>
-        </ul>-->
 	</div>
 </div>

@@ -10,6 +10,11 @@
 				</a>
 			</li>
             <li>
+                <a href="#version_3_1_0">
+                    version 3.1.0
+                </a>
+            </li>
+            <li>
                 <a href="#version_3_0_0">
                     version 3.0.0
                 </a>
@@ -47,6 +52,20 @@
 				</tr>
 				</thead>
 				<tbody>
+                <tr id="version_3_1_0">
+                    <td>
+                        Version 3.1.0
+                    </td>
+                    <td>
+                        <a href="apis/Hydra.js_API_v3.1.0/index.html">Browse online</a>
+                    </td>
+                    <td class="tar">
+                        <a href="downloads/apis/Hydra.js_API_v3.1.0.tar.gz">tar.gz</a>
+                    </td>
+                    <td class="zip">
+                        <a href="downloads/apis/Hydra.js_API_v3.1.0.zip">zip</a>
+                    </td>
+                </tr>
                 <tr id="version_3_0_0">
                     <td>
                         Version 3.0.0
