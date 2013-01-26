@@ -286,6 +286,10 @@
          * @private
          */
         _getChannelEvents:function (sChannelId, sEvent) {
+            if(typeof oChannels[sChannelId] === 'undefined')
+            {
+                oChannels[sChannelId] = {};
+            }
             if (typeof oChannels[sChannelId][sEvent] === 'undefined') {
                 oChannels[sChannelId][sEvent] = [];
             }
@@ -307,6 +311,26 @@
             }
         },
         /**
+         * Method to unsubscribe a subscriber from a channel and event type.
+         * @param sChannelId
+         * @param sEventType
+         * @param oSubscriber
+         */
+        unsubscribeFrom:function (sChannelId, sEventType, oSubscriber) {
+            var aChannelEvents = this._getChannelEvents(sChannelId, sEventType),
+                oItem,
+                nEvent,
+                nLenEvents = aChannelEvents.length;
+
+            for (nEvent = 0; nEvent < nLenEvents; nEvent++) {
+                oItem = aChannelEvents[nEvent];
+                if(oItem.subscriber === oSubscriber)
+                {
+                    aChannelEvents.splice(nEvent, 1);
+                }
+            }
+        },
+        /**
          * Method to add a single callback in one channel an in one event.
          * @param sChannelId
          * @param sEventType
@@ -316,8 +340,8 @@
         subscribeTo:function (sChannelId, sEventType, fpHandler, oSubscriber) {
             var aChannelEvents = this._getChannelEvents(sChannelId, sEventType);
             aChannelEvents.push({
-                subscriber: oSubscriber,
-                handler: fpHandler
+                subscriber:oSubscriber,
+                handler:fpHandler
             });
         },
         /**

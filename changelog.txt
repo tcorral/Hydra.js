@@ -17,6 +17,11 @@ ChangeLog:
             }
         }
     The subscribing and unsubscribing of events is automatically done when init and destroying the module.
+    Added two new methods:
+        * subscribeTo
+            Method to subscribe a callback to a channel and event.
+        * unsubscribeFrom
+            Method to unsubscribe all the callbacks from one channel and event.
 3.0.2
 	Add a private method to handle the execution of callbacks to avoid blocking the user interface.
 3.0.1

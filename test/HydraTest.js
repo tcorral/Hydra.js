@@ -623,6 +623,47 @@
         }
     }));
 
+    oTestCase('HydraSubscribeToTest', sinon.testCase({
+        setUp:function () {
+            Hydra.bus.reset();
+        },
+        tearDown: function()
+        {
+            Hydra.bus.reset();
+        },
+        'test should check that subscribeTo adds a subscriber': function()
+        {
+            var oSubscriber = {};
+
+            assertEquals(0, Hydra.bus.subscribers('channel', 'item:action').length);
+
+            Hydra.bus.subscribeTo('channel', 'item:action', sinon.stub(), oSubscriber);
+
+            assertEquals(1, Hydra.bus.subscribers('channel', 'item:action').length);
+        }
+    }));
+
+    oTestCase('HydraUnsubscribeFromTest', sinon.testCase({
+        setUp: function()
+        {
+            Hydra.bus.reset();
+            this.oSubscriber = {};
+            Hydra.bus.subscribeTo('channel', 'item:action', sinon.stub(), this.oSubscriber);
+        },
+        tearDown: function()
+        {
+            delete this.oSubscriber;
+            Hydra.bus.reset();
+        },
+        'test should check that unsubscribeFrom removes a subscriber': function()
+        {
+            assertEquals(1, Hydra.bus.subscribers('channel', 'item:action').length);
+debugger;
+            Hydra.bus.unsubscribeFrom('channel', 'item:action', this.oSubscriber);
+
+            assertEquals(0, Hydra.bus.subscribers('channel', 'item:action').length);
+        }
+    }));
     oTestCase('HydraSubscribersTest', sinon.testCase({
         setUp:function () {
             Hydra.bus.reset();
@@ -693,7 +734,7 @@
             assertFalse(bResult);
             assertEquals(0, Hydra.bus.subscribers('channel', 'item:actionChannel').length);
 
-            Hydra.bus.unsubscribe( this.oBadSubscriber);
+            Hydra.bus.unsubscribe(this.oBadSubscriber);
         },
         'test should check that one subscriber has been added to channel and other to global if Suscriber has events':function () {
             var aChannelSubscribers = null,
@@ -721,15 +762,13 @@
             Hydra.bus.reset();
             this.oSubscriber = {
                 events:{
-                    global: {
-                        'item:actionGlobal': function()
-                        {
+                    global:{
+                        'item:actionGlobal':function () {
 
                         }
                     },
-                    channel: {
-                        'item:actionChannel': function()
-                        {
+                    channel:{
+                        'item:actionChannel':function () {
 
                         }
                     }
@@ -781,8 +820,8 @@
             Hydra.bus.reset();
             this.oSubscriber = {
                 events:{
-                    channel: {
-                        'item:action': sinon.stub()
+                    channel:{
+                        'item:action':sinon.stub()
                     }
                 }
             };
