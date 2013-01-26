@@ -5,6 +5,11 @@
         </div>
         <ul>
             <li>
+                <a href="#workshops">
+                    Workshop
+                </a>
+            </li>
+            <li>
                 <a href="#how_to_use">
                     Slides
                 </a>
@@ -18,6 +23,32 @@
     </nav>
 </aside>
 <div id="doc_content">
+    <div>
+        <h2 id="workshops">
+            Workshop
+        </h2>
+        <ul>
+            <li>
+                <h3>Hydra has a workshop in Github that can be downloaded by steps:</h3>
+                <ul>
+                    <li>
+                        <a href="https://github.com/tcorral/HydraWorkshopStudents/commits/master">Hydra.js workshop step by step</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/tcorral/HydraWorkshopStudents">Hydra.js workshop final</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!--<ul>
+            <li>
+                <h3>English</h3>
+                <ul>
+                    <li></li>
+                </ul>
+            </li>
+        </ul>-->
+    </div>
     <div>
 		<h2 id="slides">
 			Slides
