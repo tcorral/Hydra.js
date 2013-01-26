@@ -1,7 +1,7 @@
 # Hydra.js
 Hidra.js is a module manager oriented system.
 
-## Updated to version 3.0.2
+## Updated to version 3.1.0
 
 [Changelog](https://raw.github.com/tcorral/Hydra.js/master/changelog.txt)
 
@@ -31,7 +31,7 @@ Hydra.js use a decoupled architecture that:
 
 [Project Web](http://tcorral.github.com/Hydra.js)
 
-[API documentation](http://tcorral.github.com/Hydra.js/apis/Hydra.js_API_v3.0.0/index.html)
+[API documentation](http://tcorral.github.com/Hydra.js/apis/Hydra.js_API_v3.1.0/index.html)
 
 [Examples](http://tcorral.github.com/Hydra.js/examples/index.html) to see for yourself!
 
@@ -118,19 +118,16 @@ Create the new module using "extend":
 	Hydra.module.register( 'moduleId', function( bus )
 	{
 		return {
-			aListeningEvents: ['action1', 'action2'],
-			oEventsCallbacks: {
-				'event1': function( oNotify )
-				{
-						/* your code */
-				},
-				'event2': function( oNotify )
-				{
-						/* your code */
-				}
-			},
+			events : {
+                'channel: {
+                    'item:action1': function ( oData ) {}
+                }
+            },
 			init: function ( oData ) {
-				bus.subscribe( 'channel_name', this );
+
+				/* The subscribing of events is done by Hydra inside the core.
+				 * bus.subscribe( this );
+				 */
 			}
 		};
 	});
@@ -147,16 +144,15 @@ The publish method expect three params, but only the first two are mandatory, th
 	Hydra.module.register( 'moduleId', function( bus )
 	{
 		return {
-			aListeningEvents : ['action1', 'action2', 'action3'],
-			oEventsCallbacks : {
-				'action1': function ( oData ) {},
-				'action2': function ( oData ) {},
-				'action3': function ( oData ) {}
+			events : {
+			    'channel: {
+			        'item:action1': function ( oData ) {}
+			    }
 			},
 			init: function ( oData ) {
-					$( "#button" ).click( function(){
-						bus.publish( 'channel_name', 'event_name', {} );
-					});
+                $( "#button" ).click( function(){
+                    bus.publish( 'channel', 'item:action1', {} );
+                });
 			}
 		};
 	});
