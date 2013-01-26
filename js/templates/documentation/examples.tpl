@@ -58,7 +58,7 @@
             Register and initialize a module:
         </h2>
         <p>
-            <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/p7Vjz/3/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+            <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/p7Vjz/4/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
         </p>
     </div>
     <div>
@@ -66,7 +66,7 @@
             Register and initialize two modules:
         </h2>
         <p>
-            <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/Re8yx/1/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+            <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/Re8yx/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
         </p>
     </div>
     <div>
@@ -74,7 +74,7 @@
             Register, initialize and destroy two instances of the same module:
         </h2>
         <p>
-            <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/qc72h/4/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+            <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/qc72h/5/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
         </p>
     </div>
     <div>
@@ -82,7 +82,7 @@
             Extend a module:
         </h2>
         <p>
-        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/nN2W2/4/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/nN2W2/5/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
         </p>
     </div>
     <div>
@@ -90,7 +90,7 @@
             Register, initialize a module with a listener:
         </h2>
         <p>
-        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/Pxtwd/3/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/Pxtwd/4/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
         </p>
     </div>
     <div>
@@ -98,7 +98,7 @@
             Use modules to listen and notify events:
         </h2>
         <p>
-        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/GBTYK/8/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/GBTYK/9/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
         </p>
     </div>
     <div>
@@ -106,7 +106,7 @@
             Debug mode - Open the console:
         </h2>
         <p>
-        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/GBTYK/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/GBTYK/10/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
         </p>
     </div>
     <div>
@@ -114,7 +114,7 @@
             Promise and Deferred usage:
         </h2>
         <p>
-        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/BHqBL/4/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/BHqBL/5/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
         </p>
     </div>
     <div>
@@ -122,7 +122,7 @@
             When - sugar method to use Promise and Deferred:
         </h2>
         <p>
-        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/FC7xN/3/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+        <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/FC7xN/4/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
         </p>
     </div>
 </div>
