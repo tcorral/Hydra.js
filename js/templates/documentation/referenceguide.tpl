@@ -10,23 +10,28 @@
                 </a>
             </li>
             <li>
-                <a href="#action">
-                    Hydra.action
+                <a href="#bus">
+                    Hydra.bus
                 </a>
             </li>
             <li>
-                <a href="#listen">
-                    Hydra.action.listen
+                <a href="#subscribe">
+                    Hydra.bus.subscribe
                 </a>
             </li>
             <li>
-                <a href="#notify">
-                    Hydra.action.notify
+                <a href="#subscribeTo">
+                    Hydra.bus.subscribeTo
                 </a>
             </li>
             <li>
-                <a href="#listen">
-                    Hydra.action.stopListen
+                <a href="#publish">
+                    Hydra.bus.publish
+                </a>
+            </li>
+            <li>
+                <a href="#unsubscribe">
+                    Hydra.bus.unsubscribe
                 </a>
             </li>
             <li>
@@ -133,7 +138,7 @@
 </div>
 <div>
     <div>
-        <h3 id="action">Hydra.bus</h3>
+        <h3 id="bus">Hydra.bus</h3>
 
         <p>
             Is the Mediator object that manages the event handling system that allows to communicate modules with each
@@ -141,7 +146,7 @@
         </p>
     </div>
     <div>
-        <h4 id="listen">Hydra.bus.subscribe</h4>
+        <h4 id="subscribe">Hydra.bus.subscribe</h4>
 
         <p class="h4">
             The method to start listening events in one defined channel, this method is used internally when “init”
@@ -246,7 +251,7 @@ ProgressBar.prototype.update = function (nProgress) {
         </div>
     </div>
     <div>
-        <h4 id="notify">Hydra.bus.publish</h4>
+        <h4 id="publish">Hydra.bus.publish</h4>
 
         <p class="h4">
             Method to trigger an event. Events are used to communicate between modules.
@@ -283,7 +288,7 @@ ProgressBar.prototype.update = function (nProgress) {
         </div>
     </div>
     <div>
-        <h4>Hydra.bus.unsubscribe</h4>
+        <h4 id="unsubscribe">Hydra.bus.unsubscribe</h4>
 
         <p class="h4">
             Method to stop listening events in channels, this method should be used in onDestroy method and it will be
