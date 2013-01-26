@@ -285,20 +285,11 @@
          * @return {Object}
          * @private
          */
-        _getChannelEvents:function (aEventsParts, sChannelId, sEvent) {
-            var sChannel, sChan, sEventType;
-            sChan = aEventsParts[0];
-            if (sChan === 'global') {
-                sChannel = sChan;
-                sEventType = aEventsParts[1];
-            } else {
-                sChannel = sChannelId;
-                sEventType = sEvent;
+        _getChannelEvents:function (sChannelId, sEvent) {
+            if (typeof oChannels[sChannelId][sEvent] === 'undefined') {
+                oChannels[sChannelId][sEvent] = [];
             }
-            if (typeof oChannels[sChannel][sEventType] === 'undefined') {
-                oChannels[sChannel][sEventType] = [];
-            }
-            return oChannels[sChannel][sEventType];
+            return oChannels[sChannelId][sEvent];
         },
         /**
          * _addSubscribers add all the events of one channel from the subscriber
@@ -308,17 +299,26 @@
          * @private
          */
         _addSubscribers:function (oEventsCallbacks, sChannelId, oSubscriber) {
-            var sEvent, aEventsParts, aChannelEvents;
+            var sEvent;
             for (sEvent in oEventsCallbacks) {
                 if (ownProp(oEventsCallbacks, sEvent)) {
-                    aEventsParts = sEvent.split(':');
-                    aChannelEvents = this._getChannelEvents(aEventsParts, sChannelId, sEvent);
-                    aChannelEvents.push({
-                        subscriber:oSubscriber,
-                        handler:oEventsCallbacks[sEvent]
-                    });
+                    this.subscribeTo(sChannelId, sEvent, oEventsCallbacks[sEvent], oSubscriber);
                 }
             }
+        },
+        /**
+         * Method to add a single callback in one channel an in one event.
+         * @param sChannelId
+         * @param sEventType
+         * @param fpHandler
+         * @param oSubscriber
+         */
+        subscribeTo:function (sChannelId, sEventType, fpHandler, oSubscriber) {
+            var aChannelEvents = this._getChannelEvents(sChannelId, sEventType);
+            aChannelEvents.push({
+                subscriber: oSubscriber,
+                handler: fpHandler
+            });
         },
         /**
          * subscribe method gets the oEventsCallbacks object with all the handlers and add these handlers to the channel.
