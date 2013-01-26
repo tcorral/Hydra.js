@@ -35,6 +35,11 @@
                 </a>
             </li>
             <li>
+                <a href="#unsubscribeFrom">
+                    Hydra.bus.unsubscribeFrom
+                </a>
+            </li>
+            <li>
                 <a href="#errorHandler">
                     Hydra.errorHandler
                 </a>
@@ -312,6 +317,54 @@ ProgressBar.prototype.update = function (nProgress) {
             console.log("User clicked a ' + sButtonType + ' button");
         },
         init: function() {
+        }
+    };
+});</code></pre>
+        </div>
+    </div>
+
+    <div>
+        <h4 id="unsubscribeFrom">Hydra.bus.unsubscribeFrom</h4>
+
+        <p class="h4">
+            Method to stop listening all the callbacks in one event and callback.
+        </p>
+
+        <p class="h4">
+            This method requires three parameters:
+            <ol>
+                <li>
+                    Channel name {String}
+                </li>
+                <li>
+                    Event name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{String}
+                </li>
+                <li>
+                    Subscriber&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{Module or Class}
+                </li>
+            </ol>
+        </p>
+
+        <div class="h4">
+            Sample of usage:
+        </div>
+        <div>
+            <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
+    return {
+        sName: 'John Doe',
+        sayHi: function ()
+        {
+            alert( 'Hi!' + this.sName );
+        },
+        init: function () {
+            // You can subscribe to one channel and event to one callback inside a module or class.
+            // When the event 'item:action' is called in 'channel' channel an alert will be shown.
+            bus.subscribeTo( 'channel', 'item:action', this.sayHi, this );
+            document.getElementById('button').addEventListener( 'click', function() {
+                // When the button is clicked the listeners in 'channel' and 'item:action' of this
+                // module will stop listening.
+                bus.unsubscribeFrom( 'channel', 'item:action', this );
+            });
         }
     };
 });</code></pre>
