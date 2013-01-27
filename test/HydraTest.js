@@ -658,7 +658,7 @@
         'test should check that unsubscribeFrom removes a subscriber': function()
         {
             assertEquals(1, Hydra.bus.subscribers('channel', 'item:action').length);
-debugger;
+
             Hydra.bus.unsubscribeFrom('channel', 'item:action', this.oSubscriber);
 
             assertEquals(0, Hydra.bus.subscribers('channel', 'item:action').length);
