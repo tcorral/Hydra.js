@@ -643,7 +643,7 @@ div.mark {
     bottom: -2px;
     right: -2px
 }
-
+/*
 ul li{
     display: inline;
 }
@@ -679,4 +679,4 @@ a.opcion:hover{
     -ms-transition: background .3s ease 0s;
     transition: background .3s ease 0s;
     background-position: bottom left !important;
-}
+}*/
