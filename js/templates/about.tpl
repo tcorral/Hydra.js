@@ -52,9 +52,6 @@
 			<a href="https://raw.github.com/tcorral/Hydra.js/master/versions/hydra.js" class="blank">
 				<img src="images/download_button_about.png" width="273" height="36"/>
 			</a>
-			<!--<div id='current_release'>
-				<span class='title'>Current release:</span><span class='version'>v. 3.1.0</span>
-			</div>-->
 		</div>
 
         <div class="version_ribbon"></div>
