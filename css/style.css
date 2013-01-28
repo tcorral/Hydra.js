@@ -614,3 +614,12 @@ div.mark
 {
     line-height: 20px;
 }
+.version_ribbon
+{
+    background: transparent url(../images/version_ribbon.png) no-repeat;
+    width: 137px;
+    height: 139px;
+    position: relative;
+    top: -109px;
+    right: -312px;
+}
