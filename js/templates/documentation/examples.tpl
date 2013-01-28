@@ -74,7 +74,7 @@
             Register, initialize and destroy two instances of the same module:
         </h2>
         <p>
-            <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/qc72h/5/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+            <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/amischol/qc72h/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
         </p>
     </div>
     <div>
