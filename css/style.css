@@ -352,58 +352,6 @@ div.mark {
     font-weight: bold;
 }
 
-#downloads {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    list-style-type: none;
-    margin-top: 45px;
-}
-
-#downloads > li {
-    float: left;
-    width: 33.33%;
-    padding-top: 3px;
-    padding-bottom: 30px;
-}
-
-#downloads > li > a {
-    text-align: center;
-    display: block;
-    width: 175px;
-    height: 177px;
-    margin-left: 50px;
-    margin-bottom: 60px;
-}
-
-#downloads > li > a > img {
-    filter: alpha(opacity = 65);
-    -moz-opacity: 0.65;
-    opacity: 0.65;
-}
-
-#downloads img {
-    margin: 25px;
-    opacity: 0.8;
-    border: 10px solid #eee;
-    /*Transition*/
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    /*Reflection*/
-    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(.7, transparent), to(rgba(0, 0, 0, 0.1)));
-}
-
-#downloads img:hover {
-    opacity: 1;
-    /*Reflection*/
-    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(.7, transparent), to(rgba(0, 0, 0, 0.4)));
-    /*Glow*/
-    -webkit-box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
-    -moz-box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
-    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
-}
-
 #toc {
     width: 335px;
     font-size: 12px;
@@ -643,40 +591,65 @@ div.mark {
     bottom: -2px;
     right: -2px
 }
-/*
-ul li{
-    display: inline;
+
+#downloads
+{
+    list-style-type: none;
+    margin-top: 5px;
+    margin-left: 65px;
+    min-height: 425px;
 }
-ul li a{
+#downloads li {
+    float: left;
+    width: 33.33%;
+    padding-top: 3px;
+    padding-bottom: 30px;
+}
+
+#downloads li a {
     position: relative;
     display: block;
     float: left;
-    width: 19px;
-    height: 19px;
+    width: 200px;
+    height: 200px;
     margin-left: 1em;
 }
-ul li a span{
+
+#downloads li a span {
     position: absolute;
     right: -999em;
     font-size: 0;
 }
-#boton-twitter{
-    background: url(../img/ico_twitter.gif) no-repeat top left;
+
+#button-github {
+    background: url(../images/download_buttons/github.png) no-repeat top left;
 }
-#boton-picasa{
-    background: url(../img/ico_picasa.gif) no-repeat top left;
+
+#button-minimized {
+    background: url(../images/download_buttons/minimized.png) no-repeat top left;
 }
-#boton-google{
-    background: url(../img/ico_google.gif) no-repeat top left;
+
+#button-gzipped {
+    background: url(../images/download_buttons/min_gzipped.png) no-repeat top left;
 }
-#boton-skype{
-    background: url(../img/ico_skype.gif) no-repeat top left;
+
+#button-development {
+    background: url(../images/download_buttons/development.png) no-repeat top left;
 }
-a.opcion:hover{
+
+#button-tar {
+    background: url(../images/download_buttons/tar.png) no-repeat top left;
+}
+
+#button-zip {
+    background: url(../images/download_buttons/zip.png) no-repeat top left;
+}
+
+#downloads a.option:hover {
     -moz-transition: background .3s ease 0s;
     -webkit-transition: background .3s ease 0s;
     -o-transition: background .3s ease 0s;
     -ms-transition: background .3s ease 0s;
     transition: background .3s ease 0s;
     background-position: bottom left !important;
-}*/
+}
