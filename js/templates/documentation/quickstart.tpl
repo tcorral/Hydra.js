@@ -6,7 +6,7 @@
         <ul>
             <li>
                 <a href="#quickstart">
-                    Quick start
+                    Quickstart
                 </a>
             </li>
             <li>
@@ -75,12 +75,12 @@
 <div id="doc_content">
 <div>
     <h2 id="quickstart">
-        Quick start
+        Quickstart
     </h2>
 
     <div>
         <h3 id="whatshydra">
-            What's Hydra?
+            What is Hydra?
         </h3>
 
         <p>
@@ -88,29 +88,28 @@
         </p>
 
         <p>
-        <h4>Motivations</h4>
+        <h4>What are the motivations behind Hydra.js?</h4>
         <ul id="motivations">
             <li>
-                Avoid rewriting my Javascript code each time I changed the base framework.
+                Avoid rewriting your Javascript code each time the base framework is changed.
             </li>
             <li>
-                Avoid breaking my apps by the most little error.
+                Avoid breaking your application by the smallest erro
             </li>
             <li>
-                Wait to start working on some feature because dependencies with other fellow work.
+                Minimize dependency problems with your working colleagues when working on a feature, due to Hydra's event driven architecture.
             </li>
         </ul>
-        <h4>Solved</h4>
+        <h4>Where can Hydra.js help your with your application?</h4>
         <ul id="solutions">
             <li>
-                Decouple the base framework for my code using an adapter where I'll use the same code independently of
-                what base framework I'm using.
+                Decouple your code from your base framework so you can use it independently on other frameworks without having to adapt or rewrite it.
             </li>
             <li>
-                When deploying my apps to production environment all the errors are caught to avoid broke anything.
+                When deploying into an production environment all errors are captured within Hydra.js so your application won't break.
             </li>
             <li>
-                All the logic of my apps is inside modules that can communicate with other modules through events.
+                All of your application's logic is capsuled in modules that communicate among each other with events. This loosely coupled architecture offers a lot of advantages, especially when it comes to easily interchange parts of your application.
             </li>
         </ul>
     </div>

@@ -11,7 +11,7 @@
 			</li>
 			<li>
 				<a href="#quickstart">
-					Quick start
+					Quickstart
 				</a>
 			</li>
 			<li>
@@ -48,15 +48,15 @@
 			How to use this documentation
 		</h2>
 		<p>
-            It's a simple guide of the steps to follow reading this documentation to get the best and reduce the learning curve.
+            This article guides you through the documentation and provides answer to the most frequently asked questions.
 		</p>
 	</div>
 	<div>
 		<h2 id="quickstart">
-			Quick start
+			Quickstart
 		</h2>
 		<p>
-            This will take you on a short tour of the most important to start using Hydra and how to use it to build your application from the ground up.
+            Learn the basics to get started with Hydra.js
 		</p>
 	</div>
 	<div>
@@ -64,7 +64,7 @@
 			API
 		</h2>
 		<p>
-            API Guide is a low level JsDoc information for Hydra. It's useful for developers needing detailed reference information.
+            The low level JSDoc for Hydra.js. It's useful for developers needing detailed reference information.
 		</p>
 	</div>
 	<div>
@@ -72,7 +72,7 @@
 			Reference Guide
 		</h2>
 		<p>
-            Reference Guide is the most extensive documentation you can find about Hydra and how to use it. This reference is full of examples to make easier your work every day, and with some tips to improve your productivity.
+            The complete and easy-to-read Hydra.js documentation. It is full of practical examples helping you to understand the topics.
 		</p>
 	</div>
 	<div>
@@ -80,7 +80,7 @@
 			Expert
 		</h2>
 		<p>
-            Here you will find special info about the architecture of Hydra.
+            Infos about the architecture of Hydra like applied design patterns and UML diagrams.
 		</p>
 	</div>
 	<div>

@@ -43,13 +43,7 @@
 			How to use this documentation.
 		</h2>
 		<p>
-            When someone starts working with a new technology, programming language or architecture an important learning curve can make to desist to use it even if it's the only way to make easier your work.
-		</p>
-		<p>
-            This section in documentation intended to be a guide to all the people that wants to learn about how to work with Hydra.
-		</p>
-		<p>
-            If you're reading this documentation is because you're interested to scale your application, improve your productivity and get all these things without losing your time reading documentation that is not for your level of knowledge.
+            Starting to work with a new technology, programming language or system architecture can be challenging and sometimes even demotivating. To prevent this from happening with Hydra.js this documentation was created to serve as a guide to ultimately have fun using it.
 		</p>
 	</div>
 	<div>
@@ -57,7 +51,7 @@
 			I want to start using Hydra.js in my project:
 		</h3>
 		<p>
-			My recommendation is that you should start reading <a href="#quickstart"><strong>Quick start</strong></a> that will teach you:
+			My recommendation is that you should start reading <a href="#quickstart"><strong>Quickstart</strong></a> that will teach you:
 		</p>
 		<ul>
 			<li>
@@ -82,20 +76,17 @@
 	</div>
 	<div>
 		<h3 id="imusingbutsomequestions">
-            I'm using Hydra but I have some questions:
+            FAQ:
 		</h3>
-		<p>
-			<strong>What type of questions do you have?</strong>
-		</p>
 		<div>
-			<h4 id="refreshmodulesinfo">I want to remember how to use modules.</h4>
+			<h4 id="refreshmodulesinfo">How to use modules in Hydra.js</h4>
 			<p class="h4">
-				You can refresh your knowledge about modules reading <a href="#quickstart"><strong>Quick start</strong></a> if you need more info about advanced info I recommend you to go to <a href="#reference_guide"><strong>Reference Guide</strong></a> and read the modules section.
+				You can refresh your knowledge about modules reading <a href="#quickstart"><strong>Quickstart</strong></a> if you need more info about advanced info I recommend you to go to <a href="#reference_guide"><strong>Reference Guide</strong></a> and read the modules section.
 			</p>
 		</div>
 	</div>
 	<div>
-		<h4 id="knowaboutpublicapi">I need to know what is the public API.</h4>
+		<h4 id="knowaboutpublicapi">How to use the public APIs</h4>
 		<p class="h4">
             If you are interested to see some examples of usage of the different public methods I recommend you Reference Guide where you could search in the table of contents and find what you are looking for.
 		</p>

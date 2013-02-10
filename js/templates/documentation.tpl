@@ -12,7 +12,7 @@
 		</li>
 		<li id="doc_top_quickstart">
 			<a href="#quickstart">
-				Quick start
+				Quickstart
 			</a>
 		</li>
 		<li id="doc_top_apis">
