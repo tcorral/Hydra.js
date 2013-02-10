@@ -1,4 +1,6 @@
 ChangeLog:
+3.1.1
+    Added new public method 'setUnblockUI' to set on/off the unblocking UI.
 3.1.0
     The system of register events was so limited, then now you can subscribe the events in this way:
     No more 'oEventsCallbacks' is more semantic use 'events'
