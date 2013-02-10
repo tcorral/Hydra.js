@@ -100,6 +100,11 @@
                 </a>
             </li>
             <li>
+                <a href="#setUnblockUI">
+                    Hydra.setUnblockUI
+                </a>
+            </li>
+            <li>
                 <a href="#setDebug">
                     Hydra.setDebug
                 </a>
@@ -635,6 +640,28 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
         <pre><code class="language-javascript">Hydra.module().stopAll();</code></pre>
     </div>
 </div>
+</div>
+<div>
+    <h3 id="setUnblockUI">Hydra.setUnblockUI</h3>
+    <p>
+        To avoid problems with long execution process, when an event is triggered, you can set a security system to avoid
+        unblock the UI using Hydra.setUnblockUI(true).
+    </p>
+    <p>
+        <strong><em>WARNING!!</em></strong> This could modify the order of execution.
+    </p>
+    <div>
+        Set unblock UI mode off:
+    </div>
+    <div>
+        <pre><code class="language-javascript">Hydra.setUnblockUI( false );</code></pre>
+    </div>
+    <div>
+        Set unblock UI mode on:
+    </div>
+    <div>
+        <pre><code class="language-javascript">Hydra.setUnblockUI( true );</code></pre>
+    </div>
 </div>
 <div>
     <h3 id="setDebug">Hydra.setDebug</h3>
