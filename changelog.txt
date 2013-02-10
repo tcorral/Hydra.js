@@ -1,4 +1,10 @@
 ChangeLog:
+3.1.2
+    Register and extend will return a module object with these methods:
+        - start
+        - extend
+        - stop
+    This change will make easy-to-use using Hydra.js in AMD modules as requireJS modules.
 3.1.1
     Added new public method 'setUnblockUI' to set on/off the unblocking UI.
 3.1.0

@@ -9,6 +9,7 @@
         setUp:function () {
             var self = this;
             this.oModule = null;
+            debugger;
             Hydra.module.test('single-module', function (oModule) {
                 self.oModule = oModule;
             });
