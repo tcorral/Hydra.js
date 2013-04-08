@@ -486,7 +486,7 @@
          * @param {String} oData
          */
         publish:function (sChannelId, sEvent, oData) {
-            var aSubscribers = this.subscribers(sChannelId, sEvent),
+            var aSubscribers = this.subscribers(sChannelId, sEvent).slice(),
                 nLenSubscribers = aSubscribers.length,
                 nIndex,
                 oHandlerObject;
