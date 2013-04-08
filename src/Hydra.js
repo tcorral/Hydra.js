@@ -329,6 +329,7 @@
         },
         /**
          * Method to unsubscribe a subscriber from a channel and event type.
+         * It iterates in reverse order to avoid messing with array length when removing items.
          * @param sChannelId
          * @param sEventType
          * @param oSubscriber
@@ -336,10 +337,9 @@
         unsubscribeFrom:function (sChannelId, sEventType, oSubscriber) {
             var aChannelEvents = this._getChannelEvents(sChannelId, sEventType),
                 oItem,
-                nEvent,
-                nLenEvents = aChannelEvents.length;
+                nEvent = aChannelEvents.length - 1;
 
-            for (nEvent = 0; nEvent < nLenEvents; nEvent++) {
+            for (; nEvent >= 0; nEvent--) {
                 oItem = aChannelEvents[nEvent];
                 if(oItem.subscriber === oSubscriber)
                 {
