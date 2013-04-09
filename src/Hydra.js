@@ -992,7 +992,7 @@
         },
         extend: function(oSecondParameter, oThirdParameter)
         {
-            return Hydra.module..extend(this.sModuleId, oSecondParameter, oThirdParameter);
+            return Hydra.module.extend(this.sModuleId, oSecondParameter, oThirdParameter);
         },
         stop: function(sInstanceId)
         {
