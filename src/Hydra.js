@@ -1012,6 +1012,7 @@
 					}
 				}
 			}
+			oModule.instances = {};
 		},
 		/**
 		 * Stop only one module.
@@ -1026,6 +1027,7 @@
 			if ( typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined )
 			{
 				oInstance.destroy();
+				delete oModule.instances[sInstanceId];
 			}
 		},
 		/**
