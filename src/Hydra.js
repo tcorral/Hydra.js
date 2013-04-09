@@ -986,9 +986,9 @@
     };
 
     FakeModule.prototype = {
-        start: function(oData)
+        start: function(sIdInstance, oData)
         {
-            Hydra.module.start(this.sModuleId, oData);
+            Hydra.module.start(this.sModuleId, sIdInstance, oData);
         },
         extend: function(oSecondParameter, oThirdParameter)
         {
