@@ -1124,7 +1124,7 @@
     if (isNodeEnvironment) {
         module.exports = Hydra;
     } else if (typeof define !== 'undefined') {
-        define(function () {
+        define('hydra', [], function () {
             return Hydra;
         });
     }
