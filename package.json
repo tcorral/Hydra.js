@@ -27,5 +27,16 @@
 			"url": "https://github.com/tcorral/Hydra.js.git"
 		}
 	],
+	"scripts": {
+		"test": "mocha test/Hydra.js",
+		"start": "node ./resources/doVersions.js"
+	},
+	"devDependencies": {
+		"mocha": "*",
+		"sinon": "*",
+		"should": "*",
+		"zlib": "*",
+		"uglify-js": "*"
+	},
 	"github": "https://github.com/tcorral/Hydra.js"
 }

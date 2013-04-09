@@ -500,7 +500,8 @@
 
             Hydra.module.start('test-module');
 
-            assertSame(oVars, this.oVars);
+			assertEquals("test", this.oVars.test);
+			assertEquals("test1", this.oVars.test1);
         },
         'test should check that if we pass a param when starting the module will move the object of vars to the last position in arguments':function () {
             var oVars = {
@@ -563,7 +564,7 @@
             };
             Hydra.extend("test", oTest);
 
-            assertSame(oTest, Hydra.test);
+            assertEquals(oTest.test, Hydra.test.test);
         }
     }));
 
