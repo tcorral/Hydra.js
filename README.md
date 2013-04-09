@@ -3,6 +3,8 @@ Hidra.js is a module manager oriented system.
 
 ## Updated to version 3.1.2
 
+[![Build Status](https://travis-ci.org/[tcorral]/[Hydra.js].png)](https://travis-ci.org/[tcorral]/[Hydra.js])
+
 [Changelog](https://raw.github.com/tcorral/Hydra.js/master/changelog.txt)
 
 ## Description
