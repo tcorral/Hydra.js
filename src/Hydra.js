@@ -986,17 +986,17 @@
     };
 
     FakeModule.prototype = {
-        start: function(oData)
+        start: function(sIdInstance, oData)
         {
-            return Module.prototype.start(this.sModuleId, undefined, oData);
+            Hydra.module.start(this.sModuleId, sIdInstance, oData);
         },
         extend: function(oSecondParameter, oThirdParameter)
         {
-            return Module.prototype.extend(this.sModuleId, oSecondParameter, oThirdParameter);
+            return Hydra.module.extend(this.sModuleId, oSecondParameter, oThirdParameter);
         },
-        stop: function()
+        stop: function(sInstanceId)
         {
-            Module.prototype.stop(this.sModuleId);
+            Hydra.module.stop(this.sModuleId, sInstanceId);
         }
     };
 
