@@ -448,12 +448,17 @@
 			if ( typeof aSubscribers !== sNotDefined )
 			{
 				nLenSubscribers = aSubscribers.length;
-				for ( ; nIndex < nLenSubscribers; nIndex++ )
+				while ( nIndex < nLenSubscribers )
 				{
 					if ( aSubscribers[nIndex].subscriber === oSubscriber )
 					{
 						nUnsubscribed++;
 						aSubscribers.splice( nIndex, 1 );
+						nLenSubscribers--;
+					}
+					else
+					{
+						nIndex++;
 					}
 				}
 			}
