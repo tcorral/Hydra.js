@@ -1276,7 +1276,7 @@
 	FakeModule.prototype = {
 		start: function ( oData )
 		{
-			Hydra.module.start( this.sModuleId, undefined, oData );
+			Hydra.module.start( this.sModuleId, oData );
 			return this;
 		},
 		extend: function ( oSecondParameter, oThirdParameter )
