@@ -470,6 +470,21 @@ oErrorHandler.log('This is an error');</code></pre>
 	};
 });</code></pre>
     </div>
+    <div class="tip">
+        <div>After version 3.1.2 the register method returns a module instance with steroids.</div>
+        <div>Now you can execute these methods over this instance:</div>
+        <ul>
+            <li>
+                start -> to start the module
+            </li>
+            <li>
+                stop -> to stop a module
+            </li>
+            <li>
+                extend -> to extend a module -> it will return the extended module with the same methods.
+            </li>
+        </ul>
+    </div>
 </div>
 <div>
     <h4 id="module_extend">Hydra.module.extend</h4>
@@ -537,6 +552,22 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
 		}
 	};
 });</code></pre>
+    </div>
+
+    <div class="tip">
+        <div>After version 3.1.2 the extend method returns a module instance with steroids.</div>
+        <div>Now you can execute these methods over this instance:</div>
+        <ul>
+            <li>
+                start -> to start the module
+            </li>
+            <li>
+                stop -> to stop a module
+            </li>
+            <li>
+                extend -> to extend a module -> it will return the extended module with the same methods.
+            </li>
+        </ul>
     </div>
 </div>
 <div>
