@@ -174,9 +174,29 @@
     <h3 id="howtoinstall">How to install Hydra?</h3>
 
     <p>
-        To install Hydra in your app you must download the version you need or use our hosted <a
-            href="https://raw.github.com/tcorral/Hydra.js/master/src/Hydra.js">version</a> and import it using this code
-        snippet...
+        To install Hydra in your web/app you can:
+        <ul>
+            <li>
+                Download the version to serve it from your own server. <a href="http://tcorral.github.io/Hydra.js/#downloads">Download</a>
+            </li>
+            <li>
+                Use our self hosted version. <strong>https://raw.github.com/tcorral/Hydra.js/master/src/Hydra.js</strong>
+            </li>
+            <li>
+                Use one of our CDN hosted versions.
+                <ul>
+                    <li>
+                        <strong>//cdnjs.cloudflare.com/ajax/libs/hydra.js/3.1.2/hydra.min.js</strong>
+                    </li>
+                    <li>
+                        <strong>http://cdn.strategiqcommerce.com/ajax/libs/hydra.js/3.1.2/hydra.min.js</strong>
+                    </li>
+                    <li>
+                        <strong>https://cdn.deblan.org/ajax/libs/hydra.js/3.1.2/hydra.min.js</strong>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </p>
 
     <div>

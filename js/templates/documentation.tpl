@@ -25,6 +25,16 @@
 				Reference Guide
 			</a>
 		</li>
+        <li id="doc_top_use_with_nodejs">
+            <a href="#use_with_nodejs">
+                Use with Node.js
+            </a>
+        </li>
+        <!--<li id="doc_top_use_with_requirejs">
+            <a href="#use_with_requirejs">
+                Use with Require.js
+            </a>
+        </li>-->
 		<li id="doc_top_expert_documentation">
 			<a href="#expert_documentation">
 				Expert
