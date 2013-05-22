@@ -472,7 +472,7 @@ oErrorHandler.log('This is an error');</code></pre>
     </div>
     <div class="tip">
         <div>After version 3.1.2 the register method returns a module instance with steroids.</div>
-        <div>Now you can execute these methods over this instance:</div>
+        <div>Now you can execute these methods in the returned instance:</div>
         <ul>
             <li>
                 start -> to start the module
@@ -556,7 +556,7 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
 
     <div class="tip">
         <div>After version 3.1.2 the extend method returns a module instance with steroids.</div>
-        <div>Now you can execute these methods over this instance:</div>
+        <div>Now you can execute these methods in the returned instance:</div>
         <ul>
             <li>
                 start -> to start the module

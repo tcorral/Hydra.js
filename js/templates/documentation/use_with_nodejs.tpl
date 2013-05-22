@@ -1,3 +1,37 @@
+<aside id="toc">
+    <nav>
+        <div id="toc_title">
+            Table of Contents
+        </div>
+        <ul>
+            <li>
+                <a href="#use_with_nodejs">
+                    Getting Started.
+                </a>
+            </li>
+            <li>
+                <a href="#install_hydra">
+                    Install Hydra with Node.js
+                </a>
+            </li>
+            <li>
+                <a href="#examples_of_usage">
+                    Examples of usage.
+                </a>
+            </li>
+            <li>
+                <a href="#how_to_execute_this_example">
+                    How to execute this example.
+                </a>
+            </li>
+            <li>
+                <a href="#how_it_works">
+                    How it works.
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
 <div id="doc_content">
     <div>
         <h2 id="use_with_nodejs">
@@ -6,7 +40,7 @@
     </div>
     <div>
         <h3 id="install_hydra">
-            Hydra with Node.js
+            Install Hydra with Node.js
         </h3>
         <p>
             To install Hydra as a node.js module you need to write one of these commands in your command line from the root of your project.
@@ -29,7 +63,7 @@
         </p>
     </div>
     <div>
-        <h4 id="examples">
+        <h4 id="examples_of_usage">
             Example of usage:
         </h4>
         <p class="h4">
@@ -106,8 +140,15 @@ Test = Hydra.module.register('test', function(bus)
 Test.start();</code></pre>
                     </div>
                 </li>
+            </ul>
+        </p>
+    </div>
+    <div>
+        <h4 id="how_to_execute_this_example">How to execute this example</h4>
+        <p class="h4">
+            <ul>
                 <li>
-                    <strong>How to execute this example.</strong>
+                    <strong>Execute this example.</strong>
                     <div>
                         Install Hydra:
                         <pre><code class="language-javascript">npm install hydra.js</code></pre>
@@ -123,15 +164,15 @@ Test.start();</code></pre>
                         [timestamp] will be replaced by the current timestamp
                     </div>
                     <div>
-                        <pre><code class="language-javascript">
-init other [timestamp]
-lol [timestamp] { from: 'out_1' }
-init other2 [timestamp]
-lol [timestamp] { from: 'out_2' }
-init test [timestamp]
-lol [timestamp] { from: 'in' }
-ein [timestamp]
-                        </code></pre>
+                            <pre><code class="language-javascript">
+                                    init other [timestamp]
+                                    lol [timestamp] { from: 'out_1' }
+                                    init other2 [timestamp]
+                                    lol [timestamp] { from: 'out_2' }
+                                    init test [timestamp]
+                                    lol [timestamp] { from: 'in' }
+                                    ein [timestamp]
+                                </code></pre>
                     </div>
                 </li>
             </ul>
