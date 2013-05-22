@@ -165,13 +165,13 @@ Test.start();</code></pre>
                     </div>
                     <div>
                             <pre><code class="language-javascript">
-                                    init other [timestamp]
-                                    lol [timestamp] { from: 'out_1' }
-                                    init other2 [timestamp]
-                                    lol [timestamp] { from: 'out_2' }
-                                    init test [timestamp]
-                                    lol [timestamp] { from: 'in' }
-                                    ein [timestamp]
+init other [timestamp]
+lol [timestamp] { from: 'out_1' }
+init other2 [timestamp]
+lol [timestamp] { from: 'out_2' }
+init test [timestamp]
+lol [timestamp] { from: 'in' }
+ein [timestamp]
                                 </code></pre>
                     </div>
                 </li>
