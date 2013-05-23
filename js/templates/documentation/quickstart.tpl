@@ -200,7 +200,7 @@
     </p>
 
     <div>
-        <pre><code class="language-javascript">&lt;script type=&quot;text/javascript&quot; src=&quot;path/to/Hydra.js&quot;&gt;&lt;/script&gt;</code></pre>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=z1m55LPG" style="border:none;width:100%;height:44px;"></iframe>
     </div>
 </div>
 <div>
@@ -285,6 +285,7 @@
         An example of using all the adapters for jQuery:
     </div>
     <div>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=z1m55LPG" style="border:none;width:100%;height:44px;"></iframe>
 	<pre><code class="language-javascript">&lt;script type=&quot;text/javascript&quot; src=&quot;path/to/jQuery/src/DOM.js&quot;&gt;&lt;/script&gt;
 &lt;script type=&quot;text/javascript&quot; src=&quot;path/to/jQuery/src/Events.js&quot;&gt;&lt;/script&gt;
 &lt;script type=&quot;text/javascript&quot; src=&quot;path/to/jQuery/src/Ajax.js&quot;&gt;&lt;/script&gt;</code></pre>

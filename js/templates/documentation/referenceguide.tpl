@@ -151,8 +151,8 @@
         <h3 id="bus">Hydra.bus</h3>
 
         <p>
-            Is the Mediator object that manages the event handling system that allows to communicate modules with each
-            other without know about the existence of other modules.
+            Is the Mediator object that manages the event handling system that allows modules to communicate with each
+            other without knowing about the existence of other modules.
         </p>
     </div>
     <div>
@@ -269,7 +269,7 @@ ProgressBar.prototype.update = function (nProgress) {
 
         <p class="h4">
             Publish method needs at least two of the three parameters it expects. It needs to know the name of the
-            channel and the name of the event. Third parameter is an optional object with data to pass to the actions.
+            channel and the name of the event. The third parameter is an optional object with data to pass to the actions.
         </p>
 
         <div class="h4">
@@ -417,7 +417,7 @@ oErrorHandler.log('This is an error');</code></pre>
     <h4 id="setVars">Hydra.module.setVars</h4>
 
     <p class="h4">
-        The method to set instance module's scope variables to avoid pollute global.
+        The method to set variables in the module's instance scope to avoid pollute global.
     </p>
 
     <div class="h4">
@@ -431,7 +431,7 @@ oErrorHandler.log('This is an error');</code></pre>
     <h4 id="getVars">Hydra.module.getVars</h4>
 
     <p class="h4">
-        Method to get instance module's scope variables.
+        Method to get variables from the modules's instance scope variables.
     </p>
 
     <div class="h4">
@@ -471,7 +471,7 @@ oErrorHandler.log('This is an error');</code></pre>
 });</code></pre>
     </div>
     <div class="tip">
-        <div>After version 3.1.2 the register method returns a module instance with steroids.</div>
+        <div>Since version 3.1.2 the register method returns a module instance with steroids.</div>
         <div>Now you can execute these methods in the returned instance:</div>
         <ul>
             <li>
@@ -501,7 +501,7 @@ oErrorHandler.log('This is an error');</code></pre>
         </li>
     </ul>
     <div class="h4">
-        A sample of how to extend a module's overwriting behavior:
+        A sample of how to extend a module, overwriting its behavior:
     </div>
     <div>
 			<pre><code class="language-javascript">// Base module will alert 'hello world!" when started.
@@ -555,7 +555,7 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     </div>
 
     <div class="tip">
-        <div>After version 3.1.2 the extend method returns a module instance with steroids.</div>
+        <div>Since version 3.1.2 the extend method returns a module instance with steroids.</div>
         <div>Now you can execute these methods in the returned instance:</div>
         <ul>
             <li>
@@ -698,10 +698,9 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     <h3 id="setDebug">Hydra.setDebug</h3>
 
     <p>
-        Hydra wraps all the module methods to avoid that an error in one module makes fails the app if debug mode is
+        Hydra wraps all the module methods to avoid that an error in one module makes the app fail if debug mode is
         off.<br>
-        If you have an error and make you drive crazy and you need to see your code fail, then you must set debug mode
-        on.<br>
+        If an error is driving you crazy then set debug to true to be able to see it.<br>
     </p>
 
     <div>

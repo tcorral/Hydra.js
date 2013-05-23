@@ -59,7 +59,7 @@
                     This command will add Hydra to your package.json dependencies.
                 </li>
             </ul>
-            After installing Hydra in your project you can access to it using require and can be used as usual.
+            After installing Hydra in your project you can access it using require and can be used as usual.
         </p>
     </div>
     <div>
@@ -200,7 +200,7 @@ ein [timestamp]
                     <div>
                         <pre><code class="language-javascript">Other = require('./other_module.js');</code></pre>
                     </div>
-                    To know what <strong>'other_module.js'</strong> does we need to check it's content:
+                    To know what <strong>'other_module.js'</strong> does we need to check its content:
                     <ul>
                         <li>
                             Some variables that we will use in our script are declared.
@@ -231,7 +231,7 @@ Other.original = Hydra.module.register('other', function(bus)
     return {
         init: function()
         {
-            // The line below it is executed when the original module is started.
+            // The line below is executed when the original module is started.
             console.log('init other', +new Date());
             // Use bus.subscribeTo to make this module react to the 'lol:say' event
             // in the channel 'channel'.
@@ -300,7 +300,7 @@ Other.extended = Other.original.extend('other2', function(bus)
                     <div>
                         <pre><code class="language-javascript">init other [timestamp]</code></pre>
                     </div>
-                    Then it will start to listen the event 'lol:say' in the channel 'channel'.
+                    Then it will start to listen to the event 'lol:say' in the channel 'channel'.
                 </li>
                 <li>
                     Trigger the event 'lol:say' in the channel 'channel'.

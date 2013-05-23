@@ -178,7 +178,7 @@ module started
     console.log(Hydra.version);
 });</code></pre>
                             </div>
-                            In this snipped we require hydra and our first module called <em>'module'</em>. The work flow in Require.js will load all the libraries and dependencies before execute the code in this callback, then we will see what's being executed inside <em>'module'</em>.
+                            In this snipped we require hydra and our first module called <em>'module'</em>. The work flow in Require.js will load all the libraries and dependencies before executing the code in this callback, then we will see what's being executed inside <em>'module'</em>.
                         </li>
                     </ul>
                 </li>
