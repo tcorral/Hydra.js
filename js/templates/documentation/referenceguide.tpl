@@ -471,8 +471,8 @@ oErrorHandler.log('This is an error');</code></pre>
 });</code></pre>
     </div>
     <div class="tip">
-        <div>Since version 3.1.2 the register method returns a module instance with steroids.</div>
-        <div>Now you can execute these methods in the returned instance:</div>
+        <div>Since version 3.1.2 the register method returns a module instance on steroids.</div>
+        <div>Now you can execute these methods on the returned instance:</div>
         <ul>
             <li>
                 start -> to start the module
@@ -555,8 +555,8 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     </div>
 
     <div class="tip">
-        <div>Since version 3.1.2 the extend method returns a module instance with steroids.</div>
-        <div>Now you can execute these methods in the returned instance:</div>
+        <div>Since version 3.1.2 the extend method returns a module instance on steroids.</div>
+        <div>Now you can execute these methods on the returned instance:</div>
         <ul>
             <li>
                 start -> to start the module
@@ -679,7 +679,10 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
         unblock the UI using Hydra.setUnblockUI(true).
     </p>
     <p>
-        <strong><em>WARNING!!</em></strong> This could modify the order of execution.
+        <div class="tip">
+            <strong><em>WARNING!!</em></strong> If you use setUnblockUI in mode on, this method could modify the order of execution of the callbacks attached to events.
+            <div>Use this method if you have some performance issues and if you really don't need the events being triggered in order of attachment.</div>
+        </div>
     </p>
     <div>
         Set unblock UI mode off:
@@ -739,7 +742,7 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     </p>
 
     <div>
-        Sample of usage:
+        Example of usage:
     </div>
     <div>
 		<pre><code class="language-javascript">Hydra.extend( "extension", {
@@ -760,7 +763,7 @@ Hydra.extension.hello_world() </code></pre>
     </p>
 
     <div>
-        Sample of usage:
+        Example of usage:
     </div>
     <div>
 		<pre><code class="language-javascript">// Maintain compatibility with previous versions.

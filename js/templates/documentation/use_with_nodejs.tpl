@@ -200,7 +200,7 @@ ein [timestamp]
                     <div>
                         <pre><code class="language-javascript">Other = require('./other_module.js');</code></pre>
                     </div>
-                    To know what <strong>'other_module.js'</strong> does we need to check its content:
+                    To know what <strong>'other_module.js'</strong> does we have to check its content:
                     <ul>
                         <li>
                             Some variables that we will use in our script are declared.
