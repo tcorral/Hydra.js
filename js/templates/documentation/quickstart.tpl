@@ -281,11 +281,11 @@
             </ul>
         </li>
     </ul>
-    <div>
+    <p>
         An example of using all the adapters for jQuery:
-    </div>
+    </p>
     <div>
-        <iframe src="http://pastebin.com/embed_iframe.php?i=UCdEZyG8" style="border:none;width:100%"></iframe>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=UCdEZyG8" style="border:none;width:100%;height:87px;"></iframe>
     </div>
 </div>
 <div>
@@ -397,13 +397,7 @@
     </p>
 
     <div>
-	<pre><code class="language-javascript">function( bus ){
-    return {
-        init: function(){
-            // Code that will be executed when this module is started.
-        }
-    };
-}</code></pre>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=eRFAk0Bg" style="border:none;width:100%;height:171px;"></iframe>
     </div>
 </div>
 <div>
@@ -418,13 +412,7 @@
     </p>
 
     <div>
-	<pre><code class="language-javascript">Hydra.module.register( 'my-fist-module', function( bus ){
-    return {
-        init: function(){
-            // Code that will be executed when this module is started.
-        }
-    };
-});</code></pre>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=p3tMPUvy" style="border:none;width:100%; height:171px;"></iframe>
     </div>
 </div>
 <div>
@@ -446,24 +434,7 @@
         Tip: The context object <em>(this)</em> of event callback will be the module/object itself.
     </div>
     <div>
-	<pre><code class="language-javascript">Hydra.module.register( 'my-first-module', function( bus ){
-    return {
-        events: {
-            'channel_name': {
-                'user-clicks-button': function ( oNotify ) {
-                    this._logClick( oNotify.sButtonType );
-                }
-            }
-        },
-        _logClick: function( sButtonType ) {
-            console.log("User clicked a ' + sButtonType + ' button");
-        },
-        init: function() {
-            // The subscribe is done by Hydra.js when the module is started.
-            // Code that will be executed when this module is started.
-        }
-    };
-});</code></pre>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=LDdRbTdc" style="border:none;width:100%; height: 403px;"></iframe>
     </div>
     <h5>Publishing an event in one channel:</h5>
 
@@ -478,22 +449,7 @@
     </p>
 
     <div>
-	<pre><code class="language-javascript">Hydra.module.register( 'my-second-module', function( bus ){
-    return {
-        setButtonBehaviour: function()
-        {
-            // When the button is clicked it triggers the 'user-clicks-button' event that will
-            // execute the callbacks defined for this event in other modules if some of them is
-            // listening the event.
-            Hydra.events.bind( document.getElementById( "button" ), function() {
-                bus.publish( 'channel_name', 'event_name', { } );
-            });
-        },
-        init: function(){
-            this.setButtonBehaviour();
-        }
-    };
-});</code></pre>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=5uj17TsJ" style="border:none;width:100%; height:360px;"></iframe>
     </div>
 
     <h5>Unregistering from one channel:</h5>
@@ -504,26 +460,7 @@
     </p>
 
     <div>
-	<pre><code class="language-javascript">Hydra.module.register( 'my-second-module', function( bus ){
-    return {
-        setButtonBehaviour: function()
-        {
-            // When the button is clicked it triggers the 'user-clicks-button' event that will
-            // execute the callbacks defined for this event in other modules if some of them is
-            // listening the event.
-            Hydra.events.bind( document.getElementById( "button" ), function() {
-                bus.publish( 'channel_name', 'event_name', { } );
-            });
-        },
-        init: function(){
-            this.setButtonBehaviour();
-        },
-		onDestroy: function()
-		{
-			bus.unsubscribe('channel_name', this);
-		}
-    };
-});</code></pre>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=NeXmiP8A" style="border:none;width:100%; height:445px;"></iframe>
     </div>
 </div>
 <div>
@@ -553,11 +490,11 @@
             Execute the “init” method inside of the module.
         </li>
     </ol>
-    <div>
+    <p>
         <strong>Sample of simple start module:</strong>
-    </div>
+    </p>
     <div>
-        <pre><code class="language-javascript">Hydra.module.start('my-first-module', 'my-instance');</code></pre>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=G1FJyzy8" style="border:none;width:100%;height:44px;"></iframe>
     </div>
     <div class="tip">
         Tip: Start method accepts the parameters if you pass anything as third parameter, this will be passed arguments
@@ -566,19 +503,11 @@
     <div>
         <strong>Sample of simple start module with parameters:</strong>
     </div>
-    <div>
+    <p>
         Sample of Module with “init” method with parameters.
-    </div>
+    </p>
     <div>
-	<pre><code class="language-javascript">Hydra.module.register( 'my-first-module', function( bus ) {
-    return {
-        init: function( data ) {
-            alert( data.hello );
-        }
-    };
-});
-
-Hydra.module.start( 'my-first-module', 'my-instance', { hello: 'hello world!' } );</code></pre>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=nC4XgaZz" style="border:none;width:100%;height:215px;"></iframe>
     </div>
 </div>
 <div>
@@ -594,7 +523,7 @@ Hydra.module.start( 'my-first-module', 'my-instance', { hello: 'hello world!' } 
         some expensive resource as web workers or drivers to access NoSQL databases.
     </div>
     <div>
-        <pre><code class="language-javascript">Hydra.module.stop( 'my-first-module', 'my-instance' ); </code></pre>
+        <iframe src="http://pastebin.com/embed_iframe.php?i=yQk434DJ" style="border:none;width:100%;height:44px;"></iframe>
     </div>
 </div>
 </div>

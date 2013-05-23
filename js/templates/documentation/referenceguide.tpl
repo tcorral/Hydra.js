@@ -140,7 +140,7 @@
     </p>
 
     <div>
-        Sample of usage:
+        Example of usage:
     </div>
     <div>
         <pre><code class="language-javascript">var sVersion = Hydra.version;</code></pre>
@@ -166,9 +166,9 @@
         <div class="tip">
             Tip: You can create classes that will act when an event is triggered or create your own pub/sub subsystem.
         </div>
-        <div class="h4">
-            Sample of usage:
-        </div>
+        <p class="h4">
+            Example of usage:
+        </p>
         <div>
 			<pre><code class="language-javascript">// The only thing that is needed is a property object named 'events' with event names as keys,
 // and values that are callbacks to execute when the event is triggered.
@@ -240,9 +240,9 @@ ProgressBar.prototype.update = function (nProgress) {
             </ol>
         </p>
 
-        <div class="h4">
-            Sample of usage:
-        </div>
+        <p class="h4">
+            Example of usage:
+        </p>
         <div>
             <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
     return {
@@ -272,9 +272,9 @@ ProgressBar.prototype.update = function (nProgress) {
             channel and the name of the event. The third parameter is an optional object with data to pass to the actions.
         </p>
 
-        <div class="h4">
-            Sample of usage:
-        </div>
+        <p class="h4">
+            Example of usage:
+        </p>
         <div>
             <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
 	return {
@@ -305,9 +305,9 @@ ProgressBar.prototype.update = function (nProgress) {
             executed when stop module is executed but it can be used while developing if needed.
         </p>
 
-        <div class="h4">
-            Sample of usage
-        </div>
+        <p class="h4">
+            Example of usage
+        </p>
         <div>
             <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
     return {
@@ -350,9 +350,9 @@ ProgressBar.prototype.update = function (nProgress) {
             </ol>
         </p>
 
-        <div class="h4">
-            Sample of usage:
-        </div>
+        <p class="h4">
+            Example of usage:
+        </p>
         <div>
             <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
     return {
@@ -384,7 +384,7 @@ ProgressBar.prototype.update = function (nProgress) {
     </p>
 
     <div>
-        Sample of usage
+        Example of usage
     </div>
     <div>
 		<pre><code class="language-javascript">var oErrorHandler = Hydra.errorHandler();
@@ -399,7 +399,7 @@ oErrorHandler.log('This is an error');</code></pre>
     </p>
 
     <div>
-        Sample of usage
+        Example of usage
     </div>
     <div>
         <pre><code class="language-javascript">Hydra.setErrorHandler( NewErrorHandler );</code></pre>
@@ -420,9 +420,9 @@ oErrorHandler.log('This is an error');</code></pre>
         The method to set variables in the module's instance scope to avoid pollute global.
     </p>
 
-    <div class="h4">
-        Sample of usage
-    </div>
+    <p class="h4">
+        Example of usage
+    </p>
     <div>
         <pre><code class="language-javascript">Hydra.module().setVars( { test:'test' } );</code></pre>
     </div>
@@ -434,9 +434,9 @@ oErrorHandler.log('This is an error');</code></pre>
         Method to get variables from the modules's instance scope variables.
     </p>
 
-    <div class="h4">
-        Sample of usage
-    </div>
+    <p class="h4">
+        Example of usage
+    </p>
     <div>
         <pre><code class="language-javascript">var oVars = Hydra.module().getVars();</code></pre>
     </div>
@@ -448,9 +448,9 @@ oErrorHandler.log('This is an error');</code></pre>
         Method to register a module that could be used in your application.
     </p>
 
-    <div class="h4">
-        Sample of usage
-    </div>
+    <p class="h4">
+        Example of usage
+    </p>
     <div>
 			<pre><code class="language-javascript">Hydra.module().register("module-name", function (action) {
 	return {
@@ -500,9 +500,9 @@ oErrorHandler.log('This is an error');</code></pre>
             Copy the module as a new module.
         </li>
     </ul>
-    <div class="h4">
+    <p class="h4">
         A sample of how to extend a module, overwriting its behavior:
-    </div>
+    </p>
     <div>
 			<pre><code class="language-javascript">// Base module will alert 'hello world!" when started.
 
@@ -525,9 +525,9 @@ Hydra.module.extend( 'my-first-module', function(){
     };
 });</code></pre>
     </div>
-    <div class="h4">
-        Sample of how to extend a module copying it as a new module:
-    </div>
+    <p class="h4">
+        Example of how to extend a module copying it as a new module:
+    </p>
     <div>
 			<pre><code class="language-javascript">// Base module will alert 'hello world!" when started.
 
@@ -580,33 +580,33 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
         will be sent to “init” when executed to be used inside “init” method.
     </p>
 
-    <div class="h4">
-        Sample of starting a single module (without id of the instance):
-    </div>
+    <p class="h4">
+        Example of starting a single module (without id of the instance):
+    </p>
     <div>
         <pre><code class="language-javascript">Hydra.module.start( 'my-fist-module' );</code></pre>
     </div>
-    <div class="h4">
-        Sample of starting a single module (without parameters):
-    </div>
+    <p class="h4">
+        Example of starting a single module (without parameters):
+    </p>
     <div>
         <pre><code class="language-javascript">Hydra.module.start( 'my-fist-module', 'my-first-instance-id' );</code></pre>
     </div>
-    <div class="h4">
-        Sample of starting a single module (with parameters):
-    </div>
+    <p class="h4">
+        Example of starting a single module (with parameters):
+    </p>
     <div>
         <pre><code class="language-javascript">Hydra.module.start( 'my-fist-module', 'my-first-instance-id', { data: 'test' } );</code></pre>
     </div>
-    <div class="h4">
-        Sample of starting a single module but a single instance (with parameters):
-    </div>
+    <p class="h4">
+        Example of starting a single module but a single instance (with parameters):
+    </p>
     <div>
         <pre><code class="language-javascript">Hydra.module.start( 'my-fist-module', 'my-first-instance-id', { data:'test' }, true );</code></pre>
     </div>
-    <div class="h4">
-        Sample of starting more than one module at the same time (with parameters):
-    </div>
+    <p class="h4">
+        Example of starting more than one module at the same time (with parameters):
+    </p>
     <div>
         <pre><code class="language-javascript">Hydra.module.start( [ 'my-first-module', 'my-second-module'],
             ['first-instance-id', 'second-instance-id'],
@@ -622,9 +622,9 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
         generated.
     </p>
 
-    <div class="h4">
-        Sample of usage
-    </div>
+    <p class="h4">
+        Example of usage
+    </p>
     <div>
         <pre><code class="language-javascript">Hydra.module().startAll();</code></pre>
     </div>
@@ -636,9 +636,9 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
         Check if the instance of one module has been started. Returns a boolean value.
     </p>
 
-    <div class="h4">
-        Sample of usage
-    </div>
+    <p class="h4">
+        Example of usage
+    </p>
     <div>
         <pre><code class="language-javascript">Hydra.module().isModuleStarted( "module-name", "instance-module" );</code></pre>
     </div>
@@ -650,9 +650,9 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
         Stops the instance of the module to destroy the instance.
     </p>
 
-    <div class="h4">
-        Sample of usage
-    </div>
+    <p class="h4">
+        Example of usage
+    </p>
     <div>
         <pre><code class="language-javascript">Hydra.module().stop( "module-name", "instance-module" );</code></pre>
     </div>
@@ -664,9 +664,9 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
         Stops all the instances of all modules that that have been started in the application.
     </p>
 
-    <div class="h4">
-        Sample of usage
-    </div>
+    <p class="h4">
+        Example of usage
+    </p>
     <div>
         <pre><code class="language-javascript">Hydra.module().stopAll();</code></pre>
     </div>
