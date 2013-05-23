@@ -597,7 +597,7 @@ div.mark {
     list-style-type: none;
     margin-top: 5px;
     margin-left: 65px;
-    min-height: 425px;
+    min-height: 667px;
 }
 #downloads li {
     float: left;
@@ -643,6 +643,18 @@ div.mark {
 
 #button-zip {
     background: url(../images/download_buttons/zip.png) no-repeat top left;
+}
+
+#button-cloudflare {
+    background: url(../images/download_buttons/cloudflare.png) no-repeat top left;
+}
+
+#button-strategiccommerce {
+    background: url(../images/download_buttons/strategiccommerce.png) no-repeat top left;
+}
+
+#button-deblan {
+    background: url(../images/download_buttons/debian.png) no-repeat top left;
 }
 
 #downloads a.option:hover {
