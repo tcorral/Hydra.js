@@ -102,7 +102,7 @@
    * @private
    * @type {String}
    */
-  sVersion = '3.1.4';
+  sVersion = '3.1.3';
 
   /**
    * Used to activate the debug mode
@@ -196,6 +196,23 @@
   }
 
   /**
+   * Method to modify the init method to use it for extend.
+   * @param oInstance
+   * @param oModifyInit
+   * @param oData
+   * @param bSingle
+   */
+  function beforeInit(oInstance, oModifyInit, oData, bSingle){
+    var sKey;
+    for(sKey in oModifyInit){
+      if(oModifyInit.hasOwnProperty(sKey)){
+        if(oInstance[sKey] && typeof oModifyInit[sKey] === 'function'){
+          oModifyInit[sKey](oInstance, oData, bSingle);
+        }
+      }
+    }
+  }
+  /**
    * startSingleModule is the method that will initialize the module.
    * When start is called the module instance will be created and the init method is called.
    * If bSingle is true and the module is started the module will be stopped before instance it again.
@@ -205,15 +222,13 @@
    * @param {String} sIdInstance
    * @param {Object} oData
    * @param {Boolean} bSingle
-   * @param {Function} fpBeforeInit
    * @return {Module} instance of the module
    * @private
    */
-  function startSingleModule( oWrapper, sModuleId, sIdInstance, oData, bSingle, fpBeforeInit )
+  function startSingleModule( oWrapper, sModuleId, sIdInstance, oData, bSingle )
   {
     var oModule, oInstance;
     oModule = oModules[sModuleId];
-    fpBeforeInit = fpBeforeInit || function(){};
     if ( bSingle && oWrapper.isModuleStarted( sModuleId, sIdInstance ) )
     {
       oWrapper.stop( sModuleId, sIdInstance );
@@ -223,7 +238,9 @@
       oInstance = createInstance( sModuleId );
       oModule.instances[sIdInstance] = oInstance;
       oInstance.__instance_id__ = sIdInstance;
-      fpBeforeInit(oInstance);
+
+      beforeInit(oInstance, oWrapper.oModifyInit, oData, bSingle);
+
       if ( typeof oData !== sNotDefined )
       {
         oInstance.init( oData );
@@ -691,6 +708,13 @@
      */
     getInstance: createInstance,
     /**
+     * oModifyInit is an object where save the extensions to modify the init function to use by extensions.
+     * @param sModuleId
+     * @param fpCreator
+     * @returns {*}
+     */
+    oModifyInit: {},
+    /**
      * register is the method that will add the new module to the oModules object.
      * sModuleId will be the key where it will be stored.
      * @member Module.prototype
@@ -888,10 +912,9 @@
      * @param sIdInstance
      * @param oData
      * @param bSingle
-     * @param {Function} fpBeforeInit
      * @private
      */
-    _multiModuleStart: function ( aModulesIds, sIdInstance, oData, bSingle, fpBeforeInit )
+    _multiModuleStart: function ( aModulesIds, sIdInstance, oData, bSingle )
     {
       var aInstancesIds, aData, aSingle, nIndex, nLenModules, sModuleId;
       if ( isArray( sIdInstance ) )
@@ -912,7 +935,7 @@
         sIdInstance = aInstancesIds && aInstancesIds[nIndex] || generateUniqueKey();
         oData = aData && aData[nIndex] || oData;
         bSingle = aSingle && aSingle[nIndex] || bSingle;
-        startSingleModule( this, sModuleId, sIdInstance, oData, bSingle, fpBeforeInit );
+        startSingleModule( this, sModuleId, sIdInstance, oData, bSingle );
       }
     },
     /**
@@ -921,10 +944,9 @@
      * @param sIdInstance
      * @param oData
      * @param bSingle
-     * @param {Function} fpBeforeInit
      * @private
      */
-    _singleModuleStart: function ( sModuleId, sIdInstance, oData, bSingle, fpBeforeInit )
+    _singleModuleStart: function ( sModuleId, sIdInstance, oData, bSingle )
     {
       if ( typeof sIdInstance !== 'string' )
       {
@@ -933,7 +955,7 @@
         sIdInstance = generateUniqueKey();
       }
 
-      startSingleModule( this, sModuleId, sIdInstance, oData, bSingle, fpBeforeInit );
+      startSingleModule( this, sModuleId, sIdInstance, oData, bSingle );
     },
     /**
      * start is the method that initialize the module/s
@@ -943,19 +965,18 @@
      * @param {String/Array} sIdInstance
      * @param {Object/Array} oData
      * @param {Boolean/Array} bSingle
-     * @param {Function} fpBeforeInit
      */
-    start: function ( sModuleId, sIdInstance, oData, bSingle, fpBeforeInit )
+    start: function ( sModuleId, sIdInstance, oData, bSingle )
     {
       var bStartMultipleModules = isArray( sModuleId );
 
       if ( bStartMultipleModules )
       {
-        this._multiModuleStart( sModuleId.slice( 0 ), sIdInstance, oData, bSingle, fpBeforeInit );
+        this._multiModuleStart( sModuleId.slice( 0 ), sIdInstance, oData, bSingle );
       }
       else
       {
-        this._singleModuleStart( sModuleId, sIdInstance, oData, bSingle, fpBeforeInit );
+        this._singleModuleStart( sModuleId, sIdInstance, oData, bSingle );
       }
     },
     /**
@@ -1261,6 +1282,17 @@
     return false;
   };
 
+  /**
+   * Merges an object to oModifyInit that will be executed before executing the init.
+   * {
+   *    'property_in_module_to_check': function(oModule){} // Callback to execute if the property exist
+   * }
+   * @param oVar
+   */
+  Hydra.addExtensionBeforeInit = function(oVar){
+
+    Hydra.module.oModifyInit = simpleMerge( Hydra.module.oModifyInit, oVar );
+  };
   /**
    * Module to be stored, adds two methods to start and extend modules.
    * @private
