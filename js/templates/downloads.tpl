@@ -1,3 +1,4 @@
+<h2></h2>
 <ul id="downloads">
 	<li>
 		<a href="https://github.com/tcorral/Hydra.js" id="button-github" class="option" target="_blank">
@@ -42,6 +43,11 @@
     <li>
         <a href="https://cdn.deblan.org/ajax/libs/hydra.js/3.1.2/hydra.min.js" id="button-deblan" class="option" target="_blank">
             <span class="not_showed">CDN powered by Deblan</span>
+        </a>
+    </li>
+    <li>
+        <a href="//cdn.jsdelivr.net/hydra.js/3.1.2/hydra.min.js" id="button-jsdeliver" class="option" target="_blank">
+            <span class="not_showed">CDN powered by JS Deliver</span>
         </a>
     </li>
 </ul>
