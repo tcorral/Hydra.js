@@ -28,8 +28,7 @@
     }
   ],
   "scripts": {
-    "test": "mocha test/Hydra.js",
-    "start": "node ./resources/doVersions.js"
+    "test": "mocha test/Hydra.js"
   },
   "devDependencies": {
     "mocha": "*",
