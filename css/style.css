@@ -45,12 +45,6 @@ img {
     left: -10000px;
 }
 
-#container > section > footer {
-    height: 162px;
-    background-color: #000a1c;
-    min-width: 600px;
-}
-
 #impact {
     margin: 0 auto;
     width: 1061px;
@@ -665,3 +659,42 @@ div.mark {
     transition: background .3s ease 0s;
     background-position: bottom left !important;
 }
+
+#container > section > footer {
+    height: 220px;
+    background-color: #000a1c;
+    min-width: 600px;
+}
+
+#footer_body {
+    color: #ffffff;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+#footer_body > ul, #footer_body > ul > li > div > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-top: 5px;
+    overflow: hidden;
+}
+
+#footer_body > ul > li {
+    width: 33.33%;
+    float: left;
+}
+
+#footer_body > ul > li > div {
+    text-align: left;
+}
+#footer_body > ul > li > div a{
+    color: #ffffff;
+    font-size: 12px;
+}
+#footer_body > ul > li > div a:hover{
+    color: #ffff00;
+}
+
