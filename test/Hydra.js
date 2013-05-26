@@ -6,6 +6,16 @@ var should = require('should' ),
 	oErrorHandler = null,
 	FakeClass = function(){};
 
+function getLengthObject(obj){
+  var sKey,
+    nLen = 0;
+  for(sKey in obj){
+    if(obj.hasOwnProperty(sKey)){
+      nLen++;
+    }
+  }
+  return nLen;
+}
 FakeClass.type = 'Fake';
 
 Hydra.setTestFramework(should);
@@ -1267,4 +1277,17 @@ describe('Hydra.js', function(){
 
 	});
 
+  describe('Check that addExtensionBeforeInit works', function(){
+
+    it('should check that Hydra.module.oModifyInit is an empty object', function(){
+      getLengthObject(Hydra.module.oModifyInit).should.equal(0);
+    });
+
+    it('should check that after using addExtensionBeforeInitTest it saves the object', function(){
+      var stub = sinon.stub();
+      Hydra.addExtensionBeforeInit({ test: stub});
+      getLengthObject(Hydra.module.oModifyInit).should.equal(1);
+      Hydra.module.oModifyInit.test.should.equal(stub);
+    });
+  });
 });

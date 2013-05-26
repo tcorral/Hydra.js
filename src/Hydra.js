@@ -60,7 +60,7 @@
    * Check if Hydra.js is loaded in Node.js environment
    * @type {Boolean}
    */
-  isNodeEnvironment = typeof exports === "object" && typeof module === "object" && typeof module.exports === "object" && typeof require === "function";
+  isNodeEnvironment = typeof exports === 'object' && typeof module === 'object' && typeof module.exports === 'object' && typeof require === 'function';
   /**
    * Cache 'undefined' string to test typeof
    * @type {String}
@@ -724,7 +724,6 @@
      */
     register: function ( sModuleId, fpCreator )
     {
-      var self = this;
       oModules[sModuleId] = new FakeModule( sModuleId, fpCreator );
       return oModules[sModuleId];
     },
