@@ -1287,7 +1287,7 @@
    * {
    *    'property_in_module_to_check': function(oModule){} // Callback to execute if the property exist
    * }
-   * @param oVar
+   * @param {Object} oVar
    */
   Hydra.addExtensionBeforeInit = function(oVar){
 
