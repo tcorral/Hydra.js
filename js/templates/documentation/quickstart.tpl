@@ -286,8 +286,8 @@
     </p>
     <div>
 	<pre><code class="language-javascript">&lt;script type=&quot;text/javascript&quot; src=&quot;path/to/jQuery/src/DOM.js&quot;&gt;&lt;/script&gt;
-            &lt;script type=&quot;text/javascript&quot; src=&quot;path/to/jQuery/src/Events.js&quot;&gt;&lt;/script&gt;
-            &lt;script type=&quot;text/javascript&quot; src=&quot;path/to/jQuery/src/Ajax.js&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script type=&quot;text/javascript&quot; src=&quot;path/to/jQuery/src/Events.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;path/to/jQuery/src/Ajax.js&quot;&gt;&lt;/script&gt;</code></pre>
     </div>
 </div>
 <div>
@@ -400,12 +400,12 @@
 
     <div>
 	<pre><code class="language-javascript">function( bus ){
-            return {
-            init: function(){
+    return {
+        init: function(){
             // Code that will be executed when this module is started.
-            }
-            };
-            }</code></pre>
+        }
+    };
+}</code></pre>
     </div>
 </div>
 <div>
@@ -421,12 +421,12 @@
 
     <div>
 	<pre><code class="language-javascript">Hydra.module.register( 'my-fist-module', function( bus ){
-            return {
-            init: function(){
+    return {
+        init: function(){
             // Code that will be executed when this module is started.
-            }
-            };
-            });</code></pre>
+        }
+    };
+});</code></pre>
     </div>
 </div>
 <div>
@@ -449,23 +449,23 @@
     </div>
     <div>
 	<pre><code class="language-javascript">Hydra.module.register( 'my-first-module', function( bus ){
-            return {
-            events: {
+    return {
+        events: {
             'channel_name': {
-            'user-clicks-button': function ( oNotify ) {
-            this._logClick( oNotify.sButtonType );
+                'user-clicks-button': function ( oNotify ) {
+                    this._logClick( oNotify.sButtonType );
+                }
             }
-            }
-            },
-            _logClick: function( sButtonType ) {
+        },
+        _logClick: function( sButtonType ) {
             console.log("User clicked a ' + sButtonType + ' button");
-            },
-            init: function() {
+        },
+        init: function() {
             // The subscribe is done by Hydra.js when the module is started.
             // Code that will be executed when this module is started.
-            }
-            };
-            });</code></pre>
+        }
+    };
+});</code></pre>
     </div>
     <h5>Publishing an event in one channel:</h5>
 
@@ -481,21 +481,21 @@
 
     <div>
 	<pre><code class="language-javascript">Hydra.module.register( 'my-second-module', function( bus ){
-            return {
-            setButtonBehaviour: function()
-            {
+    return {
+        setButtonBehaviour: function()
+        {
             // When the button is clicked it triggers the 'user-clicks-button' event that will
             // execute the callbacks defined for this event in other modules if some of them is
             // listening the event.
             Hydra.events.bind( document.getElementById( "button" ), function() {
-            bus.publish( 'channel_name', 'event_name', { } );
+                bus.publish( 'channel_name', 'event_name', { } );
             });
-            },
-            init: function(){
+        },
+        init: function(){
             this.setButtonBehaviour();
-            }
-            };
-            });</code></pre>
+        }
+    };
+});</code></pre>
     </div>
 
     <h5>Unregistering from one channel:</h5>
@@ -507,25 +507,24 @@
 
     <div>
 	<pre><code class="language-javascript">Hydra.module.register( 'my-second-module', function( bus ){
-            return {
-            setButtonBehaviour: function()
-            {
+    return {
+        setButtonBehaviour: function()
+        {
             // When the button is clicked it triggers the 'user-clicks-button' event that will
             // execute the callbacks defined for this event in other modules if some of them is
             // listening the event.
             Hydra.events.bind( document.getElementById( "button" ), function() {
-            bus.publish( 'channel_name', 'event_name', { } );
+                bus.publish( 'channel_name', 'event_name', { } );
             });
-            },
-            init: function(){
+        },
+        init: function(){
             this.setButtonBehaviour();
-            },
-            onDestroy: function()
-            {
+        },
+        onDestroy: function(){
             bus.unsubscribe('channel_name', this);
-            }
-            };
-            });</code></pre>
+        }
+    };
+});</code></pre>
     </div>
 </div>
 <div>
@@ -573,14 +572,14 @@
     </p>
     <div>
 	<pre><code class="language-javascript">Hydra.module.register( 'my-first-module', function( bus ) {
-            return {
-            init: function( data ) {
+    return {
+        init: function( data ) {
             alert( data.hello );
-            }
-            };
-            });
+        }
+    };
+});
 
-            Hydra.module.start( 'my-first-module', 'my-instance', { hello: 'hello world!' } );</code></pre>
+Hydra.module.start( 'my-first-module', 'my-instance', { hello: 'hello world!' } );</code></pre>
     </div>
 </div>
 <div>
