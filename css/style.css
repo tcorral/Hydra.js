@@ -592,7 +592,6 @@ div.mark {
 {
     list-style-type: none;
     margin-top: 15px;
-    margin-left: 15px;
     overflow: hidden;
 }
 #downloads li {
@@ -606,8 +605,8 @@ div.mark {
     position: relative;
     display: block;
     float: left;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     margin-left: 1em;
 }
 
@@ -618,42 +617,42 @@ div.mark {
 }
 
 #button-github {
-    background: url(../images/download_buttons/github_50.png) no-repeat top left;
+    background: url(../images/download_buttons/github_75.png) no-repeat top left;
 }
 
 #button-minimized {
-    background: url(../images/download_buttons/minimized_50.png) no-repeat top left;
+    background: url(../images/download_buttons/minimized_75.png) no-repeat top left;
 }
 
 #button-gzipped {
-    background: url(../images/download_buttons/min_gzipped_50.png) no-repeat top left;
+    background: url(../images/download_buttons/min_gzipped_75.png) no-repeat top left;
 }
 
 #button-development {
-    background: url(../images/download_buttons/development_50.png) no-repeat top left;
+    background: url(../images/download_buttons/development_75.png) no-repeat top left;
 }
 
 #button-tar {
-    background: url(../images/download_buttons/tar_50.png) no-repeat top left;
+    background: url(../images/download_buttons/tar_75.png) no-repeat top left;
 }
 
 #button-zip {
-    background: url(../images/download_buttons/zip_50.png) no-repeat top left;
+    background: url(../images/download_buttons/zip_75.png) no-repeat top left;
 }
 
 #button-cloudflare {
-    background: url(../images/download_buttons/cloudflare_50.png) no-repeat top left;
+    background: url(../images/download_buttons/cloudflare_75.png) no-repeat top left;
 }
 
 #button-strategiccommerce {
-    background: url(../images/download_buttons/strategiccommerce_50.png) no-repeat top left;
+    background: url(../images/download_buttons/strategiccommerce_75.png) no-repeat top left;
 }
 
 #button-deblan {
-    background: url(../images/download_buttons/debian_50.png) no-repeat top left;
+    background: url(../images/download_buttons/debian_75.png) no-repeat top left;
 }
 #button-jsdeliver {
-    background: url(../images/download_buttons/jsdeliver_50.png) no-repeat top left;
+    background: url(../images/download_buttons/jsdeliver_75.png) no-repeat top left;
 }
 
 #downloads a.option:hover {
