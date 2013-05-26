@@ -1,7 +1,7 @@
 # Hydra.js
 Hidra.js is a module manager oriented system.
 
-## Updated to version 3.1.4
+## Updated to version 3.1.3
 
 [![Build Status](https://travis-ci.org/tcorral/Hydra.js.png)](https://travis-ci.org/tcorral/Hydra.js)
 
@@ -31,11 +31,11 @@ Hydra.js uses a decoupled architecture that:
 * You can test your modules with any Unit Testing Framework.
 * Only 2.37KB when [Gzipped](https://github.com/tcorral/Hydra.js/raw/master/versions/hydra.min.js.gz) 2.83KB if you add BasicErrorHandler and Deferred plugins.
 
-[Project Web](http://tcorral.github.com/Hydra.js)
+[Project Web](http://tcorral.github.io/Hydra.js)
 
-[API documentation](http://tcorral.github.com/Hydra.js/apis/Hydra.js_API_v3.1.0/index.html)
+[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.1.3/index.html)
 
-[Examples](http://tcorral.github.com/Hydra.js/examples/index.html) to see for yourself!
+[Examples](http://tcorral.github.io/Hydra.js/#examples)
 
 ## Usage
 
@@ -164,11 +164,11 @@ If you need compatibility with the previous event manager called Action, you can
 
 ## Documentation
 
-[Project Web](http://tcorral.github.com/Hydra.js)
+[Project Web](http://tcorral.github.io/Hydra.js)
 
-[API documentation](http://tcorral.github.com/Hydra.js/apis/Hydra.js_API_v2.5.0/index.html)
+[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.1.3/index.html)
 
-[Examples](http://tcorral.github.com/Hydra.js/examples/index.html) to see for yourself!
+[Examples](http://tcorral.github.io/Hydra.js/#examples)
 
 ## License
 
