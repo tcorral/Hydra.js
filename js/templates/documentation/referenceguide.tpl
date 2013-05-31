@@ -124,6 +124,11 @@
                     Hydra.noConflict
                 </a>
             </li>
+            <li>
+                <a href="#addExtensionBeforeInit">
+                    Hydra.addExtensionBeforeInit
+                </a>
+            </li>
         </ul>
     </nav>
 </aside>
@@ -781,6 +786,49 @@ Core.register('module-name', function (action)
 	};
 });
 var oSandbox = new Sandbox();</code></pre>
+    </div>
+</div>
+
+<div>
+    <h3 id="addExtensionBeforeInit">Hydra.addExtensionBeforeInit</h3>
+
+    <p>
+        A method to extend Hydra features before init a module.
+        <div>
+            This method should be used if you need to check a module to add functionalities to Hydra modules.
+            <div>
+                This method gets an object where the keys will be the property to check in modules and the values will be
+                the functions that will be executed before init the module.
+            </div>
+            <div>
+                <pre><code class="language-javascript">{
+    'property_to_check_in_modules': function(oModule, oData, bSingle){
+        // Code to be executed when the property exist in oModule.
+    }
+}</code></pre>
+            </div>
+            Examples of extensions using this method:
+                <ul>
+                    <li>
+                        <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/Dependencies">Dependencies</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/Widget">Widget</a>
+                    </li>
+                </ul>
+        </div>
+    </p>
+
+    <div>
+        Example of usage:
+    </div>
+    <div>
+		<pre><code class="language-javascript">
+Hydra.addExtensionBeforeInit({
+    'element': function(oModule, oData, bSingle){
+        // Callback to execute when element exist in oModule.
+    }
+});</code></pre>
     </div>
 </div>
 </div>

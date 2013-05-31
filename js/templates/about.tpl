@@ -41,7 +41,7 @@
 		<div id="download_hydra_about">
 			<ul>
 				<li>
-					<input type="radio" value="development" checked="true" data-url="https://raw.github.com/tcorral/Hydra.js/master/versions/Hydra.js" name="download"/>
+					<input type="radio" value="development" checked="true" data-url="https://github.com/tcorral/Hydra.js/raw/master/versions/hydra.js" name="download"/>
 					<label><%= home.download_options.development%></label>
 				</li>
 				<li>
