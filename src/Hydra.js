@@ -5,8 +5,16 @@
   var root, sNotDefined, oModules, oVars, _null_, bUnblockUI, _false_, sVersion, FakeModule, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
 
   /**
+   * nullFunc
+   * An empty function to be used as default is no supplied callbacks.
+   * @private
+   */
+  function nullFunc(){}
+
+  /**
    * Used to generate an unique key for instance ids that are not supplied by the user.
    * @return {String}
+   * @private
    */
   function generateUniqueKey()
   {
@@ -17,8 +25,9 @@
 
   /**
    * Return the length of properties of one object
-   * @param oObj
-   * @return {*}
+   * @param {Object} oObj
+   * @return {Number}
+   * @private
    */
   function getObjectLength( oObj )
   {
@@ -56,23 +65,32 @@
       return new Copy();
     };
   }
+
   /**
    * Check if Hydra.js is loaded in Node.js environment
    * @type {Boolean}
+   * @private
    */
   isNodeEnvironment = typeof exports === 'object' && typeof module === 'object' && typeof module.exports === 'object' && typeof require === 'function';
+
   /**
    * Cache 'undefined' string to test typeof
    * @type {String}
+   * @private
    */
   sNotDefined = 'undefined';
+
   /**
    * Cache of object prototype to use it in other functions
    * @type {Object}
+   * @private
    */
   oObjProto = Object.prototype;
+
   /**
    * set the correct root depending from the environment.
+   * @type {Object}
+   * @private
    */
   root = this;
 
@@ -92,22 +110,22 @@
 
   /**
    * Property that will save the registered modules
-   * @private
    * @type {Object}
+   * @private
    */
   oModules = {};
 
   /**
    * Version of Hydra
-   * @private
    * @type {String}
+   * @private
    */
-  sVersion = '3.1.3';
+  sVersion = '3.2.0';
 
   /**
    * Used to activate the debug mode
-   * @private
    * @type {Boolean}
+   * @private
    */
   bDebug = _false_;
 
@@ -115,14 +133,15 @@
    * Use to activate the unblock UI when notifies are executed.
    * WARNING!!! This will not block your UI but could give problems with the order of execution.
    * @type {Boolean}
+   * @private
    */
   bUnblockUI = _false_;
 
   /**
    * Wrapper of Object.prototype.toString to detect type of object in cross browsing mode.
-   * @private
    * @param {Object} oObject
    * @return {String}
+   * @private
    */
   function toString( oObject )
   {
@@ -131,9 +150,9 @@
 
   /**
    * isFunction is a function to know if the object passed as parameter is a Function object.
-   * @private
    * @param {Object} fpCallback
    * @return {Boolean}
+   * @private
    */
   function isFunction( fpCallback )
   {
@@ -142,9 +161,9 @@
 
   /**
    * isArray is a function to know if the object passed as parameter is an Array object.
-   * @private
    * @param {String|Array|Object} aArray
    * @return {Boolean}
+   * @private
    */
   function isArray( aArray )
   {
@@ -153,8 +172,8 @@
 
   /**
    * setDebug is a method to set the bDebug flag.
-   * @private
    * @param {Boolean} _bDebug
+   * @private
    */
   function setDebug( _bDebug )
   {
@@ -163,8 +182,8 @@
 
   /**
    * setUnblockUI is a method to set the bUnblockUI flag.
-   * @private
    * @param {Boolean} _bUnblockUI
+   * @private
    */
   function setUnblockUI( _bUnblockUI )
   {
@@ -173,10 +192,10 @@
 
   /**
    * Converts objects like node list to real array.
-   * @private
    * @param {Object} oLikeArray
    * @param {Number} nElements
-   * @return {Array}
+   * @return {Array<*>}
+   * @private
    */
   function slice( oLikeArray, nElements )
   {
@@ -185,10 +204,10 @@
 
   /**
    * Wrapper of Object.hasOwnProperty
-   * @private
    * @param {Object} oObj
    * @param {String} sKey
    * @return {Boolean}
+   * @private
    */
   function ownProp( oObj, sKey )
   {
@@ -197,10 +216,11 @@
 
   /**
    * Method to modify the init method to use it for extend.
-   * @param oInstance
-   * @param oModifyInit
-   * @param oData
-   * @param bSingle
+   * @param {Object} oInstance
+   * @param {Object} oModifyInit
+   * @param {Object} oData
+   * @param {Boolean} bSingle
+   * @private
    */
   function beforeInit(oInstance, oModifyInit, oData, bSingle){
     var sKey;
@@ -229,9 +249,9 @@
   {
     var oModule, oInstance;
     oModule = oModules[sModuleId];
-    if ( bSingle && oWrapper.isModuleStarted( sModuleId, sIdInstance ) )
+    if ( bSingle && oWrapper.isModuleStarted( sModuleId ) )
     {
-      oWrapper.stop( sModuleId, sIdInstance );
+      oWrapper.stop( sModuleId );
     }
     if ( typeof oModule !== sNotDefined )
     {
@@ -273,13 +293,56 @@
   }
 
   /**
+   * Return a copy of the object.
+   * @param {Object} oObject
+   */
+  function clone(oObject) {
+    var oCopy, oItem, nIndex, nLenArr, sAttr;
+    // Handle the 3 simple types, and null or undefined
+    if (null == oObject || 'object' !== typeof oObject){
+      return oObject;
+    }
+
+    // Handle Date
+    if (oObject instanceof Date) {
+      oCopy = new Date();
+      oCopy.setTime(oObject.getTime());
+      return oCopy;
+    }
+
+    // Handle Array
+    if (oObject instanceof Array) {
+      oCopy = [];
+      for (nIndex = 0, nLenArr = oObject.length; nIndex < nLenArr; nIndex++) {
+        oItem = oObject[nIndex];
+        oCopy[nIndex] = clone(oItem);
+      }
+      return oCopy;
+    }
+
+    // Handle Object
+    if (oObject instanceof Object) {
+      oCopy = {};
+      for (sAttr in oObject) {
+        if (oObject.hasOwnProperty(sAttr))
+        {
+          oCopy[sAttr] = clone(oObject[sAttr]);
+        }
+      }
+      return oCopy;
+    }
+
+    throw new Error('Unable to copy obj! Its type isn\'t supported.');
+  }
+
+  /**
    * wrapMethod is a method to wrap the original method to avoid failing code.
    * This will be only called if bDebug flag is set to false.
-   * @private
    * @param {Object} oInstance
    * @param {String} sName
    * @param {String} sModuleId
    * @param {Function} fpMethod
+   * @private
    */
   function wrapMethod( oInstance, sName, sModuleId, fpMethod )
   {
@@ -303,8 +366,8 @@
 
   /**
    * Private object to save the channels for communicating event driven
+   * @type {{global: Object}}
    * @private
-   * @type {Object}
    */
   oChannels = {
     global: {}
@@ -314,7 +377,7 @@
    * subscribersByEvent return all the subscribers of the event in the channel.
    * @param {Object} oChannel
    * @param {String} sEventName
-   * @return {Array}
+   * @return {Array<Module>}
    * @private
    */
   function subscribersByEvent( oChannel, sEventName )
@@ -338,23 +401,26 @@
   /**
    * Bus is the object that must be used to manage the notifications by channels
    * @constructor
+   * @class Bus
+   * @name Bus
+   * @private
    */
   Bus = {
     /**
      * subscribers return the array of subscribers to one channel and event.
      * @param {String} sChannelId
      * @param {String} sEventName
-     * @return {Array}
+     * @return {Array<Module>}
      */
     subscribers: function ( sChannelId, sEventName )
     {
       return subscribersByEvent( oChannels[sChannelId], sEventName );
     },
+
     /**
      * _getChannelEvents return the events array in channel.
-     * @param aEventsParts
-     * @param sChannelId
-     * @param sEvent
+     * @param {String} sChannelId
+     * @param {String} sEvent
      * @return {Object}
      * @private
      */
@@ -370,11 +436,12 @@
       }
       return oChannels[sChannelId][sEvent];
     },
+
     /**
      * _addSubscribers add all the events of one channel from the subscriber
-     * @param oEventsCallbacks
-     * @param sChannelId
-     * @param oSubscriber
+     * @param {Object} oEventsCallbacks
+     * @param {String} sChannelId
+     * @param {Module} oSubscriber
      * @private
      */
     _addSubscribers: function ( oEventsCallbacks, sChannelId, oSubscriber )
@@ -388,12 +455,13 @@
         }
       }
     },
+
     /**
      * Method to unsubscribe a subscriber from a channel and event type.
      * It iterates in reverse order to avoid messing with array length when removing items.
-     * @param sChannelId
-     * @param sEventType
-     * @param oSubscriber
+     * @param {String} sChannelId
+     * @param {String} sEventType
+     * @param {Module} oSubscriber
      */
     unsubscribeFrom: function ( sChannelId, sEventType, oSubscriber )
     {
@@ -410,12 +478,13 @@
         }
       }
     },
+
     /**
      * Method to add a single callback in one channel an in one event.
-     * @param sChannelId
-     * @param sEventType
-     * @param fpHandler
-     * @param oSubscriber
+     * @param {String} sChannelId
+     * @param {String} sEventType
+     * @param {Function} fpHandler
+     * @param {Module} oSubscriber
      */
     subscribeTo: function ( sChannelId, sEventType, fpHandler, oSubscriber )
     {
@@ -425,9 +494,10 @@
         handler: fpHandler
       } );
     },
+
     /**
      * subscribe method gets the oEventsCallbacks object with all the handlers and add these handlers to the channel.
-     * @param {Module/Object} oSubscriber
+     * @param {Module|Object} oSubscriber
      * @return {Boolean}
      */
     subscribe: function ( oSubscriber )
@@ -451,11 +521,12 @@
 
       return true;
     },
+
     /**
      * _removeSubscribers remove the subscribers to one channel and return the number of
      * subscribers that have been unsubscribed.
-     * @param aSubscribers
-     * @param oSubscriber
+     * @param {Array<Module>} aSubscribers
+     * @param {Module} oSubscriber
      * @return {Number}
      * @private
      */
@@ -478,13 +549,14 @@
       }
       return nUnsubscribed;
     },
+
     /**
      * Loops per all the events to remove subscribers.
-     * @param oEventsCallbacks
-     * @param bOnlyGlobal
-     * @param sChannelId
-     * @param oSubscriber
-     * @return {*}
+     * @param {Object} oEventsCallbacks
+     * @param {Boolean} bOnlyGlobal
+     * @param {String} sChannelId
+     * @param {Module} oSubscriber
+     * @return {Number}
      * @private
      */
     _removeSubscribersPerEvent: function ( oEventsCallbacks, sChannelId, oSubscriber )
@@ -508,9 +580,10 @@
       }
       return nUnsubscribed;
     },
+
     /**
      * unsubscribe gets the oEventsCallbacks methods and removes the handlers of the channel.
-     * @param {Module/Object} oSubscriber
+     * @param {Module|Object} oSubscriber
      * @return {Boolean}
      */
     unsubscribe: function ( oSubscriber )
@@ -535,13 +608,14 @@
 
       return nUnsubscribed > 0;
     },
+
     /**
      * Method to execute all the callbacks but without blocking the user interface.
-     * @private
-     * @param {Array} aSubscribers
+     * @param {Array<Module>} aSubscribers
      * @param {Object} oData
      * @param {String} sChannelId
      * @param {String} sEvent
+     * @private
      */
     _avoidBlockUI: function ( aSubscribers, oData, sChannelId, sEvent )
     {
@@ -565,11 +639,13 @@
         }
       }, 25 );
     },
+
     /**
      * Publish the event in one channel.
      * @param {String} sChannelId
      * @param {String} sEvent
      * @param {String} oData
+     * @return {Boolean}
      */
     publish: function ( sChannelId, sEvent, oData )
     {
@@ -599,6 +675,7 @@
       }
       return true;
     },
+
     /**
      * Reset channels
      */
@@ -609,10 +686,12 @@
       };
     }
   };
+
   /**
    * Add common properties and methods to avoid repeating code in modules
    * @param {String} sModuleId
-   * @param {Object} Bus
+   * @param {Bus} Bus
+   * @private
    */
   function addPropertiesAndMethodsToModule( sModuleId, Bus )
   {
@@ -620,9 +699,7 @@
       fpInitProxy;
     oModule = oModules[sModuleId].creator( Bus );
     oModule.__module_id__ = sModuleId;
-    fpInitProxy = oModule.init || function ()
-    {
-    };
+    fpInitProxy = oModule.init || nullFunc;
     oModule.__action__ = Bus;
     oModule.events = oModule.events || {};
     oModule.init = function ()
@@ -640,22 +717,21 @@
       }
       fpCallback.call( this, oNotifier );
     };
-    oModule.onDestroy = oModule.onDestroy || function ()
-    {
-    };
+    oModule.onDestroy = oModule.onDestroy || nullFunc;
     oModule.destroy = function ()
     {
       this.onDestroy();
       Bus.unsubscribe( oModule );
+      delete oModules[sModuleId].instances[module.__instance_id__];
     };
     return oModule;
   }
 
   /**
    * createInstance is the method that will create the module instance and wrap the method if needed.
-   * @private
    * @param {String} sModuleId
-   * @return {Object} Module instance
+   * @return {Module} Module instance
+   * @private
    */
   function createInstance( sModuleId )
   {
@@ -680,40 +756,53 @@
 
   /**
    * Simple object to abstract the error handler, the most basic is to be the console object
+   * @type {Object|*}
+   * @private
    */
   ErrorHandler = root.console || {
     log: function ()
     {
     }
   };
+
   /**
    * Class to manage the modules.
    * @constructor
    * @class Module
    * @name Module
+   * @private
    */
   Module = function ()
   {
   };
 
+  /**
+   * Module Prototype
+   * @member Module
+   * @type {{type: string, getInstance: Function, oModifyInit: {}, register: Function, _setSuper: Function, _callInSuper: Function, _mergeModuleExtended: Function, _mergeModuleBase: Function, _merge: Function, extend: Function, setInstance: Function, setVars: Function, getVars: Function, _multiModuleStart: Function, _singleModuleStart: Function, start: Function, isModuleStarted: Function, startAll: Function, _multiModuleStop: Function, _singleModuleStop: Function, stop: Function, _stopOneByOne: Function, stopAll: Function, _delete: Function, remove: Function}}
+   */
   Module.prototype = {
     /**
      * type is a property to be able to know the class type.
      * @member Module.prototype
-     * @type String
+     * @type {String}
      */
     type: 'Module',
+
     /**
      * Wrapper to use createInstance for plugins if needed.
+     * @member Module.prototype
+     * @type {Function}
      */
     getInstance: createInstance,
+
     /**
      * oModifyInit is an object where save the extensions to modify the init function to use by extensions.
-     * @param sModuleId
-     * @param fpCreator
-     * @returns {*}
+     * @member Module.prototype
+     * @type {Object}
      */
     oModifyInit: {},
+
     /**
      * register is the method that will add the new module to the oModules object.
      * sModuleId will be the key where it will be stored.
@@ -727,10 +816,12 @@
       oModules[sModuleId] = new FakeModule( sModuleId, fpCreator );
       return oModules[sModuleId];
     },
+
     /**
      * _setSuper add the __super__ support to access to the methods in parent module.
-     * @param oFinalModule
-     * @param oModuleBase
+     * @member Module.prototype
+     * @param {Module} oFinalModule
+     * @param {Module} oModuleBase
      * @private
      */
     _setSuper: function ( oFinalModule, oModuleBase )
@@ -747,11 +838,13 @@
         oObject[sKey].apply( oFinalModule, aArgs );
       };
     },
+
     /**
      * Callback that is used to call the methods in parent module.
-     * @private
-     * @param fpCallback
+     * @member Module.prototype
+     * @param {Function} fpCallback
      * @return {Function}
+     * @private
      */
     _callInSuper: function ( fpCallback )
     {
@@ -761,10 +854,12 @@
         fpCallback.apply( this, aArgs );
       };
     },
+
     /**
      * Adds the extended properties and methods to final module.
-     * @param oFinalModule
-     * @param oModuleExtended
+     * @member Module.prototype
+     * @param {Module} oFinalModule
+     * @param {Module} oModuleExtended
      * @private
      */
     _mergeModuleExtended: function ( oFinalModule, oModuleExtended )
@@ -782,10 +877,12 @@
         }
       }
     },
+
     /**
      * Adds the base properties and methods to final module.
-     * @param oFinalModule
-     * @param oModuleBase
+     * @member Module.prototype
+     * @param {Module} oFinalModule
+     * @param {Module} oModuleBase
      * @private
      */
     _mergeModuleBase: function ( oFinalModule, oModuleBase )
@@ -802,12 +899,14 @@
         }
       }
     },
+
     /**
      * _merge is the method that gets the base module and the extended and returns the merge of them
+     * @member Module.prototype
+     * @param {Module} oModuleBase
+     * @param {Module} oModuleExtended
+     * @return {Module}
      * @private
-     * @param {Object} oModuleBase
-     * @param {Object} oModuleExtended
-     * @return {Object}
      */
     _merge: function ( oModuleBase, oModuleExtended )
     {
@@ -817,14 +916,16 @@
       this._mergeModuleExtended( oFinalModule, oModuleExtended );
       return oFinalModule;
     },
+
     /**
      * extend is the method that will be used to extend a module with new features.
      * can be used to remove some features too, without touching the original code.
      * You can extend a module and create a extended module with a different name.
      * @member Module.prototype
      * @param {String} sModuleId
-     * @param {Function/String} oSecondParameter can be the name of the new module that extends the baseModule or a function if we want to extend an existent module.
+     * @param {Function|String} oSecondParameter can be the name of the new module that extends the baseModule or a function if we want to extend an existent module.
      * @param {Function} oThirdParameter [optional] this must exist only if we need to create a new module that extends the baseModule.
+     * @return {undefined|Module}
      */
     extend: function ( sModuleId, oSecondParameter, oThirdParameter )
     {
@@ -865,11 +966,13 @@
       } );
       return oModules[sFinalModuleId];
     },
+
     /**
      * Method to set an instance of a module
+     * @member Module.prototype
      * @param {String} sModuleId
      * @param {String} sIdInstance
-     * @param {Object} oInstance
+     * @param {Module} oInstance
      * @return {Module}
      */
     setInstance: function ( sModuleId, sIdInstance, oInstance )
@@ -882,8 +985,10 @@
       oModule.instances[sIdInstance] = oInstance;
       return oModule;
     },
+
     /**
      * Sets an object of vars and add it's content to oVars private variable
+     * @member Module.prototype
      * @param {Object} oVar
      */
     setVars: function ( oVar )
@@ -897,20 +1002,24 @@
         oVars = oVar;
       }
     },
+
     /**
      * Returns the private vars object by copy.
-     * @returns {Object} global vars.
+     * @member Module.prototype
+     * @return {Object} global vars.
      */
     getVars: function ()
     {
       return simpleMerge( {}, oVars );
     },
+
     /**
      * start more than one module at the same time.
-     * @param aModulesIds
-     * @param sIdInstance
-     * @param oData
-     * @param bSingle
+     * @member Module.prototype
+     * @param {Array<String>} aModulesIds
+     * @param {String} sIdInstance
+     * @param {Object} oData
+     * @param {Boolean} bSingle
      * @private
      */
     _multiModuleStart: function ( aModulesIds, sIdInstance, oData, bSingle )
@@ -939,45 +1048,49 @@
     },
     /**
      * Start only one module.
-     * @param sModuleId
-     * @param sIdInstance
-     * @param oData
-     * @param bSingle
+     * @member Module.prototype
+     * @param {String} sModuleId
+     * @param {String} sIdInstance
+     * @param {Object} oData
+     * @param {Boolean} bSingle
      * @private
      */
     _singleModuleStart: function ( sModuleId, sIdInstance, oData, bSingle )
     {
       if ( typeof sIdInstance !== 'string' )
       {
-        oData = sIdInstance;
         bSingle = oData;
+        oData = sIdInstance;
         sIdInstance = generateUniqueKey();
       }
 
       startSingleModule( this, sModuleId, sIdInstance, oData, bSingle );
     },
+
     /**
      * start is the method that initialize the module/s
      * If you use array instead of arrays you can start more than one module even adding the instance, the data and if it must be executed
      * as single module start.
-     * @param {String/Array} sModuleId
-     * @param {String/Array} sIdInstance
-     * @param {Object/Array} oData
-     * @param {Boolean/Array} bSingle
+     * @member Module.prototype
+     * @param {String|Array} oModuleId
+     * @param {String|Array} oIdInstance
+     * @param {Object|Array} oData
+     * @param {Boolean|Array} oSingle
      */
-    start: function ( sModuleId, sIdInstance, oData, bSingle )
+    start: function ( oModuleId, oIdInstance, oData, oSingle )
     {
-      var bStartMultipleModules = isArray( sModuleId );
+      var bStartMultipleModules = isArray( oModuleId );
 
       if ( bStartMultipleModules )
       {
-        this._multiModuleStart( sModuleId.slice( 0 ), sIdInstance, oData, bSingle );
+        this._multiModuleStart( oModuleId.slice( 0 ), oIdInstance, oData, oSingle );
       }
       else
       {
-        this._singleModuleStart( sModuleId, sIdInstance, oData, bSingle );
+        this._singleModuleStart( oModuleId, oIdInstance, oData, oSingle );
       }
     },
+
     /**
      * Checks if module was already successfully started
      * @member Module.prototype
@@ -998,6 +1111,7 @@
       }
       return bStarted;
     },
+
     /**
      * startAll is the method that will initialize all the registered modules.
      * @member Module.prototype
@@ -1017,9 +1131,11 @@
         }
       }
     },
+    
     /**
      * stop more than one module at the same time.
-     * @param oModule
+     * @member Module.prototype
+     * @param {Module} oModule
      * @private
      */
     _multiModuleStop: function ( oModule )
@@ -1040,11 +1156,13 @@
       }
       oModule.instances = {};
     },
+
     /**
      * Stop only one module.
-     * @param oModule
-     * @param sModuleId
-     * @param sInstanceId
+     * @member Module.prototype
+     * @param {Module} oModule
+     * @param {String} sModuleId
+     * @param {String} sInstanceId
      * @private
      */
     _singleModuleStop: function ( oModule, sModuleId, sInstanceId )
@@ -1056,6 +1174,7 @@
         delete oModule.instances[sInstanceId];
       }
     },
+
     /**
      * stop is the method that will finish the module if it was registered and started.
      * When stop is called the module will call the destroy method and will nullify the instance.
@@ -1084,8 +1203,9 @@
     },
     /**
      * Loops over instances of modules to stop them.
-     * @param oInstances
-     * @param sModuleId
+     * @member Module.prototype
+     * @param {Module} oInstances
+     * @param {String} sModuleId
      * @private
      */
     _stopOneByOne: function ( oInstances, sModuleId )
@@ -1099,6 +1219,7 @@
         }
       }
     },
+
     /**
      * stopAll is the method that will finish all the registered and started modules.
      * @member Module.prototype
@@ -1114,23 +1235,29 @@
         }
       }
     },
+
     /**
      * _delete is a wrapper method that will call the native delete javascript function
      * It's important to test the full code.
      * @member Module.prototype
      * @param {String} sModuleId
+     * @return {Boolean}
      */
     _delete: function ( sModuleId )
     {
       if ( typeof oModules[sModuleId] !== sNotDefined )
       {
         delete oModules[sModuleId];
+        return true;
       }
+      return false;
     },
+
     /**
      * remove is the method that will remove the full module from the oModules object
      * @member Module.prototype
      * @param {String} sModuleId
+     * @return {Module|null}
      */
     remove: function ( sModuleId )
     {
@@ -1156,8 +1283,8 @@
 
   /**
    * getErrorHandler is a method to gain access to the private ErrorHandler constructor.
+   * @return {Object|Function} ErrorHandler class
    * @private
-   * @return ErrorHandler class
    */
   function getErrorHandler()
   {
@@ -1166,8 +1293,8 @@
 
   /**
    * setErrorHandler is a method to set the ErrorHandler to a new object to add more logging logic.
+   * @param {Object|Function} oErrorHandler
    * @private
-   * @param {Function} oErrorHandler
    */
   function setErrorHandler( oErrorHandler )
   {
@@ -1186,69 +1313,76 @@
 
   /**
    * Version number of Hydra.
-   * @static
    * @member Hydra
-   * @type String
+   * @type {String}
+   * @static
    */
   Hydra.version = sVersion;
 
   /**
    * bus is a singleton instance of the bus to subscribe and publish content in channels.
+   * @member Hydra
    * @type {Object}
    */
   Hydra.bus = Bus;
+
   /**
    * Returns the actual ErrorHandler
-   * @static
    * @member Hydra
-   * @type ErrorHandler
+   * @type {Function}
+   * @static
    */
   Hydra.errorHandler = getErrorHandler;
 
   /**
    * Sets and overwrites the ErrorHandler object to log errors and messages
-   * @static
-   * @param ErrorHandler
    * @member Hydra
+   * @type {Function}
+   * @static
    */
   Hydra.setErrorHandler = setErrorHandler;
 
   /**
    * Return a singleton of Module
-   * @static
    * @member Hydra
+   * @type {Module}
+   * @static
    */
   Hydra.module = new Module();
 
   /**
    * Change the unblock UI mode to on/off
-   * @static
    * @Member Hydra
+   * @type {Function}
+   * @static
    */
   Hydra.setUnblockUI = setUnblockUI;
 
   /**
    * Change the debug mode to on/off
-   * @static
    * @member Hydra
+   * @type {Function}
+   * @static
    */
   Hydra.setDebug = setDebug;
 
   /**
    * Get the debug status
-   * @static
    * @member Hydra
+   * @type {Function}
+   * @static
    */
   Hydra.getDebug = function ()
   {
     return bDebug;
   };
+
   /**
    * Extends Hydra object with new functionality
-   * @static
    * @member Hydra
    * @param {String} sIdExtension
    * @param {Object} oExtension
+   * @static
    */
   Hydra.extend = function ( sIdExtension, oExtension )
   {
@@ -1264,12 +1398,12 @@
 
   /**
    * Adds an alias to parts of Hydra
-   * @static
    * @member Hydra
    * @param {String} sOldName
    * @param {Object} oNewContext
    * @param {String} sNewName
    * @return {Boolean}
+   * @static
    */
   Hydra.noConflict = function ( sOldName, oNewContext, sNewName )
   {
@@ -1286,18 +1420,39 @@
    * {
    *    'property_in_module_to_check': function(oModule){} // Callback to execute if the property exist
    * }
+   * @type {Function}
    * @param {Object} oVar
    */
   Hydra.addExtensionBeforeInit = function(oVar){
 
     Hydra.module.oModifyInit = simpleMerge( Hydra.module.oModifyInit, oVar );
   };
+
+  /**
+ * To be used about extension, it will return a deep copy of the Modules object to avoid modifying the original
+ * object.
+ * @returns {Object}
+ */
+  Hydra.getCopyModules = function(){
+    return clone(oModules);
+  };
+
+  /**
+   * To be used about extension, it will return a deep copy of the Channels object to avoid modifying the original
+   * object.
+   * @returns {Object}
+   */
+  Hydra.getCopyChannels = function(){
+    return clone(oChannels);
+  };
   /**
    * Module to be stored, adds two methods to start and extend modules.
-   * @private
    * @param {String} sModuleId
    * @param {Function} fpCreator
    * @constructor
+   * @class FakeModule
+   * @name FakeModule
+   * @private
    */
   FakeModule = function ( sModuleId, fpCreator )
   {
@@ -1310,17 +1465,38 @@
     this.sModuleId = sModuleId;
   };
 
+  /**
+   * FakeModule Prototype
+   * @type {{start: Function, extend: Function, stop: Function}}
+   */
   FakeModule.prototype = {
+    /**
+     * Wraps the module start
+     * @param {Object} oData
+     * @returns {FakeModule}
+     */
     start: function ( oData )
     {
       Hydra.module.start( this.sModuleId, oData );
       return this;
     },
+
+    /**
+     * Wraps the module extend
+     * @param {Module} oSecondParameter
+     * @param {Module} oThirdParameter
+     * @returns {FakeModule}
+     */
     extend: function ( oSecondParameter, oThirdParameter )
     {
       Hydra.module.extend( this.sModuleId, oSecondParameter, oThirdParameter );
       return this;
     },
+
+    /**
+     * Wraps the module stop
+     * @returns {FakeModule}
+     */
     stop: function ()
     {
       Hydra.module.stop( this.sModuleId );
