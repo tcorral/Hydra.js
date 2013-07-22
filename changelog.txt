@@ -1,4 +1,6 @@
 ChangeLog:
+3.2.2
+	Adding retrocompatibility to previous versions.
 3.2.1
 	Added Bower support
 	Added error method to ErrorHandler

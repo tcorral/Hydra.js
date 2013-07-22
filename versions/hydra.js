@@ -120,7 +120,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.2.1';
+  sVersion = '3.2.2';
 
   /**
    * Used to activate the debug mode
@@ -532,18 +532,14 @@
      */
     _removeSubscribers: function ( aSubscribers, oSubscriber )
     {
-      var nLenSubscribers,
-        nIndex = 0,
-        nUnsubscribed = 0;
-      if ( typeof aSubscribers !== sNotDefined )
-      {
-        nLenSubscribers = aSubscribers.length;
-        for ( ; nIndex < nLenSubscribers; nIndex++ )
-        {
-          if ( aSubscribers[nIndex].subscriber === oSubscriber )
-          {
+      var nUnsubscribed = 0,
+        nIndex;
+      if (typeof aSubscribers !== sNotDefined) {
+        nIndex = aSubscribers.length - 1;
+        for (; nIndex >= 0 ; nIndex--) {
+          if (aSubscribers[nIndex].subscriber === oSubscriber) {
             nUnsubscribed++;
-            aSubscribers.splice( nIndex, 1 );
+            aSubscribers.splice(nIndex, 1);
           }
         }
       }
@@ -649,27 +645,23 @@
      */
     publish: function ( sChannelId, sEvent, oData )
     {
-      var aSubscribers = this.subscribers( sChannelId, sEvent ).slice(),
+      var aSubscribers = this.subscribers(sChannelId, sEvent ).slice(),
         nLenSubscribers = aSubscribers.length,
-        nIndex,
+        nIndex = 0,
         oHandlerObject;
-      if ( nLenSubscribers === 0 )
-      {
+      if (nLenSubscribers === 0) {
         return false;
       }
-      if ( bUnblockUI )
+      if(bUnblockUI)
       {
-        this._avoidBlockUI( aSubscribers, oData, sChannelId, sEvent );
-      }
-      else
+        this._avoidBlockUI(aSubscribers, oData, sChannelId, sEvent);
+      }else
       {
-        for ( nIndex = 0; nIndex < nLenSubscribers; nIndex++ )
-        {
+        for ( ; nIndex < nLenSubscribers; nIndex++ ) {
           oHandlerObject = aSubscribers[nIndex];
           oHandlerObject.handler.call( oHandlerObject.subscriber, oData );
-          if ( bDebug )
-          {
-            ErrorHandler.log( sChannelId, sEvent, oHandlerObject );
+          if (bDebug) {
+            ErrorHandler.log(sChannelId, sEvent, oHandlerObject);
           }
         }
       }
@@ -700,13 +692,14 @@
     oModule = oModules[sModuleId].creator( Bus );
     oModule.__module_id__ = sModuleId;
     fpInitProxy = oModule.init || nullFunc;
-    oModule.__action__ = Bus;
+    // Provide compatibility with old versions of Hydra.js
+    oModule.__action__ = oModule.__sandbox__ = Bus;
     oModule.events = oModule.events || {};
     oModule.init = function ()
     {
       var aArgs = slice( arguments, 0 ).concat( oVars );
       Bus.subscribe( oModule );
-      fpInitProxy.apply( this, aArgs );
+      return fpInitProxy.apply( this, aArgs );
     };
     oModule.handleAction = function ( oNotifier )
     {
@@ -717,7 +710,8 @@
       }
       fpCallback.call( this, oNotifier );
     };
-    oModule.onDestroy = oModule.onDestroy || nullFunc;
+    // Provide compatibility with old Hydra versions which used to use "destroy" as onDestroy hook.
+    oModule.onDestroy = oModule.onDestroy || oModule.destroy || function () {};
     oModule.destroy = function ()
     {
       this.onDestroy();
@@ -964,7 +958,8 @@
         // create proxy class for the original methods.
         oFinalModule = self._merge( oBaseModule, oExtendedModule );
         // This gives access to the Action instance used to listen and notify.
-        oFinalModule.__action__ = Bus;
+        // __sandbox__ for adding retrocompatibility
+        oFinalModule.__action__ = oFinalModule.__sandbox__ = Bus;
         return oFinalModule;
       } );
       return oModules[sFinalModuleId];
