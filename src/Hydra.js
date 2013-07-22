@@ -357,7 +357,7 @@
         }
         catch ( erError )
         {
-          ErrorHandler.log( sModuleId, sName, erError );
+          ErrorHandler.error( sModuleId, sName, erError );
           return false;
         }
       };
@@ -761,6 +761,9 @@
    */
   ErrorHandler = root.console || {
     log: function ()
+    {
+    },
+    error: function ()
     {
     }
   };
