@@ -120,7 +120,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.2.0';
+  sVersion = '3.2.1';
 
   /**
    * Used to activate the debug mode

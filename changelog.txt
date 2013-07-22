@@ -1,4 +1,7 @@
 ChangeLog:
+3.2.1
+	Added Bower support
+	Added error method to ErrorHandler
 3.2.0
 	Add two special methods to get a copy of channels and modules only to be used in plugins or extensions.
 3.1.5

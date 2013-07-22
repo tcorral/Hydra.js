@@ -120,7 +120,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.2.0';
+  sVersion = '3.2.1';
 
   /**
    * Used to activate the debug mode
@@ -357,7 +357,7 @@
         }
         catch ( erError )
         {
-          ErrorHandler.log( sModuleId, sName, erError );
+          ErrorHandler.error( sModuleId, sName, erError );
           return false;
         }
       };
@@ -761,6 +761,9 @@
    */
   ErrorHandler = root.console || {
     log: function ()
+    {
+    },
+    error: function ()
     {
     }
   };
