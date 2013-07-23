@@ -270,6 +270,10 @@
         oInstance.init();
       }
     }
+    else
+    {
+      ErrorHandler.error(new Error(), 'The module ' + sModuleId + ' is not registered in the system');
+    }
     return oInstance;
   }
 
