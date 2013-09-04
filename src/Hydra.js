@@ -652,18 +652,20 @@
       var aSubscribers = this.subscribers(sChannelId, sEvent ).slice(),
         nLenSubscribers = aSubscribers.length,
         nIndex = 0,
-        oHandlerObject;
+        oHandlerObject,
+        oDataToPublish;
       if (nLenSubscribers === 0) {
         return false;
       }
+      oDataToPublish = clone(oData);
       if(bUnblockUI)
       {
-        this._avoidBlockUI(aSubscribers, oData, sChannelId, sEvent);
+        this._avoidBlockUI(aSubscribers, oDataToPublish, sChannelId, sEvent);
       }else
       {
         for ( ; nIndex < nLenSubscribers; nIndex++ ) {
           oHandlerObject = aSubscribers[nIndex];
-          oHandlerObject.handler.call( oHandlerObject.subscriber, oData );
+          oHandlerObject.handler.call( oHandlerObject.subscriber, oDataToPublish );
           if (bDebug) {
             ErrorHandler.log(sChannelId, sEvent, oHandlerObject);
           }
@@ -1133,7 +1135,7 @@
         }
       }
     },
-    
+
     /**
      * stop more than one module at the same time.
      * @member Module.prototype
