@@ -836,7 +836,7 @@
         {
           oObject = oObject.__instance__.__super__;
         }
-        oObject[sKey].apply( oFinalModule, aArgs );
+        return oObject[sKey].apply( oFinalModule, aArgs );
       };
     },
 
@@ -1133,7 +1133,7 @@
         }
       }
     },
-    
+
     /**
      * stop more than one module at the same time.
      * @member Module.prototype
