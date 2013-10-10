@@ -1,7 +1,7 @@
 # Hydra.js
 Hydra.js is a module manager oriented system.
 
-## Updated to version 3.2.2
+## Updated to version 3.3.0
 
 [![Build Status](https://travis-ci.org/tcorral/Hydra.js.png)](https://travis-ci.org/tcorral/Hydra.js)
 
@@ -115,8 +115,26 @@ Create the new module using "extend":
 		};
 	});
 
+#### Decorating modules
+Sometimes is better to decorate our modules instead of extending them.
+To decorate our modules we should use 'decorate' method.
+    Hydra.module.decorate( 'baseModuleId', 'decoratedModuleId', function( bus, baseModule )
+    {
+        return {
+            init: function ()
+            {
+                //do something on start a module
+                baseModule.init();
+            },
+            onDestroy: function ()
+            {
+                //do something on stop a module
+                baseModule.onDestroy();
+            }
+        };
+    });
 
-#### When listening events
+#### Listening events
 	Hydra.module.register( 'moduleId', function( bus )
 	{
 		return {
