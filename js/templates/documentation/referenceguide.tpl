@@ -75,6 +75,11 @@
                 </a>
             </li>
             <li>
+                <a href="#module_decorate">
+                    Hydra.module.decorate
+                </a>
+            </li>
+            <li>
                 <a href="#start">
                     Hydra.module.start
                 </a>
@@ -575,6 +580,40 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
         </ul>
     </div>
 </div>
+
+
+<div>
+    <h4 id="module_decorate">Hydra.module.decorate</h4>
+
+    <p class="h4">
+        Decorate modules is important to initialize and destroy one module with different behaviours.<br/>
+        A sample of how to decorate a module:
+    </p>
+    <div>
+			<pre><code class="language-javascript">// Base module will alert 'hello world!" when started.
+
+                    Hydra.module.register( 'my-first-module', function( bus ){
+                    return {
+                    init: function() {
+                    alert( "hello world!" );
+                    }
+                    };
+                    });
+
+                    // Decorating a module will give you a reference to the decorated module to use their methods
+
+                    Hydra.module.decorate( 'my-first-module', function( bus, module){
+                    return {
+                    init: function() {
+                    alert( "Yorolei!" );
+                    oModule.init();
+                    }
+                    };
+                    });</code></pre>
+    </div>
+</div>
+
+
 <div>
     <h4 id="start">Hydra.module.start</h4>
 
