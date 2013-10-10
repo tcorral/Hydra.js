@@ -591,25 +591,24 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     </p>
     <div>
 			<pre><code class="language-javascript">// Base module will alert 'hello world!" when started.
+Hydra.module.register( 'my-first-module', function( bus ){
+    return {
+        init: function() {
+            alert( "hello world!" );
+        }
+    };
+});
 
-                    Hydra.module.register( 'my-first-module', function( bus ){
-                    return {
-                    init: function() {
-                    alert( "hello world!" );
-                    }
-                    };
-                    });
+// Decorating a module will give you a reference to the decorated module to use their methods
 
-                    // Decorating a module will give you a reference to the decorated module to use their methods
-
-                    Hydra.module.decorate( 'my-first-module', function( bus, module){
-                    return {
-                    init: function() {
-                    alert( "Yorolei!" );
-                    oModule.init();
-                    }
-                    };
-                    });</code></pre>
+Hydra.module.decorate( 'my-first-module', function( bus, module){
+    return {
+        init: function() {
+            alert( "Yorolei!" );
+            oModule.init();
+        }
+    };
+});</code></pre>
     </div>
 </div>
 
