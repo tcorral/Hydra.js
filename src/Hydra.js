@@ -120,7 +120,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.2.2';
+  sVersion = '3.3.0';
 
   /**
    * Used to activate the debug mode
@@ -722,7 +722,7 @@
     {
       this.onDestroy();
       Bus.unsubscribe( oModule );
-      delete oModules[sModuleId].instances[module.__instance_id__];
+      delete oModules[sModuleId].instances[oModule.__instance_id__];
     };
     return oModule;
   }
@@ -1094,7 +1094,31 @@
         this._singleModuleStart( oModuleId, oIdInstance, oData, oSingle );
       }
     },
-
+    /**
+     * Method to decorate modules instead of extend
+     * @param sModuleId
+     * @param sModuleDecorated
+     * @param fpDecorator
+     * @returns {null}
+     */
+    decorate: function(sModuleId, sModuleDecorated, fpDecorator)
+    {
+      var oModule = oModules[sModuleId], oInstance;
+      if(!oModule)
+      {
+        ErrorHandler.log( sModuleId + ' module is not registered!' );
+        return null;
+      }
+      oInstance = createInstance( sModuleId );
+      oModules[sModuleDecorated] = {
+        creator: function( oBus )
+        {
+          return fpDecorator(oBus, oInstance);
+        }
+      };
+      oModules[sModuleDecorated].instances = [];
+      return new FakeModule( sModuleDecorated, oModules[sModuleDecorated].creator );
+    },
     /**
      * Checks if module was already successfully started
      * @member Module.prototype
@@ -1433,10 +1457,10 @@
   };
 
   /**
- * To be used about extension, it will return a deep copy of the Modules object to avoid modifying the original
- * object.
- * @returns {Object}
- */
+   * To be used about extension, it will return a deep copy of the Modules object to avoid modifying the original
+   * object.
+   * @returns {Object}
+   */
   Hydra.getCopyModules = function(){
     return clone(oModules);
   };

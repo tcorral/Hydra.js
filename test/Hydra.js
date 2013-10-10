@@ -393,6 +393,74 @@ describe( 'Hydra.js', function ()
 
   } );
 
+  describe( 'Decorate a module', function()
+  {
+    it( 'should call the ErrorHandler.log if the base module has not been registered and return null', function()
+    {
+      var sModuleId = 'test';
+      var oResult;
+      var sModuleDecorator = 'test-decorator';
+      sinon.stub( Hydra.errorHandler(), 'log' );
+      oResult = Hydra.module.decorate( sModuleId, sModuleDecorator, function()
+      {
+        return {
+          init: function(){},
+          destroy: function(){}
+        };
+      });
+      Hydra.errorHandler().log.calledOnce.should.equal( true );
+      should.not.exist( oResult );
+      Hydra.errorHandler().log.restore();
+    });
+
+    it( 'should return a FakeModule instance if the base module has been registered', function()
+    {
+      var sModuleId = 'test';
+      var oResult;
+      var sModuleDecorator = 'test-decorator';
+      var fpInitBaseModule = sinon.stub();
+      var fpOnDestroyBaseModule = sinon.stub();
+      var fpInitDecoratedModule = sinon.stub();
+      var fpOnDestroyDecoratedModule = sinon.stub();
+      Hydra.module.register( sModuleId, function( oBus )
+      {
+        return {
+          init: fpInitBaseModule,
+          onDestroy: fpOnDestroyBaseModule
+        };
+      });
+      oResult = Hydra.module.decorate( sModuleId, sModuleDecorator, function( oBus, oModule)
+      {
+        return {
+          init: function()
+          {
+            fpInitDecoratedModule();
+            oModule.init();
+          },
+          onDestroy: function()
+          {
+            fpOnDestroyDecoratedModule();
+            oModule.onDestroy();
+          }
+        };
+      });
+
+      Hydra.module.start( sModuleDecorator );
+
+      fpInitBaseModule.calledOnce.should.equal( true );
+      fpInitDecoratedModule.calledOnce.should.equal( true );
+
+      Hydra.module.stop( sModuleDecorator );
+
+      fpOnDestroyBaseModule.calledOnce.should.equal( true );
+      fpOnDestroyDecoratedModule.calledOnce.should.equal( true );
+
+      oResult.should.be.an.Object;
+      oResult.should.have.property('start');
+      oResult.should.have.property('stop');
+      oResult.should.have.property('extend');
+    });
+  });
 
   describe( 'Start all modules', function ()
   {

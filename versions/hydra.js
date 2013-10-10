@@ -120,7 +120,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.2.2';
+  sVersion = '3.3.0';
 
   /**
    * Used to activate the debug mode
@@ -269,6 +269,10 @@
       {
         oInstance.init();
       }
+    }
+    else
+    {
+      ErrorHandler.error(new Error(), 'The module ' + sModuleId + ' is not registered in the system');
     }
     return oInstance;
   }
@@ -648,18 +652,20 @@
       var aSubscribers = this.subscribers(sChannelId, sEvent ).slice(),
         nLenSubscribers = aSubscribers.length,
         nIndex = 0,
-        oHandlerObject;
+        oHandlerObject,
+        oDataToPublish;
       if (nLenSubscribers === 0) {
         return false;
       }
+      oDataToPublish = clone(oData);
       if(bUnblockUI)
       {
-        this._avoidBlockUI(aSubscribers, oData, sChannelId, sEvent);
+        this._avoidBlockUI(aSubscribers, oDataToPublish, sChannelId, sEvent);
       }else
       {
         for ( ; nIndex < nLenSubscribers; nIndex++ ) {
           oHandlerObject = aSubscribers[nIndex];
-          oHandlerObject.handler.call( oHandlerObject.subscriber, oData );
+          oHandlerObject.handler.call( oHandlerObject.subscriber, oDataToPublish );
           if (bDebug) {
             ErrorHandler.log(sChannelId, sEvent, oHandlerObject);
           }
@@ -716,7 +722,7 @@
     {
       this.onDestroy();
       Bus.unsubscribe( oModule );
-      delete oModules[sModuleId].instances[module.__instance_id__];
+      delete oModules[sModuleId].instances[oModule.__instance_id__];
     };
     return oModule;
   }
@@ -832,7 +838,7 @@
         {
           oObject = oObject.__instance__.__super__;
         }
-        oObject[sKey].apply( oFinalModule, aArgs );
+        return oObject[sKey].apply( oFinalModule, aArgs );
       };
     },
 
@@ -1088,7 +1094,31 @@
         this._singleModuleStart( oModuleId, oIdInstance, oData, oSingle );
       }
     },
-
+    /**
+     * Method to decorate modules instead of extend
+     * @param sModuleId
+     * @param sModuleDecorated
+     * @param fpDecorator
+     * @returns {null}
+     */
+    decorate: function(sModuleId, sModuleDecorated, fpDecorator)
+    {
+      var oModule = oModules[sModuleId], oInstance;
+      if(!oModule)
+      {
+        ErrorHandler.log( sModuleId + ' module is not registered!' );
+        return null;
+      }
+      oInstance = createInstance( sModuleId );
+      oModules[sModuleDecorated] = {
+        creator: function( oBus )
+        {
+          return fpDecorator(oBus, oInstance);
+        }
+      };
+      oModules[sModuleDecorated].instances = [];
+      return new FakeModule( sModuleDecorated, oModules[sModuleDecorated].creator );
+    },
     /**
      * Checks if module was already successfully started
      * @member Module.prototype
@@ -1129,7 +1159,7 @@
         }
       }
     },
-    
+
     /**
      * stop more than one module at the same time.
      * @member Module.prototype
@@ -1427,10 +1457,10 @@
   };
 
   /**
- * To be used about extension, it will return a deep copy of the Modules object to avoid modifying the original
- * object.
- * @returns {Object}
- */
+   * To be used about extension, it will return a deep copy of the Modules object to avoid modifying the original
+   * object.
+   * @returns {Object}
+   */
   Hydra.getCopyModules = function(){
     return clone(oModules);
   };
