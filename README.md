@@ -117,7 +117,7 @@ Create the new module using "extend":
 
 #### Decorating modules
 Sometimes is better to decorate our modules instead of extending them.
-To decorate our modules we should use 'decorate' method.
+
     Hydra.module.decorate( 'baseModuleId', 'decoratedModuleId', function( bus, baseModule )
     {
         return {
