@@ -1,4 +1,6 @@
 ChangeLog:
+3.3.0
+    Adding decorate method to decorate modules instead of using extend to improve reusability of code.
 3.2.2
 	Adding retrocompatibility to previous versions.
 3.2.1
