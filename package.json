@@ -31,7 +31,7 @@
   "devDependencies": {
     "mocha": "*",
     "sinon": "*",
-    "should": "*",
+    "should": "1.2.2",
     "zlib": "*",
     "uglify-js": "*",
     "grunt": "~0.4.1",

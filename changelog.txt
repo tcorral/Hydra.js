@@ -1,4 +1,6 @@
 ChangeLog:
+3.3.1
+	Fix the problem in clone, if the object to clone is an Event it fails to stack overflow.
 3.3.0
     Adding decorate method to decorate modules instead of using extend to improve reusability of code.
 3.2.2

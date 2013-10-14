@@ -5,6 +5,26 @@
   var root, sNotDefined, oModules, oVars, _null_, bUnblockUI, _false_, sVersion, FakeModule, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
 
   /**
+   * Use Event detection and if it fails it degradates to use duck typing detection to test if the supplied object is an Event
+   * @param oObj
+   * @returns {boolean}
+   */
+  function isEvent( oObj )
+  {
+    try
+    {
+      return oObj instanceof Event;
+    }catch( erError )
+    {
+      // Duck typing detection (If it sounds like a duck and it moves like a duck, it's a duck)
+      if( typeof oObj.altKey !== 'undefined' && ( oObj.srcElement || oObj.target ) )
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+  /**
    * nullFunc
    * An empty function to be used as default is no supplied callbacks.
    * @private
@@ -120,7 +140,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.3.0';
+  sVersion = '3.3.1';
 
   /**
    * Used to activate the debug mode
@@ -304,6 +324,11 @@
     var oCopy, oItem, nIndex, nLenArr, sAttr;
     // Handle the 3 simple types, and null or undefined
     if (null == oObject || 'object' !== typeof oObject){
+      return oObject;
+    }
+
+    if ( isEvent( oObject ) )
+    {
       return oObject;
     }
 
