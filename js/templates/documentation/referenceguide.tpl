@@ -601,14 +601,19 @@ Hydra.module.register( 'my-first-module', function( bus ){
 
 // Decorating a module will give you a reference to the decorated module to use their methods
 
-Hydra.module.decorate( 'my-first-module', function( bus, module){
+Hydra.module.decorate( 'my-first-module', 'my-decorated-module', function( bus, module){
     return {
         init: function() {
             alert( "Yorolei!" );
             oModule.init();
         }
     };
-});</code></pre>
+});
+
+// Start a decorated module
+
+Hydra.module.start( 'my-decorated-module' );
+</code></pre>
     </div>
 </div>
 
