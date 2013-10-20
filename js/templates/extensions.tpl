@@ -44,8 +44,18 @@
                 </tr>
                 <tr class="alt">
                     <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
+                    <td class="content"> <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/Delegate" class="js-slide-to js-rewrite-sha" target="_blank" id="ca5695780c501c2d9ca11171681b28dc0e266de4">Delegate</a></td>
+                    <td class="message"> Base module to delegate DOM events to document.</td>
+                </tr>
+                <tr class="alt">
+                    <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
                     <td class="content"> <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/Dependencies" class="js-slide-to js-rewrite-sha" target="_blank" id="ca5695780c501c2d9ca11171681b28dc0e266de3">Dependencies</a></td>
                     <td class="message"> Extend a module to manage it's dependencies by itself.</td>
+                </tr>
+                <tr class="alt">
+                    <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
+                    <td class="content"> <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/Profiler" class="js-slide-to js-rewrite-sha" target="_blank" id="ca5695780c501c2d9ca11171681b28dc0e266de7">Profiler</a></td>
+                    <td class="message"> Profile extension to detect memory leaks or incorrect event binding</td>
                 </tr>
                 <tr class="alt">
                     <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
