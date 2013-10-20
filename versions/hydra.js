@@ -140,7 +140,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.3.1';
+  sVersion = '3.3.2';
 
   /**
    * Used to activate the debug mode
@@ -1138,7 +1138,11 @@
       oModules[sModuleDecorated] = {
         creator: function( oBus )
         {
-          return fpDecorator(oBus, oInstance);
+          var oMerged = {},
+            oDecorated = fpDecorator( oBus, oInstance );
+          simpleMerge( oMerged, oInstance );
+          simpleMerge( oMerged, oDecorated );
+          return oMerged;
         }
       };
       oModules[sModuleDecorated].instances = [];
