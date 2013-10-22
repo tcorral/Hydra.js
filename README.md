@@ -33,7 +33,7 @@ Hydra.js uses a decoupled architecture that:
 
 [Project Web](http://tcorral.github.io/Hydra.js)
 
-[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.1.3/index.html)
+[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.3.2/index.html)
 
 [Examples](http://tcorral.github.io/Hydra.js/#examples)
 
@@ -184,7 +184,7 @@ If you need compatibility with the previous event manager called Action, you can
 
 [Project Web](http://tcorral.github.io/Hydra.js)
 
-[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.1.3/index.html)
+[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.3.2/index.html)
 
 [Examples](http://tcorral.github.io/Hydra.js/#examples)
 
