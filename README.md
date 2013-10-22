@@ -29,7 +29,7 @@ Hydra.js uses a decoupled architecture that:
 * Allows set private variables to be used inside of modules.
 * Can be used in url threaded application as in an Ajax threaded application.
 * You can test your modules with any Unit Testing Framework.
-* Only 2.37KB when [Gzipped](https://github.com/tcorral/Hydra.js/raw/master/versions/hydra.min.js.gz) 2.83KB if you add BasicErrorHandler and Deferred plugins.
+* Only 3.35KB when [Gzipped](https://github.com/tcorral/Hydra.js/raw/master/versions/hydra.min.js.gz).
 
 [Project Web](http://tcorral.github.io/Hydra.js)
 
