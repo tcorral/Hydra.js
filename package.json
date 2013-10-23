@@ -4,6 +4,24 @@
   "description": "Framework that gives you the tools to write your application using modules or widgets and make easy to work with them.",
   "homepage": "http://tcorral.github.com/Hydra.js/",
   "author": "Tomas Corral",
+  "contributors": [ 
+    {
+      "name": "Ramon Ferrer",
+      "github": "https://github.com/Ramonacus"
+    },
+    {
+      "name": "Marc Mignonsin",
+      "github": "https://github.com/mawrkus"
+    },
+    {
+      "name": "Adrià Jimenez",
+      "github": "https://github.com/ajimix"
+    },
+    {
+      "name": "Carlos Villuendas",
+      "github": "https://github.com/carlosvillu"
+    }
+  ],
   "main": "./src/Hydra.js",
   "keywords": [
     "hydra",
