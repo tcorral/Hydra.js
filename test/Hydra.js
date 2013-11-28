@@ -98,19 +98,19 @@ describe( 'Hydra.js', function ()
     it( 'should contain a property called errorHandler', function ()
     {
       should.exist( Hydra.errorHandler );
-      Hydra.errorHandler.should.be.a( 'function' );
+      Hydra.errorHandler.should.be.a.Function;
     } );
 
     it( 'should contain a property called setErrorHandler', function ()
     {
       should.exist( Hydra.setErrorHandler );
-      Hydra.setErrorHandler.should.be.a( 'function' );
+      Hydra.setErrorHandler.should.be.a.Function;
     } );
 
     it( 'should contain a property called module', function ()
     {
       should.exist( Hydra.module );
-      Hydra.module.should.be.a( 'object' );
+      Hydra.module.should.be.an.Object;
       should.equal( "Module", Hydra.module.type );
     } );
 
@@ -210,7 +210,7 @@ describe( 'Hydra.js', function ()
       Hydra.module.register( sModuleId, fpModuleCreator );
       Hydra.module.test( sModuleId, function ( oModule )
       {
-        oModule.should.be.a( 'object' );
+        oModule.should.be.an.Object;
       } );
 
       Hydra.module.remove( sModuleId );
@@ -944,7 +944,7 @@ describe( 'Hydra.js', function ()
       } );
       sinon.spy( oCallbacks, 'fpInit' );
 
-      Hydra.module.setVars.should.be.a( 'function' );
+      Hydra.module.setVars.should.be.a.Function;
 
       oCallbacks.fpInit.restore();
       oVars = null;
@@ -1055,7 +1055,7 @@ describe( 'Hydra.js', function ()
       };
       Hydra.module.setVars( oVars );
 
-      Hydra.module.getVars.should.be.a( 'function' );
+      Hydra.module.getVars.should.be.a.Function;
 
       oVars = null;
     } );
@@ -1084,7 +1084,7 @@ describe( 'Hydra.js', function ()
 
     it( 'should check that extend method exist', function ()
     {
-      Hydra.extend.should.be.a( 'function' );
+      Hydra.extend.should.be.a.Function;
     } );
 
     it( 'should check that extend method must receive two params', function ()
@@ -1110,7 +1110,7 @@ describe( 'Hydra.js', function ()
 
     it( 'should check that noConflict method exist ', function ()
     {
-      Hydra.noConflict.should.be.a( 'function' );
+      Hydra.noConflict.should.be.a.Function;
     } );
 
     it( 'should check that noConflict method must receive three params ', function ()
@@ -1146,28 +1146,28 @@ describe( 'Hydra.js', function ()
     {
       Hydra.bus.reset();
 
-      Hydra.bus.subscribers.should.be.a( 'function' );
+      Hydra.bus.subscribers.should.be.a.Function;
     } );
 
     it( 'should check that Hydra.bus has method subscribe', function ()
     {
       Hydra.bus.reset();
 
-      Hydra.bus.subscribe.should.be.a( 'function' );
+      Hydra.bus.subscribe.should.be.a.Function;
     } );
 
     it( 'should check that Hydra.bus has method unsubscribe', function ()
     {
       Hydra.bus.reset();
 
-      Hydra.bus.unsubscribe.should.be.a( 'function' );
+      Hydra.bus.unsubscribe.should.be.a.Function;
     } );
 
     it( 'should check that Hydra.bus has method publish', function ()
     {
       Hydra.bus.reset();
 
-      Hydra.bus.publish.should.be.a( 'function' );
+      Hydra.bus.publish.should.be.a.Function;
     } );
 
   } );
