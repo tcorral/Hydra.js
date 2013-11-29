@@ -1671,4 +1671,67 @@ describe( 'Hydra.js', function ()
     } );
   } );
 
+  describe('Check that you can access Hydra.api from inside the methods', function()
+  {
+    beforeEach(function(){
+      Hydra.bus.reset();
+    });
+
+    it('should check that you can access Hydra.module', function()
+    {
+      var oStub = sinon.stub();
+      Hydra.module.register('test', function(bus)
+      {
+        return {
+          init: function()
+          {
+            this.api.module.start('test2');
+          }
+        };
+      });
+
+      Hydra.module.register('test2', function(bus)
+      {
+        return {
+          init: oStub
+        };
+      });
+
+      Hydra.module.start('test');
+
+      oStub.calledOnce.should.equal( true );
+    });
+
+    it('should check that you can access Hydra.bus', function()
+    {
+      var oStub = sinon.stub();
+      Hydra.module.register('test', function(bus)
+      {
+        return {
+          events: {
+            'channel': {
+              'item:action': oStub
+            }
+          },
+          init: function()
+          {
+            this.api.module.start('test2');
+          }
+        };
+      });
+
+      Hydra.module.register('test2', function(bus)
+      {
+        return {
+          init: function()
+          {
+            this.api.bus.publish('channel', 'item:action');
+          }
+        };
+      });
+
+      Hydra.module.start('test');
+      oStub.calledOnce.should.equal(true);
+    });
+  });
 } );

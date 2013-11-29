@@ -140,7 +140,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.3.2';
+  sVersion = '3.4.0';
 
   /**
    * Used to activate the debug mode
@@ -382,6 +382,7 @@
         var aArgs = slice( arguments, 0 );
         try
         {
+          this.api = Hydra;
           return fpMethod.apply( this, aArgs );
         }
         catch ( erError )

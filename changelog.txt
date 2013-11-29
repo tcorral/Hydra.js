@@ -1,4 +1,6 @@
 ChangeLog:
+3.4.0
+    Allow access to Hydra api from methods using 'this.api'
 3.3.2
     Improving the decorate method to 'inherit' parent methods.
 3.3.1
