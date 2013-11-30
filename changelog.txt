@@ -1,4 +1,6 @@
 ChangeLog:
+3.4.1
+    Fix issue when cloning data of jQuery objects.
 3.4.0
     Allow access to Hydra api from methods using 'this.api'
 3.3.2
