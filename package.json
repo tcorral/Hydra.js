@@ -20,6 +20,14 @@
     {
       "name": "Carlos Villuendas",
       "github": "https://github.com/carlosvillu"
+    },
+    {
+      "name": "Rafael Yepes",
+      "github": "https://github.com/rafayepes"
+    },
+    {
+      "name": "Greg Freeman",
+      "blog": "http://www.gregfreeman.org/"
     }
   ],
   "main": "./src/Hydra.js",
