@@ -183,7 +183,7 @@
 			<pre><code class="language-javascript">// The only thing that is needed is a property object named 'events' with event names as keys,
 // and values that are callbacks to execute when the event is triggered.
 
-Hydra.module().register( "module-name", function ( bus ) {
+Hydra.module().register( "module-name", function ( Bus, Module, ErrorHandler, Api ) {
     return {
         events: {
             'channel': {
@@ -254,7 +254,7 @@ ProgressBar.prototype.update = function (nProgress) {
             Example of usage:
         </p>
         <div>
-            <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
+            <pre><code class="language-javascript">Hydra.module.register( "module-name", function ( Bus, Module, ErrorHandler, Api ) {
     return {
         sName: 'John Doe',
         sayHi: function ()
@@ -264,7 +264,7 @@ ProgressBar.prototype.update = function (nProgress) {
         init: function () {
             // You can subscribe to one channel and event to one callback inside a module or class.
             // When the event 'item:action' is called in 'channel' channel an alert will be shown.
-            bus.subscribeTo( 'channel', 'item:action', this.sayHi, this );
+            Bus.subscribeTo( 'channel', 'item:action', this.sayHi, this );
         }
     };
 });</code></pre>
@@ -286,7 +286,7 @@ ProgressBar.prototype.update = function (nProgress) {
             Example of usage:
         </p>
         <div>
-            <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
+            <pre><code class="language-javascript">Hydra.module.register( "module-name", function ( Bus, Module, ErrorHandler, Api ) {
 	return {
 		events: {
             'channel': {
@@ -296,11 +296,11 @@ ProgressBar.prototype.update = function (nProgress) {
             }
         },
         _logClick: function ( sButtonType ) {
-            bus.publish( 'channel2', 'item2:action2', { test: 'hello' } );
+            Bus.publish( 'channel2', 'item2:action2', { test: 'hello' } );
         },
         init: function () {
             document.getElementById( 'button' ).addEventListener('click', function() {
-                bus.publish( 'channel', 'item:action', { sButtonType: 'loginButton'} );
+                Bus.publish( 'channel', 'item:action', { sButtonType: 'loginButton'} );
             });
         }
     };
@@ -319,7 +319,7 @@ ProgressBar.prototype.update = function (nProgress) {
             Example of usage
         </p>
         <div>
-            <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
+            <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( Bus, Module, ErrorHandler, Api ) {
     return {
         events: {
             'channel_name': {
@@ -364,7 +364,7 @@ ProgressBar.prototype.update = function (nProgress) {
             Example of usage:
         </p>
         <div>
-            <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( bus ) {
+            <pre><code class="language-javascript">Hydra.module.register( "module-name", function ( Bus, Module, ErrorHandler, Api ) {
     return {
         sName: 'John Doe',
         sayHi: function ()
@@ -374,11 +374,11 @@ ProgressBar.prototype.update = function (nProgress) {
         init: function () {
             // You can subscribe to one channel and event to one callback inside a module or class.
             // When the event 'item:action' is called in 'channel' channel an alert will be shown.
-            bus.subscribeTo( 'channel', 'item:action', this.sayHi, this );
+            Bus.subscribeTo( 'channel', 'item:action', this.sayHi, this );
             document.getElementById('button').addEventListener( 'click', function() {
                 // When the button is clicked the listeners in 'channel' and 'item:action' of this
                 // module will stop listening.
-                bus.unsubscribeFrom( 'channel', 'item:action', this );
+                Bus.unsubscribeFrom( 'channel', 'item:action', this );
             });
         }
     };
@@ -591,7 +591,7 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
     </p>
     <div>
 			<pre><code class="language-javascript">// Base module will alert 'hello world!" when started.
-Hydra.module.register( 'my-first-module', function( bus ){
+Hydra.module.register( 'my-first-module', function( Bus, Module, ErrorHandler, Api ){
     return {
         init: function() {
             alert( "hello world!" );
@@ -600,8 +600,9 @@ Hydra.module.register( 'my-first-module', function( bus ){
 });
 
 // Decorating a module will give you a reference to the decorated module to use their methods
+// oModule is the instance of the parent module
 
-Hydra.module.decorate( 'my-first-module', 'my-decorated-module', function( bus, module ){
+Hydra.module.decorate( 'my-first-module', 'my-decorated-module', function( Bus, oModule, Module, ErrorHandler, Api ){
     return {
         init: function() {
             alert( "Yorolei!" );

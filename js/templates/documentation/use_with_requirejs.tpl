@@ -98,10 +98,10 @@ define(['hydra', 'modules/module'], function (Hydra) {
                         <strong>module.js</strong>
                             <pre><code class="language-javascript">define(['hydra', '../../js/modules/other_module.js'], function (Hydra, Other) {
     Other.start();
-    var Mod = Hydra.module.register('module', function (bus) {
+    var Mod = Hydra.module.register( 'module', function ( Bus, Module, ErrorHandler, Api ) {
         return {
             init:function () {
-                bus.publish('channel', 'item:action', {});
+                Bus.publish('channel', 'item:action', {});
                 console.log('module started');
             }
         };
@@ -114,10 +114,10 @@ define(['hydra', 'modules/module'], function (Hydra) {
                     <div>
                         <strong>other_module.js</strong>
                                 <pre><code class="language-javascript">define(['hydra'], function (Hydra) {
-    return Hydra.module.register('other', function (bus) {
+    return Hydra.module.register( 'other', function ( Bus, Module, ErrorHandler, Api ) {
         return {
             init:function () {
-                bus.subscribeTo('channel', 'item:action', function () {
+                Bus.subscribeTo('channel', 'item:action', function () {
                     console.log('other started');
                 }, this);
                 console.log('other module started');
@@ -190,11 +190,11 @@ module started
                             <div>
                                 <pre><code class="language-javascript">define(['hydra', '../../js/modules/other_module.js'], function (Hydra, Other) {
     Other.start();
-    var Mod = Hydra.module.register('module', function (bus) {
+    var Mod = Hydra.module.register('module', function ( Bus, Module, ErrorHandler, Api ) {
         return {
             init:function () {
-                bus.publish('channel', 'item:action', {});
-                    console.log('module started');
+                Bus.publish('channel', 'item:action', {});
+                console.log('module started');
             }
         };
     });
@@ -207,10 +207,10 @@ module started
                                     What is being executed in <strong>other_module.js</strong> file.
                                     <div>
                                 <pre><code class="language-javascript">define(['hydra'], function (Hydra) {
-    return Hydra.module.register('other', function (bus) {
+    return Hydra.module.register( 'other', function ( Bus, Module, ErrorHandler, Api ) {
         return {
             init:function () {
-                bus.subscribeTo('channel', 'item:action', function () {
+                Bus.subscribeTo('channel', 'item:action', function () {
                     console.log('other started');
                 }, this);
                 console.log('other module started');
@@ -240,10 +240,10 @@ module started
                         </li>
                         <li>
                             Create a new Hydra module using Hydra.module.register.
-                            <div><pre><code class="language-javascript">var Mod = Hydra.module.register('module', function (bus) {
+                            <div><pre><code class="language-javascript">var Mod = Hydra.module.register('module', function ( Bus, Module, ErrorHandler, Api ) {
     return {
         init:function () {
-            bus.publish('channel', 'item:action', {});
+            Bus.publish('channel', 'item:action', {});
             console.log('module started');
         }
     };

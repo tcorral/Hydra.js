@@ -76,33 +76,33 @@
 var Hydra, Other;
 Hydra = require('hydra.js');
 Other = {};
-Other.original = Hydra.module.register('other', function(bus)
+Other.original = Hydra.module.register( 'other', function( Bus, Module, ErrorHandler, Api )
 {
     return {
         init: function()
         {
             console.log('init other', +new Date());
-            bus.subscribeTo('channel', 'lol:say', function(oData)
+            Bus.subscribeTo('channel', 'lol:say', function(oData)
             {
                 console.log('lol', +new Date(), oData);
             }, this);
         }
     };
 });
-Other.extended = Other.original.extend('other2', function(bus)
+Other.extended = Other.original.extend('other2', function( Bus, Module, ErrorHandler, Api )
 {
     return {
         init: function()
         {
             console.log('init other2', +new Date());
-            bus.subscribeTo('channel', 'lol:say', function(oData)
+            Bus.subscribeTo('channel', 'lol:say', function(oData)
             {
                 console.log('lol2', +new Date(), oData);
             }, this);
         },
         onDestroy: function()
         {
-            bus.unsubscribeFrom('channel', 'lol:say', this);
+            Bus.unsubscribeFrom('channel', 'lol:say', this);
         }
     };
 });
@@ -126,13 +126,13 @@ Other.extended.start();
 Other.extended.stop();
 Hydra.bus.publish('channel', 'lol:say', {from: 'out_2'});
 
-Test = Hydra.module.register('test', function(bus)
+Test = Hydra.module.register('test', function(Bus, Module, ErrorHandler, Api)
 {
     return {
         init: function()
         {
             console.log('init test', +new Date());
-            bus.publish('channel', 'lol:say', {from: 'in'});
+            Bus.publish('channel', 'lol:say', {from: 'in'});
             console.log('ein', +new Date());
         }
     };
@@ -226,18 +226,18 @@ ein [timestamp]
                                 <pre><code class="language-javascript">
 // Using Hydra.module.register will return the instance of the module
 // then we can store this instance as the original module in the Other namespace.
-Other.original = Hydra.module.register('other', function(bus)
+Other.original = Hydra.module.register( 'other', function( Bus, Module, ErrorHandler, Api )
 {
     return {
         init: function()
         {
             // The line below is executed when the original module is started.
             console.log('init other', +new Date());
-            // Use bus.subscribeTo to make this module react to the 'lol:say' event
+            // Use Bus.subscribeTo to make this module react to the 'lol:say' event
             // in the channel 'channel'.
             // If the event 'lol:say' in the channel 'channel' is triggered, the
             // callback will be executed.
-            bus.subscribeTo('channel', 'lol:say', function(oData)
+            Bus.subscribeTo('channel', 'lol:say', function(oData)
             {
                 console.log('lol', +new Date(), oData);
             }, this);
@@ -254,18 +254,18 @@ Other.original = Hydra.module.register('other', function(bus)
 // Using Other.original.extend will extend the base module stored in Other.original
 // and will return the extended instance of the module then we can store this instance
 // as the extended module in the Other namespace.
-Other.extended = Other.original.extend('other2', function(bus)
+Other.extended = Other.original.extend( 'other2', function( Bus, Module, ErrorHandler, Api )
 {
     return {
         init: function()
         {
             // The line below it is executed when the extended module is started.
             console.log('init other2', +new Date());
-            // Use bus.subscribeTo to make this module react to the 'lol:say' event
+            // Use Bus.subscribeTo to make this module react to the 'lol:say' event
             // in the channel 'channel'.
             // If the event 'lol:say' in the channel 'channel' is triggered, the
             // callback will be executed.
-            bus.subscribeTo('channel', 'lol:say', function(oData)
+            Bus.subscribeTo('channel', 'lol:say', function(oData)
             {
                 console.log('lol2', +new Date(), oData);
             }, this);
@@ -275,7 +275,7 @@ Other.extended = Other.original.extend('other2', function(bus)
             // This callback it is executed when the modules is stopped.
             // The line below will stop listening the event 'lol:say' in
             // the channel 'channel'.
-            bus.unsubscribeFrom('channel', 'lol:say', this);
+            Bus.unsubscribeFrom('channel', 'lol:say', this);
         }
     };
 });
@@ -305,7 +305,7 @@ Other.extended = Other.original.extend('other2', function(bus)
                 <li>
                     Trigger the event 'lol:say' in the channel 'channel'.
                     <div>
-                        <pre><code class="language-javascript">Hydra.bus.publish('channel', 'lol:say', {from: 'out_1'});</code></pre>
+                        <pre><code class="language-javascript">Bus.publish('channel', 'lol:say', {from: 'out_1'});</code></pre>
                     </div>
                     We trigger the event and we pass an object to the callback to be executed.
                     This will we added to your console.
@@ -342,7 +342,7 @@ Other.extended = Other.original.extend('other2', function(bus)
                     Trigger the event 'lol:say' in the channel 'channel'.
                     This event is listened by the original module.
                     <div>
-                        <pre><code class="language-javascript">Hydra.bus.publish('channel', 'lol:say', {from: 'out_2'});</code></pre>
+                        <pre><code class="language-javascript">Bus.publish('channel', 'lol:say', {from: 'out_2'});</code></pre>
                     </div>
                     We trigger the event and we pass an object to the callback to be executed.
                     This will we added to your console.
@@ -356,7 +356,7 @@ Other.extended = Other.original.extend('other2', function(bus)
                         <pre><code class="language-javascript">
 // Using Hydra.module.register will return the instance of the module
 // then we can store this instance in the Test variable.
-Test = Hydra.module.register('test', function(bus)
+Test = Hydra.module.register( 'test', function( Bus, Module, ErrorHandler, Api )
 {
     return {
         init: function()
@@ -364,7 +364,7 @@ Test = Hydra.module.register('test', function(bus)
             // The line below it is executed when the Test module is started.
             console.log('init test', +new Date());
             // When the Test module is started a 'lol:say' event in channel 'channel' is triggered.
-            bus.publish('channel', 'lol:say', {from: 'in'});
+            Bus.publish('channel', 'lol:say', {from: 'in'});
             // The line below it is executed after executing the callback of the 'lol:say' event.
             console.log('ein', +new Date());
         }

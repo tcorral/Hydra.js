@@ -399,7 +399,7 @@
     </p>
 
     <div>
-	<pre><code class="language-javascript">function( bus ){
+	<pre><code class="language-javascript">function( Bus, Module, ErrorHandler, Api ){
     return {
         init: function(){
             // Code that will be executed when this module is started.
@@ -420,7 +420,7 @@
     </p>
 
     <div>
-	<pre><code class="language-javascript">Hydra.module.register( 'my-fist-module', function( bus ){
+	<pre><code class="language-javascript">Hydra.module.register( 'my-fist-module', function( Bus, Module, ErrorHandler, Api ){
     return {
         init: function(){
             // Code that will be executed when this module is started.
@@ -448,7 +448,7 @@
         Tip: The context object <em>(this)</em> of event callback will be the module/object itself.
     </div>
     <div>
-	<pre><code class="language-javascript">Hydra.module.register( 'my-first-module', function( bus ){
+	<pre><code class="language-javascript">Hydra.module.register( 'my-first-module', function( Bus, Module, ErrorHandler, Api ){
     return {
         events: {
             'channel_name': {
@@ -480,15 +480,15 @@
     </p>
 
     <div>
-	<pre><code class="language-javascript">Hydra.module.register( 'my-second-module', function( bus ){
+	<pre><code class="language-javascript">Hydra.module.register( 'my-second-module', function( Bus, Module, ErrorHandler, Api ){
     return {
         setButtonBehaviour: function()
         {
             // When the button is clicked it triggers the 'user-clicks-button' event that will
             // execute the callbacks defined for this event in other modules if some of them is
             // listening the event.
-            Hydra.events.bind( document.getElementById( "button" ), function() {
-                bus.publish( 'channel_name', 'event_name', { } );
+            Api.events.bind( document.getElementById( "button" ), function() {
+                Bus.publish( 'channel_name', 'event_name', { } );
             });
         },
         init: function(){
@@ -506,22 +506,22 @@
     </p>
 
     <div>
-	<pre><code class="language-javascript">Hydra.module.register( 'my-second-module', function( bus ){
+	<pre><code class="language-javascript">Hydra.module.register( 'my-second-module', function( Bus, Module, ErrorHandler, Api ){
     return {
         setButtonBehaviour: function()
         {
             // When the button is clicked it triggers the 'user-clicks-button' event that will
             // execute the callbacks defined for this event in other modules if some of them is
             // listening the event.
-            Hydra.events.bind( document.getElementById( "button" ), function() {
-                bus.publish( 'channel_name', 'event_name', { } );
+            Api.events.bind( document.getElementById( "button" ), function() {
+                Bus.publish( 'channel_name', 'event_name', { } );
             });
         },
         init: function(){
             this.setButtonBehaviour();
         },
         onDestroy: function(){
-            bus.unsubscribe('channel_name', this);
+            Bus.unsubscribe('channel_name', this);
         }
     };
 });</code></pre>
@@ -571,7 +571,7 @@
         Sample of Module with “init” method with parameters.
     </p>
     <div>
-	<pre><code class="language-javascript">Hydra.module.register( 'my-first-module', function( bus ) {
+	<pre><code class="language-javascript">Hydra.module.register( 'my-first-module', function( Bus, Module, ErrorHandler, Api ) {
     return {
         init: function( data ) {
             alert( data.hello );
