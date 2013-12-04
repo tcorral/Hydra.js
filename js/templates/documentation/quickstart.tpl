@@ -398,6 +398,26 @@
         A sample of the module with the minimum required:
     </p>
 
+    <p class="h4">
+        <div>
+            The function that creates the module gets 4 arguments that you can use to get access to the different parts of Hydra without using the Hydra global.
+        </div>
+        <ul>
+            <li>
+                <strong>Bus</strong><span>&nbsp;-&nbsp;</span><span>Get access to Hydra.bus, the action manager to publish or subscribe to events</span>
+            </li>
+            <li>
+                <strong>Module</strong><span>&nbsp;-&nbsp;</span><span>Get access to Hydra.module, the module manager to register, extend, decorate, start and stop modules.</span>
+            </li>
+            <li>
+                <strong>ErrorHandler</strong><span>&nbsp;-&nbsp;</span><span>Get access to the Hydra.errorHandler, it's recommended to use it instead of using console.log because of the possible improvements see <a href="https://github.com/tcorral/Hydra_Extensions/">Hydra.js extensions</a> or <a href="https://github.com/tcorral/Hermes.js/">Hermes.js</a></span>
+            </li>
+            <li>
+                <strong>Api</strong><span>&nbsp;-&nbsp;</span><span>Get access to the rest of the Hydra api. You can use it to access to the current extensions, i.e. jQuery, or to your own extensions.</span>
+            </li>
+        </ul>
+    </p>
+
     <div>
 	<pre><code class="language-javascript">function( Bus, Module, ErrorHandler, Api ){
     return {

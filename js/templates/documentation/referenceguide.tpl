@@ -183,7 +183,7 @@
 			<pre><code class="language-javascript">// The only thing that is needed is a property object named 'events' with event names as keys,
 // and values that are callbacks to execute when the event is triggered.
 
-Hydra.module().register( "module-name", function ( Bus, Module, ErrorHandler, Api ) {
+Hydra.module.register( "module-name", function ( Bus, Module, ErrorHandler, Api ) {
     return {
         events: {
             'channel': {
@@ -319,7 +319,7 @@ ProgressBar.prototype.update = function (nProgress) {
             Example of usage
         </p>
         <div>
-            <pre><code class="language-javascript">Hydra.module().register( "module-name", function ( Bus, Module, ErrorHandler, Api ) {
+            <pre><code class="language-javascript">Hydra.module.register( "module-name", function ( Bus, Module, ErrorHandler, Api ) {
     return {
         events: {
             'channel_name': {
@@ -398,7 +398,8 @@ ProgressBar.prototype.update = function (nProgress) {
     </div>
     <div>
 		<pre><code class="language-javascript">var oErrorHandler = Hydra.errorHandler();
-oErrorHandler.log('This is an error');</code></pre>
+oErrorHandler.log('This is a debug message');
+oErrorHandler.error('This is an error message');</code></pre>
     </div>
 </div>
 <div>
@@ -434,7 +435,7 @@ oErrorHandler.log('This is an error');</code></pre>
         Example of usage
     </p>
     <div>
-        <pre><code class="language-javascript">Hydra.module().setVars( { test:'test' } );</code></pre>
+        <pre><code class="language-javascript">Hydra.module.setVars( { test:'test' } );</code></pre>
     </div>
 </div>
 <div>
@@ -448,7 +449,7 @@ oErrorHandler.log('This is an error');</code></pre>
         Example of usage
     </p>
     <div>
-        <pre><code class="language-javascript">var oVars = Hydra.module().getVars();</code></pre>
+        <pre><code class="language-javascript">var oVars = Hydra.module.getVars();</code></pre>
     </div>
 </div>
 <div>
@@ -462,7 +463,7 @@ oErrorHandler.log('This is an error');</code></pre>
         Example of usage
     </p>
     <div>
-			<pre><code class="language-javascript">Hydra.module().register("module-name", function (action) {
+			<pre><code class="language-javascript">Hydra.module.register("module-name", function (action) {
 	return {
 		events: {
             'channel': {
@@ -498,7 +499,7 @@ oErrorHandler.log('This is an error');</code></pre>
 </div>
 <div>
     <h4 id="module_extend">Hydra.module.extend</h4>
-
+    <div><strong>Deprecated in version 3.5.0 it will be removed in version 3.7.0 but will be available as a Hydra.js extension</strong></div>
     <p class="h4">
         Module extension in Hydra could be used in two different ways:
     </p>
@@ -602,7 +603,7 @@ Hydra.module.register( 'my-first-module', function( Bus, Module, ErrorHandler, A
 // Decorating a module will give you a reference to the decorated module to use their methods
 // oModule is the instance of the parent module
 
-Hydra.module.decorate( 'my-first-module', 'my-decorated-module', function( Bus, oModule, Module, ErrorHandler, Api ){
+Hydra.module.decorate( 'my-first-module', 'my-decorated-module', function( Bus, Module, ErrorHandler, Api, oModule ){
     return {
         init: function() {
             alert( "Yorolei!" );
@@ -675,7 +676,7 @@ Hydra.module.start( 'my-decorated-module' );
         Example of usage
     </p>
     <div>
-        <pre><code class="language-javascript">Hydra.module().startAll();</code></pre>
+        <pre><code class="language-javascript">Hydra.module.startAll();</code></pre>
     </div>
 </div>
 <div>
@@ -689,7 +690,7 @@ Hydra.module.start( 'my-decorated-module' );
         Example of usage
     </p>
     <div>
-        <pre><code class="language-javascript">Hydra.module().isModuleStarted( "module-name", "instance-module" );</code></pre>
+        <pre><code class="language-javascript">Hydra.module.isModuleStarted( "module-name", "instance-module" );</code></pre>
     </div>
 </div>
 <div>
@@ -703,7 +704,7 @@ Hydra.module.start( 'my-decorated-module' );
         Example of usage
     </p>
     <div>
-        <pre><code class="language-javascript">Hydra.module().stop( "module-name", "instance-module" );</code></pre>
+        <pre><code class="language-javascript">Hydra.module.stop( "module-name", "instance-module" );</code></pre>
     </div>
 </div>
 <div>
@@ -717,7 +718,7 @@ Hydra.module.start( 'my-decorated-module' );
         Example of usage
     </p>
     <div>
-        <pre><code class="language-javascript">Hydra.module().stopAll();</code></pre>
+        <pre><code class="language-javascript">Hydra.module.stopAll();</code></pre>
     </div>
 </div>
 </div>
