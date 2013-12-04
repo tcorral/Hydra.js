@@ -1,13 +1,24 @@
 ChangeLog:
+3.5.0
+    Deprecate the extend method
+    Fix Readme.md documentation with the missing Api argument.
+    Change the order of module instance in the decorator method to be compatible with the rest of the api.
+        [0] - Bus api access
+        [1] - Module api access
+        [2] - ErrorHandler api access
+        [3] - Hydra Api access
+        [4] - Module instance if we use decorate method to extend modules.
 3.4.2
     Change the access to Hydra api from using 'this.api' in methods, now is delegated to the creator function.
     Arguments:
-        [0] - Bus api
+        [0] - Bus api access
             [1] - Module instance decorating modules
-        [1] - Module api
-            [2] - Module api decorating modules
-        [2] - ErrorHandler api
+        [1] - Module api access
+            [2] - Module api access decorating modules
+        [2] - ErrorHandler api access
             [3] - ErrorHandler api decorating modules
+        [3] - Hydra Api access
+            [4] - Hydra Api access
 3.4.1
     Fix issue when cloning data of jQuery objects.
 3.4.0

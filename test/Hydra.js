@@ -369,7 +369,7 @@ describe('Hydra.js', function () {
           onDestroy: fpOnDestroyBaseModule
         };
       });
-      oResult = Hydra.module.decorate(sModuleId, sModuleDecorator, function (oBus, Module, ErroHandler, oModule) {
+      oResult = Hydra.module.decorate(sModuleId, sModuleDecorator, function (oBus, Module, ErrorHandler, oApi, oModule) {
         return {
           init: function () {
             fpInitDecoratedModule();

@@ -143,7 +143,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.4.2';
+  sVersion = '3.5.0';
 
   /**
    * Used to activate the debug mode
@@ -662,7 +662,7 @@
   function addPropertiesAndMethodsToModule(sModuleId) {
     var oModule,
       fpInitProxy;
-    oModule = oModules[sModuleId].creator(Bus, Hydra.module, Hydra.errorHandler());
+    oModule = oModules[sModuleId].creator(Bus, Hydra.module, Hydra.errorHandler(), Hydra);
     oModule.__module_id__ = sModuleId;
     fpInitProxy = oModule.init || nullFunc;
     // Provide compatibility with old versions of Hydra.js
@@ -869,6 +869,7 @@
      * @param {String} sModuleId
      * @param {Function|String} oSecondParameter can be the name of the new module that extends the baseModule or a function if we want to extend an existent module.
      * @param {Function} oThirdParameter [optional] this must exist only if we need to create a new module that extends the baseModule.
+     * @deprecated
      * @return {undefined|Module}
      */
     extend: function (sModuleId, oSecondParameter, oThirdParameter) {
@@ -891,8 +892,8 @@
       if (typeof oModule === sNotDefined) {
         return;
       }
-      oExtendedModule = fpCreator(Bus, Hydra.module, Hydra.errorHandler());
-      oBaseModule = oModule.creator(Bus, Hydra.module, Hydra.errorHandler());
+      oExtendedModule = fpCreator(Bus, Hydra.module, Hydra.errorHandler(), Hydra);
+      oBaseModule = oModule.creator(Bus, Hydra.module, Hydra.errorHandler(), Hydra);
 
       oModules[sFinalModuleId] = new FakeModule(sFinalModuleId, function (Bus) {
         // If we extend the module with the different name, we
@@ -1028,9 +1029,9 @@
       }
       oInstance = createInstance(sModuleId);
       oModules[sModuleDecorated] = {
-        creator: function (oBus, Module, ErrorHandler) {
+        creator: function (oBus, Module, ErrorHandler, Hydra) {
           var oMerged = {},
-            oDecorated = fpDecorator(oBus, Module, ErrorHandler, oInstance);
+            oDecorated = fpDecorator(oBus, Module, ErrorHandler, Hydra, oInstance);
           simpleMerge(oMerged, oInstance);
           simpleMerge(oMerged, oDecorated);
           return oMerged;

@@ -1,7 +1,7 @@
 # Hydra.js
 Hydra.js is a module manager oriented system.
 
-## Updated to version 3.4.2
+## Updated to version 3.5.0
 
 [![Build Status](https://travis-ci.org/tcorral/Hydra.js.png)](https://travis-ci.org/tcorral/Hydra.js)
 
@@ -33,7 +33,7 @@ Hydra.js uses a decoupled architecture that:
 
 [Project Web](http://tcorral.github.io/Hydra.js)
 
-[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.3.2/index.html)
+[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.5.0/index.html)
 
 [Examples](http://tcorral.github.io/Hydra.js/#examples)
 
@@ -57,8 +57,28 @@ to this variables object using getVars (See 'Getting variables')
 	var oVars = Hydra.module.getVars();
 Returns the object with the private variables set using setVars (See 'Setting variables')
 
+### Module creator function
+The module creator function gets four arguments:
+
+* **Bus**
+    * Get access to Hydra.bus, the action manager to publish or subscribe to events
+* **Module**
+    * Get access to Hydra.module, the module manager to register, extend, decorate, start and stop modules.
+* **ErrorHandler**
+    * Get access to the Hydra.errorHandler, it's recommended to use it instead of using console.log because of the possible improvements see [Hydra.js extensions](https://github.com/tcorral/Hydra_Extensions/) or [Hermes.js](https://github.com/tcorral/Hermes.js/)
+* **Api**
+    * Get access to the rest of the Hydra api. You can use it to access to the current extensions, i.e. jQuery, or to your own extensions.
+
+
+    function( Bus, Module, ErrorHandler, Api )
+    {
+        return {
+            init: function ( oData ) {}
+        };
+    }
+
 ### Create a module
-	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler )
+	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 	{
 		return {
 			init: function ( oData ) {}
@@ -66,9 +86,10 @@ Returns the object with the private variables set using setVars (See 'Setting va
 	});
 
 ### Extend a module overriding the base module
+#### Deprecated
 To extend a module you will need to register the base module before extends it.
 
-	Hydra.module.extend( 'moduleId', function( Bus, Module, ErrorHandler )
+	Hydra.module.extend( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 	{
 		return {
 			init: function ( oData ) {}
@@ -76,9 +97,10 @@ To extend a module you will need to register the base module before extends it.
 	});
 
 ### Extend a module creating a new module
+#### Deprecated
 To extend a module you will need to register the base module before extends it.
 
-	Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler )
+	Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler, Api )
 	{
 		return {
 			init: function ( oData ) {}
@@ -88,10 +110,11 @@ To extend a module you will need to register the base module before extends it.
 This extension allows access the parent methods as classical inheritance.
 
 ### Access parent methods
+#### Deprecated
 
 Register base module:
 
-	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler )
+	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 	{
 		return {
 			init: function ( oData ) {},
@@ -103,7 +126,7 @@ Register base module:
 
 Create the new module using "extend":
 
-	Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler )
+	Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler, Api )
 	{
 		return {
 			init: function ( oData ) {},
@@ -116,9 +139,9 @@ Create the new module using "extend":
 	});
 
 #### Decorating modules
-Sometimes is better to decorate our modules instead of extending them.
+Sometimes is better to decorate our modules instead of extending them. I recommend to use decorate instead of extend modules.
 
-    Hydra.module.decorate( 'baseModuleId', 'decoratedModuleId', function( Bus, baseModule, Module, ErrorHandler )
+    Hydra.module.decorate( 'baseModuleId', 'decoratedModuleId', function( Bus, baseModule, Module, ErrorHandler, Api )
     {
         return {
             init: function ()
@@ -135,7 +158,7 @@ Sometimes is better to decorate our modules instead of extending them.
     });
 
 #### Listening events
-	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler )
+	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 	{
 		return {
 			events : {
@@ -161,7 +184,7 @@ The publish method expect three arguments, but only the first two are mandatory,
 
 *Tip: 'global' channel is created by default to use it if you want to communicate with other modules that are not related with a specific channel. *
 
-	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler )
+	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 	{
 		return {
 			events : {
@@ -184,7 +207,7 @@ If you need compatibility with the previous event manager called Action, you can
 
 [Project Web](http://tcorral.github.io/Hydra.js)
 
-[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.3.2/index.html)
+[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.5.0/index.html)
 
 [Examples](http://tcorral.github.io/Hydra.js/#examples)
 
