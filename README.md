@@ -1,7 +1,7 @@
 # Hydra.js
 Hydra.js is a module manager oriented system.
 
-## Updated to version 3.4.1
+## Updated to version 3.4.2
 
 [![Build Status](https://travis-ci.org/tcorral/Hydra.js.png)](https://travis-ci.org/tcorral/Hydra.js)
 
@@ -58,7 +58,7 @@ to this variables object using getVars (See 'Getting variables')
 Returns the object with the private variables set using setVars (See 'Setting variables')
 
 ### Create a module
-	Hydra.module.register( 'moduleId', function( bus )
+	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler )
 	{
 		return {
 			init: function ( oData ) {}
@@ -68,7 +68,7 @@ Returns the object with the private variables set using setVars (See 'Setting va
 ### Extend a module overriding the base module
 To extend a module you will need to register the base module before extends it.
 
-	Hydra.module.extend( 'moduleId', function( bus )
+	Hydra.module.extend( 'moduleId', function( Bus, Module, ErrorHandler )
 	{
 		return {
 			init: function ( oData ) {}
@@ -78,7 +78,7 @@ To extend a module you will need to register the base module before extends it.
 ### Extend a module creating a new module
 To extend a module you will need to register the base module before extends it.
 
-	Hydra.module.extend( 'moduleId', 'newModuleId', function( bus )
+	Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler )
 	{
 		return {
 			init: function ( oData ) {}
@@ -91,7 +91,7 @@ This extension allows access the parent methods as classical inheritance.
 
 Register base module:
 
-	Hydra.module.register( 'moduleId', function( bus )
+	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler )
 	{
 		return {
 			init: function ( oData ) {},
@@ -103,7 +103,7 @@ Register base module:
 
 Create the new module using "extend":
 
-	Hydra.module.extend( 'moduleId', 'newModuleId', function( bus )
+	Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler )
 	{
 		return {
 			init: function ( oData ) {},
@@ -118,7 +118,7 @@ Create the new module using "extend":
 #### Decorating modules
 Sometimes is better to decorate our modules instead of extending them.
 
-    Hydra.module.decorate( 'baseModuleId', 'decoratedModuleId', function( bus, baseModule )
+    Hydra.module.decorate( 'baseModuleId', 'decoratedModuleId', function( Bus, baseModule, Module, ErrorHandler )
     {
         return {
             init: function ()
@@ -135,7 +135,7 @@ Sometimes is better to decorate our modules instead of extending them.
     });
 
 #### Listening events
-	Hydra.module.register( 'moduleId', function( bus )
+	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler )
 	{
 		return {
 			events : {
@@ -146,14 +146,14 @@ Sometimes is better to decorate our modules instead of extending them.
 			init: function ( oData ) {
 
 				/* The subscribing of events is done by Hydra inside the core.
-				 * bus.subscribe( this );
+				 * Bus.subscribe( this );
 				 */
 			}
 		};
 	});
 
 ### Publishing actions
-To use the action manager you have accessible using "bus".
+To use the action manager you have accessible using "Bus".
 
 The publish method expect three arguments, but only the first two are mandatory, the channel name and the event name
 
@@ -161,7 +161,7 @@ The publish method expect three arguments, but only the first two are mandatory,
 
 *Tip: 'global' channel is created by default to use it if you want to communicate with other modules that are not related with a specific channel. *
 
-	Hydra.module.register( 'moduleId', function( bus )
+	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler )
 	{
 		return {
 			events : {
@@ -171,7 +171,7 @@ The publish method expect three arguments, but only the first two are mandatory,
 			},
 			init: function ( oData ) {
                 $( "#button" ).click( function(){
-                    bus.publish( 'channel', 'item:action1', {} );
+                    Bus.publish( 'channel', 'item:action1', {} );
                 });
 			}
 		};

@@ -1,4 +1,13 @@
 ChangeLog:
+3.4.2
+    Change the access to Hydra api from using 'this.api' in methods, now is delegated to the creator function.
+    Arguments:
+        [0] - Bus api
+            [1] - Module instance decorating modules
+        [1] - Module api
+            [2] - Module api decorating modules
+        [2] - ErrorHandler api
+            [3] - ErrorHandler api decorating modules
 3.4.1
     Fix issue when cloning data of jQuery objects.
 3.4.0

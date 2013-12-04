@@ -143,7 +143,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.4.1';
+  sVersion = '3.4.2';
 
   /**
    * Used to activate the debug mode
@@ -364,7 +364,6 @@
       return function () {
         var aArgs = slice(arguments, 0);
         try {
-          this.api = Hydra;
           return fpMethod.apply(this, aArgs);
         }
         catch (erError) {
@@ -660,10 +659,10 @@
    * @param {Bus} Bus
    * @private
    */
-  function addPropertiesAndMethodsToModule(sModuleId, Bus) {
+  function addPropertiesAndMethodsToModule(sModuleId) {
     var oModule,
       fpInitProxy;
-    oModule = oModules[sModuleId].creator(Bus);
+    oModule = oModules[sModuleId].creator(Bus, Hydra.module, Hydra.errorHandler());
     oModule.__module_id__ = sModuleId;
     fpInitProxy = oModule.init || nullFunc;
     // Provide compatibility with old versions of Hydra.js
@@ -703,7 +702,7 @@
     if (typeof oModules[sModuleId] === sNotDefined) {
       throw new Error('The module ' + sModuleId + ' is not registered!');
     }
-    oInstance = addPropertiesAndMethodsToModule(sModuleId, Bus);
+    oInstance = addPropertiesAndMethodsToModule(sModuleId);
     if (!bDebug) {
       for (sName in oInstance) {
         if (ownProp(oInstance, sName) && isFunction(oInstance[sName])) {
@@ -892,8 +891,8 @@
       if (typeof oModule === sNotDefined) {
         return;
       }
-      oExtendedModule = fpCreator(Bus);
-      oBaseModule = oModule.creator(Bus);
+      oExtendedModule = fpCreator(Bus, Hydra.module, Hydra.errorHandler());
+      oBaseModule = oModule.creator(Bus, Hydra.module, Hydra.errorHandler());
 
       oModules[sFinalModuleId] = new FakeModule(sFinalModuleId, function (Bus) {
         // If we extend the module with the different name, we
@@ -1029,9 +1028,9 @@
       }
       oInstance = createInstance(sModuleId);
       oModules[sModuleDecorated] = {
-        creator: function (oBus) {
+        creator: function (oBus, Module, ErrorHandler) {
           var oMerged = {},
-            oDecorated = fpDecorator(oBus, oInstance);
+            oDecorated = fpDecorator(oBus, Module, ErrorHandler, oInstance);
           simpleMerge(oMerged, oInstance);
           simpleMerge(oMerged, oDecorated);
           return oMerged;
