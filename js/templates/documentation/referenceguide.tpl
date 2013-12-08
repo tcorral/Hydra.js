@@ -499,7 +499,6 @@ oErrorHandler.error('This is an error message');</code></pre>
 </div>
 <div>
     <h4 id="module_extend">Hydra.module.extend</h4>
-    <div><strong>Deprecated in version 3.5.0 it will be removed in version 3.7.0 but will be available as a Hydra.js extension</strong></div>
     <p class="h4">
         Module extension in Hydra could be used in two different ways:
     </p>
@@ -565,6 +564,37 @@ Hydra.module.extend( 'my-first-module', 'copy-first-module', function(){
 });</code></pre>
     </div>
 
+    <p class="h4">
+        A sample of how to extend a module modify it's behaviour and execute the parent method:
+    </p>
+    <div>
+			<pre><code class="language-javascript">
+// Base module will show in the console 'hello XXXX!" when started.
+//XXXX will be the string we pass to the init callback or 'world' if not present.
+
+Hydra.module.register( 'my-base-module', function(){
+    return {
+        init: function( str ) {
+            str = str || 'world';
+            console.log( "hello " + str + "!" );
+        }
+    };
+});
+
+// Extending a module in this way will make that when starting 'my-base-module' the message
+// that will be showed is:
+// * 'hello extended-module!'
+// * 'Hello after execute parent callback'
+
+Hydra.module.extend( 'my-base-module', function(){
+    return {
+        init: function() {
+            this.__super__.__call__('init', ['extended-module']);
+            console.log('Hello after execute parent callback');
+        }
+    };
+});</code></pre>
+    </div>
     <div class="tip">
         <div>Since version 3.1.2 the extend method returns a module instance on steroids.</div>
         <div>Now you can execute these methods on the returned instance:</div>
