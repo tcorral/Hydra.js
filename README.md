@@ -1,7 +1,7 @@
 # Hydra.js
 Hydra.js is a module manager oriented system.
 
-## Updated to version 3.5.0
+## Updated to version 3.6.0
 
 [![Build Status](https://travis-ci.org/tcorral/Hydra.js.png)](https://travis-ci.org/tcorral/Hydra.js)
 
@@ -33,7 +33,7 @@ Hydra.js uses a decoupled architecture that:
 
 [Project Web](http://tcorral.github.io/Hydra.js)
 
-[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.5.0/index.html)
+[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.6.0/index.html)
 
 [Examples](http://tcorral.github.io/Hydra.js/#examples)
 
@@ -86,7 +86,6 @@ The module creator function gets four arguments:
 	});
 
 ### Extend a module overriding the base module
-#### Deprecated
 To extend a module you will need to register the base module before extends it.
 
 	Hydra.module.extend( 'moduleId', function( Bus, Module, ErrorHandler, Api )
@@ -97,7 +96,6 @@ To extend a module you will need to register the base module before extends it.
 	});
 
 ### Extend a module creating a new module
-#### Deprecated
 To extend a module you will need to register the base module before extends it.
 
 	Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler, Api )
@@ -110,7 +108,6 @@ To extend a module you will need to register the base module before extends it.
 This extension allows access the parent methods as classical inheritance.
 
 ### Access parent methods
-#### Deprecated
 
 Register base module:
 
@@ -207,7 +204,7 @@ If you need compatibility with the previous event manager called Action, you can
 
 [Project Web](http://tcorral.github.io/Hydra.js)
 
-[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.5.0/index.html)
+[API documentation](http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.6.0/index.html)
 
 [Examples](http://tcorral.github.io/Hydra.js/#examples)
 

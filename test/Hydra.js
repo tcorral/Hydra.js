@@ -549,14 +549,10 @@ describe('Hydra.js', function () {
         };
 
       Hydra.module.register(sModuleId, fpModuleCreator);
-      sinon.spy(Hydra.module, "_merge");
 
       Hydra.module.extend(sModuleId, fpModuleExtendedCreator);
 
-      Hydra.module._merge.callCount.should.equal(0);
-
       Hydra.module.remove(sModuleId);
-      Hydra.module._merge.restore();
     });
 
     it('should call the init method of the final extended module', function () {
@@ -591,17 +587,14 @@ describe('Hydra.js', function () {
         };
 
       Hydra.module.register(sModuleId, fpModuleCreator);
-      sinon.spy(Hydra.module, "_merge");
 
       Hydra.module.extend(sModuleId, fpModuleExtendedCreator);
 
       Hydra.module.start(sModuleId);
 
       fpInitStub.calledOnce.should.equal(true);
-      Hydra.module._merge.callCount.should.equal(1);
 
       Hydra.module.remove(sModuleId);
-      Hydra.module._merge.restore();
     });
 
     it('should call the init method of the final extended module', function () {
@@ -636,7 +629,6 @@ describe('Hydra.js', function () {
         };
 
       Hydra.module.register(sModuleId, fpModuleCreator);
-      sinon.spy(Hydra.module, "_merge");
 
       Hydra.module.extend(sModuleId, fpModuleExtendedCreator);
 
@@ -645,7 +637,6 @@ describe('Hydra.js', function () {
       fpDestroyStub.callCount.should.equal(0);
 
       Hydra.module.remove(sModuleId);
-      Hydra.module._merge.restore();
     });
 
   });
@@ -686,15 +677,12 @@ describe('Hydra.js', function () {
         };
 
       Hydra.module.register(sModuleId, fpModuleCreator);
-      sinon.spy(Hydra.module, "_merge");
 
       Hydra.module.extend(sModuleId, sExtendedModuleId, fpModuleExtendedCreator);
 
-      Hydra.module._merge.callCount.should.equal(0);
 
       Hydra.module.remove(sModuleId);
       Hydra.module.remove(sExtendedModuleId);
-      Hydra.module._merge.restore();
     });
 
     it('should call the init method of the final extended module', function () {
@@ -730,18 +718,15 @@ describe('Hydra.js', function () {
         };
 
       Hydra.module.register(sModuleId, fpModuleCreator);
-      sinon.spy(Hydra.module, "_merge");
 
       Hydra.module.extend(sModuleId, sExtendedModuleId, fpModuleExtendedCreator);
 
       Hydra.module.start(sExtendedModuleId);
 
       fpInitStub.calledOnce.should.equal(true);
-      Hydra.module._merge.callCount.should.equal(1);
 
       Hydra.module.remove(sModuleId);
       Hydra.module.remove(sExtendedModuleId);
-      Hydra.module._merge.restore();
     });
 
     it('should call the destroy method of the final extended module', function () {
@@ -777,7 +762,6 @@ describe('Hydra.js', function () {
         };
 
       Hydra.module.register(sModuleId, fpModuleCreator);
-      sinon.spy(Hydra.module, "_merge");
 
       Hydra.module.extend(sModuleId, sExtendedModuleId, fpModuleExtendedCreator);
 
@@ -787,7 +771,6 @@ describe('Hydra.js', function () {
 
       Hydra.module.remove(sModuleId);
       Hydra.module.remove(sExtendedModuleId);
-      Hydra.module._merge.restore();
     });
 
   });

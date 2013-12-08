@@ -1,10 +1,37 @@
 /*global exports, module, require, define, setTimeout*/
-(function () {
+(function (und) {
   'use strict';
-  var root, sNotDefined, oModules, oVars, _null_, bUnblockUI, _false_, sVersion, FakeModule, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
+  var root, sNotDefined, oModules, oVars, sObjectType, _null_, bUnblockUI, fpThrowErrorModuleNotRegistered, _false_, sVersion, sFunctionType, FakeModule, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
 
   /**
-   * Use Event detection and if it fails it degradates to use duck typing detection to test if the supplied object is an Event
+   * Return the message to show when a module is not registered
+   * @param sModuleId
+   * @returns {string}
+   */
+  fpThrowErrorModuleNotRegistered = function(sModuleId, bThrow)
+  {
+    var sMessage = 'The module ' + sModuleId + ' is not registered in the system';
+    if(bThrow)
+    {
+      throw new Error(sMessage);
+    }
+    return sMessage;
+  };
+
+  /**
+   * Object type string
+   * @type {string}
+   */
+  sObjectType = 'object';
+
+  /**
+   * Function type string
+   * @type {string}
+   */
+  sFunctionType = 'function';
+
+  /**
+   * Use Event detection and if it fails it degrades to use duck typing detection to test if the supplied object is an Event
    * @param oObj
    * @returns {boolean}
    */
@@ -13,11 +40,11 @@
       return oObj instanceof Event;
     } catch (erError) {
       // Duck typing detection (If it sounds like a duck and it moves like a duck, it's a duck)
-      if (typeof oObj.altKey !== 'undefined' && ( oObj.srcElement || oObj.target )) {
+      if (oObj.altKey !== und && ( oObj.srcElement || oObj.target )) {
         return true;
       }
     }
-    return false;
+    return _false_;
   }
 
   /**
@@ -26,13 +53,11 @@
    * @returns {boolean}
    */
   function isJqueryObject(oObj) {
-    var isJquery = false;
-    if(root.jQuery)
-    {
+    var isJquery = _false_;
+    if (root.jQuery) {
       isJquery = oObj instanceof root.jQuery;
     }
     return isJquery;
-
   }
 
   /**
@@ -40,8 +65,7 @@
    * An empty function to be used as default is no supplied callbacks.
    * @private
    */
-  function nullFunc() {
-  }
+  function nullFunc() {}
 
   /**
    * Used to generate an unique key for instance ids that are not supplied by the user.
@@ -49,8 +73,8 @@
    * @private
    */
   function generateUniqueKey() {
-    var sFirstToken = +new Date() + '',
-      sSecondToken = Math.floor(Math.random() * (999999 - 1 + 1)) + 1;
+    var oMath = Math, sFirstToken = +new Date() + '',
+      sSecondToken = oMath.floor(oMath.random() * (999999 - 1 + 1)) + 1;
     return sFirstToken + '_' + sSecondToken;
   }
 
@@ -77,24 +101,11 @@
   }
 
   /**
-   * Check if Object.create exist, if not exist we create it to be used inside the code.
-   */
-  if (typeof Object.create !== 'function') {
-    Object.create = function (oObject) {
-      function Copy() {
-      }
-
-      Copy.prototype = oObject;
-      return new Copy();
-    };
-  }
-
-  /**
    * Check if Hydra.js is loaded in Node.js environment
    * @type {Boolean}
    * @private
    */
-  isNodeEnvironment = typeof exports === 'object' && typeof module === 'object' && typeof module.exports === 'object' && typeof require === 'function';
+  isNodeEnvironment = typeof exports === sObjectType && typeof module === sObjectType && typeof module.exports === sObjectType && typeof require === sFunctionType;
 
   /**
    * Cache 'undefined' string to test typeof
@@ -143,7 +154,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.5.0';
+  sVersion = '3.6.0';
 
   /**
    * Used to activate the debug mode
@@ -177,7 +188,7 @@
    * @private
    */
   function isFunction(fpCallback) {
-    return toString(fpCallback) === '[object Function]';
+    return toString(fpCallback) === '[' + sObjectType + ' Function]';
   }
 
   /**
@@ -187,7 +198,7 @@
    * @private
    */
   function isArray(aArray) {
-    return toString(aArray) === '[object Array]';
+    return toString(aArray) === '[' + sObjectType + ' Array]';
   }
 
   /**
@@ -239,11 +250,12 @@
    * @private
    */
   function beforeInit(oInstance, oModifyInit, oData, bSingle) {
-    var sKey;
+    var sKey, oMember;
     for (sKey in oModifyInit) {
-      if (oModifyInit.hasOwnProperty(sKey)) {
-        if (oInstance[sKey] && typeof oModifyInit[sKey] === 'function') {
-          oModifyInit[sKey](oInstance, oData, bSingle);
+      if (ownProp(oModifyInit, sKey)) {
+        oMember = oModifyInit[sKey];
+        if (oInstance[sKey] && typeof oMember === sFunctionType) {
+          oMember(oInstance, oData, bSingle);
         }
       }
     }
@@ -283,7 +295,7 @@
       }
     }
     else {
-      ErrorHandler.error(new Error(), 'The module ' + sModuleId + ' is not registered in the system');
+      ErrorHandler.error(new Error(), fpThrowErrorModuleNotRegistered(sModuleId));
     }
     return oInstance;
   }
@@ -311,7 +323,7 @@
   function clone(oObject) {
     var oCopy, oItem, nIndex, nLenArr, sAttr;
     // Handle the 3 simple types, and null or undefined
-    if (null == oObject || 'object' !== typeof oObject) {
+    if (null == oObject || sObjectType !== typeof oObject) {
       return oObject;
     }
 
@@ -340,7 +352,7 @@
     if (oObject instanceof Object) {
       oCopy = {};
       for (sAttr in oObject) {
-        if (oObject.hasOwnProperty(sAttr)) {
+        if (ownProp(oObject, sAttr)) {
           oCopy[sAttr] = clone(oObject[sAttr]);
         }
       }
@@ -368,7 +380,7 @@
         }
         catch (erError) {
           ErrorHandler.error(sModuleId, sName, erError);
-          return false;
+          return _false_;
         }
       };
     }(sName, fpMethod));
@@ -393,7 +405,7 @@
   function subscribersByEvent(oChannel, sEventName) {
     var aSubscribers = [],
       sEvent;
-    if (typeof oChannel !== 'undefined') {
+    if (typeof oChannel !== sNotDefined) {
       for (sEvent in oChannel) {
         if (ownProp(oChannel, sEvent) && sEvent === sEventName) {
           aSubscribers = oChannel[sEvent];
@@ -430,10 +442,10 @@
      * @private
      */
     _getChannelEvents: function (sChannelId, sEvent) {
-      if (typeof oChannels[sChannelId] === 'undefined') {
+      if (oChannels[sChannelId] === und) {
         oChannels[sChannelId] = {};
       }
-      if (typeof oChannels[sChannelId][sEvent] === 'undefined') {
+      if (oChannels[sChannelId][sEvent] === und) {
         oChannels[sChannelId][sEvent] = [];
       }
       return oChannels[sChannelId][sEvent];
@@ -497,12 +509,12 @@
      */
     subscribe: function (oSubscriber) {
       var sChannelId, oEventsCallbacks = oSubscriber.events;
-      if (!oSubscriber || typeof oEventsCallbacks === 'undefined') {
-        return false;
+      if (!oSubscriber || oEventsCallbacks === und) {
+        return _false_;
       }
       for (sChannelId in oEventsCallbacks) {
         if (ownProp(oEventsCallbacks, sChannelId)) {
-          if (typeof oChannels[sChannelId] === 'undefined') {
+          if (oChannels[sChannelId] === und) {
             oChannels[sChannelId] = {};
           }
           this._addSubscribers(oEventsCallbacks[sChannelId], sChannelId, oSubscriber);
@@ -569,13 +581,13 @@
      */
     unsubscribe: function (oSubscriber) {
       var nUnsubscribed = 0, sChannelId, oEventsCallbacks = oSubscriber.events;
-      if (!oSubscriber || typeof oEventsCallbacks === 'undefined') {
-        return false;
+      if (!oSubscriber || oEventsCallbacks === und) {
+        return _false_;
       }
 
       for (sChannelId in oEventsCallbacks) {
         if (ownProp(oEventsCallbacks, sChannelId)) {
-          if (typeof oChannels[sChannelId] === 'undefined') {
+          if (oChannels[sChannelId] === und) {
             oChannels[sChannelId] = {};
           }
           nUnsubscribed = this._removeSubscribersPerEvent(oEventsCallbacks[sChannelId], sChannelId, oSubscriber);
@@ -626,7 +638,7 @@
         oHandlerObject,
         oDataToPublish;
       if (nLenSubscribers === 0) {
-        return false;
+        return _false_;
       }
       oDataToPublish = clone(oData);
       if (bUnblockUI) {
@@ -700,7 +712,7 @@
   function createInstance(sModuleId) {
     var oInstance, sName;
     if (typeof oModules[sModuleId] === sNotDefined) {
-      throw new Error('The module ' + sModuleId + ' is not registered!');
+      fpThrowErrorModuleNotRegistered(sModuleId, true);
     }
     oInstance = addPropertiesAndMethodsToModule(sModuleId);
     if (!bDebug) {
@@ -862,52 +874,6 @@
     },
 
     /**
-     * extend is the method that will be used to extend a module with new features.
-     * can be used to remove some features too, without touching the original code.
-     * You can extend a module and create a extended module with a different name.
-     * @member Module.prototype
-     * @param {String} sModuleId
-     * @param {Function|String} oSecondParameter can be the name of the new module that extends the baseModule or a function if we want to extend an existent module.
-     * @param {Function} oThirdParameter [optional] this must exist only if we need to create a new module that extends the baseModule.
-     * @deprecated
-     * @return {undefined|Module}
-     */
-    extend: function (sModuleId, oSecondParameter, oThirdParameter) {
-      var oModule, sFinalModuleId, fpCreator, oBaseModule, oExtendedModule, oFinalModule, self;
-      self = this;
-      oModule = oModules[sModuleId];
-      sFinalModuleId = sModuleId;
-      fpCreator = function () {
-      };
-
-      // Function "overloading".
-      // If the 2nd parameter is a string,
-      if (typeof oSecondParameter === 'string') {
-        sFinalModuleId = oSecondParameter;
-        fpCreator = oThirdParameter;
-      }
-      else {
-        fpCreator = oSecondParameter;
-      }
-      if (typeof oModule === sNotDefined) {
-        return;
-      }
-      oExtendedModule = fpCreator(Bus, Hydra.module, Hydra.errorHandler(), Hydra);
-      oBaseModule = oModule.creator(Bus, Hydra.module, Hydra.errorHandler(), Hydra);
-
-      oModules[sFinalModuleId] = new FakeModule(sFinalModuleId, function (Bus) {
-        // If we extend the module with the different name, we
-        // create proxy class for the original methods.
-        oFinalModule = self._merge(oBaseModule, oExtendedModule);
-        // This gives access to the Action instance used to listen and notify.
-        // __sandbox__ for adding retrocompatibility
-        oFinalModule.__action__ = oFinalModule.__sandbox__ = Bus;
-        return oFinalModule;
-      });
-      return oModules[sFinalModuleId];
-    },
-
-    /**
      * Method to set an instance of a module
      * @member Module.prototype
      * @param {String} sModuleId
@@ -918,7 +884,7 @@
     setInstance: function (sModuleId, sIdInstance, oInstance) {
       var oModule = oModules[sModuleId];
       if (!oModule) {
-        throw new Error('The module ' + sModuleId + ' is not registered!');
+        fpThrowErrorModuleNotRegistered(sModuleId, true);
       }
       oModule.instances[sIdInstance] = oInstance;
       return oModule;
@@ -1015,30 +981,48 @@
       }
     },
     /**
-     * Method to decorate modules instead of extend
-     * @param sModuleId
+     * Method to extend modules using inheritance or decoration pattern
+     * @param sBaseModule
      * @param sModuleDecorated
      * @param fpDecorator
      * @returns {null}
      */
-    decorate: function (sModuleId, sModuleDecorated, fpDecorator) {
-      var oModule = oModules[sModuleId], oInstance;
+    extend: function (sBaseModule, sModuleDecorated, fpDecorator) {
+      var oModule = oModules[sBaseModule], oDecorated, oInstance;
       if (!oModule) {
-        ErrorHandler.log(sModuleId + ' module is not registered!');
-        return null;
+        ErrorHandler.log(fpThrowErrorModuleNotRegistered(sBaseModule));
+        return _null_;
       }
-      oInstance = createInstance(sModuleId);
-      oModules[sModuleDecorated] = {
-        creator: function (oBus, Module, ErrorHandler, Hydra) {
-          var oMerged = {},
-            oDecorated = fpDecorator(oBus, Module, ErrorHandler, Hydra, oInstance);
-          simpleMerge(oMerged, oInstance);
-          simpleMerge(oMerged, oDecorated);
-          return oMerged;
-        }
-      };
-      oModules[sModuleDecorated].instances = [];
-      return new FakeModule(sModuleDecorated, oModules[sModuleDecorated].creator);
+      oInstance = createInstance(sBaseModule);
+      if (typeof sModuleDecorated === sFunctionType) {
+        fpDecorator = sModuleDecorated;
+        sModuleDecorated = sBaseModule;
+      }
+      oDecorated = fpDecorator(Bus, Hydra.module, Hydra.errorHandler(), Hydra, oInstance);
+
+      oModules[sModuleDecorated] = new FakeModule(sModuleDecorated, function () {
+        // If we extend the module with the different name, we
+        // create proxy class for the original methods.
+        var oMerge = {};
+        oMerge = simpleMerge(oMerge, oInstance);
+        oMerge = simpleMerge(oMerge, oDecorated);
+        oMerge = simpleMerge(oMerge, {
+          __super__: {
+            __call__: function (sKey, aArgs) {
+              return oInstance[sKey].apply(oInstance, aArgs);
+            }
+          }
+        });
+        return oMerge;
+      });
+      return oModules[sModuleDecorated];
+    },
+    /**
+     * Alias decorate to extend modules.
+     * @returns {Module}
+     */
+    decorate: function () {
+      return this.extend.apply(this, arguments);
     },
     /**
      * Checks if module was already successfully started
@@ -1048,7 +1032,7 @@
      * @return {Boolean}
      */
     isModuleStarted: function (sModuleId, sInstanceId) {
-      var bStarted = false;
+      var bStarted = _false_;
       if (typeof sInstanceId === sNotDefined) {
         bStarted = ( typeof oModules[sModuleId] !== sNotDefined && getObjectLength(oModules[sModuleId].instances) > 0 );
       }
@@ -1123,7 +1107,7 @@
       var oModule;
       oModule = oModules[sModuleId];
       if (typeof oModule === sNotDefined) {
-        return false;
+        return _false_;
       }
       if (typeof sInstanceId !== sNotDefined) {
         this._singleModuleStop(oModule, sModuleId, sInstanceId);
@@ -1174,7 +1158,7 @@
         delete oModules[sModuleId];
         return true;
       }
-      return false;
+      return _false_;
     },
 
     /**
@@ -1186,7 +1170,7 @@
     remove: function (sModuleId) {
       var oModule = oModules[sModuleId];
       if (typeof oModule === sNotDefined) {
-        return null;
+        return _null_;
       }
       if (typeof oModule !== sNotDefined) {
         try {
@@ -1196,7 +1180,7 @@
           this._delete(sModuleId);
         }
       }
-      return null;
+      return _null_;
     }
   };
 
@@ -1322,7 +1306,7 @@
       oNewContext[sNewName] = this[sOldName];
       return true;
     }
-    return false;
+    return _false_;
   };
 
   /**
@@ -1416,7 +1400,7 @@
   if (isNodeEnvironment) {
     module.exports = Hydra;
   }
-  else if (typeof define !== 'undefined') {
+  else if (typeof define !== sNotDefined) {
     define('hydra', [], function () {
       return Hydra;
     });

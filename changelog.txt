@@ -1,4 +1,7 @@
 ChangeLog:
+3.6.0
+    Extend and deprecate use the same api.
+    Size improvements.
 3.5.0
     Deprecate the extend method
     Fix Readme.md documentation with the missing Api argument.
