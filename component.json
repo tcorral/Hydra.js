@@ -1,0 +1,8 @@
+{
+  "name": "hydrajs",
+  "repo": "tcorral/Hydra.js",
+  "description": "Framework that gives you the tools to write your application using modules or widgets and make easy to work with them.",
+  "version": "3.6.0",
+  "scripts": ["versions/hydra.min.js"],
+  "main": "versions/hydra.min.js"
+}

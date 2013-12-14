@@ -39,12 +39,28 @@ Hydra.js uses a decoupled architecture that:
 
 ## Usage
 
-### Before using it:
-Insert in your code:
+### Install:
+
+Install with [Bower](http://bower.io)
+
+    bower install hydrajs
+
+Install with [Component](http://component.io)
+
+    component install hydrajs
+
+Install with [NPM](http://npmjs.org)
+
+    npm install hydra.js
+
+### Use in browser
+
+Insert in your html code:
 
 	<script type="text/javascript" src="/path/to/your/js/libs/Hydra.js"></script>
 
-### Setting variables
+### Common usage
+#### Setting variables
 	Hydra.module.setVars({
 		gaq: _gaq,
 		list: document.getElementById( "list" )
@@ -53,11 +69,11 @@ Setting the variables in this way this variables will be accessible as the last 
 to this variables object using getVars (See 'Getting variables')
 *Tip. This method not only set variables, if the object has been set before the new variables will be merged with the previous object. *
 
-### Getting variables
+#### Getting variables
 	var oVars = Hydra.module.getVars();
 Returns the object with the private variables set using setVars (See 'Setting variables')
 
-### Module creator function
+#### Module creator function
 The module creator function gets four arguments:
 
 * **Bus**
@@ -77,7 +93,7 @@ The module creator function gets four arguments:
         };
     }
 
-### Create a module
+#### Create a module
 	Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 	{
 		return {
@@ -85,7 +101,7 @@ The module creator function gets four arguments:
 		};
 	});
 
-### Extend a module overriding the base module
+#### Extend a module overriding the base module
 To extend a module you will need to register the base module before extends it.
 
 	Hydra.module.extend( 'moduleId', function( Bus, Module, ErrorHandler, Api )
@@ -95,7 +111,7 @@ To extend a module you will need to register the base module before extends it.
 		};
 	});
 
-### Extend a module creating a new module
+#### Extend a module creating a new module
 To extend a module you will need to register the base module before extends it.
 
 	Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler, Api )
@@ -107,7 +123,7 @@ To extend a module you will need to register the base module before extends it.
 
 This extension allows access the parent methods as classical inheritance.
 
-### Access parent methods
+#### Access parent methods
 
 Register base module:
 
@@ -172,7 +188,7 @@ Sometimes is better to decorate our modules instead of extending them. I recomme
 		};
 	});
 
-### Publishing actions
+#### Publishing actions
 To use the action manager you have accessible using "Bus".
 
 The publish method expect three arguments, but only the first two are mandatory, the channel name and the event name
