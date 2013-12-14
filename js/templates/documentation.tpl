@@ -30,6 +30,11 @@
                 Use with Node.js
             </a>
         </li>
+        <li id="doc_top_use_with_bower">
+            <a href="#use_with_bower">
+                Use with Bower
+            </a>
+        </li>
         <li id="doc_top_use_with_requirejs">
             <a href="#use_with_requirejs">
                 Use with Require.js

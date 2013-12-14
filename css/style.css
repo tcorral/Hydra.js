@@ -409,8 +409,8 @@ div.mark {
     text-decoration: none;
     display: block;
     color: #000000;
-    padding-left: 17px;
-    padding-right: 17px;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 
 #doc_top_navigation > ul > li > a:hover, #doc_top_navigation > ul > li.active > a {

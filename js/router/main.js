@@ -47,6 +47,7 @@ define( ['backbone'], function ( Backbone )
       "apis": "apis",
       "reference_guide": "reference_guide",
       "use_with_nodejs": "use_with_nodejs",
+      "use_with_bower": "use_with_bower",
       "use_with_requirejs": "use_with_requirejs",
       "expert_documentation": "expert_documentation",
       "multimedia": "multimedia",
@@ -70,6 +71,7 @@ define( ['backbone'], function ( Backbone )
     "apis": documentationRoutesHelper('views/documentation/apis', 'apis'),
     "reference_guide": documentationRoutesHelper('views/documentation/reference_guide', 'reference_guide'),
     "use_with_nodejs": documentationRoutesHelper('views/documentation/use_with_nodejs', 'use_with_nodejs'),
+    "use_with_bower": documentationRoutesHelper('views/documentation/use_with_bower', 'use_with_bower'),
     "use_with_requirejs": documentationRoutesHelper('views/documentation/use_with_requirejs', 'use_with_requirejs'),
     "multimedia": documentationRoutesHelper('views/documentation/multimedia', 'multimedia'),
     "examples": documentationRoutesHelper('views/documentation/examples', 'examples')
