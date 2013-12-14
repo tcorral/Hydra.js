@@ -1,19 +1,37 @@
-/*global exports, module, require, define, setTimeout*/
+/*global exports, module, require, define*/
 (function (und) {
   'use strict';
-  var root, sNotDefined, oModules, oVars, sObjectType, _null_, bUnblockUI, fpThrowErrorModuleNotRegistered, _false_, sVersion, sFunctionType, FakeModule, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
+  var setTimeout = setTimeout, Err = Error, root, isTypeOf, isInstanceOf, sNotDefined, oModules, oVars, sObjectType, _null_, bUnblockUI, fpThrowErrorModuleNotRegistered, _false_, sVersion, sFunctionType, FakeModule, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
 
+
+  /**
+   * Check if is the type indicated
+   * @param oMix
+   * @param sType
+   * @returns {boolean}
+   */
+  isTypeOf = function (oMix, sType) {
+    return typeof oMix === sType;
+  };
+  /**
+   * Wrapper of instanceof to reduce final size
+   * @param oInstance
+   * @param oConstructor
+   * @returns {boolean}
+   */
+  isInstanceOf = function (oInstance, oConstructor) {
+    return oInstance instanceof oConstructor;
+  };
   /**
    * Return the message to show when a module is not registered
    * @param sModuleId
+   * @param bThrow
    * @returns {string}
    */
-  fpThrowErrorModuleNotRegistered = function(sModuleId, bThrow)
-  {
+  fpThrowErrorModuleNotRegistered = function (sModuleId, bThrow) {
     var sMessage = 'The module ' + sModuleId + ' is not registered in the system';
-    if(bThrow)
-    {
-      throw new Error(sMessage);
+    if (bThrow) {
+      throw new Err(sMessage);
     }
     return sMessage;
   };
@@ -37,7 +55,7 @@
    */
   function isEvent(oObj) {
     try {
-      return oObj instanceof Event;
+      return isInstanceOf(oObj, Event);
     } catch (erError) {
       // Duck typing detection (If it sounds like a duck and it moves like a duck, it's a duck)
       if (oObj.altKey !== und && ( oObj.srcElement || oObj.target )) {
@@ -53,9 +71,10 @@
    * @returns {boolean}
    */
   function isJqueryObject(oObj) {
-    var isJquery = _false_;
-    if (root.jQuery) {
-      isJquery = oObj instanceof root.jQuery;
+    var isJquery = _false_,
+      $ = root.jQuery;
+    if ($) {
+      isJquery = isInstanceOf(oObj, $);
     }
     return isJquery;
   }
@@ -65,7 +84,8 @@
    * An empty function to be used as default is no supplied callbacks.
    * @private
    */
-  function nullFunc() {}
+  function nullFunc() {
+  }
 
   /**
    * Used to generate an unique key for instance ids that are not supplied by the user.
@@ -85,9 +105,9 @@
    * @private
    */
   function getObjectLength(oObj) {
-    var nLen, sKey;
-    if (Object.keys) {
-      nLen = Object.keys(oObj).length;
+    var nLen, sKey, fpKeys = Object.keys;
+    if (fpKeys) {
+      nLen = fpKeys(oObj).length;
     }
     else {
       nLen = 0;
@@ -105,7 +125,7 @@
    * @type {Boolean}
    * @private
    */
-  isNodeEnvironment = typeof exports === sObjectType && typeof module === sObjectType && typeof module.exports === sObjectType && typeof require === sFunctionType;
+  isNodeEnvironment = isTypeOf(exports, sObjectType) && isTypeOf(module, sObjectType) && isTypeOf(module.exports, sObjectType) && isTypeOf(require, sFunctionType);
 
   /**
    * Cache 'undefined' string to test typeof
@@ -254,7 +274,7 @@
     for (sKey in oModifyInit) {
       if (ownProp(oModifyInit, sKey)) {
         oMember = oModifyInit[sKey];
-        if (oInstance[sKey] && typeof oMember === sFunctionType) {
+        if (oInstance[sKey] && isTypeOf(oMember, sFunctionType)) {
           oMember(oInstance, oData, bSingle);
         }
       }
@@ -280,14 +300,14 @@
     if (bSingle && oWrapper.isModuleStarted(sModuleId)) {
       oWrapper.stop(sModuleId);
     }
-    if (typeof oModule !== sNotDefined) {
+    if (!isTypeOf(oModule, sNotDefined)) {
       oInstance = createInstance(sModuleId);
       oModule.instances[sIdInstance] = oInstance;
       oInstance.__instance_id__ = sIdInstance;
 
       beforeInit(oInstance, oWrapper.oModifyInit, oData, bSingle);
 
-      if (typeof oData !== sNotDefined) {
+      if (!isTypeOf(oData, sNotDefined)) {
         oInstance.init(oData);
       }
       else {
@@ -295,7 +315,7 @@
       }
     }
     else {
-      ErrorHandler.error(new Error(), fpThrowErrorModuleNotRegistered(sModuleId));
+      ErrorHandler.error(new Err(), fpThrowErrorModuleNotRegistered(sModuleId));
     }
     return oInstance;
   }
@@ -323,7 +343,7 @@
   function clone(oObject) {
     var oCopy, oItem, nIndex, nLenArr, sAttr;
     // Handle the 3 simple types, and null or undefined
-    if (null == oObject || sObjectType !== typeof oObject) {
+    if (null == oObject || !isTypeOf(oObject, sObjectType)) {
       return oObject;
     }
 
@@ -332,14 +352,14 @@
     }
 
     // Handle Date
-    if (oObject instanceof Date) {
+    if (isInstanceOf(oObject, Date)) {
       oCopy = new Date();
       oCopy.setTime(oObject.getTime());
       return oCopy;
     }
 
     // Handle Array
-    if (oObject instanceof Array) {
+    if (isInstanceOf(oObject, Array)) {
       oCopy = [];
       for (nIndex = 0, nLenArr = oObject.length; nIndex < nLenArr; nIndex++) {
         oItem = oObject[nIndex];
@@ -349,7 +369,7 @@
     }
 
     // Handle Object
-    if (oObject instanceof Object) {
+    if (isInstanceOf(oObject, Object)) {
       oCopy = {};
       for (sAttr in oObject) {
         if (ownProp(oObject, sAttr)) {
@@ -359,7 +379,7 @@
       return oCopy;
     }
 
-    throw new Error('Unable to copy obj! Its type isn\'t supported.');
+    throw new Err('Unable to copy obj! Its type isn\'t supported.');
   }
 
   /**
@@ -405,7 +425,7 @@
   function subscribersByEvent(oChannel, sEventName) {
     var aSubscribers = [],
       sEvent;
-    if (typeof oChannel !== sNotDefined) {
+    if (!isTypeOf(oChannel, sNotDefined)) {
       for (sEvent in oChannel) {
         if (ownProp(oChannel, sEvent) && sEvent === sEventName) {
           aSubscribers = oChannel[sEvent];
@@ -535,7 +555,7 @@
     _removeSubscribers: function (aSubscribers, oSubscriber) {
       var nUnsubscribed = 0,
         nIndex;
-      if (typeof aSubscribers !== sNotDefined) {
+      if (!isTypeOf(aSubscribers, sNotDefined)) {
         nIndex = aSubscribers.length - 1;
         for (; nIndex >= 0; nIndex--) {
           if (aSubscribers[nIndex].subscriber === oSubscriber) {
@@ -687,7 +707,7 @@
     };
     oModule.handleAction = function (oNotifier) {
       var fpCallback = this.events[oNotifier.type];
-      if (typeof fpCallback === sNotDefined) {
+      if (isTypeOf(fpCallback, sNotDefined)) {
         return;
       }
       fpCallback.call(this, oNotifier);
@@ -711,7 +731,7 @@
    */
   function createInstance(sModuleId) {
     var oInstance, sName;
-    if (typeof oModules[sModuleId] === sNotDefined) {
+    if (isTypeOf(oModules[sModuleId], sNotDefined)) {
       fpThrowErrorModuleNotRegistered(sModuleId, true);
     }
     oInstance = addPropertiesAndMethodsToModule(sModuleId);
@@ -831,7 +851,7 @@
       var sKey;
       for (sKey in oModuleExtended) {
         if (ownProp(oModuleExtended, sKey)) {
-          if (typeof oFinalModule.__super__ !== sNotDefined && isFunction(oFinalModule[sKey])) {
+          if (!isTypeOf(oFinalModule.__super__, sNotDefined) && isFunction(oFinalModule[sKey])) {
             oFinalModule.__super__[sKey] = (this._callInSuper(oFinalModule[sKey]));
           }
           oFinalModule[sKey] = oModuleExtended[sKey];
@@ -896,7 +916,7 @@
      * @param {Object} oVar
      */
     setVars: function (oVar) {
-      if (typeof oVars !== sNotDefined) {
+      if (!isTypeOf(oVars, sNotDefined)) {
         oVars = simpleMerge(oVars, oVar);
       }
       else {
@@ -951,7 +971,7 @@
      * @private
      */
     _singleModuleStart: function (sModuleId, sIdInstance, oData, bSingle) {
-      if (typeof sIdInstance !== 'string') {
+      if (!isTypeOf(sIdInstance, 'string')) {
         bSingle = oData;
         oData = sIdInstance;
         sIdInstance = generateUniqueKey();
@@ -994,7 +1014,7 @@
         return _null_;
       }
       oInstance = createInstance(sBaseModule);
-      if (typeof sModuleDecorated === sFunctionType) {
+      if (isTypeOf(sModuleDecorated, sFunctionType)) {
         fpDecorator = sModuleDecorated;
         sModuleDecorated = sBaseModule;
       }
@@ -1033,11 +1053,11 @@
      */
     isModuleStarted: function (sModuleId, sInstanceId) {
       var bStarted = _false_;
-      if (typeof sInstanceId === sNotDefined) {
-        bStarted = ( typeof oModules[sModuleId] !== sNotDefined && getObjectLength(oModules[sModuleId].instances) > 0 );
+      if (isTypeOf(sInstanceId, sNotDefined)) {
+        bStarted = ( !isTypeOf(oModules[sModuleId], sNotDefined) && getObjectLength(oModules[sModuleId].instances) > 0 );
       }
       else {
-        bStarted = ( typeof oModules[sModuleId] !== sNotDefined && typeof oModules[sModuleId].instances[sInstanceId] !== sNotDefined );
+        bStarted = ( !isTypeOf(oModules[sModuleId], sNotDefined) && !isTypeOf(oModules[sModuleId].instances[sInstanceId], sNotDefined) );
       }
       return bStarted;
     },
@@ -1051,7 +1071,7 @@
       for (sModuleId in oModules) {
         if (ownProp(oModules, sModuleId)) {
           oModule = oModules[sModuleId];
-          if (typeof oModule !== sNotDefined) {
+          if (!isTypeOf(oModule, sNotDefined)) {
             this.start(sModuleId, generateUniqueKey());
           }
         }
@@ -1071,7 +1091,7 @@
       for (sKey in oInstances) {
         if (ownProp(oInstances, sKey)) {
           oInstance = oInstances[sKey];
-          if (typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined) {
+          if (!isTypeOf(oModule, sNotDefined) && !isTypeOf(oInstance, sNotDefined)) {
             oInstance.destroy();
           }
         }
@@ -1089,7 +1109,7 @@
      */
     _singleModuleStop: function (oModule, sModuleId, sInstanceId) {
       var oInstance = oModule.instances[sInstanceId];
-      if (typeof oModule !== sNotDefined && typeof oInstance !== sNotDefined) {
+      if (!isTypeOf(oModule, sNotDefined) && !isTypeOf(oInstance, sNotDefined)) {
         oInstance.destroy();
         delete oModule.instances[sInstanceId];
       }
@@ -1106,10 +1126,10 @@
     stop: function (sModuleId, sInstanceId) {
       var oModule;
       oModule = oModules[sModuleId];
-      if (typeof oModule === sNotDefined) {
+      if (isTypeOf( oModule, sNotDefined)) {
         return _false_;
       }
-      if (typeof sInstanceId !== sNotDefined) {
+      if (!isTypeOf(sInstanceId, sNotDefined)) {
         this._singleModuleStop(oModule, sModuleId, sInstanceId);
       }
       else {
@@ -1140,7 +1160,7 @@
     stopAll: function () {
       var sModuleId;
       for (sModuleId in oModules) {
-        if (ownProp(oModules, sModuleId) && typeof oModules[sModuleId] !== sNotDefined) {
+        if (ownProp(oModules, sModuleId) && !isTypeOf( oModules[sModuleId], sNotDefined)) {
           this._stopOneByOne(oModules[sModuleId].instances, sModuleId);
         }
       }
@@ -1154,7 +1174,7 @@
      * @return {Boolean}
      */
     _delete: function (sModuleId) {
-      if (typeof oModules[sModuleId] !== sNotDefined) {
+      if (!isTypeOf( oModules[sModuleId], sNotDefined)) {
         delete oModules[sModuleId];
         return true;
       }
@@ -1169,10 +1189,10 @@
      */
     remove: function (sModuleId) {
       var oModule = oModules[sModuleId];
-      if (typeof oModule === sNotDefined) {
+      if (isTypeOf(oModule,sNotDefined)) {
         return _null_;
       }
-      if (typeof oModule !== sNotDefined) {
+      if (!isTypeOf(oModule, sNotDefined)) {
         try {
           return oModule;
         }
@@ -1284,7 +1304,7 @@
    * @static
    */
   Hydra.extend = function (sIdExtension, oExtension) {
-    if (typeof this[sIdExtension] === sNotDefined) {
+    if (isTypeOf(this[sIdExtension], sNotDefined)) {
       this[sIdExtension] = oExtension;
     }
     else {
@@ -1302,7 +1322,7 @@
    * @static
    */
   Hydra.noConflict = function (sOldName, oNewContext, sNewName) {
-    if (typeof this[sOldName] !== sNotDefined) {
+    if (!isTypeOf(this[sOldName], sNotDefined)) {
       oNewContext[sNewName] = this[sOldName];
       return true;
     }
@@ -1349,8 +1369,8 @@
    * @private
    */
   FakeModule = function (sModuleId, fpCreator) {
-    if (typeof fpCreator === sNotDefined) {
-      throw new Error('Something goes wrong!');
+    if (isTypeOf(fpCreator, sNotDefined)) {
+      throw new Err('Something goes wrong!');
     }
     this.creator = fpCreator;
     this.instances = {};
@@ -1400,7 +1420,7 @@
   if (isNodeEnvironment) {
     module.exports = Hydra;
   }
-  else if (typeof define !== sNotDefined) {
+  else if (!isTypeOf(define, sNotDefined)) {
     define('hydra', [], function () {
       return Hydra;
     });
