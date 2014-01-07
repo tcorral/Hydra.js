@@ -7,7 +7,10 @@ module.exports = function (grunt) {
       } catch (e) {}
       return data;
     },
-    srcHintOptions = readOptionalJSON('src/.jshintrc');
+    srcHintOptions = readOptionalJSON('src/.jshintrc' ),
+    fs = require('fs' ),
+    swig = require('swig');
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -72,8 +75,19 @@ module.exports = function (grunt) {
         src: 'src/Hydra.js',
         dest: 'versions/hydra.min.js'
       }
+    },
+    release: {
+      options: {
+        commitMessage: 'Update version <%= version %>',
+        tagMessage: '<%= version %>',
+        github: {
+          repo: 'tcorral/Hydra.js',
+          usernameVar: process.env.GITHUB_USERNAME,
+          passwordVar: process.env.GITHUB_PASSWORD
+        }
+      }
     }
-  });
+});
 
   // Load the plugins
   grunt.loadNpmTasks("grunt-contrib-jshint");
@@ -81,8 +95,26 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-release-steps');
 
+  grunt.registerTask('readme', 'Creates a README.md from template', function (){
+    var done = this.async(),
+        oREADMETemplate = swig.compileFile( 'templates/README.tpl' );
+    fs.stat( 'versions/hydra.min.js.gz', function ( err, stats ) {
+      fs.writeFile( 'README.md', oREADMETemplate({
+        version: grunt.file.readJSON('package.json').version,
+        size: (stats.size / 1024).toFixed(2)
+      }), function ( err ) {
+        if( err ) {
+          throw err;
+        }
+        done();
+      });
+    });
+  });
   // Default task(s).
+  grunt.registerTask('test', ['jshint', 'mochacli']);
   grunt.registerTask('default', ['jshint', 'mochacli', 'uglify', 'compress', 'copy']);
+  grunt.registerTask('deploy', ['jshint', 'mochacli', 'uglify', 'compress', 'copy', 'release:bump:minor', 'readme', 'release:add:commit:push:tag:pushTags:npm']);
 
 };

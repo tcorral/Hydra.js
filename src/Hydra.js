@@ -1,8 +1,7 @@
-/*global exports, module, require, define*/
+/*global require*/
 (function (und) {
   'use strict';
-  var setTimeout = setTimeout, Err = Error, root, isTypeOf, isInstanceOf, sNotDefined, oModules, oVars, sObjectType, _null_, bUnblockUI, fpThrowErrorModuleNotRegistered, _false_, sVersion, sFunctionType, FakeModule, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
-
+  var setTimeout = setTimeout, namespace, Err = Error, root, isTypeOf, isInstanceOf, sNotDefined, oModules, oVars = {}, sObjectType, _null_, bUnblockUI, fpThrowErrorModuleNotRegistered, _true_, _false_, sVersion, sFunctionType, FakeModule, Hydra, bDebug, ErrorHandler, Module, Bus, oChannels, isNodeEnvironment, oObjProto;
 
   /**
    * Check if is the type indicated
@@ -59,7 +58,7 @@
     } catch (erError) {
       // Duck typing detection (If it sounds like a duck and it moves like a duck, it's a duck)
       if (oObj.altKey !== und && ( oObj.srcElement || oObj.target )) {
-        return true;
+        return _true_;
       }
     }
     return _false_;
@@ -121,13 +120,6 @@
   }
 
   /**
-   * Check if Hydra.js is loaded in Node.js environment
-   * @type {Boolean}
-   * @private
-   */
-  isNodeEnvironment = isTypeOf(exports, sObjectType) && isTypeOf(module, sObjectType) && isTypeOf(module.exports, sObjectType) && isTypeOf(require, sFunctionType);
-
-  /**
    * Cache 'undefined' string to test typeof
    * @type {String}
    * @private
@@ -149,6 +141,18 @@
   root = this;
 
   /**
+   * set the global namespace to be the same as root
+   * use Hydra.setNamespace to change it.
+   */
+  namespace = root;
+  /**
+   * Check if Hydra.js is loaded in Node.js environment
+   * @type {Boolean}
+   * @private
+   */
+  isNodeEnvironment = typeof exports === sObjectType && typeof module === sObjectType && typeof module.exports === sObjectType && typeof require === sFunctionType;
+
+  /**
    * Contains a reference to null object to decrease final size
    * @type {Object}
    * @private
@@ -163,6 +167,13 @@
   _false_ = false;
 
   /**
+   * Contains a reference to true to decrease final size
+   * @type {Boolean}
+   * @private
+   */
+  _true_ = true;
+
+  /**
    * Property that will save the registered modules
    * @type {Object}
    * @private
@@ -174,7 +185,7 @@
    * @type {String}
    * @private
    */
-  sVersion = '3.6.0';
+  sVersion = '3.7.0';
 
   /**
    * Used to activate the debug mode
@@ -541,7 +552,7 @@
         }
       }
 
-      return true;
+      return _true_;
     },
 
     /**
@@ -570,7 +581,6 @@
     /**
      * Loops per all the events to remove subscribers.
      * @param {Object} oEventsCallbacks
-     * @param {Boolean} bOnlyGlobal
      * @param {String} sChannelId
      * @param {Module} oSubscriber
      * @return {Number}
@@ -672,7 +682,7 @@
           }
         }
       }
-      return true;
+      return _true_;
     },
 
     /**
@@ -686,15 +696,74 @@
   };
 
   /**
+   * Inject dependencies creating modules
+   * Look for dependencies in:
+   * Hydra mappings
+   * oVars
+   * oModules
+   * namespace
+   * root
+   * @param {String} sModuleId
+   * @param {Array} aDependencies
+   * @returns {Array}
+   */
+  function dependencyInjector(sModuleId, aDependencies) {
+    var nDependency,
+      nLenDependencies,
+      sDependency,
+      aFinalDependencies = [],
+      oMapping = {
+        '$bus': Bus,
+        '$module': Hydra.module,
+        '$log': ErrorHandler,
+        '$api': Hydra,
+        '$global': root,
+        '$doc': root.document || null
+      },
+      aMappings = [oMapping, oVars, oModules],
+      nLenMappings = aMappings.length,
+      oMap,
+      nMapping = 0;
+
+    aDependencies = aDependencies !== und ? aDependencies : (oModules[sModuleId].dependencies || []);
+    nLenDependencies = aDependencies.length;
+
+    // If namespace is different of root we add namespace and root to aMappings.
+    aMappings = aMappings.concat((namespace !== root? [namespace, root] : [root]));
+
+    for(nDependency = 0; nDependency < nLenDependencies; nDependency++){
+      sDependency = aDependencies[nDependency];
+
+      if(!isTypeOf(sDependency, 'string')){
+        aFinalDependencies[nDependency] = sDependency;
+        continue;
+      }
+
+      for(nMapping = 0; nMapping < nLenMappings; nMapping++){
+        oMap = aMappings[nMapping];
+        if(oMap[sDependency])
+        {
+          aFinalDependencies[nDependency] = oMap[sDependency];
+          break;
+        }
+      }
+      if(aFinalDependencies[nDependency] === und){
+        aFinalDependencies[nDependency] = null;
+      }
+    }
+    return aFinalDependencies;
+  }
+  /**
    * Add common properties and methods to avoid repeating code in modules
    * @param {String} sModuleId
-   * @param {Bus} Bus
+   * @param {Array} aDependencies
    * @private
    */
-  function addPropertiesAndMethodsToModule(sModuleId) {
+  function addPropertiesAndMethodsToModule(sModuleId, aDependencies) {
     var oModule,
       fpInitProxy;
-    oModule = oModules[sModuleId].creator(Bus, Hydra.module, Hydra.errorHandler(), Hydra);
+
+    oModule = oModules[sModuleId].creator.apply(oModules[sModuleId], dependencyInjector(sModuleId, aDependencies));
     oModule.__module_id__ = sModuleId;
     fpInitProxy = oModule.init || nullFunc;
     // Provide compatibility with old versions of Hydra.js
@@ -726,15 +795,16 @@
   /**
    * createInstance is the method that will create the module instance and wrap the method if needed.
    * @param {String} sModuleId
+   * @param {Array} aDependencies
    * @return {Module} Module instance
    * @private
    */
-  function createInstance(sModuleId) {
+  function createInstance(sModuleId, aDependencies) {
     var oInstance, sName;
     if (isTypeOf(oModules[sModuleId], sNotDefined)) {
-      fpThrowErrorModuleNotRegistered(sModuleId, true);
+      fpThrowErrorModuleNotRegistered(sModuleId, _true_);
     }
-    oInstance = addPropertiesAndMethodsToModule(sModuleId);
+    oInstance = addPropertiesAndMethodsToModule(sModuleId, aDependencies);
     if (!bDebug) {
       for (sName in oInstance) {
         if (ownProp(oInstance, sName) && isFunction(oInstance[sName])) {
@@ -765,6 +835,8 @@
    * @private
    */
   Module = function () {
+    this.__super__ = {};
+    this.instances = {};
   };
 
   /**
@@ -799,19 +871,25 @@
      * sModuleId will be the key where it will be stored.
      * @member Module.prototype
      * @param {String} sModuleId
-     * @param {Function} fpCreator
-     * @return {Module}
+     * @param {Array} aDependencies
+     * @param {Function | *} fpCreator
+     * @return {Module
      */
-    register: function (sModuleId, fpCreator) {
+    register: function (sModuleId, aDependencies, fpCreator) {
+      if(isFunction(aDependencies)){
+        fpCreator = aDependencies;
+        aDependencies = [ Bus, Hydra.module, ErrorHandler, Hydra ];
+      }
       oModules[sModuleId] = new FakeModule(sModuleId, fpCreator);
+      oModules[sModuleId].dependencies = aDependencies;
       return oModules[sModuleId];
     },
 
     /**
      * _setSuper add the __super__ support to access to the methods in parent module.
      * @member Module.prototype
-     * @param {Module} oFinalModule
-     * @param {Module} oModuleBase
+     * @param {Object} oFinalModule
+     * @param {Object} oModuleBase
      * @private
      */
     _setSuper: function (oFinalModule, oModuleBase) {
@@ -843,8 +921,8 @@
     /**
      * Adds the extended properties and methods to final module.
      * @member Module.prototype
-     * @param {Module} oFinalModule
-     * @param {Module} oModuleExtended
+     * @param {Object} oFinalModule
+     * @param {Object} oModuleExtended
      * @private
      */
     _mergeModuleExtended: function (oFinalModule, oModuleExtended) {
@@ -862,8 +940,8 @@
     /**
      * Adds the base properties and methods to final module.
      * @member Module.prototype
-     * @param {Module} oFinalModule
-     * @param {Module} oModuleBase
+     * @param {Object} oFinalModule
+     * @param {Object} oModuleBase
      * @private
      */
     _mergeModuleBase: function (oFinalModule, oModuleBase) {
@@ -880,9 +958,9 @@
     /**
      * _merge is the method that gets the base module and the extended and returns the merge of them
      * @member Module.prototype
-     * @param {Module} oModuleBase
-     * @param {Module} oModuleExtended
-     * @return {Module}
+     * @param {Object} oModuleBase
+     * @param {Object} oModuleExtended
+     * @return {Object}
      * @private
      */
     _merge: function (oModuleBase, oModuleExtended) {
@@ -904,7 +982,7 @@
     setInstance: function (sModuleId, sIdInstance, oInstance) {
       var oModule = oModules[sModuleId];
       if (!oModule) {
-        fpThrowErrorModuleNotRegistered(sModuleId, true);
+        fpThrowErrorModuleNotRegistered(sModuleId, _true_);
       }
       oModule.instances[sIdInstance] = oInstance;
       return oModule;
@@ -922,6 +1000,14 @@
       else {
         oVars = oVar;
       }
+    },
+
+    /**
+     * Reset the vars object
+     * @member Module.prototype
+     */
+    resetVars: function(){
+      oVars = {};
     },
 
     /**
@@ -967,7 +1053,7 @@
      * @param {String} sModuleId
      * @param {String} sIdInstance
      * @param {Object} oData
-     * @param {Boolean} bSingle
+     * @param {Boolean|*} bSingle
      * @private
      */
     _singleModuleStart: function (sModuleId, sIdInstance, oData, bSingle) {
@@ -1004,10 +1090,11 @@
      * Method to extend modules using inheritance or decoration pattern
      * @param sBaseModule
      * @param sModuleDecorated
+     * @param aDependencies
      * @param fpDecorator
      * @returns {null}
      */
-    extend: function (sBaseModule, sModuleDecorated, fpDecorator) {
+    extend: function (sBaseModule, sModuleDecorated, aDependencies, fpDecorator) {
       var oModule = oModules[sBaseModule], oDecorated, oInstance;
       if (!oModule) {
         ErrorHandler.log(fpThrowErrorModuleNotRegistered(sBaseModule));
@@ -1017,8 +1104,14 @@
       if (isTypeOf(sModuleDecorated, sFunctionType)) {
         fpDecorator = sModuleDecorated;
         sModuleDecorated = sBaseModule;
+        aDependencies = [Bus, Hydra.module, Hydra.errorHandler(), Hydra];
       }
-      oDecorated = fpDecorator(Bus, Hydra.module, Hydra.errorHandler(), Hydra, oInstance);
+      if (isTypeOf(aDependencies, sFunctionType)){
+        fpDecorator = aDependencies;
+        aDependencies = [Bus, Hydra.module, Hydra.errorHandler(), Hydra];
+      }
+      aDependencies.push(oInstance);
+      oDecorated = fpDecorator.apply(fpDecorator, aDependencies);
 
       oModules[sModuleDecorated] = new FakeModule(sModuleDecorated, function () {
         // If we extend the module with the different name, we
@@ -1035,6 +1128,7 @@
         });
         return oMerge;
       });
+      oModules[sModuleDecorated].dependencies = aDependencies;
       return oModules[sModuleDecorated];
     },
     /**
@@ -1135,7 +1229,7 @@
       else {
         this._multiModuleStop(oModule);
       }
-      return true;
+      return _true_;
     },
     /**
      * Loops over instances of modules to stop them.
@@ -1176,7 +1270,7 @@
     _delete: function (sModuleId) {
       if (!isTypeOf( oModules[sModuleId], sNotDefined)) {
         delete oModules[sModuleId];
-        return true;
+        return _true_;
       }
       return _false_;
     },
@@ -1324,7 +1418,7 @@
   Hydra.noConflict = function (sOldName, oNewContext, sNewName) {
     if (!isTypeOf(this[sOldName], sNotDefined)) {
       oNewContext[sNewName] = this[sOldName];
-      return true;
+      return _true_;
     }
     return _false_;
   };
@@ -1358,6 +1452,15 @@
    */
   Hydra.getCopyChannels = function () {
     return clone(oChannels);
+  };
+
+  /**
+   * Sets the global namespace
+   * @param nsp
+   */
+  Hydra.setNamespace = function(nsp)
+  {
+    namespace = nsp;
   };
   /**
    * Module to be stored, adds two methods to start and extend modules.
@@ -1420,7 +1523,7 @@
   if (isNodeEnvironment) {
     module.exports = Hydra;
   }
-  else if (!isTypeOf(define, sNotDefined)) {
+  else if (typeof define !== sNotDefined) {
     define('hydra', [], function () {
       return Hydra;
     });

@@ -1,4 +1,7 @@
 ChangeLog:
+3.7.0
+    Add dependency injection
+    Fix issues using isTypeOf
 3.6.0
     Extend and deprecate use the same api.
     Size improvements.

@@ -1,10 +1,10 @@
 {
   "name": "hydra.js",
-  "version": "3.6.0",
+  "version": "3.8.0",
   "description": "Framework that gives you the tools to write your application using modules or widgets and make easy to work with them.",
   "homepage": "http://tcorral.github.com/Hydra.js/",
   "author": "Tomas Corral",
-  "contributors": [ 
+  "contributors": [
     {
       "name": "Ramon Ferrer",
       "github": "https://github.com/Ramonacus"
@@ -61,11 +61,13 @@
     "zlib": "*",
     "uglify-js": "*",
     "grunt": "~0.4.1",
+    "swig": "~1.2.2",
     "grunt-contrib-uglify": "~0.2.1",
     "grunt-contrib-jshint": "~0.5.4",
     "grunt-mocha-cli": "~1.0.6",
     "grunt-contrib-compress": "~0.5.0",
-    "grunt-contrib-copy": "~0.4.1"
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-release-steps": "0.3.7"
   },
   "github": "https://github.com/tcorral/Hydra.js"
 }
