@@ -61,16 +61,23 @@ Insert in your html code:
 
 ### Common usage
 #### Setting variables
+
+```js
 Hydra.module.setVars({
-gaq: _gaq,
-list: document.getElementById( "list" )
+    gaq: _gaq,
+    list: document.getElementById( "list" )
 });
-Setting the variables in this way this variables will be accessible as the last argument in init module method if needed you can access
-to this variables object using getVars (See 'Getting variables')
-*Tip. This method not only set variables, if the object has been set before the new variables will be merged with the previous object. *
+```
+
+Setting the variables in this way will make the variables accessible as the last argument in the init module method. If needed you can also access these
+variables using getVars (See 'Getting variables')
+
+*Tip. This method not only sets variables, if the object has been set before the new variables will be merged with the previous object. *
 
 #### Getting variables
+```js
 var oVars = Hydra.module.getVars();
+```
 Returns the object with the private variables set using setVars (See 'Setting variables')
 
 #### Module creator function
@@ -85,41 +92,70 @@ The module creator function gets four arguments:
 * **Api**
 * Get access to the rest of the Hydra api. You can use it to access to the current extensions, i.e. jQuery, or to your own extensions.
 
-
+```js
 function( Bus, Module, ErrorHandler, Api )
 {
-return {
-init: function ( oData ) {}
-};
+    return {
+        init: function ( oData ) {}
+    };
 }
+```
 
 #### Create a module
+```js
 Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 {
-return {
-init: function ( oData ) {}
-};
+    return {
+        init: function ( oData ) {}
+    };
 });
+```
+
+#### Create a module using dependency injection
+```js
+Hydra.module.register( 'moduleId', ['$api', '$bus'], function ( Api, Bus )
+{
+    return {
+        init: function ( oData ) {}
+    };
+});
+```
+
+The following are available for dependency injection:
+
+* $bus
+* $module
+* $log (error handler)
+* $api
+* $global (window object)
+* $doc (document object)
+
+To use dependency injection, pass an array of strings containing any of the variables listed above as the second parameter when registering a module.
+Hydra will pass them in the order specified to your function.
 
 #### Extend a module overriding the base module
 To extend a module you will need to register the base module before extends it.
 
+```js
 Hydra.module.extend( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 {
-return {
-init: function ( oData ) {}
-};
+    return {
+        init: function ( oData ) {}
+    };
 });
+```
 
 #### Extend a module creating a new module
 To extend a module you will need to register the base module before extends it.
 
+```js
 Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler, Api )
 {
-return {
-init: function ( oData ) {}
-};
+    return {
+        init: function ( oData ) {}
+    };
 });
+```
 
 This extension allows access the parent methods as classical inheritance.
 
@@ -127,91 +163,102 @@ This extension allows access the parent methods as classical inheritance.
 
 Register base module:
 
+```js
 Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 {
-return {
-init: function ( oData ) {},
-changeTitle: function( sTitle ){
-document.title = sTitle;
-}
-};
+    return {
+        init: function ( oData ) {},
+        changeTitle: function( sTitle ){
+            document.title = sTitle;
+        }
+    };
 });
+```
 
 Create the new module using "extend":
 
+```js
 Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler, Api )
 {
-return {
-init: function ( oData ) {},
-changeTitle: function( sTitle ){
-sTitle += " " + new Date().getTime();
-// This is the way of access parent methods.
-this.__super__.call( "changeTitle", [sTitle] );
-}
-};
+    return {
+        init: function ( oData ) {},
+        changeTitle: function( sTitle ){
+            sTitle += " " + new Date().getTime();
+            // This is the way of access parent methods.
+            this.__super__.call( "changeTitle", [sTitle] );
+        }
+    };
 });
+```
 
 #### Decorating modules
 Sometimes is better to decorate our modules instead of extending them. I recommend to use decorate instead of extend modules.
 
+```js
 Hydra.module.decorate( 'baseModuleId', 'decoratedModuleId', function( Bus, baseModule, Module, ErrorHandler, Api )
 {
-return {
-init: function ()
-{
-//do something on start a module
-baseModule.init();
-},
-onDestroy: function ()
-{
-//do something on stop a module
-baseModule.onDestroy();
-}
-};
+    return {
+        init: function ()
+        {
+            //do something on start a module
+            baseModule.init();
+        },
+        onDestroy: function ()
+        {
+            //do something on stop a module
+            baseModule.onDestroy();
+        }
+    };
 });
+```
 
-#### Listening events
+#### Listening to events
+```js
 Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 {
-return {
-events : {
-'channel: {
-'item:action1': function ( oData ) {}
-}
-},
-init: function ( oData ) {
-
-/* The subscribing of events is done by Hydra inside the core.
-* Bus.subscribe( this );
-*/
-}
-};
+    return {
+        events : {
+            'channel': {
+                'item:action1': function ( oData ) {}
+            }
+        },
+        init: function ( oData ) {
+            /* The subscribing of events is done by Hydra inside the core.
+            * Bus.subscribe( this );
+            */
+        }
+    };
 });
+```
 
 #### Publishing actions
 To use the action manager you have accessible using "Bus".
 
 The publish method expect three arguments, but only the first two are mandatory, the channel name and the event name
 
+```js
 Hydra.bus.publish( 'channel_name', 'event_name', data );
+```
 
 *Tip: 'global' channel is created by default to use it if you want to communicate with other modules that are not related with a specific channel. *
 
+```js
 Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
 {
-return {
-events : {
-'channel: {
-'item:action1': function ( oData ) {}
-}
-},
-init: function ( oData ) {
-$( "#button" ).click( function(){
-Bus.publish( 'channel', 'item:action1', {} );
+    return {
+        events : {
+            'channel': {
+                'item:action1': function ( oData ) {}
+            }
+        },
+        init: function ( oData ) {
+            $( "#button" ).click( function(){
+                Bus.publish( 'channel', 'item:action1', {} );
+            });
+        }
+    };
 });
-}
-};
-});
+```
 
 If you need compatibility with the previous event manager called Action, you can add it in your code to maintain compatibility with previous version's code. You can download it from: [Action](https://github.com/tcorral/Hydra_Extensions/tree/master/Sandbox)
 
