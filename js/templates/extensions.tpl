@@ -39,18 +39,8 @@
                 </tr>
                 <tr class="alt">
                     <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
-                    <td class="content"> <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/Deferred" class="js-slide-to js-rewrite-sha" target="_blank" id="ca5695780c501c2d9ca11171681b28dc0e266de2">Deferred</a></td>
-                    <td class="message"> Deferred and Promise implementation.</td>
-                </tr>
-                <tr class="alt">
-                    <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
                     <td class="content"> <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/Delegate" class="js-slide-to js-rewrite-sha" target="_blank" id="ca5695780c501c2d9ca11171681b28dc0e266de4">Delegate</a></td>
                     <td class="message"> Base module to delegate DOM events to document.</td>
-                </tr>
-                <tr class="alt">
-                    <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
-                    <td class="content"> <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/Dependencies" class="js-slide-to js-rewrite-sha" target="_blank" id="ca5695780c501c2d9ca11171681b28dc0e266de3">Dependencies</a></td>
-                    <td class="message"> Extend a module to manage it's dependencies by itself.</td>
                 </tr>
                 <tr class="alt">
                     <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
@@ -81,6 +71,11 @@
                     <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
                     <td class="content"> <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/TestingHelper" class="js-slide-to js-rewrite-sha" target="_blank" id="db77eeeec3241781306ba87dfe780ea1-0df6237fa6c3ba28e9c776de5dd42a6857477113">TestingHelper</a></td>
                     <td class="message"> In previous versions to 2.6.0 the testing helper methods belonged to the core code but now you can only add it in your test code reducing the final library size in production.</td>
+                </tr>
+                <tr class="">
+                    <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
+                    <td class="content"> <a href="https://github.com/HydraJS/sinonjs-hydrajs-testing-helper-adapter" class="js-slide-to js-rewrite-sha" target="_blank" id="db77eeeec3241781306ba87dfe780ea1-0df6237fa6c3ba28e9c776de5dd42a6857477113">SinonJS TestingHelper adapter</a></td>
+                    <td class="message"> Testing Helper's SinonJS adapter to mock all the dependencies.</td>
                 </tr>
                 <tr class="">
                     <td class="icon"> <span class="mini-icon mini-icon-directory"></span> </td>
