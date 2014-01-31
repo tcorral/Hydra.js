@@ -478,7 +478,7 @@
             }
         },
         _logClick: function( sButtonType ) {
-            console.log("User clicked a ' + sButtonType + ' button");
+            console.log('User clicked a ' + sButtonType + ' button');
         },
         init: function() {
             // The subscribe is done by Hydra.js when the module is started.

@@ -428,7 +428,7 @@ div.mark {
     margin-bottom: 20px;
 }
 
-#doc_content > div > h2 {
+#doc_content > div > h2, #doc_content > h2  {
     color: #002362;
     margin-top: 0px;
     margin-bottom: 0px;
