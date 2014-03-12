@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>DocStrap Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+	
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="navbar navbar-fixed-top navbar-inverse">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">DocStrap</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="Bus.html">Bus</a>
+						</li>
+						
+						<li>
+							<a href="FakeModule.html">FakeModule</a>
+						</li>
+						
+						<li>
+							<a href="global.html#Hydra">Hydra</a>
+						</li>
+						
+						<li>
+							<a href="Module.html">Module</a>
+						</li>
+						
+						<li>
+							<a href="Promise.html">Promise</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+		<div class="span8">
+			
+				<div id="main">
+					
+
+
+	
+	<span class="page-title">Index</span>
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section>
+        <article><h1>Hydra.js</h1>
+<p>Hydra.js is a module manager oriented system.</p>
+<h2>Updated to version 3.9.8</h2>
+<p><a href="https://travis-ci.org/HydraJS/HydraJS"><img src="https://travis-ci.org/HydraJS/HydraJS.png" alt="Build Status"></a>
+<a href="https://gemnasium.com/HydraJS/HydraJS"><img src="https://gemnasium.com/HydraJS/HydraJS.png" alt="Dependency Status"></a>
+<a href="http://badge.fury.io/js/hydra.js"><img src="https://badge.fury.io/js/hydra.js.png" alt="NPM version"></a></p>
+<p><a href="https://raw.github.com/HydraJS/HydraJs/master/changelog.txt">Changelog</a></p>
+<h2>Description</h2>
+<p>Hydra.js is the library that will help you to scale your app.
+Hydra.js is a framework that gives you the tools to write your application using modules or widgets and make easy to work with them.</p>
+<p>Hydra.js uses a decoupled architecture that:</p>
+<ul>
+<li>Allows you to change your base framework without change the modules or widget code.</li>
+<li>Allow the modules communicate with each other without knowing which modules are loaded.</li>
+<li>Can be easily extended with new features.</li>
+</ul>
+<h3>Benefits:</h3>
+<ul>
+<li>No known module to other modules</li>
+<li>If something is wrong in one module, the other modules will continue working.</li>
+<li>Notifying an action will be called on all the modules that will be listening this action.</li>
+<li>A module can be extended</li>
+<li>If you have a module that is working well you can extend it to change his behavior without losing is original behavior.</li>
+<li>Allows multi-instance modules</li>
+<li>Allows set private variables to be used inside of modules.</li>
+<li>Can be used in url threaded application as in an Ajax threaded application.</li>
+<li>You can test your modules with any Unit Testing Framework.</li>
+<li>Only 4.26KB when <a href="https://github.com/HydraJS/HydraJS/raw/master/versions/hydra.min.js.gz">Gzipped</a>.</li>
+</ul>
+<p><a href="http://tcorral.github.io/Hydra.js">Project Web</a></p>
+<p><a href="http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.9.8/index.html">API documentation</a></p>
+<p><a href="http://tcorral.github.io/Hydra.js/#examples">Examples</a></p>
+<h2>Usage</h2>
+<h3>Install:</h3>
+<p>Install with <a href="http://bower.io">Bower</a></p>
+<pre><code>bower install hydrajs</code></pre>
+<p>Install with <a href="http://component.io">Component</a></p>
+<pre><code>component install hydrajs</code></pre>
+<p>Install with <a href="http://npmjs.org">NPM</a></p>
+<pre><code>npm install hydra.js</code></pre>
+<h3>Use in browser</h3>
+<p>Insert in your html code:</p>
+<pre><code>```html
+&lt;script type=&quot;text/javascript&quot; src=&quot;/path/to/your/js/libs/Hydra.js&quot;&gt;&lt;/script&gt;
+```</code></pre>
+<h3>Common usage</h3>
+<h4>Setting variables</h4>
+<pre><code>```js
+Hydra.module.setVars({
+    gaq: _gaq,
+    list: document.getElementById( &quot;list&quot; )
+});
+```</code></pre>
+<p>Setting the variables in this way will make the variables accessible as the last argument in the init module method. If needed you can also access these
+variables using getVars (See 'Getting variables')</p>
+<p><em>Tip. This method not only sets variables, if the object has been set before the new variables will be merged with the previous object. </em></p>
+<h4>Getting variables</h4>
+<pre><code>```js
+var oVars = Hydra.module.getVars();
+```</code></pre>
+<p>Returns the object with the private variables set using setVars (See 'Setting variables')</p>
+<h4>Module creator function</h4>
+<p>The module creator function gets four arguments:</p>
+<ul>
+<li><strong>Bus</strong></li>
+<li>Get access to Hydra.bus, the action manager to publish or subscribe to events</li>
+<li><strong>Module</strong></li>
+<li>Get access to Hydra.module, the module manager to register, extend, decorate, start and stop modules.</li>
+<li><strong>ErrorHandler</strong></li>
+<li>Get access to the Hydra.errorHandler, it's recommended to use it instead of using console.log because of the possible improvements see <a href="https://github.com/tcorral/Hydra_Extensions/">Hydra.js extensions</a> or <a href="https://github.com/tcorral/Hermes.js/">Hermes.js</a></li>
+<li><strong>Api</strong></li>
+<li><p>Get access to the rest of the Hydra api. You can use it to access to the current extensions, i.e. jQuery, or to your own extensions.</p>
+<pre><code class="lang-js">  function( Bus, Module, ErrorHandler, Api )
+  {
+      return {
+          init: function ( oData ) {}
+      };
+  }</code></pre>
+</li>
+</ul>
+<h4>Create a module</h4>
+<pre><code>```js
+Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
+{
+    return {
+        init: function ( oData ) {}
+    };
+});
+```</code></pre>
+<h4>Create a module using dependency injection</h4>
+<pre><code>```js
+Hydra.module.register( 'moduleId', ['$api', '$bus'], function ( Api, Bus )
+{
+    return {
+        init: function ( oData ) {}
+    };
+});
+```</code></pre>
+<p>The following are available for dependency injection:</p>
+<ul>
+<li>$bus</li>
+<li>$module</li>
+<li>$log (error handler)</li>
+<li>$api</li>
+<li>$global (window object)</li>
+<li>$doc (document object)</li>
+</ul>
+<p>To use dependency injection, pass an array of strings containing any of the variables listed above as the second parameter when registering a module.
+Hydra will pass them in the order specified to your function.</p>
+<h4>Extend a module overriding the base module</h4>
+<p>To extend a module you will need to register the base module before extends it.</p>
+<pre><code>```js
+Hydra.module.extend( 'moduleId', function( Bus, Module, ErrorHandler, Api )
+{
+    return {
+        init: function ( oData ) {}
+    };
+});
+```</code></pre>
+<h4>Extend a module creating a new module</h4>
+<p>To extend a module you will need to register the base module before extends it.</p>
+<pre><code>```js
+Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler, Api )
+{
+    return {
+        init: function ( oData ) {}
+    };
+});
+```</code></pre>
+<p>This extension allows access the parent methods as classical inheritance.</p>
+<h4>Access parent methods</h4>
+<p>Register base module:</p>
+<pre><code>```js
+Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
+{
+    return {
+        init: function ( oData ) {},
+        changeTitle: function( sTitle ){
+            document.title = sTitle;
+        }
+    };
+});
+```</code></pre>
+<p>Create the new module using &quot;extend&quot;:</p>
+<pre><code>```js
+Hydra.module.extend( 'moduleId', 'newModuleId', function( Bus, Module, ErrorHandler, Api )
+{
+    return {
+        init: function ( oData ) {},
+        changeTitle: function( sTitle ){
+            sTitle += &quot; &quot; + new Date().getTime();
+            // This is the way of access parent methods.
+            this.__super__.call( &quot;changeTitle&quot;, [sTitle] );
+        }
+    };
+});
+```</code></pre>
+<h4>Decorating modules</h4>
+<p>Sometimes is better to decorate our modules instead of extending them. I recommend to use decorate instead of extend modules.</p>
+<pre><code>```js
+Hydra.module.decorate( 'baseModuleId', 'decoratedModuleId', function( Bus, baseModule, Module, ErrorHandler, Api )
+{
+    return {
+        init: function ()
+        {
+            //do something on start a module
+            baseModule.init();
+        },
+        onDestroy: function ()
+        {
+            //do something on stop a module
+            baseModule.onDestroy();
+        }
+    };
+});
+```</code></pre>
+<h4>Listening to events</h4>
+<pre><code>```js
+Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
+{
+    return {
+        events : {
+            'channel': {
+                'item:action1': function ( oData ) {}
+            }
+        },
+        init: function ( oData ) {
+            /* The subscribing of events is done by Hydra inside the core.
+            * Bus.subscribe( this );
+            */
+        }
+    };
+});
+```</code></pre>
+<h4>Publishing actions</h4>
+<p>To use the action manager you have accessible using &quot;Bus&quot;.</p>
+<p>The publish method expect three arguments, but only the first two are mandatory, the channel name and the event name</p>
+<pre><code>```js
+Hydra.bus.publish( 'channel_name', 'event_name', data );
+```</code></pre>
+<p><em>Tip: 'global' channel is created by default to use it if you want to communicate with other modules that are not related with a specific channel. </em></p>
+<pre><code>```js
+Hydra.module.register( 'moduleId', function( Bus, Module, ErrorHandler, Api )
+{
+    return {
+        events : {
+            'channel': {
+                'item:action1': function ( oData ) {}
+            }
+        },
+        init: function ( oData ) {
+            $( &quot;#button&quot; ).click( function(){
+                Bus.publish( 'channel', 'item:action1', {} );
+            });
+        }
+    };
+});
+```</code></pre>
+<h4>Preprocessing Data on publish actions.</h4>
+<p>When the data is pass to the listener actions it gives the same object by default, if you need to pre-process this data before execute the action, you should use the 'preprocessorPublishData' method in Hydra.bus.
+The callback that you pass will get two arguments:
+<em> The data object
+</em> The clone method used in Hydra.js.</p>
+<p>Example of a code that returns a copy of the data object</p>
+<pre><code>```js
+Hydra.bus.preprocessorPublishData( function ( oData, clone ) {
+    return clone( oData );
+});
+```</code></pre>
+<p>If you need compatibility with the previous event manager called Action, you can add it in your code to maintain compatibility with previous version's code. You can download it from: <a href="https://github.com/tcorral/Hydra_Extensions/tree/master/Sandbox">Action</a></p>
+<h2>Documentation</h2>
+<p><a href="http://tcorral.github.io/Hydra.js">Project Web</a></p>
+<p><a href="http://tcorral.github.io/Hydra.js/apis/Hydra.js_API_v3.9.8/index.html">API documentation</a></p>
+<p><a href="http://tcorral.github.io/Hydra.js/#examples">Examples</a></p>
+<h2>License</h2>
+<p>Hydra.js is licensed under the MIT license.</p>
+<h2>Agreements</h2>
+<p>Hydra was inspired by Nicholas Zakas presentation.</p>
+<ul>
+<li><a href="http://www.slideshare.net/nzakas/scalable-javascript-application-architecture">Scalable Javascript Application</a></li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					
+		<span class="copyright">
+		DocStrap Copyright © 2012-2013 The contributors to the JSDoc3 and DocStrap projects.
+		</span>
+					<br />
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a>
+		on Wed Mar 12 2014 12:39:40 GMT+0100 (CET) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
+			</div>
+
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<script src="scripts/sunlight.js"></script>
+	<script src="scripts/sunlight.javascript.js"></script>
+	<script src="scripts/sunlight-plugin.doclinks.js"></script>
+	<script src="scripts/sunlight-plugin.linenumbers.js"></script>
+	<script src="scripts/sunlight-plugin.menu.js"></script>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery.scrollTo.js"></script>
+	<script src="scripts/jquery.localScroll.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+
+	<script>  Sunlight.highlightAll({lineNumbers:true,  showMenu: true, enableDoclinks :true}); </script>
+
+	<script>
+		$( function () {
+			$( "#toc" ).toc( {
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : 60
+			} );
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+
+		} );
+	</script>
+
+	
+
+</body>
+</html>
