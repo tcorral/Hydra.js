@@ -58,7 +58,6 @@
     "mocha": "*",
     "sinon": "*",
     "should": "1.2.2",
-    "zlib": "*",
     "uglify-js": "*",
     "grunt": "~0.4.1",
     "swig": "~1.2.2",
